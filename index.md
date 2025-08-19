@@ -9,8 +9,11 @@ layout: home
 title: Lecture notes
 ---
 
+[Full lecture notes - working draft](lectures/lecture-notes.pdf)
+
 
  Date        | Lecture Notes              | Topics Covered
 -------------|----------------------------|-------------
- 2025-08-25  | [lecture-01](lecture-notes-by-day/lecture-01)      | syllabus and introduction      
+ 2025-08-25  | [lecture-01](lectures/lecture-notes-by-day/lecture-01.pdf)      | syllabus and introduction      
  
+
