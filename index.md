@@ -11,7 +11,7 @@ title: Lecture notes
 
 [Full lecture notes - working draft](lectures/lecture-notes.pdf)
 
-[Tentative course schedule](/lectures/tentative-course-schedule.pdf)
+[Tentative course schedule](/lectures/lecture-notes-by-day/tentative-course-schedule.pdf)
 
  Date        | Lecture Notes              | Topics Covered
 -------------|----------------------------|-------------
