@@ -343,11 +343,18 @@ be quadratic or cubic, or something else, but not linear.
     The graph of this linear system is a 3-dimensional hyperplane in 4d-space
     (i.e., $\R^{4}$).
 
-    \fl{Observation:} There is a simple relationship between the number of
-    variables and the dimension of the graph:
+    \fl{Observation:} In these examples, we observe a simple relationship
+    between the number of variables and the dimension of the graph:
     \begin{equation*}
-      \text{dimension of graph} = (\text{\# of variables}) - 1.
+      \text{(dimension of graph)} = (\text{\# of variables}) - 1.
     \end{equation*}
+    Here, the term \demph{dimension} refers to the number of free variables.
+    In the first equation (which is $2x-3y=1$), it's easy to see that if we
+    know one of the variables, then the other one is automatically determined.
+    So it makes sense that the graph of this equation is of dimension 1 (which
+    it is, because it's a line). For the second equation, if we know any $2$
+    of the variables, then the third variable is automatically determined, so
+    it makes sense that the dimension is $2$. Etc.
   \end{itemize}
 
 \end{example}
@@ -403,9 +410,19 @@ intersections of hyperplanes look like.
 
 
 \newpage
-\section{2025-08-27}
+\section{2025-08-27 | Week 01 | Lecture 02}
 
-
+\begin{center}
+  \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
+    \textit{\textbf{The do nexus questions this lecture:}
+      \vspace{.5em}
+      \begin{enumerate}
+        \item How do we understand solutions of linear systems geometrically?
+        \item How can we find a solution to a linear system algebraically,
+        without resorting to substitution?
+      \end{enumerate}}
+  \end{tcolorbox}
+\end{center}
 \subsection{How to understand solutions of linear systems geometrically}
 Here is a very useful geometric perspective. In
 system \eqref{eq:defn-system-of-linear-equations}, we have a system of $m$ equations
@@ -440,7 +457,7 @@ lines in \cref{eq:line-1,eq:line-2}:
   represent distinct lines and are not parallel. In this case, their
   intersection consists of a unique point, like this:
   \begin{center}
-    \includegraphics[scale=.2]{images/intersecting-lines} % wikipeida
+    \includegraphics[scale=.12]{images/intersecting-lines} % wikipeida
   \end{center}
   In this case, the system \eqref{eq:2x2-geometric-intuition-example} has
   \textbf{exactly one solution}---namely, the intersection of the two lines,
@@ -454,8 +471,8 @@ lines in \cref{eq:line-1,eq:line-2}:
   
   \item \textbf{Case 3.} The two equations of lines are the same, so they
   represent the same line. Therefore the intersection of the two lines is the
-  entire line. Therefore, there are \textbf{infinitely many} solutions to the
-  linear system \eqref{eq:2x2-geometric-intuition-example}. Namly, any point
+  entire line. Therefore, there are \textbf{infinitely many solutions} to the
+  linear system \eqref{eq:2x2-geometric-intuition-example}. Namely, any point
   $(x,y)$ on the line is a solution to the linear system.
 \end{itemize}
 These three cases constitute the following trichotomy:
@@ -475,85 +492,210 @@ for all linear systems of the form given in
 \eqref{eq:defn-system-of-linear-equations}, no matter how many equations and
 variables.
 
-\subsection{Gauss-Jordan Elimination}
+\subsection{Motivation for Gauss-Jordan Elimination}
 
 
 \begin{center}
   \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
-    \textit{\textbf{The nexus question of this lecture:} What is Gauss-Jordan
-      elimination?}
+    \textit{\textbf{The nexus question for the rest of this lecture:} How can
+      we solve a linear system without resorting to substitution?}
   \end{tcolorbox}
 \end{center}
 
-In this lecture, we will introduce \demph{Gauss-Jordan elimination}, a general
-algorithm which can be used to solve any system of linear equations.
+In the next lecture, I will present \demph{Gauss-Jordan elimination}, a
+general algorithm which can be used to solve general systems of linear
+equations, which does not use substitution. For now, I will answer the above
+question by working out an example which motivates the main ideas, so that the
+Gauss-Jordan algorithm doesn't feel like its coming out of nowhere when we
+present it in the next lecture.
+\begin{example}[Solving a linear system with elementary operations]
+  \label{ex:solving-linear-system-with-elementary-operations}
+  Suppose we wish to solve the following system:
+  \begin{equation}
+    \label{eq:elementary-operation-elimination-example}
+    \left\{
+      \begin{alignedat}{4}
+        &x &{}\;-\; y &{}\;+\; &z{}&= &0 & \quad(E_{1}) \\ 
+        2&x&{}\;-\; 3y&{}+\; 4&z{}&= -&2 & \quad(E_{2})\\
+        -2&x&{}\;-\; y&{}\;+\; &z {}&= &7& \quad(E_{3})
+      \end{alignedat}
+    \right.
+  \end{equation}
+  This system has 3 equations, labeled $E_{1},E_{2},E_{3}$, and 3 variables
+  $x,y$ and $z$. Suppose that we know ahead of time that this system has a
+  unique solution (it does). Then, in principle, we could solve this using
+  substitution, but that would suck. Instead, I will illustrate an approach in
+  which we iteratively transform this linear system into successively simpler
+  systems until we get to a point where the solution is obvious.
 
-Suppose we wish to solve the following system:
-\begin{equation}
-  \label{eq:Gauss-Jordan-elimination-example}
+  To do this, we will play a game where there are three `moves' available to
+  us. The three moves are:
+  \begin{enumerate}
+    \item Interchange two equations in the system.
+    \item Multiply an equation by a nonzero number.
+    \item Replace an equation by itself plus a multiple of another equation.
+  \end{enumerate}
+  These moves are called \demph{elementary operations}, and if we use them
+  intelligently, they will allow us to transform the linear system into a
+  simpler system.
+
+  Two systems of equations are said to be \demph{equivalent} if they have the
+  same solutions. Applying elementary operations always results in an
+  equivalent system. Our goal will be to use some combination of elementary
+  operations to produce a system of the form
+  \begin{equation*}
+    \left\{
+      \begin{array}{l@{}l}
+        x   &= *\\
+        y &= *\\
+        z &= *\\
+      \end{array}\right.
+  \end{equation*}
+  where each $*$ is a constant which we will have computed. This will be our
+  solution to the linear system \eqref{eq:elementary-operation-elimination-example},
+  because the two systems will be equivalent.
+
+  First, let's apply operation 3: specifically, by replacing $E_{2}$ with
+  $E_{2} - 2E_{1}$:
+
+\begin{equation*}
   \left\{
     \begin{alignedat}{4}
       &x &{}\;-\; y &{}\;+\; &z{}&= &0 \\
-      2&x&{}\;-\; 3y&{}+\; 4&z{}&= -&2 \\
+      & &{}\;-\; y&{}+\; 2&z{}&= -&2 \\
       -2&x&{}\;-\; y&{}\;+\; &z {}&= &7
     \end{alignedat}
   \right.
-\end{equation}
-This system has 3 equations and 3 variables $x,y$ and $z$. Suppose that we
-know ahead of time that this system has a unique solution (it does). Then, in
-principle, we could solve this using substitution, but that would suck.
-Instead, we shall iteratively transform this linear system into successively simpler
-systems until we get to a point where the solution is obvious.
-
-To do this, we shall utilize three types of transformations, called \demph{elementary
-  operations}, to wit:
-\begin{enumerate}
-  \item Interchange two equations in the system.
-  \item Multiply an equation by a nonzero number.
-  \item Replace an equation by itself plus a multiple of another equation.
-\end{enumerate}
-Two systems of equations are said to be \demph{equivalent} if they have the
-same solutions. Applying elementary operations always results in an equivalent
-system. We'll use some combination of these operations to produce a system of
-the form
-\begin{equation*}
-  \left\{
-    \begin{array}{l@{}l}
-      x   &= *\\
-      y &= *\\
-      z &= *\\
-    \end{array}\right.
 \end{equation*}
-where each $*$ is a constant which we will have computed. This will be our
-solution to the linear system \eqref{eq:Gauss-Jordan-elimination-example},
-because the two systems are equivalent.
 
-
-\Fl{Input:} A system of linear equations of the form given in
-\eqref{eq:defn-system-of-linear-equations}, such as the following:
-
-\begin{equation}
+Apply operation 3 again: This time, replace $E_{3}$ with $E_{3}+2 E_{1}$:
+\begin{equation*}
   \left\{
     \begin{alignedat}{4}
       &x &{}\;-\; y &{}\;+\; &z{}&= &0 \\
-      2&x&{}\;-\; 3y&{}\;+\; 4&z{}&= -&2 \\
-      -2&x&{}\;-\; y&{}\;+\; &z {}&= &7
+      & &{}\;-\; y&{}+\; 2&z{}&= -&2 \\
+      & &{}\; \; -3y&{}\;+\; 3&z {}&= &7
     \end{alignedat}
   \right.
-\end{equation}
-
-
-\Fl{Output:} If a unique solution exists, then the output will be a solution
-of the form
-\begin{equation*}
-  \left\{
-    \begin{array}{l@{}l}
-      x &= *\\
-      y &= *\\
-      z &= *\\
-    \end{array}\right.
 \end{equation*}
 
+Apply operation 3, replace $E_{1}$ with $E_{1}-E_{2}$. This will allow us to
+eliminate $y$ from $E_{1}$:
+
+\begin{equation*}
+  \left\{
+    \begin{alignedat}{4}
+      &x &{}\;\;  &{}\;\; -&z{}&= &2 \\
+      & &{}\;-\; y&{}+\; 2&z{}&= -&2 \\
+      & &{}\; \; -3y&{}\;+\; 3&z {}&= &7
+    \end{alignedat}
+  \right.
+\end{equation*}
+
+Apply operation 3, replace $E_{3}$ with $E_{3}-3E_{2}$. This will allow us to
+eliminate $y$ from $E_{3}$:
+\begin{equation*}
+  \left\{
+    \begin{alignedat}{4}
+      &x &{}\;\;  &{}\;\; -&z{}&= &2 \\
+      & &{}\;-\; y&{}+\; 2&z{}&= -&2 \\
+      & &{}\; \; &{}\;-\; 3&z {}&= &13
+    \end{alignedat}
+  \right.
+\end{equation*}
+Apply operation 2 twice: multiply both the first and second equations by $3$:
+\begin{equation*}
+  \left\{
+    \begin{alignedat}{3}
+      3x&   &{}\;\; -3&z{}= 6 \\
+        & {}\;-\; 3y&{}\;+6&z{}= -6 \\
+        & {}\; \; &{}\;\;- 3&z = 13
+    \end{alignedat}
+  \right.
+\end{equation*}
+Apply operation 3, twice. First, replace $E_{1}$ with $E_{1}-E_{3}$. Then
+replace $E_{2}$ with $E_{2}+2E_{3}$. Doing both of these, we get:
+\begin{equation*}
+  \left\{
+    \begin{alignedat}{3}
+      3x \quad& &  & =&{} -7 \\
+              & &3y \quad \quad& =&{} 20 \\
+              & & -3z& =&{} 13
+    \end{alignedat}
+  \right.
+\end{equation*}
+Apply operation $2$ by dividing equation equation by $3$:
+\begin{equation*}
+  \left\{
+    \begin{alignedat}{3}
+      x \quad& &  & =&{} -7/3 \\
+             & &y \quad \quad& =&{} 20/3 \\
+             & & -z& =&{} 13/3
+    \end{alignedat}
+  \right.
+\end{equation*}
+This is the solution to the original equation. We have used elementary
+operatons to reduce our original linear system
+\cref{eq:elementary-operation-elimination-example} to the above system, which
+equivalent to the original system.
+
+While solving this system was still a lot of (tedious) work, it was still
+probably simpler than doing substitution.
+\end{example}
+
+\begin{remark}[Forget the variables]
+  In the procedure presented in , we didn't really need to track the variables, only
+  the \textit{coefficients} and the \textit{quantities on the right hand sides} of the
+  equations. Instead of working with the equations directly, it will be
+  simpler to work with the following matrix, called the \demph{augmented
+    matrix} corresponding go \cref{eq:elementary-operation-elimination-example}:
+  \begin{equation*}
+    \begin{augmentedmatrix}{ccc|c}
+      1& -1& 1& 0 \\
+      2& -3& 4& -2 \\
+      -2& -1& 1& 7
+    \end{augmentedmatrix}.
+  \end{equation*}
+\end{remark}
+Comparing this with system \eqref{eq:elementary-operation-elimination-example}, it becomes
+clear that the augmented matrix was obtained essentially by just erasing the
+variables $x,y,$ and $z$ in \eqref{eq:elementary-operation-elimination-example}, and
+then placing what remains into an array. We also drew a vertical line to the
+separate the left- and right-hand sides of the equations. Inside the augmented
+matrix, the $3\times 3$ submatrix  of coefficients
+\begin{equation*}
+  \begin{bmatrix}
+    1& -1& 1\\
+    2& -3& 4\\
+    -2& -1& 1
+  \end{bmatrix}
+\end{equation*}
+is called the \demph{coefficient matrix} of the system. 
+
+More precise definitions are as follows:
+
+\begin{definition}[Augmented Matrix]
+  Given a linear system of the form \eqref{eq:defn-system-of-linear-equations},
+  the \demph{augmented matrix} is
+  \begin{equation*}
+    \begin{augmentedmatrix}{cccc|c}
+      a_{11}&a_{12}&\ldots& a_{1n}& b_{1}\\
+      a_{21}&a_{22}&\ldots& a_{2n}& b_{2}\\
+      \vdots &\vdots & &\vdots &\vdots \\
+      a_{m1}&a_{m2}&\ldots& a_{mn}& b_{m}
+    \end{augmentedmatrix}
+  \end{equation*}
+  and the \demph{coefficient matrix} is the matrix
+  \begin{equation*}
+    \begin{bmatrix}
+      a_{11}&a_{12}&\ldots& a_{1n}\\
+      a_{21}&a_{22}&\ldots& a_{2n}\\
+      \vdots&\vdots & &\vdots \\
+      a_{m1}&a_{m2}&\ldots& a_{mn}
+    \end{bmatrix}.
+  \end{equation*}
+\end{definition}
+\newpage
 
 \Fl{Steps:} We initialize the algorithm by setting up an \demph{augmented
   matrix} corresponding to the system. For the system in
@@ -565,11 +707,6 @@ of the form
     -2& -1& 1& 7
   \end{augmentedmatrix}.
 \end{equation*}
-Comparing this with system \eqref{eq:Gauss-Jordan-elimination-example}, it becomes
-clear that the augmented matrix was obtained essentially by just erasing the
-variables $x,y,$ and $z$ in \eqref{eq:Gauss-Jordan-elimination-example}, and
-then placing what remains into an array. We also drew a vertical line to the
-separate the left- and right-hand sides of the equations.
 
 \begin{itemize}
   \item The matrix to the left of the vertical row is called the
