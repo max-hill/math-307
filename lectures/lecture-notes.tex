@@ -47,7 +47,7 @@
 \newcommand{\Max}[1]{\pnote{#1}}                    % Alias for purple note
 
 % Emphasized text
-\newcommand{\demph}[1]{\textcolor{RoyalBlue}{\slshape #1}} % Slanted RoyalBlue text
+\newcommand{\demph}[1]{\textcolor{RoyalBlue}{\textbf{\slshape #1}}} % Slanted RoyalBlue text
 
 
 % Claim numbering (the counter restarts after each proof environment)
@@ -61,6 +61,29 @@
   \medskip}
 % Add claim support to cleverref
 \crefname{claimcount}{Claim}{Claims}
+
+\usepackage[most]{tcolorbox} % for boxed text,
+                             % use \begin{tcolorbox[width=0.7\linewidth,
+                             % colback=white, colframe=black]}
+
+\usepackage{empheq} % for boxed equations
+\usepackage[most]{tcolorbox}
+\newtcbox{\mymath}[1][]{%
+  nobeforeafter, math upper, tcbox raise base,
+  enhanced, colframe=blue!30!black,
+  colback=blue!30, boxrule=1pt,
+  #1}
+\newtcbox{\boxmath}[1][]{%
+  nobeforeafter, math upper, tcbox raise base,
+  enhanced, colframe=blue!30!black,
+  boxrule=1pt,
+  #1}
+
+
+\newenvironment{augmentedmatrix}[1] % environment for making augmented matrix
+{\left[\begin{array}{#1}}
+    {\end{array}\right]}
+
 
 
 % Math Environments
@@ -174,7 +197,7 @@ by G.~Peterson S.~Sochacki, in which we cover primarily Chapters 1,2,5, and 6
   nonhomogeneous linear systems, applications to $2\times 2$ and $3\times 3$
   systems of nonlinear differential equations.)}
   \begin{itemize}
-    \item Section 6.1: The THeory of Systems of Linear Differential Equations
+    \item Section 6.1: The Theory of Systems of Linear Differential Equations
     \item Section 6.2: Homogenous Systems with Constant Coefficients: The
     Diagonalizable Case
     \item Section 6.3: Homogenous Systems with Constant Coefficients: The
@@ -192,8 +215,456 @@ by G.~Peterson S.~Sochacki, in which we cover primarily Chapters 1,2,5, and 6
 
 \newpage
 \section{2025-08-25 | Week 01 | Lecture 01}
-\textit{This lecture is based on section 1.1 in the textbook.}
+\textit{This lecture is based on textbook section 1.1. Introduction to Systems
+  of Linear Equations}
+
+\begin{center}
+  \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
+    \textit{\textbf{The nexus question of this lecture:} What is a system of
+      linear equations, and what does it mean to `solve' a system of linear
+      equations?}
+  \end{tcolorbox}
+\end{center}
+
+\subsection{A first example of a system of linear equations}
+We begin with something concrete.
 
 
-\printbibliography
+\begin{example}[A first example of a \textit{system of linear equations}]
+  \label{ex:a-first-example-linear-system-equations}
+  Consider the following word problem:
+
+  \begin{quote}
+    \textit{A boat travels between two ports on a river 48 miles apart. When traveling
+      downstream (i.e., with the current), the trip takes 4 hours, but when
+      traveling upstream (i.e., fighting the current), the trip takes 6 hours.}
+
+    \textit{Assume that the boat and the current are both moving at a
+      constant speed. What is the speed of the boat in still water, and what is
+      the speed of the current?}
+  \end{quote}
+  This problem is hard to reason through without writing something down, but
+  becomes much simpler when we formalize it mathematically with equations. The
+  unknowns are (1) \textbf{the speed of the boat in still water} and (2)
+  \textbf{the speed of the current}. So let
+  \begin{align*}
+    x &:= \text{(the speed of the boat in still water)}\\
+    y &:= \text{(the speed of the current)}.
+  \end{align*}
+  The speed of the boat going downstream is $x+y$. Therefore, since
+  $(\text{speed})\times (\text{time})= (\text{distance travelled})$, we have
+  \begin{equation*}
+    4(x+y)=48, \quad \text{or equivalently} \quad  x+y = 12.
+  \end{equation*}
+  Similarly, the sped of the boat going upstream is $x-y$, so
+  \begin{equation*}
+    6(x-y)=48, \quad \text{or equivalently} \quad  x-y = 8
+  \end{equation*}
+  Thus, we have the following \textit{system of linear equations:}
+  \begin{equation}\label{eq:first-example-equations}
+    \left\{ \begin{array}{l@{}l} x+y=12 \\x-y=8.  \end{array}\right.
+  \end{equation}
+  This system has \textbf{two equations} and \textbf{two variables} ($x$ and
+  $y$).  You have encountered systems of equations like this many times.
+  With the help of the technology of algebra, solving this problem (namely,
+  solving System \eqref{eq:first-example-equations}) is much easier than solving the
+  original word problem.
+
+ 
+  \begin{itemize}
+    \item In this case, the problem can be easily solved
+    \textbf{algebraically} using a substitution (e.g., plug $x=8+y$ into the
+    first equation and solve for $y$, then solve for $x$ after finding $y$).
+    This gives the solution $(x,y) = (10,2)$. The speed of the boat in still
+    water is 10mph. The speed of the river current is 2mph.
+    \item We can conceive of another type of solution, which uses a
+    \textbf{geometric}, rather than algebraic perspective: observe that each
+    equation $x+y=12$ and $x-y=8$ represents a line on the $xy$-plane. Plot
+    the lines. Their intersection is the point $(10,2)$, which is the
+    solution.
+    \item However, solving systems of equations like in
+    \eqref{eq:first-example-equations} becomes more cumbersome when there are
+    lots of variables and equations. Doing substitutions and algebraic
+    manipulations will still work, but will be tedius and difficult if you
+    have many equations and variables.
+
+    Later, we will introduce a general algorithm which can solve any such
+    system. This algorithm is called \demph{Gauss-Jordan elimination}, and it
+    will be one of the core techniques that we will use to solve many types of
+    problems in this class.
+  \end{itemize}
+\end{example}
+
+
+\subsection{Key definitions: linear systems and their solutions}
+In this section, we formalize the mathematical objects we are studying.
+
+\begin{definition}[Linear equation]
+  \label{def:linear-equation}
+  A \demph{linear equation} in the variables $x_{1},\ldots,x_{n}$ is an
+  equation that can be written in the form
+  \begin{equation*}
+    a_{1}x_{1}+a_{2}x_{2}+\ldots+a_{n}x_{n} = b,
+  \end{equation*}
+  where $a_{1},\ldots,a_{n}$ and $b$ are constants (e.g., fixed real numbers).
+  The numbers $a_{1},\ldots,a_{n}$ are called \demph{coefficients}. 
+\end{definition}
+
+Note that the variables $x_{1},\ldots,x_{n}$ are not raised to any powers.
+That's what makes the equation \textit{linear}. If we had squares or cubes of
+some of the $x_{i}$'s, or products like $x_{1}x_{3}$, then the equation would
+be quadratic or cubic, or something else, but not linear.
+
+\begin{example}[Examples of linear equations]
+  \label{ex:examples-linear-equations-first-examples}
+  \begin{itemize}
+    \item[]
+    \item The equation
+    \begin{equation*}
+      2x-3y =1
+    \end{equation*}
+    is a linear equation in the variables $x$ and $y$. Its graph is a line on the
+    $xy$-plane.
+    \item The equation
+    \begin{equation*}
+      3x-y+2z = 9
+    \end{equation*}
+    is a linear equation in the variables $x,y$ and $z$. Its graph is a plane
+    in 3-dimensional space (denoted $\R^{3}$).
+    \item The equation
+    \begin{equation*}
+      -x_{1} +5 x_{2}+ \pi^{2} x_{3}+ \sqrt{2}x_{4} = e^{2}
+    \end{equation*}
+    is a linear equation in the variables $x_{1},x_{2},x_{3},$ and $x_{4}$.
+    The coefficients are
+    \begin{equation*}
+      a_{1} = -1, \quad a_{2} = 5, \quad a_{3} = \pi, \quad \text{and} \quad a_{4}=\sqrt{2}.
+    \end{equation*}
+    The graph of this linear system is a 3-dimensional hyperplane in 4d-space
+    (i.e., $\R^{4}$).
+
+    \fl{Observation:} There is a simple relationship between the number of
+    variables and the dimension of the graph:
+    \begin{equation*}
+      \text{dimension of graph} = (\text{\# of variables}) - 1.
+    \end{equation*}
+  \end{itemize}
+
+\end{example}
+\begin{definition}[Linear system, solution of a linear system]
+  When considered together, a collection of $m$ linear equations
+  \begin{equation}\label{eq:defn-system-of-linear-equations}
+    \left\{ \begin{array}{l@{}l}
+        \ a_{11}x_{1}+a_{12}x_{2}+\ldots+a_{1n}x_{n} = b_{1} \\
+        \ a_{21}x_{1}+a_{21}x_{2}+\ldots+a_{2n}x_{n} = b_{2} \\
+        \hfill\vdots\hfill \\
+        a_{m1}x_{1}+a_{m2}x_{2}+\ldots+a_{mn}x_{n} = b_{m}
+      \end{array}\right.
+  \end{equation}
+  is called a \demph{system of linear equations}, or \demph{linear system} for
+  short. A \demph{solution} to a system of linear equations is a set of values
+  for $x_{1},\ldots,x_{n}$ which satisfy all equations in
+  system \eqref{eq:defn-system-of-linear-equations}.
+\end{definition}
+
+\begin{example}[A system of linear equations]
+  \label{ex:system-linear-equations-first-example}
+  An example of a system of linear equations is
+  \begin{equation*}
+    \left\{ \begin{array}{l@{}l}
+        \hphantom{-2}x\; -\;  \hphantom{3}y \;+\;  \hphantom{4}z =\hphantom{-}0 \\
+        \hphantom{-}2x\;-\; 3y\;+\; 4z= -2 \\
+        -2x\;-\; \hphantom{3}y\;+\; \hphantom{4}z=\hphantom{-}7
+      \end{array}\right.
+  \end{equation*}
+  When a linear system like this walks in the door, we always first ask two
+  basic questions: (1) `how many equations does it have?' and (2) `how many
+  variables does it have?'. In this case, we have $m=3$ equations and $n=3$
+  variables.
+\end{example}
+\subsection{How to understand solutions of linear systems geometrically}
+Here is a very useful geometric perspective. In
+system \eqref{eq:defn-system-of-linear-equations}, we have a system of $m$ equations
+expressed in $n$ variables $x_{1},\ldots,x_{n}$. Each of the $m$ equations is
+the equation of some hyperplane\footnote{Note: Hyperplanes will be defined
+  more formally later, but for now can be thought of as generalized lines or
+  planes, since a 1-dimensional hyperplanes is a \textit{line} and a
+  2-dimensional hyperplane is a \textit{plane}.} which lives in
+$n$-dimensional space ($\R^{n}$). \textit{The solution to the linear system is the
+  intersection of these hyperplanes.}
+
+For example, in \cref{ex:system-linear-equations-first-example}, the
+`hyperplanes' were lines, and their intersection was the point $(x,y)=(10,2)$.
+
+
+We will spend a lot of time understanding what hyperplanes look like, and what
+intersections of hyperplanes look like.
+
+
+
+\newpage
+\section{2025-08-27}
+
+
+\subsection{How to understand solutions of linear systems geometrically}
+Here is a very useful geometric perspective. In
+system \eqref{eq:defn-system-of-linear-equations}, we have a system of $m$ equations
+expressed in $n$ variables $x_{1},\ldots,x_{n}$. Each of the $m$ equations is
+the equation of some hyperplane\footnote{Note: Hyperplanes will be defined
+  more formally later, but for now can be thought of as generalized lines or
+  planes, since a 1-dimensional hyperplanes is a \textit{line} and a
+  2-dimensional hyperplane is a \textit{plane}.} which lives in
+$n$-dimensional space ($\R^{n}$). \textit{The solution to the linear system is the
+intersection of these hyperplanes.}
+
+The clearest example of this can be seen in the linear system:
+\begin{equation}\label{eq:2x2-geometric-intuition-example}
+  \left\{ \begin{array}{l@{}l}
+      a_{11}x + a_{12}y = b_{1}\\
+      a_{21}x + a_{22}y = b_{2}\\
+    \end{array}\right.
+\end{equation}
+where $a_{12},a_{22}\neq 0$. (In this case, the ``hyperplanes'' are simply
+lines.) Here, the solutions to the first equation are the points on the line
+\begin{equation}\label{eq:line-1}
+  y = -\frac{a_{11}}{a_{12}}x + b_{1}.
+\end{equation}
+Similarly, the solutions to the second equation are the points on the line
+\begin{equation}\label{eq:line-2}
+  y = - \frac{a_{21}}{a_{22}}x + b_{2}.
+\end{equation}
+There are three possible things that can happen when we intersect the two
+lines in \cref{eq:line-1,eq:line-2}:
+\begin{itemize}
+  \item \textbf{Case 1.} The two line equations \cref{eq:line-1,eq:line-2}
+  represent distinct lines and are not parallel. In this case, their
+  intersection consists of a unique point, like this:
+  \begin{center}
+    \includegraphics[scale=.2]{images/intersecting-lines} % wikipeida
+  \end{center}
+  In this case, the system \eqref{eq:2x2-geometric-intuition-example} has
+  \textbf{exactly one solution}---namely, the intersection of the two lines,
+  just like we saw in the boat example.
+  
+  \item \textbf{Case 2.} The two line equations \cref{eq:line-1,eq:line-2}
+  represent two parallel but different lines. In this case, the two lines
+  never intersect each other (i.e., there is no point that lies on both
+  lines), so the system \eqref{eq:2x2-geometric-intuition-example} has
+  \textbf{no solutions}.
+  
+  \item \textbf{Case 3.} The two equations of lines are the same, so they
+  represent the same line. Therefore the intersection of the two lines is the
+  entire line. Therefore, there are \textbf{infinitely many} solutions to the
+  linear system \eqref{eq:2x2-geometric-intuition-example}. Namly, any point
+  $(x,y)$ on the line is a solution to the linear system.
+\end{itemize}
+These three cases constitute the following trichotomy:
+
+
+\begin{center}
+  \begin{tcolorbox}[width=0.7\textwidth, colback=white, colframe=black]
+    \textbf{Fact:} A system of linear equations either has (1) exactly one
+    solution, (2) no solution, or (3) infinitely many solutions.
+  \end{tcolorbox}
+\end{center}
+
+We haven't proven this fact, only illustrated it for systems of linear
+equations like \eqref{eq:2x2-geometric-intuition-example} that have 2
+equations and 2 variables. In fact, as we shall see, this fact always holds
+for all linear systems of the form given in
+\eqref{eq:defn-system-of-linear-equations}, no matter how many equations and
+variables.
+
+\subsection{Gauss-Jordan Elimination}
+
+
+\begin{center}
+  \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
+    \textit{\textbf{The nexus question of this lecture:} What is Gauss-Jordan
+      elimination?}
+  \end{tcolorbox}
+\end{center}
+
+In this lecture, we will introduce \demph{Gauss-Jordan elimination}, a general
+algorithm which can be used to solve any system of linear equations.
+
+Suppose we wish to solve the following system:
+\begin{equation}
+  \label{eq:Gauss-Jordan-elimination-example}
+  \left\{
+    \begin{alignedat}{4}
+      &x &{}\;-\; y &{}\;+\; &z{}&= &0 \\
+      2&x&{}\;-\; 3y&{}+\; 4&z{}&= -&2 \\
+      -2&x&{}\;-\; y&{}\;+\; &z {}&= &7
+    \end{alignedat}
+  \right.
+\end{equation}
+This system has 3 equations and 3 variables $x,y$ and $z$. Suppose that we
+know ahead of time that this system has a unique solution (it does). Then, in
+principle, we could solve this using substitution, but that would suck.
+Instead, we shall iteratively transform this linear system into successively simpler
+systems until we get to a point where the solution is obvious.
+
+To do this, we shall utilize three types of transformations, called \demph{elementary
+  operations}, to wit:
+\begin{enumerate}
+  \item Interchange two equations in the system.
+  \item Multiply an equation by a nonzero number.
+  \item Replace an equation by itself plus a multiple of another equation.
+\end{enumerate}
+Two systems of equations are said to be \demph{equivalent} if they have the
+same solutions. Applying elementary operations always results in an equivalent
+system. We'll use some combination of these operations to produce a system of
+the form
+\begin{equation*}
+  \left\{
+    \begin{array}{l@{}l}
+      x   &= *\\
+      y &= *\\
+      z &= *\\
+    \end{array}\right.
+\end{equation*}
+where each $*$ is a constant which we will have computed. This will be our
+solution to the linear system \eqref{eq:Gauss-Jordan-elimination-example},
+because the two systems are equivalent.
+
+
+\Fl{Input:} A system of linear equations of the form given in
+\eqref{eq:defn-system-of-linear-equations}, such as the following:
+
+\begin{equation}
+  \left\{
+    \begin{alignedat}{4}
+      &x &{}\;-\; y &{}\;+\; &z{}&= &0 \\
+      2&x&{}\;-\; 3y&{}\;+\; 4&z{}&= -&2 \\
+      -2&x&{}\;-\; y&{}\;+\; &z {}&= &7
+    \end{alignedat}
+  \right.
+\end{equation}
+
+
+\Fl{Output:} If a unique solution exists, then the output will be a solution
+of the form
+\begin{equation*}
+  \left\{
+    \begin{array}{l@{}l}
+      x &= *\\
+      y &= *\\
+      z &= *\\
+    \end{array}\right.
+\end{equation*}
+
+
+\Fl{Steps:} We initialize the algorithm by setting up an \demph{augmented
+  matrix} corresponding to the system. For the system in
+\eqref{eq:Gauss-Jordan-elimination-example}, the augmented matrix is
+\begin{equation*}
+  \begin{augmentedmatrix}{ccc|c}
+    1& -1& 1& 0 \\
+    2& -3& 4& -2 \\
+    -2& -1& 1& 7
+  \end{augmentedmatrix}.
+\end{equation*}
+Comparing this with system \eqref{eq:Gauss-Jordan-elimination-example}, it becomes
+clear that the augmented matrix was obtained essentially by just erasing the
+variables $x,y,$ and $z$ in \eqref{eq:Gauss-Jordan-elimination-example}, and
+then placing what remains into an array. We also drew a vertical line to the
+separate the left- and right-hand sides of the equations.
+
+\begin{itemize}
+  \item The matrix to the left of the vertical row is called the
+  \demph{coefficient matrix.}
+  \item A line of numbers going from left to right is called a \demph{row} of the
+  matrix. A line of numbers going down the matrix is a \demph{column.}
+\end{itemize}
+
+
+
+Gauss-Jordan elimination is like a game where the player has three possible
+moves, called \demph{row operations}:
+\begin{enumerate}
+  \item Interchange two rows.
+  \item Multiply a row by a nonzero number.
+  \item Replace a row by itself plus a multiple of another row.
+\end{enumerate}
+The player does row operations with the \textbf{goal} of making as many
+numbers in the coefficient matrix zero as possible.
+
+
+\begin{equation*}
+  \begin{augmentedmatrix}{ccc|c}
+    1& -1& 1& 0 \\
+    2& -3& 4& -2 \\
+    -2& -1& 1& 7
+  \end{augmentedmatrix}
+  \overset{R_{2}-2R_{1}}{\longrightarrow}
+  \begin{augmentedmatrix}{ccc|c}
+    1& -1& 1& 0 \\
+    \mathbf{0}& \mathbf{-1}& \mathbf{2}& \mathbf{-2} \\
+    -2& -1& 1& 7
+  \end{augmentedmatrix}
+  \overset{R_{3}+2R_{1}}{\longrightarrow}
+  \begin{augmentedmatrix}{ccc|c}
+    1& -1& 1& 0 \\
+    0& -1& 2& -2 \\
+    \mathbf{0}& \mathbf{-3}& \mathbf{3}& \mathbf{7}
+  \end{augmentedmatrix}
+\end{equation*}
+\begin{equation*}
+  \overset{R_{1}-R_{2}}{\longrightarrow}
+  \begin{augmentedmatrix}{ccc|c}
+    \mathbf{1}& \mathbf{0}& \mathbf{-1}& \mathbf{2} \\
+    0& -1& 2& -2 \\
+    0& -3& 3& 7
+  \end{augmentedmatrix}
+  \overset{R_{3}-3R_{2}}{\longrightarrow}
+  \begin{augmentedmatrix}{ccc|c}
+    1& 0& -1& 2 \\
+    0& -1& 2& -2 \\
+    \mathbf{0}& \mathbf{0}& \mathbf{-3}& \mathbf{13}
+  \end{augmentedmatrix}
+  \overset{(-1)\cdot R_{2}}{\longrightarrow}
+  \begin{augmentedmatrix}{ccc|c}
+    1& 0& -1& 2 \\
+    \mathbf{0}& \mathbf{1}& \mathbf{-2}& \mathbf{2} \\
+    0& 0& -3& 13
+  \end{augmentedmatrix}
+\end{equation*}
+\begin{equation*}
+  \overset{(-\frac{1}{3})\cdot R_{3}}{\longrightarrow}
+  \begin{augmentedmatrix}{ccc|c}
+    1& 0& -1& 2 \\
+    0& 1& -2& 2 \\
+    \mathbf{0}& \mathbf{0}& \mathbf{1}& \mathbf{-13/3}
+  \end{augmentedmatrix}
+  \overset{R_{2}+2R_{3}}{\longrightarrow}
+  \begin{augmentedmatrix}{ccc|c}
+    1& 0& -1& 2 \\
+    \mathbf{0}& \mathbf{1}& \mathbf{0}& \mathbf{-20/3} \\
+    0& 0& 1& -13/3
+  \end{augmentedmatrix}
+  \overset{R_{1}+R_{3}}{\longrightarrow}
+  \begin{augmentedmatrix}{ccc|c}
+    \mathbf{1}& \mathbf{0}& \mathbf{0}& \mathbf{-7/3} \\
+    0& 1& 0& -20/3 \\
+    0& 0& 1& -13/3
+  \end{augmentedmatrix}
+\end{equation*}
+We now convert the augmented matrix back to a system of linear equations:
+\begin{equation*}
+  \left\{
+    \begin{alignedat}{4}
+      &1x &{}\;-\; 0y &{}\;+\; &0z{}&= -&7/3 \\
+      &0x&{}\;-\; 1y&{}\;+\; &0z{}&= -&20/3 \\
+      &0x&{}\;-\; 0y&{}\;+\; &1z {}&= -&13/3
+    \end{alignedat}
+  \right.
+\end{equation*}
+or more simply,
+\begin{align*}
+  x &= -7/3\\
+  y &= -20/3\\
+  z &= -13/3
+\end{align*}
+We can check that this is a solution to the original system of equations \eqref{eq:Gauss-Jordan-elimination-example}.
 \end{document}
