@@ -11,9 +11,10 @@ title: Lecture notes
 
 [Full lecture notes - working draft](lectures/lecture-notes.pdf)
 
+[Tentative course schedule](/lectures/tentative-course-schedule.pdf)
 
  Date        | Lecture Notes              | Topics Covered
 -------------|----------------------------|-------------
- 2025-08-25  | [lecture-01](lectures/lecture-notes-by-day/lecture-01.pdf)      | syllabus and introduction      
+ 2025-08-25  | [lecture-01](lectures/lecture-notes-by-day/lecture-01.pdf)      | What is a linear system? And what does it mean to `solve' a linear system?  
  
 
