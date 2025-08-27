@@ -16,6 +16,6 @@ title: Lecture notes
  Date        | Lecture Notes              | Topics Covered
 -------------|----------------------------|-------------
  2025-08-25  | [lecture-01](lectures/lecture-notes-by-day/lecture-01.pdf)      | What is a linear system? And what does it mean to 'solve' a linear system?  
- 2025-08-25  | [lecture-02](lectures/lecture-notes-by-day/lecture-02.pdf)      | What do the solutions to a linear system look like?  
+ 2025-08-27  | [lecture-02](lectures/lecture-notes-by-day/lecture-02.pdf)      | What do the solutions to a linear system look like?  
  
 
