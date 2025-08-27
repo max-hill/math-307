@@ -415,13 +415,14 @@ intersections of hyperplanes look like.
 
 \begin{center}
   \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
-    \textit{\textbf{The two main questions of this lecture:}
-      \vspace{.5em}
-      \begin{enumerate}
-        \item How do we understand solutions of linear systems geometrically?
-        \item How can we find a solution to a linear system algebraically,
-        without resorting to substitution?
-      \end{enumerate}}
+    \textit{\textbf{The nexus question of this lecture:} What do solutions to
+      systems of equations look like?}
+      % \vspace{.5em}
+      % \begin{enumerate}
+      %   \item How do we understand solutions of linear systems geometrically?
+      %   \item How can we find a solution to a linear system algebraically,
+      %   without resorting to substitution?
+      % \end{enumerate}}
   \end{tcolorbox}
 \end{center}
 \subsection{How to understand solutions of linear systems geometrically}
@@ -436,55 +437,57 @@ $n$-dimensional space ($\R^{n}$). \textit{The solution to the linear system is t
 intersection of these hyperplanes.}
 
 The clearest example of this can be seen in the linear system:
-\begin{equation}\label{eq:2x2-geometric-intuition-example}
-  \left\{ \begin{array}{l@{}l}
-      a_{11}x + a_{12}y = b_{1}\\
-      a_{21}x + a_{22}y = b_{2}\\
-    \end{array}\right.
-\end{equation}
-where $a_{12},a_{22}\neq 0$. (In this case, the ``hyperplanes'' are simply
-lines.) Here, the solutions to the first equation are the points on the line
-\begin{equation}\label{eq:line-1}
-  y = -\frac{a_{11}}{a_{12}}x + b_{1}.
-\end{equation}
-Similarly, the solutions to the second equation are the points on the line
-\begin{equation}\label{eq:line-2}
-  y = - \frac{a_{21}}{a_{22}}x + b_{2}.
-\end{equation}
-There are three possible things that can happen when we intersect the two
-lines in \cref{eq:line-1,eq:line-2}:
-\begin{itemize}
-  \item \textbf{Case 1.} The two line equations \cref{eq:line-1,eq:line-2}
-  represent distinct lines and are not parallel. In this case, their
-  intersection consists of a unique point, like this:
-  \begin{center}
-    \includegraphics[scale=.12]{images/intersecting-lines} % wikipeida
-  \end{center}
-  In this case, the system \eqref{eq:2x2-geometric-intuition-example} has
-  \textbf{exactly one solution}---namely, the intersection of the two lines,
-  just like we saw in the boat example.
-  
-  \item \textbf{Case 2.} The two line equations \cref{eq:line-1,eq:line-2}
-  represent two parallel but different lines. In this case, the two lines
-  never intersect each other (i.e., there is no point that lies on both
-  lines), so the system \eqref{eq:2x2-geometric-intuition-example} has
-  \textbf{no solutions}.
-  
-  \item \textbf{Case 3.} The two equations of lines are the same, so they
-  represent the same line. Therefore the intersection of the two lines is the
-  entire line. Therefore, there are \textbf{infinitely many solutions} to the
-  linear system \eqref{eq:2x2-geometric-intuition-example}. Namely, any point
-  $(x,y)$ on the line is a solution to the linear system.
-\end{itemize}
-These three cases constitute the following trichotomy:
 
+\begin{example}[The case with two variables]
+  \label{ex:case-with-two-variables}
+  \begin{equation}\label{eq:2x2-geometric-intuition-example}
+    \left\{ \begin{array}{l@{}l}
+        a_{11}x + a_{12}y = b_{1}\\
+        a_{21}x + a_{22}y = b_{2}\\
+      \end{array}\right.
+  \end{equation}
+  where $a_{12},a_{22}\neq 0$. (In this case, the ``hyperplanes'' are simply
+  lines.) Here, the solutions to the first equation are the points on the line
+  \begin{equation}\label{eq:line-1}
+    y = -\frac{a_{11}}{a_{12}}x + \frac{b_{1}}{a_{12}}
+  \end{equation}
+  Similarly, the solutions to the second equation are the points on the line
+  \begin{equation}\label{eq:line-2}
+    y = - \frac{a_{21}}{a_{22}}x + \frac{b_{2}}{a_{22}}.
+  \end{equation}
+  There are three possible things that can happen when we intersect the two
+  lines in \cref{eq:line-1,eq:line-2}:
+  \begin{itemize}
+    \item \textbf{Case 1.} The two line equations \cref{eq:line-1,eq:line-2}
+    represent distinct lines and are not parallel. In this case, their
+    intersection consists of a unique point, like this:
+    \begin{center}
+      \includegraphics[scale=.12]{images/intersecting-lines} % wikipeida
+    \end{center}
+    In this case, the system \eqref{eq:2x2-geometric-intuition-example} has
+    \textbf{exactly one solution}---namely, the intersection of the two lines,
+    just like we saw in the boat example.
+  
+    \item \textbf{Case 2.} The two line equations \cref{eq:line-1,eq:line-2}
+    represent two parallel but different lines. In this case, the two lines
+    never intersect each other (i.e., there is no point that lies on both
+    lines), so the system \eqref{eq:2x2-geometric-intuition-example} has
+    \textbf{no solutions}.
+  
+    \item \textbf{Case 3.} The two equations of lines are the same, so they
+    represent the same line. Therefore the intersection of the two lines is
+    the entire line. Therefore, there are \textbf{infinitely many solutions}
+    to the linear system \eqref{eq:2x2-geometric-intuition-example}. Namely,
+    any point $(x,y)$ on the line is a solution to the linear system.
+  \end{itemize}
+\end{example}
+These three cases desribed in \cref{ex:case-with-two-variables} constitute the
+following trichotomy:
 
-\begin{center}
-  \begin{tcolorbox}[width=0.7\textwidth, colback=white, colframe=black]
-    \textbf{Fact:} A system of linear equations either has (1) exactly one
-    solution, (2) no solution, or (3) infinitely many solutions.
-  \end{tcolorbox}
-\end{center}
+\begin{theorem}
+  A system of linear equations either has (1) exactly one
+  solution, (2) no solution, or (3) infinitely many solutions.
+\end{theorem}
 
 We haven't proven this fact, only illustrated it for systems of linear
 equations like \eqref{eq:2x2-geometric-intuition-example} that have 2
@@ -493,6 +496,100 @@ for all linear systems of the form given in
 \eqref{eq:defn-system-of-linear-equations}, no matter how many equations and
 variables.
 
+\subsection{The planar case}
+Recall that, geometrically, a line is determined by two features:
+\begin{enumerate}
+  \item A slope $m$ which determines the direction of hte line
+  \item A point $(x_{0},y_{0})$ which the line passes through, as this
+  determines where the line lives on the $xy$-plane
+\end{enumerate}
+It is easy to see that these two things determine everything about a line
+because the equation of a line can be expressed as
+\begin{equation*}
+  y-y_{0} = m(x-x_{0})
+\end{equation*}
+and to write this down, all we need are $m$ and $(x_{0},y_{0}).$
+
+Just like a line, a plane is determined by two things:
+\begin{enumerate}
+  \item A normal vector $n= \left\langle A,B,C \right\rangle$ which
+  determines the tilt of the plane. (Here, $A,B,$ and $C$ are fixed constants)
+  \item A point $(x_{0},y_{0},z_{0})$ which the plane passes through, as this
+  determines where in 3-d space $(\R^{3})$ the plane lives.
+\end{enumerate}
+Indeed, a plane $\P$ consists of the set of points $(x,y,z)$ satisfying the
+following equation:
+\begin{equation}\label{eq:definition-normal-form-eq-of-plane}
+  A(x-x_{0}) + B(y-y_{0})+C(z-z_{0})=0
+\end{equation}
+This is the standard form equation of a plane, and we can write it down if we
+know both $n=\left\langle A,B,C \right\rangle $ and $(x_{0},y_{0},z_{0})$. So
+if we know those two things, then we know the equation of the plane, meaning
+we know everything about it.
+
+By a little bit of algebra, we can rewrite
+\cref{eq:definition-normal-form-eq-of-plane} as
+\begin{equation*}
+  Ax+By+Cz=D
+\end{equation*}
+where $D = Ax_{0}+By_{0}+Cz_{0}$. This is a linear equation. The solutions to
+a linear equation with 3 variables is a plane.
+\begin{example}[A system with three variables]
+  \label{ex:system-with-three-variables}
+  Suppose we wish to solve the linear system
+  \begin{equation*}
+    \left\{
+      \begin{alignedat}{4}
+        &x &{}\;-\; y &{}\;+\; &z{}&= &0 & \\
+        2&x&{}\;-\; 3y&{}+\; 4&z{}&= -&2 & \\
+        -2&x&{}\;-\; y&{}\;+\; &z {}&= &7& 
+      \end{alignedat}
+    \right.
+  \end{equation*}
+  In this case, each equation is the equation of a plane. The planes for the
+  first two equations are the following:
+  \begin{center}
+    \includegraphics[scale=.2]{images/two-planes}
+  \end{center}
+  The plane for the first equation is in red. The plane for the second
+  equation is blue. Any point on the red plane is a solution to the first
+  equation $x-y+z=0$. Any point on the blue plane is a solution to the second
+  equation $2x-3y+4z=-2$. The two planes interesect in a line. If I pick any
+  point on this line, then it satisfies both equations.
+
+  But our system has three equations, so we have a third plane, and the
+  intersection of all three planes is a point, as shown:
+  \begin{center}
+    \includegraphics[scale=.2]{images/three-planes-intersection}
+  \end{center}
+  In this case, the system of equations has a unique solution, which is the
+  unique point of intersection of hte planes.
+
+  Here's the desmos link to see the plots of these three planes, if you want
+  to play around with it.
+  \begin{center}
+    \url{https://www.desmos.com/3d/gpgtw2rjaf}
+  \end{center}
+
+  Of course ther are other ways that three planes could have intersected. For
+  example, two of the planes might be parallel, like the following picture, in
+  which case the system will have no solutions:
+  \begin{center}
+    \includegraphics[scale=.2]{images/two-parallel-planes}
+  \end{center}
+
+  There are other ways that three planes could intersect as well, but the
+  trichotomy stated earlier always holds: their intersection either constists
+  of (1) exactly one point, (2) infinitely many points, or (3) zero points.
+\end{example}
+
+We've seen in this lecture that for systems of linear equations with two
+variables, the solutions are the intersection of lines. For systems of linear
+equations with three variables, the solutions are the intersections of planes.
+... And for systems with $n>3$ variables, the solutions are the intersections
+of hyperplanes.
+
+\newpage
 \subsection{Motivation for Gauss-Jordan Elimination}
 
 
