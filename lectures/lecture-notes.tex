@@ -416,7 +416,7 @@ intersections of hyperplanes look like.
 \begin{center}
   \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
     \textit{\textbf{The nexus question of this lecture:} What do solutions to
-      systems of equations look like?}
+      linear systems look like?}
       % \vspace{.5em}
       % \begin{enumerate}
       %   \item How do we understand solutions of linear systems geometrically?
@@ -499,7 +499,7 @@ variables.
 \subsection{The planar case}
 Recall that, geometrically, a line is determined by two features:
 \begin{enumerate}
-  \item A slope $m$ which determines the direction of hte line
+  \item A slope $m$ which determines the direction of the line
   \item A point $(x_{0},y_{0})$ which the line passes through, as this
   determines where the line lives on the $xy$-plane
 \end{enumerate}
@@ -517,8 +517,8 @@ Just like a line, a plane is determined by two things:
   \item A point $(x_{0},y_{0},z_{0})$ which the plane passes through, as this
   determines where in 3-d space $(\R^{3})$ the plane lives.
 \end{enumerate}
-Indeed, a plane $\P$ consists of the set of points $(x,y,z)$ satisfying the
-following equation:
+To be prcise, a plane $\P$ consists of the set of points $(x,y,z)$ satisfying
+the following equation:
 \begin{equation}\label{eq:definition-normal-form-eq-of-plane}
   A(x-x_{0}) + B(y-y_{0})+C(z-z_{0})=0
 \end{equation}
@@ -532,8 +532,9 @@ By a little bit of algebra, we can rewrite
 \begin{equation*}
   Ax+By+Cz=D
 \end{equation*}
-where $D = Ax_{0}+By_{0}+Cz_{0}$. This is a linear equation. The solutions to
-a linear equation with 3 variables is a plane.
+where $D = Ax_{0}+By_{0}+Cz_{0}$. This is a linear equation. Just like how the
+solutions to a linear equation with 2 variables form a line, the solutions to
+a linear equation with 3 variables form a plane.
 \begin{example}[A system with three variables]
   \label{ex:system-with-three-variables}
   Suppose we wish to solve the linear system
@@ -564,20 +565,21 @@ a linear equation with 3 variables is a plane.
   \end{center}
   In this case, the system of equations has a unique solution, which is the
   unique point of intersection of the planes. Here's the desmos link to see
-  the plots of these three planes, if you want to play around with it.
+  the plots of these three planes, if you want to play around with them:
   \begin{center}
     \url{https://www.desmos.com/3d/gpgtw2rjaf}
   \end{center}
 
   Of course there are other ways that three planes could have intersected. For
   example, two of the planes might be parallel, like the following picture, in
-  which case the system will have no solutions (credit Noah R. for the picture):
+  which case the system will have no solutions:
   \begin{center}
     \includegraphics[scale=.18]{images/two-parallel-planes}
   \end{center}
 
   Or the three planes could intersect in a line, like the following picture,
-  in which case there are infinitely many solutions:
+  in which case there are infinitely many solutions (credit Noah R. for the
+  observation and picture):
   \begin{center}
     \includegraphics[scale=.18]{images/three-planes-intersect-in-a-line}
   \end{center}
