@@ -600,24 +600,53 @@ of hyperplanes.
 \newpage
 
 \section{2025-08-29 | Week 01 | Lecture 03}
-
+\textit{This lecture is based on section 1.1 in the textbook}
 
 \begin{center}
   \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
-    \textit{\textbf{The nexus question for the rest of this lecture:} How can
+    \textit{\textbf{The nexus question of this lecture:} How can
       we solve a linear system without resorting to substitution?}
   \end{tcolorbox}
 \end{center}
 
+Recall in the boat example (\cref{ex:a-first-example-linear-system-equations}),
+we had the system
+\begin{equation*}
+  \left\{ \begin{array}{l@{}l} x+y=12 \\ x-y=8 \end{array}\right.
+\end{equation*}
+And we could solve this using subsitution. Another thing we could have done,
+would be to add the second equation to the first, giving us a new, simpler but
+equivalent system:
+\begin{equation*}
+  \left\{ \begin{array}{l@{}l} 2x=20 \\ x-y=8 \end{array}\right.
+\end{equation*}
+Then divide the firs equation by two
+\begin{equation*}
+  \left\{ \begin{array}{l@{}l} x=10 \\ x-y=8 \end{array}\right.
+\end{equation*}
+Then subtract the first equation from the second:
+\begin{equation*}
+  \left\{ \begin{array}{l@{}l} x=10 \\ -y=-2 \end{array}\right.
+\end{equation*}
+Then multiply the second equation by $-1$
+\begin{equation*}
+  \left\{ \begin{array}{l@{}l} x=10 \\ y=2 \end{array}\right.
+\end{equation*}
+And tada! We have found our solution without doing substitution. But this
+example was very simple, so maybe it's special and we can't always do this
+sort of thing? Actually, we can. In the rest of the lecture, I'll try to
+formalize these sorts of steps we used here and apply them to a more
+complicated problem.
+
+The reason I'm doing this is because, in the next lecture, I will begin to
+present \demph{Gauss-Jordan elimination} (aka \demph{row reduction}), a
+general method which can be used to find the solutions of any system of linear
+equation which does not use substitution. For now, the we will work out an
+example which motivates the main ideas that will be used by Gauss-Jordan
+elimination.
 
 \subsection{Solving a linear system using via simplifying transformations}
 
-In the next lecture, I will begin to present \demph{Gauss-Jordan elimination},
-a general algorithm which can be used to solve general systems of linear
-equations, which does not use substitution. For now, I will answer the above
-question by working out an example which motivates the main ideas, so that the
-Gauss-Jordan algorithm doesn't feel like its coming out of nowhere when we
-present it in the next lecture.
 \begin{example}[Solving a linear system with elementary operations]
   \label{ex:solving-linear-system-with-elementary-operations}
   Suppose we wish to solve the following system:
@@ -633,10 +662,12 @@ present it in the next lecture.
   \end{equation}
   This system has 3 equations, labeled $E_{1},E_{2},E_{3}$, and 3 variables
   $x,y$ and $z$. Suppose that we know ahead of time that this system has a
-  unique solution (it does). Then, in principle, we could solve this using
-  substitution, but that would suck. Instead, I will illustrate an approach in
-  which we iteratively transform this linear system into successively simpler
-  systems until we get to a point where the solution is obvious.
+  unique solution (we showed this graphically in
+  \cref{ex:system-with-three-variables}). Then, in principle, we could solve
+  this using substitution, but that would suck. Instead, I will illustrate an
+  approach in which we iteratively transform this linear system into
+  successively simpler systems until we get to a point where the solution is
+  obvious.
 
   To do this, we will play a game where there are three `moves' available to
   us. The three moves are:
@@ -755,7 +786,7 @@ While solving this system was still a lot of (tedious) work, it was still
 probably simpler than doing substitution.
 \end{example}
 
-\subsection{The augmented matrix}
+\subsection{Representing a linear system as an augmented matrix}
 In the procedure presented in
 \cref{ex:solving-linear-system-with-elementary-operations}, we didn't really
 need to track the variables, only the \textit{coefficients} and the
@@ -808,7 +839,34 @@ More precise definitions are as follows:
     \end{bmatrix}.
   \end{equation*}
 \end{definition}
-\subsection{Gauss-Jordan Elimination}
+
+This is our first application of 
+\newpage
+\section{2025-09-03 | Week 02 | Lecture 04}
+
+\begin{center}
+  \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
+    \textit{\textbf{The nexus question of this lecture:} What is Gauss-Jordan
+      elimination (aka: row reduction) and how do we use it to solve linear systems?}
+  \end{tcolorbox}
+\end{center}
+
+Now I will present \demph{Gauss-Jordan elimination}. This is also called
+\demph{Gaussian elimination}, or more commonly, \demph{row reduction}. I will
+illustrate it by means of an example.
+
+\subsection{Using row reduction to solve a linear system with a unique solution}
+Suppose we wish to solve
+\begin{equation}\label{eq:Gauss-Jordan-elimination-example}
+  \left\{
+    \begin{alignedat}{4}
+      &x &{}\;-\; y &{}\;+\; &z{}&= &0 \\
+      & &{}\;-\; y&{}+\; 2&z{}&= -&2 \\
+      -2&x&{}\;-\; y&{}\;+\; &z {}&= &7
+    \end{alignedat}
+  \right.
+\end{equation}
+
 \Fl{Steps:} We initialize the algorithm by setting up an \demph{augmented
   matrix} corresponding to the system. For the system in
 \eqref{eq:Gauss-Jordan-elimination-example}, the augmented matrix is
@@ -819,40 +877,35 @@ More precise definitions are as follows:
     -2& -1& 1& 7
   \end{augmentedmatrix}.
 \end{equation*}
-
 \begin{itemize}
-  \item The matrix to the left of the vertical row is called the
-  \demph{coefficient matrix.}
-  \item A line of numbers going from left to right is called a \demph{row} of the
-  matrix. A line of numbers going down the matrix is a \demph{column.}
+  \item The matrix to the left of the vertical row is the \demph{coefficient matrix.}
+  \item A line of numbers going from left to right is called a \demph{row} of
+  the matrix. A line of numbers going down the matrix is a \demph{column.}
 \end{itemize}
-
-
-
 Gauss-Jordan elimination is like a game where the player has three possible
-moves, called \demph{row operations}:
+moves, called \demph{row operations}.
 \begin{enumerate}
   \item Interchange two rows.
   \item Multiply a row by a nonzero number.
   \item Replace a row by itself plus a multiple of another row.
 \end{enumerate}
-The player does row operations with the \textbf{goal} of making as many
-numbers in the coefficient matrix zero as possible.
-
-
+The player does row operations with the \textbf{goal} of making the diagonal
+entries of the coefficient matrix 1's and making as many of the other numbers
+zero, if possible. Here are the row operations for this example:
 \begin{equation*}
+  \phantom{ \overset{R_{2}-2R_{1}\to R_{2}}{\longrightarrow}}
   \begin{augmentedmatrix}{ccc|c}
     1& -1& 1& 0 \\
     2& -3& 4& -2 \\
     -2& -1& 1& 7
   \end{augmentedmatrix}
-  \overset{R_{2}-2R_{1}}{\longrightarrow}
+  \overset{R_{2}-2R_{1}\to R_{2}}{\longrightarrow}
   \begin{augmentedmatrix}{ccc|c}
     1& -1& 1& 0 \\
     \mathbf{0}& \mathbf{-1}& \mathbf{2}& \mathbf{-2} \\
     -2& -1& 1& 7
   \end{augmentedmatrix}
-  \overset{R_{3}+2R_{1}}{\longrightarrow}
+  \overset{R_{3}+2R_{1} \to R_{3}}{\longrightarrow}
   \begin{augmentedmatrix}{ccc|c}
     1& -1& 1& 0 \\
     0& -1& 2& -2 \\
@@ -860,19 +913,19 @@ numbers in the coefficient matrix zero as possible.
   \end{augmentedmatrix}
 \end{equation*}
 \begin{equation*}
-  \overset{R_{1}-R_{2}}{\longrightarrow}
+  \overset{R_{1}-R_{2} \to R_{1}}{\longrightarrow}
   \begin{augmentedmatrix}{ccc|c}
     \mathbf{1}& \mathbf{0}& \mathbf{-1}& \mathbf{2} \\
     0& -1& 2& -2 \\
     0& -3& 3& 7
   \end{augmentedmatrix}
-  \overset{R_{3}-3R_{2}}{\longrightarrow}
+  \overset{R_{3}-3R_{2} \to R_{3}}{\longrightarrow}
   \begin{augmentedmatrix}{ccc|c}
     1& 0& -1& 2 \\
     0& -1& 2& -2 \\
     \mathbf{0}& \mathbf{0}& \mathbf{-3}& \mathbf{13}
   \end{augmentedmatrix}
-  \overset{(-1)\cdot R_{2}}{\longrightarrow}
+  \overset{(-1)\cdot R_{2} \to R_{2}}{\longrightarrow}
   \begin{augmentedmatrix}{ccc|c}
     1& 0& -1& 2 \\
     \mathbf{0}& \mathbf{1}& \mathbf{-2}& \mathbf{2} \\
@@ -880,19 +933,19 @@ numbers in the coefficient matrix zero as possible.
   \end{augmentedmatrix}
 \end{equation*}
 \begin{equation*}
-  \overset{(-\frac{1}{3})\cdot R_{3}}{\longrightarrow}
+  \overset{(-\frac{1}{3})\cdot R_{3} \to R_{3}}{\longrightarrow}
   \begin{augmentedmatrix}{ccc|c}
     1& 0& -1& 2 \\
     0& 1& -2& 2 \\
     \mathbf{0}& \mathbf{0}& \mathbf{1}& \mathbf{-13/3}
   \end{augmentedmatrix}
-  \overset{R_{2}+2R_{3}}{\longrightarrow}
+  \overset{R_{2}+2R_{3} \to R_{2}}{\longrightarrow}
   \begin{augmentedmatrix}{ccc|c}
     1& 0& -1& 2 \\
     \mathbf{0}& \mathbf{1}& \mathbf{0}& \mathbf{-20/3} \\
     0& 0& 1& -13/3
   \end{augmentedmatrix}
-  \overset{R_{1}+R_{3}}{\longrightarrow}
+  \overset{R_{1}+R_{3} \to R_{1}}{\longrightarrow}
   \begin{augmentedmatrix}{ccc|c}
     \mathbf{1}& \mathbf{0}& \mathbf{0}& \mathbf{-7/3} \\
     0& 1& 0& -20/3 \\
@@ -915,5 +968,463 @@ or more simply,
   y &= -20/3\\
   z &= -13/3
 \end{align*}
-We can check that this is a solution to the original system of equations \eqref{eq:Gauss-Jordan-elimination-example}.
+We can check that this is a solution to the original system of equations
+\eqref{eq:Gauss-Jordan-elimination-example}.
+
+
+The above is an example of using Gauss-Jordan elimination to solve a linear
+system. The example we did had a unique solution. When that happens we can
+reduce the coefficient matrix to a matrix like
+\begin{equation*}
+  \begin{bmatrix}
+    1&0&0\\
+    0&1&0\\
+    0&0&1\\
+  \end{bmatrix}
+\end{equation*}
+possibly with one or more rows of zeros at the bottom. (It may be larger or
+smaller depending on the number of equations and variables).
+
+But in general, as we've seen, a linear system either has (1) one solution,
+(2) no solutions, or (3) infinitely many solutions. And if cases (2) or (3)
+happen, then we won't be able to do that. So we need to relax our ``goal''
+when doing row reduction.
+
+\textbf{Our new goal} is to reduce the coefficient matrix to \demph{reduced
+  row-echelon form}, which in the case of a linear system with three equations
+and three variables, means it should look like one of these
+\begin{equation*}
+  \begin{bmatrix}
+    1&0&0\\
+    0&1&0\\
+    0&0&1\\
+  \end{bmatrix}
+  \quad \text{or} \quad
+  \begin{bmatrix}
+    1&0&\#\\
+    0&1&\#\\
+    0&0&0\\
+  \end{bmatrix}
+  \quad \text{or} \quad
+  \begin{bmatrix}
+    1&\#&\#\\
+    0&0&0\\
+    0&0&0\\
+  \end{bmatrix}
+\end{equation*}
+where $\#$ denotes any arbitrary number.
+
+\begin{definition}
+  More precisely, a coefficient matrix
+  \begin{equation*}
+    \begin{bmatrix}
+      a_{11}&a_{12}&\ldots& a_{1n}\\
+      a_{21}&a_{22}&\ldots& a_{2n}\\
+      \vdots&\vdots & &\vdots \\
+      a_{m1}&a_{m2}&\ldots& a_{mn}
+    \end{bmatrix}.
+  \end{equation*}
+  is said to be in \demph{reduced row echelon form} if
+  \begin{enumerate}
+    \item Any rows of zeros appear at the bottom
+    \item The leftmost nonzero entry of all other rows equals 1 (the ``leading
+    1's'')
+    \item Each leading 1 of a nonzero row appears to the right of the leading
+    row above it
+    \item All the other entries of a column containing a leading $1$ are zero
+  \end{enumerate}
+\end{definition}
+This definition is \textit{general}: it applies to any system with $m$ equations and
+$n$ variables. The pattern will become natural once you've worked a few
+(dozen?) examples.
+
+\subsection{Using row reduction to solve a system with infitely many
+solutions}
+
+Here's an example which shows what happens when we try to solve a linear
+system with infinitely many solutions:
+
+\begin{example}[Using row reduction to solve a system with infitely many
+  solutions]
+  \label{ex:using-row-reduction-solve-system-with-infitely-many-solutions}
+  We wish to solve the system
+  \begin{equation*}
+    \left\{ \begin{array}{l@{}l}
+      \phantom{-}2x+3y-z\ &=3  \\
+      -x-\phantom{2}y+3z\ &=0  \\
+      \phantom{-}x+2y+2z\ &=3  \\
+      \phantom{2x+3}y+5z\ &=3 
+      \end{array}\right. 
+  \end{equation*}
+
+  This system has 4 equations and 3 variables. Each equation represents a
+  plane. The solutions, if there are any, will be the intersection of these
+  four planes. I've plotted the planes in Desmos:
+
+  \begin{center}
+    \includegraphics[scale=.2]{images/line-of-solutions}
+  \end{center}
+  It looks like the four planes intersect in a line. So we should expect
+  infinitely many solutions.
+  
+  \Fl{Step 1.} Write down the augmented matrix of the system.
+
+  \begin{equation*}
+    \begin{augmentedmatrix}{ccc|c}
+      2&3&-1&3\\
+      -1&-1&3&0\\
+      1&2&2&3\\
+      0&1&5&3
+    \end{augmentedmatrix}
+  \end{equation*}
+
+  \Fl{Step 2.} Do some combination or row reduction steps until the
+  coefficient matrix is in reduced row echelon form. (This is Example 3 in the
+  textbook, refer there for the steps.)
+  
+  \Fl{Step 3.} Our matrix is now in reduced row echelon form:
+  \begin{equation*}
+    \begin{augmentedmatrix}{ccc|c}
+      1&0&-8&-3\\
+      0&1&5&3\\
+      0&0&0&0\\
+      0&0&0&0
+    \end{augmentedmatrix}
+  \end{equation*}
+  Let's convert it back into a linear system of equations:
+  \begin{align*}
+    x-8z&=-3\\
+    y+5z&=3\\
+    0&=0\\
+    0&=0
+  \end{align*}
+  Therefore, we have
+  \begin{equation}\label{eq:example-of-line-of-solutions}
+    \left\{ \begin{array}{l@{}l} x=-3+8z \\ y=3-5z \end{array}\right.
+  \end{equation}
+  where $z$ is any real number. There are no restrictions on the value of $z$.
+  Any choice of $z$ gives us a valid solution to our original system of
+  equations. If $z=0$, we have the solution $(x,y,z)=(-3,3,0)$. If $z=1$, then
+  we have the solution $(x,y,z)= (5,-2,1)$, and so forth.
+
+  \textbf{Interpretation:} In this case, $z$ is called a \demph{free variable}
+  and $x$ and $y$ are called \demph{dependent variables}. The solutions to the
+  original linear system consist of all points on a line which cuts through
+  3-dimensional space $\R^{3}$. \cref{eq:example-of-line-of-solutions} gives
+  us a parametric equation of the line. The set of solutions is 1-dimensional,
+  because it is a line.
+\end{example}
+
+We've covered two of the three cases. For the last case, we consider the
+question \textit{what happens if we attempt to solve a linear system that has
+  no solutions?}
+
+
+\subsection{Using row reduction to attempt to solve a system with no
+  solutions}
+\begin{example}[Using row reduction to attempt to solve a system with no
+  solutions]
+  \label{ex:using-row-reduction-attempt-solve-system-with-no-solutions}
+  Suppose we wish to solve the system
+  \begin{align*}
+    2x+y-z&=3\\
+    -x-y+2z&=0\\
+    -x-y+2z&=4\\
+  \end{align*}
+  Here's a plot of the planes:
+  \begin{center}
+    \includegraphics[scale=.2]{images/inconsistent-system}
+  \end{center}
+  Their intersection if the three planes is \textit{empty}: there is no point
+  which lies on all three planes. So this system has no solution. What happens
+  when we try to use row reduction? 
+
+  \Fl{Step 1.} Write
+  down the augmented matrix:
+  \begin{equation*}
+    \begin{augmentedmatrix}{ccc|c}
+      2&1&-1&3\\
+     -1&-1&2&0\\
+      -1&-1&2&4
+    \end{augmentedmatrix}
+  \end{equation*}
+
+  \Fl{Step 2.} Do row reduction to get to reduced row echelon form (I'm
+  skipping steps here):
+  \begin{equation*}
+    \begin{augmentedmatrix}{ccc|c}
+      1&0&1&3\\
+      1&-1&3&3\\
+      0&0&0&4
+    \end{augmentedmatrix}
+  \end{equation*}
+
+  \Fl{Step 3.} Convert back to a linear system:
+  \begin{equation*}
+    \left\{ \begin{array}{l@{}l}
+        x\phantom{-y3\ }+z&=3\\
+        x-y+3z\ &=3\\
+        0&=4 \\  \end{array}\right.
+  \end{equation*}
+  The last equation is never true, no matter what values we choose for $x,y$
+  and $z$. So the system has no solution
+\end{example}
+
+
+\Fl{NOTE:} I'm not going to do a lot of examples of row reduction because it's
+so time consuming that it's not a great use of lecture time. So I expect you
+to teach yourself how to do row reduction. If you want to see more examples,
+some good online videos are
+\begin{center}
+  \url{https://www.youtube.com/watch?v=OP2aQUOevhI}
+  
+  \url{https://www.youtube.com/watch?v=eDb6iugi6Uk}
+\end{center}
+
+There are also some nice online tools to help with row reduction, for example:
+
+\begin{center}
+  \url{https://textbooks.math.gatech.edu/ila/demos/rrinter.html}
+
+  \url{https://www.math.odu.edu/~bogacki/cgi-bin/lat.cgi?c=roc}
+\end{center}
+
+\fl{General advice:}
+\begin{enumerate}
+  \item Of course I'm going to ask you to row-reduce matrices on your exams,
+  and for that you'll need to be able to do it by hand, without a calculator.
+  \item Write down all your steps, including a new matrix at every step in an
+  organized way.
+  \item Use the notation $R_{i}\leftrightarrow R_{j}$ to indicate a swap of
+  rows $i$ and $j$; $cR_{i}\to R_{i}$ to indicate a multiplication of row $i$
+  by a constant $c$; and, $R_{i}+cR_{j}\to R_{i}$ to indicate that you've
+  added $c$ times row $j$ to row $i$.
+  \item Work left to right, top to bottom. Start by making the top left entry
+  1. Then use it to make all the numbers below it zero. Then go to the second
+  column, second row, and make that 1. Then make everything beneath it zero.
+  Etc.
+\end{enumerate}
+
+\newpage
+\section{2025-09-?? | Week 03 | Lecture 05, probably} 
+\textit{This lecture is based on section 1.2 in the textbook.}
+
+\begin{center}
+  \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
+    \textit{\textbf{The nexus question of this lecture:} What is a matrix, and
+      what kinds of things can we do with it?}
+  \end{tcolorbox}
+\end{center}
+A \demph{matrix} is a rectangular array of objects, usually numbers, which are
+called \demph{entries}. If the number of rows and the number of columns are
+equal, the matrix is said to be a \demph{square matrix}.
+
+For example,
+\begin{equation*}
+  \begin{bmatrix}
+    1&0&3\\
+    2&5&-3
+  \end{bmatrix}
+  \quad \text{or} \quad
+  \begin{bmatrix}
+    1&0&-7&5
+  \end{bmatrix}
+  \quad \text{or} \quad
+  \begin{bmatrix}
+    1&0\\
+    0&-1
+  \end{bmatrix}
+\end{equation*}
+A matrix with $m$ rows and $n$ columns takes the form
+\begin{equation*}
+  A=
+  \begin{bmatrix}
+    a_{11}&a_{12}&\ldots& a_{1n}\\
+    a_{21}&a_{22}&\ldots& a_{2n}\\
+    \vdots&\vdots & &\vdots \\
+    a_{m1}&a_{m2}&\ldots& a_{mn}
+  \end{bmatrix}.
+\end{equation*}
+Such a matrix is said to be an \demph{$m\times n$ matrix}. It can be denoted compactly
+by
+\begin{equation*}
+  A=[a_{ij}]
+  \quad \text{or} \quad
+  A=(a_{ij})
+\end{equation*}
+To denote the entry at row $i$, column $j$, we write either
+\begin{equation*}
+  \text{ent}_{ij}(A)
+  \quad \text{or more simply,} \quad
+  a_{ij}
+\end{equation*}
+If $A=(a_{ij})$ is an $n\times n$ matrix, then the entries
+$a_{11},a_{22},a_{33},\ldots,a_{nn}$ are called the \demph{diagonal entries}.
+
+
+Vectors are a special case of matrices. An $n$-dimensonal vector is an
+$n\times 1$ matrices (a column matrix, typically).
+
+We add matrices in the obvious way:
+\begin{equation*}
+  \begin{bmatrix}
+    3&4\\
+    -2&0
+  \end{bmatrix}
+  +
+  \begin{bmatrix}
+    1&5\\
+    2&10
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    4&9\\
+    0&10
+  \end{bmatrix}
+\end{equation*}
+We can multiply matrices by a scalar, also in the obvious way:
+\begin{equation*}
+  10\times \begin{bmatrix}
+    3&4\\
+    -2&0
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    30&40\\
+    -20&0
+  \end{bmatrix}
+\end{equation*}
+\demph{Matrix multiplication}, however, doesn't seem natural at all. We define
+matrix multiplication in the following way. If $A=(a_{ij})$ is an $m\times n$
+matrix and $B=(ab_{ij})$ is an $n \times \ell$ matrix, then the product $P=AB$
+is an $m\times \ell$ matrix
+\begin{equation*}
+  P=(p_{ij})
+\end{equation*}
+where
+\begin{equation*}
+  p_{ij} = \sum_{k=1}^{n}a_{ik}b_{kj} 
+\end{equation*}
+For example,
+\begin{equation*}
+  \begin{bmatrix}
+    1&2\\
+    3&4
+  \end{bmatrix}
+  \begin{bmatrix}
+    5&6\\
+    7&8
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    1\cdot 5+2\cdot7 & 1\cdot 6 + 2\cdot8\\
+    3\cdot 5+4\cdot7 & 3\cdot 6 + 4\cdot8
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    19&22\\
+    43&50
+  \end{bmatrix}
+\end{equation*}
+Two matrices $A$ and $B$ are said to \demph{commute} if $AB=BA$, but this
+usually doesn't happen. For example,
+\begin{equation*}
+    A =
+    \begin{bmatrix}
+      1&1\\
+      0&1
+    \end{bmatrix}
+    \quad \text{and} \quad
+    B =
+    \begin{bmatrix}
+      2&3\\
+      0&2
+    \end{bmatrix}
+  \end{equation*}
+  Then $AB=BA =
+  \begin{bmatrix}
+    2&5\\
+    0&2
+  \end{bmatrix}$
+
+  The \demph{identity matrix} is a square matrix with 1's on its diagonal and 0's
+  everywhere else. For example,
+  \begin{equation*}
+    \begin{bmatrix}
+      1&0\\
+      0&1
+    \end{bmatrix}
+    \quad \text{or} \quad
+    \begin{bmatrix}
+      1&0&0\\
+      0&1&0\\
+      0&0&1
+    \end{bmatrix}
+ \quad \text{or} \quad
+    \begin{bmatrix}
+      1&0&0&0\\
+      0&1&0&0\\
+      0&0&1&0\\
+      0&0&0&1\\
+    \end{bmatrix}
+    \quad \text{et cetera}
+  \end{equation*}
+  It has the property that when you multiply it by another matrix, it doesn't
+  change the other matrix. For example,
+  \begin{equation*}
+    \begin{bmatrix}
+      5&6\\
+      2&7
+    \end{bmatrix}
+    \begin{bmatrix}
+      1&0\\
+      0&1
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      5&6\\
+      2&7
+    \end{bmatrix}
+  \end{equation*}
+  It's like multiplying a number by 1.
+
+  
+  \textbf{Question:} \textit{Why is matrix multiplication defined in such a
+    seemingly bizzare way?} A good explanation will have to come later in the
+  course, but the beginnings of an answer is that it allows us to represent
+  systems of linear equations with matrix equations.
+
+  Indeed, suppose we have any linear system, like this:
+  \begin{equation*}
+    \left\{ \begin{array}{l@{}l}
+        \ a_{11}x_{1}+a_{12}x_{2}+\ldots+a_{1n}x_{n} = b_{1} \\
+        \ a_{21}x_{1}+a_{21}x_{2}+\ldots+a_{2n}x_{n} = b_{2} \\
+        \hfill\vdots\hfill \\
+        a_{m1}x_{1}+a_{m2}x_{2}+\ldots+a_{mn}x_{n} = b_{m}
+      \end{array}\right.
+  \end{equation*}
+  Define the three matrices
+  \begin{equation*}
+    A =
+    \begin{bmatrix}
+      a_{11}&a_{12}&\ldots& a_{1n}\\
+      a_{21}&a_{22}&\ldots& a_{2n}\\
+      \vdots&\vdots & &\vdots \\
+      a_{m1}&a_{m2}&\ldots& a_{mn}
+    \end{bmatrix},
+    \quad
+    X =
+    \begin{bmatrix}
+      x_{1}\\x_{2}\\\vdots\\x_{n}
+    \end{bmatrix}
+    \quad \text{and} \quad
+    B =
+    \begin{bmatrix}
+      b_{1}\\b_{2}\\\vdots\\b_{m}
+    \end{bmatrix}
+  \end{equation*}
+  Then we can represent the linear system compactly as the matrix equation
+  \begin{equation*}
+    AX=B.
+  \end{equation*}
 \end{document}
