@@ -18,5 +18,6 @@ title: Lecture notes
  2025-08-25  | [lecture-01](lectures/lecture-notes-by-day/lecture-01.pdf)      | What is a linear system? And what does it mean to 'solve' a linear system?  
  2025-08-27  | [lecture-02](lectures/lecture-notes-by-day/lecture-02.pdf)      | What do the solutions to a linear system look like?  
  2025-08-29  | [lecture-03](lectures/lecture-notes-by-day/lecture-03.pdf)      | How can we solve a linear system without using subsitution?  
+ 2025-09-03  | [lecture-04](lectures/lecture-notes-by-day/lecture-04.pdf)      | What is Gauss-Jordan elimination (AKA row reduction) and how can we use it to solve linear systems?  
  
 
