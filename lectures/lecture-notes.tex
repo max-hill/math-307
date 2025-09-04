@@ -128,6 +128,7 @@
 \newcommand{\Var}{\mathrm{Var}}   % Variance
 \newcommand{\tr}{\mathrm{tr}}     % Trace
 \newcommand{\dist}{\mathrm{dist}} % Distance
+\newcommand{\diag}{\mathrm{diag}} % Distance
 
 
 \usepackage{biblatex}
@@ -1206,13 +1207,14 @@ There are also some nice online tools to help with row reduction, for example:
 \end{enumerate}
 
 \newpage
-\section{2025-09-?? | Week 03 | Lecture 05, probably} 
+\section{2025-09-05 | Week 03 | Lecture 05}
 \textit{This lecture is based on section 1.2 in the textbook.}
 
+\subsection{Matrices and matrix notation}
 \begin{center}
   \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
     \textit{\textbf{The nexus question of this lecture:} What is a matrix, and
-      what kinds of things can we do with it?}
+      what are the fundamental algebraic operations we can do with it?}
   \end{tcolorbox}
 \end{center}
 A \demph{matrix} is a rectangular array of objects, usually numbers, which are
@@ -1245,27 +1247,67 @@ A matrix with $m$ rows and $n$ columns takes the form
     a_{m1}&a_{m2}&\ldots& a_{mn}
   \end{bmatrix}.
 \end{equation*}
-Such a matrix is said to be an \demph{$m\times n$ matrix}. It can be denoted compactly
-by
-\begin{equation*}
-  A=[a_{ij}]
-  \quad \text{or} \quad
-  A=(a_{ij})
-\end{equation*}
-To denote the entry at row $i$, column $j$, we write either
-\begin{equation*}
-  \text{ent}_{ij}(A)
-  \quad \text{or more simply,} \quad
-  a_{ij}
-\end{equation*}
-If $A=(a_{ij})$ is an $n\times n$ matrix, then the entries
-$a_{11},a_{22},a_{33},\ldots,a_{nn}$ are called the \demph{diagonal entries}.
+Such a matrix is said to be an \demph{$m\times n$ matrix}. The pair $(m,n)$
+is called the \demph{dimensions} of the matrix (i.e., the number of rows and
+number of columns). If $m=n$, then the matrix is said to be a \demph{square matrix}.
 
+The set of all $m\times n$ matrices with real entries is denoted
+\begin{equation*}
+  M_{m\times n}(\R)
+\end{equation*}
+For example, in set notation
+\begin{equation*}
+  M_{2\times 3}(\R) = \left\{
+    \begin{bmatrix}
+      a_{11}&a_{12}&a_{13}\\
+      a_{21}&a_{22}&a_{23}\\
+    \end{bmatrix}
+    :
+    a_{11},a_{12},a_{13},a_{21},a_{22},a_{23}\in \R 
+  \right\} 
+\end{equation*}
+
+\begin{notation}
+  It is common to denote a matrix compactly using the notation
+  \begin{equation*}
+    A=[a_{ij}]
+    \quad \text{or} \quad
+    A=(a_{ij})
+  \end{equation*}
+  To denote the entry at row $i$, column $j$, we write either
+  \begin{equation*}
+    \text{ent}_{ij}(A)
+    \quad \text{or more simply,} \quad
+    a_{ij}
+  \end{equation*}
+  For example, if
+  \begin{equation*}
+    A = (a_{ij}) = \begin{bmatrix}
+      -1&2&1\\
+      5&4&-9\\
+      3&-4&7
+    \end{bmatrix}
+  \end{equation*}
+  then $a_{23} = \text{ent}_{23}(A) = -9$, and $a_{21}=\text{ent}_{21}=5$.
+\end{notation}
 
 Vectors are a special case of matrices. An $n$-dimensonal vector is an
 $n\times 1$ matrices (a column matrix, typically).
 
-We add matrices in the obvious way:
+\subsection{Matrix addition and matrix multiplication}
+We can multiply matrices by a scalar, in the obvious way:
+\begin{equation*}
+  10\times \begin{bmatrix}
+    3&4\\
+    -2&0
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    30&40\\
+    -20&0
+  \end{bmatrix}
+\end{equation*}
+We can add matrices, also in the obvious way:
 \begin{equation*}
   \begin{bmatrix}
     3&4\\
@@ -1282,17 +1324,20 @@ We add matrices in the obvious way:
     0&10
   \end{bmatrix}
 \end{equation*}
-We can multiply matrices by a scalar, also in the obvious way:
+One caveat about adding matrices is that we can only add two matrices if they
+have the same dimensons:
 \begin{equation*}
-  10\times \begin{bmatrix}
-    3&4\\
-    -2&0
-  \end{bmatrix}
-  =
   \begin{bmatrix}
-    30&40\\
-    -20&0
+    5&2\\
+    -2&-1
   \end{bmatrix}
+  +
+  \begin{bmatrix}
+    -1&10\\
+    4&7\\
+    2&5
+  \end{bmatrix}
+  = \text{ undefined}
 \end{equation*}
 \demph{Matrix multiplication}, however, doesn't seem natural at all. We define
 matrix multiplication in the following way. If $A=(a_{ij})$ is an $m\times n$
@@ -1326,8 +1371,32 @@ For example,
     43&50
   \end{bmatrix}
 \end{equation*}
-Two matrices $A$ and $B$ are said to \demph{commute} if $AB=BA$, but this
-usually doesn't happen. For example,
+We can only multiply two matrices if their dimensions satisfy a certain
+property. If $A$ is an $m\times n$ matrix, and $B$ is a $p \times q$ matrix,
+then the product $AB$ is defined only if $n=p$. If $p\neq q$, then
+\begin{equation*}
+  AB = \text{ undefined}
+\end{equation*}
+
+
+Perhaps surprisingly, despite this complicated definition, matrix
+multiplication behaves sort of like regular multiplication in that the
+\demph{associative property} and 
+\demph{distributed property} both hold. That is,
+\begin{equation*}
+  ABC = (AB)C = A(BC) \quad \text{(associative property)}
+\end{equation*}
+and
+\begin{gather*}
+  A(B+C) = AB+BC \quad \text{(left distributive property)}\\
+  (B+C)A = BA+CA \quad \text{(right distributive property)}
+\end{gather*}
+
+On the other hand, matrix multiplication doesn't satisfy the
+\demph{commutative property} (which says that, e.g., $5\cdot 3 = 3\cdot 5$)
+because the products $AB$ and $BA$ are usually not equal. To be precise, two
+matrices $A$ and $B$ are said to \demph{commute} if $AB=BA$, but again, this
+usually doesn't happen. An example of two matrices that do commute are
 \begin{equation*}
     A =
     \begin{bmatrix}
@@ -1341,12 +1410,18 @@ usually doesn't happen. For example,
       0&2
     \end{bmatrix}
   \end{equation*}
-  Then $AB=BA =
-  \begin{bmatrix}
-    2&5\\
-    0&2
-  \end{bmatrix}$
+  These two matrices commute because
+  \begin{equation*}
+    AB=BA =
+    \begin{bmatrix}
+      2&5\\
+      0&2
+    \end{bmatrix}.
+  \end{equation*}
 
+
+
+  \subsection{Special classes of matrices }
   The \demph{identity matrix} is a square matrix with 1's on its diagonal and 0's
   everywhere else. For example,
   \begin{equation*}
@@ -1369,7 +1444,10 @@ usually doesn't happen. For example,
     \end{bmatrix}
     \quad \text{et cetera}
   \end{equation*}
-  It has the property that when you multiply it by another matrix, it doesn't
+  Identity matrices are always square. The notation for an $n\times n$
+  identity matrix is $I_{n}$, or more simply $I$.
+  
+  An identity matrix has the property that when you multiply it by another matrix, it doesn't
   change the other matrix. For example,
   \begin{equation*}
     \begin{bmatrix}
@@ -1388,6 +1466,68 @@ usually doesn't happen. For example,
   \end{equation*}
   It's like multiplying a number by 1.
 
+
+  If two matrices satisfy the property that $AB=BA=I$, then they are said to
+  be \demph{inverses}. An example are the matrices
+  \begin{equation*}
+    A =
+    \begin{bmatrix}
+      1&2\\
+      3&5
+    \end{bmatrix}
+    \quad \text{and} \quad
+    B =
+    \begin{bmatrix}
+      -5&2\\
+      3&-1
+    \end{bmatrix}
+  \end{equation*}
+  since $AB=I$ and $BA=I$. In this case, we write $B=A^{-1}$ (which doesn't
+  mean $1/A$). This is analogous to when we multiply two numbers like
+  $3\cdot \frac{1}{3}= \frac{1}{3}\cdot 3=1$. One difference, however, is that
+  for matrices, is possible for $AB=I$ but $BA\neq I$. Another difference is
+  that while every nonzero real number has an inverse, many matrices do not
+  have inverses. A matrix that doesn't have an inverse is called
+  \demph{singular} or \demph{noninvertible}. A matrix that has an inverse, is
+  called \demph{nonsingular} or \demph{invertible}.
+
+  
+  A matrix whose entries are all zeros is called a \demph{zero matrix}, like
+  \begin{equation*}
+    \begin{bmatrix}
+      0&0\\
+      0&0
+    \end{bmatrix}
+    \quad \text{or} \quad
+    \begin{bmatrix}
+      0&0&0\\
+      0&0&0\\
+      0&0&0
+    \end{bmatrix}
+    \quad \text{or} \quad
+    \begin{bmatrix}
+      0&0&0\\
+      0&0&0\\
+    \end{bmatrix}
+    \quad \text{et cetera}
+  \end{equation*}
+  The book uses the notation $\mathbf{O}_{m\times n}$ to denote an $m\times n$
+  zero matrix, or sometimes even just $\mathbf{O}$.
+  
+  If $A=(a_{ij})$ is an $n\times n$ matrix, then the entries
+  $a_{11},a_{22},a_{33},\ldots,a_{nn}$ are called the \demph{diagonal
+    entries}. A square matrix of the form
+  \begin{equation*}
+    A =\begin{bmatrix}
+      a_{11}&0&0&\ldots& 0\\
+      0&a_{22}&0&\ldots& 0\\
+      0&0&a_{33}&\ldots& 0\\
+      \vdots&\vdots & &\ddots \\
+      0&0&0&\ldots& a_{nn}
+    \end{bmatrix}.
+  \end{equation*}
+  is called a \demph{diagonal} matrix, and the notation used for such matrices
+  is $A=\diag(a_{11},\ldots,a_{nn})$..
   
   \textbf{Question:} \textit{Why is matrix multiplication defined in such a
     seemingly bizzare way?} A good explanation will have to come later in the
@@ -1427,4 +1567,14 @@ usually doesn't happen. For example,
   \begin{equation*}
     AX=B.
   \end{equation*}
+  If we know $A^{-1}$, then we can multiply both sides of this equation on the
+  left by
+  \begin{equation*}
+    A^{-1}AX = A^{-1}B
+  \end{equation*}
+  which simplifies to
+  \begin{equation*}
+    X = A^{-1}B.
+  \end{equation*}
+  
 \end{document}
