@@ -19,5 +19,6 @@ title: Lecture notes
  2025-08-27  | [lecture-02](lectures/lecture-notes-by-day/lecture-02.pdf)      | What do the solutions to a linear system look like?  
  2025-08-29  | [lecture-03](lectures/lecture-notes-by-day/lecture-03.pdf)      | How can we solve a linear system without using subsitution?  
  2025-09-03  | [lecture-04](lectures/lecture-notes-by-day/lecture-04.pdf)      | What is Gauss-Jordan elimination (AKA row reduction) and how can we use it to solve linear systems?  
+ 2025-09-05  | [lecture-05](lectures/lecture-notes-by-day/lecture-05.pdf)      | What is a matrix, and what are the fundamental algebraic operations we can do with matrices?  
  
 

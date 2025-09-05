@@ -1228,9 +1228,13 @@ For example,
     2&5&-3
   \end{bmatrix}
   \quad \text{or} \quad
-  \begin{bmatrix}
+  \underbrace{\begin{bmatrix}
     1&0&-7&5
-  \end{bmatrix}
+  \end{bmatrix}}_{a \demph{row vector}}
+  \quad \text{or} \quad
+  \underbrace{\begin{bmatrix}
+    1\\4\\0
+  \end{bmatrix}}_{a \demph{column vector}}
   \quad \text{or} \quad
   \begin{bmatrix}
     1&0\\
@@ -1294,20 +1298,19 @@ For example, in set notation
 Vectors are a special case of matrices. An $n$-dimensonal vector is an
 $n\times 1$ matrices (a column matrix, typically).
 
-\subsection{Matrix addition and matrix multiplication}
-We can multiply matrices by a scalar, in the obvious way:
-\begin{equation*}
-  10\times \begin{bmatrix}
-    3&4\\
-    -2&0
-  \end{bmatrix}
-  =
-  \begin{bmatrix}
-    30&40\\
-    -20&0
-  \end{bmatrix}
-\end{equation*}
-We can add matrices, also in the obvious way:
+\subsection{Matrix operations: scaling, addition and multiplication}
+We can \demph{multiply matrices by a scalar}, in the obvious way:
+$10\times \begin{bmatrix}
+  3&4\\
+  -2&0
+\end{bmatrix}
+=
+\begin{bmatrix}
+  30&40\\
+  -20&0
+\end{bmatrix}$.
+
+\noindent We can \demph{add matrices}, also in the obvious way:
 \begin{equation*}
   \begin{bmatrix}
     3&4\\
@@ -1322,10 +1325,9 @@ We can add matrices, also in the obvious way:
   \begin{bmatrix}
     4&9\\
     0&10
-  \end{bmatrix}
+  \end{bmatrix}.
 \end{equation*}
-One caveat about adding matrices is that we can only add two matrices if they
-have the same dimensons:
+But note that we can only add two matrices if they have the same dimensons:
 \begin{equation*}
   \begin{bmatrix}
     5&2\\
@@ -1337,19 +1339,77 @@ have the same dimensons:
     4&7\\
     2&5
   \end{bmatrix}
-  = \text{ undefined}
+  = \text{ undefined}.
 \end{equation*}
-\demph{Matrix multiplication}, however, doesn't seem natural at all. We define
-matrix multiplication in the following way. If $A=(a_{ij})$ is an $m\times n$
-matrix and $B=(ab_{ij})$ is an $n \times \ell$ matrix, then the product $P=AB$
-is an $m\times \ell$ matrix
+We can also \textbf{multiply} matrices, but before defining matrix
+multiplication, it will be helpful to recall the notion of dot product.
+Suppose we have two vectors of the same length:
 \begin{equation*}
-  P=(p_{ij})
+  X =
+  \begin{bmatrix}
+    x_{1}&x_{2}&\cdots&x_{n}
+  \end{bmatrix}
+  \quad \text{and} \quad
+  Y =
+  \begin{bmatrix}
+    y_{1}&y_{2}&\cdots&y_{n}
+  \end{bmatrix},
 \end{equation*}
-where
-\begin{equation*}
-  p_{ij} = \sum_{k=1}^{n}a_{ik}b_{kj} 
-\end{equation*}
+then the \demph{dot product} of $X$ and $Y$, denoted $X\cdot Y$, is
+\begin{align*}
+  X\cdot Y 
+  &= x_{1}y_{1}+ x_{2}y_{2}+\ldots+x_{n}y_{n} = \sum_{i=1}^{n}x_{i}y_{i}.
+\end{align*}
+\demph{Matrix multiplication} is defined in the following way:
+
+
+\begin{tcolorbox}[colframe=black, colback=gray!5, arc=2mm, boxrule=0.8pt,
+  breakable, title=Matrix Multiplication,   coltitle=black,colbacktitle=black!10]
+  If $A=(a_{ij})$ is a $p\times n$ matrix and $B=(b_{ij})$ is an $n\times q$
+  matrix, then we can can think of $A$ and $B$ as
+  \newcommand*{\vertbar}{\rule[-1ex]{0.5pt}{2.5ex}}
+  \newcommand*{\horzbar}{\,\rule[.5ex]{2.5ex}{0.5pt}\,}
+  \begin{equation*}
+    A =
+    \left[\begin{array}{c}
+        \horzbar  A_{1}  \horzbar \\
+        \horzbar  A_{2}  \horzbar \\
+        \vdots             \\
+        \horzbar  A_{p} \horzbar
+      \end{array}\right]
+    \quad \text{and} \quad
+    B = 
+    \left[
+      \begin{array}{cccc}
+        \vertbar & \vertbar &        & \vertbar \\
+        B_{1}    & B_{2}    & \ldots & B_{q}    \\
+        \vertbar & \vertbar &        & \vertbar 
+      \end{array}
+    \right]
+  \end{equation*}
+  where $A_{1},\ldots,A_{p}$ are the $1\times n$ row vectors
+  \begin{equation*}
+    A_{i} =
+    \begin{bmatrix}
+      a_{i1}& a_{i2}& \cdots & a_{in}
+    \end{bmatrix}
+    \quad (i=1,\ldots,p)
+  \end{equation*}
+  and $B_{1},\ldots,B_{q}$ are $n\times 1$ column vectors:
+  \begin{equation*}
+    B_{j} =
+    \begin{bmatrix}
+      b_{1j}\\b_{2j}\\\vdots\\b_{nj}
+    \end{bmatrix}
+    \quad (j=1,2,\ldots,q)
+  \end{equation*}
+Then the product $P=AB$ is a $p\times q$ matrix $P=(p_{ij})$, whose entries are
+\begin{align*}
+  p_{ij} 
+  &= A_{i}\cdot B_{j} \\
+  &= \sum_{k=1}^{n}a_{ik}b_{kj}.
+\end{align*}
+\end{tcolorbox}
 For example,
 \begin{equation*}
   \begin{bmatrix}
@@ -1371,17 +1431,19 @@ For example,
     43&50
   \end{bmatrix}
 \end{equation*}
-We can only multiply two matrices if their dimensions satisfy a certain
-property. If $A$ is an $m\times n$ matrix, and $B$ is a $p \times q$ matrix,
-then the product $AB$ is defined only if $n=p$. If $p\neq q$, then
+
+\Fl{Dimensionality requirement for matrix multiplication:} we can only multiply
+two matrices if their dimensions match in the right way. If $A$ is a
+$p\times n$ matrix, and $B$ is an $\tilde{n} \times q$ matrix, then the
+product $AB$ is defined if and only if $n=\tilde{n}$. That is,
 \begin{equation*}
-  AB = \text{ undefined}
+  AB \text{ is } \left\{ \begin{array}{l@{\quad \text{if }\quad}l} \text{a $p\times q$ matrix} & n=\tilde{n} \\
+      \text{undefined}& n\neq \tilde{n} \end{array}\right.
 \end{equation*}
 
-
-Perhaps surprisingly, despite this complicated definition, matrix
-multiplication behaves sort of like regular multiplication in that the
-\demph{associative property} and 
+\Fl{Properties of matrix multiplication:} Perhaps surprisingly, despite
+matrix multiplication's complicated definition, it nonetheless behaves sort of
+like regular multiplication in that the \demph{associative property} and
 \demph{distributed property} both hold. That is,
 \begin{equation*}
   ABC = (AB)C = A(BC) \quad \text{(associative property)}
@@ -1392,189 +1454,200 @@ and
   (B+C)A = BA+CA \quad \text{(right distributive property)}
 \end{gather*}
 
+It's not obvious why the properties always hold; they require proof. For now,
+we will take them as a given.
+
+
+\subsection{Special classes of matrices }
+
+\subsubsection{Diagonal matrices}
+If $A=(a_{ij})$ is a square (i.e., $n\times n$) matrix, then the entries
+$a_{11},a_{22},a_{33},\ldots,a_{nn}$ are called the \demph{diagonal
+  entries}. A square matrix of the form
+\begin{equation*}
+  A =\begin{bmatrix}
+    a_{11}&0&0&\ldots& 0\\
+    0&a_{22}&0&\ldots& 0\\
+    0&0&a_{33}&\ldots& 0\\
+    \vdots&\vdots & &\ddots \\
+    0&0&0&\ldots& a_{nn}
+  \end{bmatrix}.
+\end{equation*}
+is called a \demph{diagonal} matrix, and the notation used for such matrices
+is $A=\diag(a_{11},\ldots,a_{nn})$.
+
+\subsubsection{Identity matrix}
+An \demph{identity matrix} is a diagonal matrix with 1's on its diagonal (and
+0's everywhere else). For example,
+\begin{equation*}
+  \begin{bmatrix}
+    1&0\\
+    0&1
+  \end{bmatrix}
+  \quad \text{or} \quad
+  \begin{bmatrix}
+    1&0&0\\
+    0&1&0\\
+    0&0&1
+  \end{bmatrix}
+  \quad \text{or} \quad
+  \begin{bmatrix}
+    1&0&0&0\\
+    0&1&0&0\\
+    0&0&1&0\\
+    0&0&0&1\\
+  \end{bmatrix}
+  \quad \text{et cetera}
+\end{equation*}
+Identity matrices are always square. The notation for an $n\times n$
+identity matrix is $I_{n}$, or more simply $I$.
+
+An identity matrix has the property that when you multiply it by another matrix, it doesn't
+change the other matrix. For example,
+\begin{equation*}
+  \begin{bmatrix}
+    5&6\\
+    2&7
+  \end{bmatrix}
+  \begin{bmatrix}
+    1&0\\
+    0&1
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    5&6\\
+    2&7
+  \end{bmatrix}
+\end{equation*}
+It's like multiplying a number by 1.
+
+\subsubsection{Zero matrices}
+
+A matrix whose entries are all zeros is called a \demph{zero matrix}, like
+\begin{equation*}
+  \begin{bmatrix}
+    0&0\\
+    0&0
+  \end{bmatrix}
+  \quad \text{or} \quad
+  \begin{bmatrix}
+    0&0&0\\
+    0&0&0\\
+    0&0&0
+  \end{bmatrix}
+  \quad \text{or} \quad
+  \begin{bmatrix}
+    0&0&0\\
+    0&0&0\\
+  \end{bmatrix}
+  \quad \text{et cetera}
+\end{equation*}
+The book uses the notation $\mathbf{O}_{m\times n}$ to denote an $m\times n$
+zero matrix, or sometimes even just $\mathbf{O}$.
+
+\newpage
+\section{2025-09-?? | Week 3 | Lecture 06}
+
+
 On the other hand, matrix multiplication doesn't satisfy the
 \demph{commutative property} (which says that, e.g., $5\cdot 3 = 3\cdot 5$)
 because the products $AB$ and $BA$ are usually not equal. To be precise, two
 matrices $A$ and $B$ are said to \demph{commute} if $AB=BA$, but again, this
 usually doesn't happen. An example of two matrices that do commute are
 \begin{equation*}
-    A =
-    \begin{bmatrix}
-      1&1\\
-      0&1
-    \end{bmatrix}
-    \quad \text{and} \quad
-    B =
-    \begin{bmatrix}
-      2&3\\
-      0&2
-    \end{bmatrix}
-  \end{equation*}
-  These two matrices commute because
-  \begin{equation*}
-    AB=BA =
-    \begin{bmatrix}
-      2&5\\
-      0&2
-    \end{bmatrix}.
-  \end{equation*}
+  A =
+  \begin{bmatrix}
+    1&1\\
+    0&1
+  \end{bmatrix}
+  \quad \text{and} \quad
+  B =
+  \begin{bmatrix}
+    2&3\\
+    0&2
+  \end{bmatrix}
+\end{equation*}
+These two matrices commute because
+\begin{equation*}
+  AB=BA =
+  \begin{bmatrix}
+    2&5\\
+    0&2
+  \end{bmatrix}.
+\end{equation*}
+
+If two matrices satisfy the property that $AB=BA=I$, then they are said to
+be \demph{inverses}. An example are the matrices
+\begin{equation*}
+  A =
+  \begin{bmatrix}
+    1&2\\
+    3&5
+  \end{bmatrix}
+  \quad \text{and} \quad
+  B =
+  \begin{bmatrix}
+    -5&2\\
+    3&-1
+  \end{bmatrix}
+\end{equation*}
+since $AB=I$ and $BA=I$. In this case, we write $B=A^{-1}$ (which doesn't
+mean $1/A$). This is analogous to when we multiply two numbers like
+$3\cdot \frac{1}{3}= \frac{1}{3}\cdot 3=1$. One difference, however, is that
+for matrices, is possible for $AB=I$ but $BA\neq I$. Another difference is
+that while every nonzero real number has an inverse, many matrices do not
+have inverses. A matrix that doesn't have an inverse is called
+\demph{singular} or \demph{noninvertible}. A matrix that has an inverse, is
+called \demph{nonsingular} or \demph{invertible}.
 
 
+\textbf{Question:} \textit{Why is matrix multiplication defined in such a
+  seemingly bizzare way?} A good explanation will have to come later in the
+course, but the beginnings of an answer is that it allows us to represent
+systems of linear equations with matrix equations.
 
-  \subsection{Special classes of matrices }
-  The \demph{identity matrix} is a square matrix with 1's on its diagonal and 0's
-  everywhere else. For example,
-  \begin{equation*}
-    \begin{bmatrix}
-      1&0\\
-      0&1
-    \end{bmatrix}
-    \quad \text{or} \quad
-    \begin{bmatrix}
-      1&0&0\\
-      0&1&0\\
-      0&0&1
-    \end{bmatrix}
- \quad \text{or} \quad
-    \begin{bmatrix}
-      1&0&0&0\\
-      0&1&0&0\\
-      0&0&1&0\\
-      0&0&0&1\\
-    \end{bmatrix}
-    \quad \text{et cetera}
-  \end{equation*}
-  Identity matrices are always square. The notation for an $n\times n$
-  identity matrix is $I_{n}$, or more simply $I$.
-  
-  An identity matrix has the property that when you multiply it by another matrix, it doesn't
-  change the other matrix. For example,
-  \begin{equation*}
-    \begin{bmatrix}
-      5&6\\
-      2&7
-    \end{bmatrix}
-    \begin{bmatrix}
-      1&0\\
-      0&1
-    \end{bmatrix}
-    =
-    \begin{bmatrix}
-      5&6\\
-      2&7
-    \end{bmatrix}
-  \end{equation*}
-  It's like multiplying a number by 1.
+Indeed, suppose we have any linear system, like this:
+\begin{equation*}
+  \left\{ \begin{array}{l@{}l}
+      \ a_{11}x_{1}+a_{12}x_{2}+\ldots+a_{1n}x_{n} = b_{1} \\
+      \ a_{21}x_{1}+a_{21}x_{2}+\ldots+a_{2n}x_{n} = b_{2} \\
+      \hfill\vdots\hfill \\
+      a_{m1}x_{1}+a_{m2}x_{2}+\ldots+a_{mn}x_{n} = b_{m}
+    \end{array}\right.
+\end{equation*}
+Define the three matrices
+\begin{equation*}
+  A =
+  \begin{bmatrix}
+    a_{11}&a_{12}&\ldots& a_{1n}\\
+    a_{21}&a_{22}&\ldots& a_{2n}\\
+    \vdots&\vdots & &\vdots \\
+    a_{m1}&a_{m2}&\ldots& a_{mn}
+  \end{bmatrix},
+  \quad
+  X =
+  \begin{bmatrix}
+    x_{1}\\x_{2}\\\vdots\\x_{n}
+  \end{bmatrix}
+  \quad \text{and} \quad
+  B =
+  \begin{bmatrix}
+    b_{1}\\b_{2}\\\vdots\\b_{m}
+  \end{bmatrix}
+\end{equation*}
+Then we can represent the linear system compactly as the matrix equation
+\begin{equation*}
+  AX=B.
+\end{equation*}
+If we know $A^{-1}$, then we can multiply both sides of this equation on the
+left by
+\begin{equation*}
+  A^{-1}AX = A^{-1}B
+\end{equation*}
+which simplifies to
+\begin{equation*}
+  X = A^{-1}B.
+\end{equation*}
 
 
-  If two matrices satisfy the property that $AB=BA=I$, then they are said to
-  be \demph{inverses}. An example are the matrices
-  \begin{equation*}
-    A =
-    \begin{bmatrix}
-      1&2\\
-      3&5
-    \end{bmatrix}
-    \quad \text{and} \quad
-    B =
-    \begin{bmatrix}
-      -5&2\\
-      3&-1
-    \end{bmatrix}
-  \end{equation*}
-  since $AB=I$ and $BA=I$. In this case, we write $B=A^{-1}$ (which doesn't
-  mean $1/A$). This is analogous to when we multiply two numbers like
-  $3\cdot \frac{1}{3}= \frac{1}{3}\cdot 3=1$. One difference, however, is that
-  for matrices, is possible for $AB=I$ but $BA\neq I$. Another difference is
-  that while every nonzero real number has an inverse, many matrices do not
-  have inverses. A matrix that doesn't have an inverse is called
-  \demph{singular} or \demph{noninvertible}. A matrix that has an inverse, is
-  called \demph{nonsingular} or \demph{invertible}.
-
-  
-  A matrix whose entries are all zeros is called a \demph{zero matrix}, like
-  \begin{equation*}
-    \begin{bmatrix}
-      0&0\\
-      0&0
-    \end{bmatrix}
-    \quad \text{or} \quad
-    \begin{bmatrix}
-      0&0&0\\
-      0&0&0\\
-      0&0&0
-    \end{bmatrix}
-    \quad \text{or} \quad
-    \begin{bmatrix}
-      0&0&0\\
-      0&0&0\\
-    \end{bmatrix}
-    \quad \text{et cetera}
-  \end{equation*}
-  The book uses the notation $\mathbf{O}_{m\times n}$ to denote an $m\times n$
-  zero matrix, or sometimes even just $\mathbf{O}$.
-  
-  If $A=(a_{ij})$ is an $n\times n$ matrix, then the entries
-  $a_{11},a_{22},a_{33},\ldots,a_{nn}$ are called the \demph{diagonal
-    entries}. A square matrix of the form
-  \begin{equation*}
-    A =\begin{bmatrix}
-      a_{11}&0&0&\ldots& 0\\
-      0&a_{22}&0&\ldots& 0\\
-      0&0&a_{33}&\ldots& 0\\
-      \vdots&\vdots & &\ddots \\
-      0&0&0&\ldots& a_{nn}
-    \end{bmatrix}.
-  \end{equation*}
-  is called a \demph{diagonal} matrix, and the notation used for such matrices
-  is $A=\diag(a_{11},\ldots,a_{nn})$..
-  
-  \textbf{Question:} \textit{Why is matrix multiplication defined in such a
-    seemingly bizzare way?} A good explanation will have to come later in the
-  course, but the beginnings of an answer is that it allows us to represent
-  systems of linear equations with matrix equations.
-
-  Indeed, suppose we have any linear system, like this:
-  \begin{equation*}
-    \left\{ \begin{array}{l@{}l}
-        \ a_{11}x_{1}+a_{12}x_{2}+\ldots+a_{1n}x_{n} = b_{1} \\
-        \ a_{21}x_{1}+a_{21}x_{2}+\ldots+a_{2n}x_{n} = b_{2} \\
-        \hfill\vdots\hfill \\
-        a_{m1}x_{1}+a_{m2}x_{2}+\ldots+a_{mn}x_{n} = b_{m}
-      \end{array}\right.
-  \end{equation*}
-  Define the three matrices
-  \begin{equation*}
-    A =
-    \begin{bmatrix}
-      a_{11}&a_{12}&\ldots& a_{1n}\\
-      a_{21}&a_{22}&\ldots& a_{2n}\\
-      \vdots&\vdots & &\vdots \\
-      a_{m1}&a_{m2}&\ldots& a_{mn}
-    \end{bmatrix},
-    \quad
-    X =
-    \begin{bmatrix}
-      x_{1}\\x_{2}\\\vdots\\x_{n}
-    \end{bmatrix}
-    \quad \text{and} \quad
-    B =
-    \begin{bmatrix}
-      b_{1}\\b_{2}\\\vdots\\b_{m}
-    \end{bmatrix}
-  \end{equation*}
-  Then we can represent the linear system compactly as the matrix equation
-  \begin{equation*}
-    AX=B.
-  \end{equation*}
-  If we know $A^{-1}$, then we can multiply both sides of this equation on the
-  left by
-  \begin{equation*}
-    A^{-1}AX = A^{-1}B
-  \end{equation*}
-  which simplifies to
-  \begin{equation*}
-    X = A^{-1}B.
-  \end{equation*}
-  
 \end{document}
