@@ -1,0 +1,367 @@
+\documentclass[10pt]{article}
+% Math Packages
+\usepackage{amsmath, mathtools}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{bbm}
+\usepackage{breqn}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{calc}
+\usepackage{forest}
+\usepackage{tikz-qtree}
+\graphicspath{ {./images/} }
+\usepackage{hyperref}
+\usepackage[capitalize]{cleveref}
+\usepackage[shortlabels]{enumitem}
+\usetikzlibrary{arrows,matrix,positioning}
+\usepackage{multicol}
+
+
+% for the pipe symbol
+\usepackage[T1]{fontenc}
+
+% Citing theorems by name. (source: https://tex.stackexchange.com/questions/109843/cleveref-and-named-theorems)
+\makeatletter
+\newcommand{\ncref}[1]{\cref{#1}\mynameref{#1}{\csname r@#1\endcsname}}
+
+\def\mynameref#1#2{%
+  \begingroup
+  \edef\@mytxt{#2}%
+  \edef\@mytst{\expandafter\@thirdoffive\@mytxt}%
+  \ifx\@mytst\empty\else
+  \space(\nameref{#1})\fi
+  \endgroup
+}
+\makeatother
+
+% Colorful Notes
+\usepackage{color} \definecolor{Red}{rgb}{1,0,0} \definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5} \def\red{\color{Red}} \def\blue{\color{Blue}}
+\def\gray{\color{gray}} \def\purple{\color{Purple}}
+\newcommand{\rnote}[1]{{\red [#1]}} % \rnote{foo} gives '[foo]' in red
+\newcommand{\pnote}[1]{{\purple [#1]}} % \pnote{foo} gives '[foo]' in purple
+\newcommand{\bnote}[1]{{\blue #1}} % \bnote{foo} gives 'foo' in blue
+\newcommand{\gnote}[1]{{\gray #1}} % \gnote{foo} gives 'foo' in gray
+\newcommand{\Max}[1]{{\purple [#1]}} % \bnote{foo} then 'foo' is blue
+
+
+% Claim numbering (the counter restarts after each proof environment)
+\newcounter{claimcount}
+\setcounter{claimcount}{0}
+\newenvironment{claim}{\refstepcounter{claimcount}\par\addvspace{\medskipamount}\noindent\textbf{Claim \arabic{claimcount}:}}{}
+\usepackage{etoolbox}
+\AtBeginEnvironment{proof}{\setcounter{claimcount}{0}}
+\newenvironment{claimproof}{\par\addvspace{\medskipamount}\noindent\textit{Proof of Claim  \arabic{claimcount}.}}{\hfill\ensuremath{\qedsymbol} \tiny{Claim}
+
+  \medskip}
+% Add claim support to cleverref
+\crefname{claimcount}{Claim}{Claims}
+
+
+% Math Environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{question}[theorem]{Question}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+
+% Matrices and Column Vectors. 
+\usepackage{stackengine}
+\setstackgap{L}{1.0\normalbaselineskip}
+\usepackage{tabstackengine}
+\setstackEOL{;}% row separator
+\setstackTAB{,}% column separator
+\setstacktabbedgap{1ex}% inter-column gap
+\setstackgap{L}{1.5\normalbaselineskip}% inter-row baselineskip
+\let\nmatrix\bracketMatrixstack  %Usage: \nmatrix{1,2,3\4,5,6}
+\newcommand\cv[1]{\setstackEOL{,}\bracketMatrixstack{#1}} %usage: \cv{1,2,3}
+
+% Custom Math Coqmmands
+\newcommand{\vt}{\vskip 5mm} % vertical space
+\newcommand{\fl}{\noindent\textbf} % first line
+\newcommand{\Fl}{\vt\noindent\textbf} % first line with space above
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert} % norm
+\newcommand{\pnorm}[1]{\left\lVert#1\right\rVert_p} % p-norm
+\newcommand{\qnorm}[1]{\left\lVert#1\right\rVert_q} % q-norm
+\newcommand{\1}[1]{\textbf{1}_{\left[#1\right]}} % indicator function 
+\def\limn{\lim_{n\to\infty}} % shortcut for lim as n-> infinity
+\def\sumn{\sum_{n=1}^{\infty}} % shortcut for sum from n=1 to infinity
+\def\sumkn{\sum_{k=1}^{n}} % shortcut for sum from k=1 to n
+\def\sumin{\sum_{i=1}^{n}} % shortcut for sum from i=1 to n
+\def\SAs{\sigma\text{-algebras}} % shortcut for $\sigma$-algebras
+\def\SA{\sigma\text{-algebra}} % shortcut for $\sigma$-algebra
+\def\Ft{\mathcal{F}_t} % time-indexed sigma-algebra (t)
+\def\Fs{\mathcal{F}_s} % time-indexed sigma-algebra (s)
+\def\F{\mathcal{F}} % sigma-algebra
+\def\G{\mathcal{G}} % sigma-algebra
+\def\R{\mathbb{R}} % Real numbers
+\def\N{\mathbb{N}} % Natural numbers
+\def\Z{\mathbb{Z}} % Integers
+\def\E{\mathbb{E}} % Expectation
+\def\P{\mathbb{P}} % Probability
+\def\Q{\mathbb{Q}} % Q probability
+\def\dist{\text{dist}} %Text 'dist' for things like 'dist(x,y)'
+\newcommand{\indep}{\perp \!\!\! \perp}  %independence symbol
+\def\Var{\mathrm{Var}} % Variance
+\def\tr{\mathrm{tr}} % trace
+
+% Brackets and Parentheses
+\def\[{\left [}
+    \def\]{\right ]}
+% \def\({\left (}
+%   \def\){\right )}
+
+
+
+\usepackage{color}
+\definecolor{Red}{rgb}{1,0,0}
+\definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5}
+\def\red{\color{Red}}
+\def\blue{\color{Blue}}
+\def\gray{\color{gray}}
+\def\purple{\color{Purple}}
+\definecolor{RoyalBlue}{cmyk}{1, 0.50, 0, 0}
+\newcommand{\dempfcolor}[1]{{\color{RoyalBlue}#1}} 
+\newcommand{\demph}[1]{\dempfcolor{{\sl #1}}}
+
+% comment exactly one of the following line to show / hide the solutions
+% \newcommand{\solution}[1]{{\purple #1}} % uncomment to show the solutions
+\newcommand{\solution}[1]{} % uncomment to hide the solutions
+
+
+
+\title{Lecture Notes for Math 372: \\Elementary Probability and Statistics}
+\date{Last updated: \today}
+% \author{mh}
+
+\begin{document}
+\begin{center}
+  \section*{Math 307: Homework 02}
+  \textit{Due Wednesday, September 17 (at the beginning of class)}
+\end{center}
+\begin{problem}
+  The \demph{standard unit vectors} in $\R^{3}$ are the vectors 
+  \begin{equation*}
+    e_{1}  =
+    \begin{bmatrix}
+      1\\0\\0
+    \end{bmatrix},
+    \quad
+    e_{2}  =
+    \begin{bmatrix}
+      0\\1\\0
+    \end{bmatrix},
+    \quad
+    e_{3}  =
+    \begin{bmatrix}
+      0\\0\\1
+    \end{bmatrix}
+  \end{equation*}
+  Let $A=(a_{ij})\in \mathcal{M}_{3\times 3}(\R)$. Compute the following:
+  \begin{equation*}
+    Ae_{1}, \quad Ae_{2}, \quad Ae_{3}.
+  \end{equation*}
+  What do you notice about these products?
+\end{problem}
+
+
+\begin{problem}
+  Suppose that $A,B\in M_{n\times n}(\R).$
+  \begin{enumerate}[(a)]
+    \item Show that $(A+B)^{2}=A^{2}+AB+BA+B^{2}$
+    \item Explain why $(A+B)^{2}$ is not equal to $A^{2}+2AB+B^{2}$ in
+    general.
+    \item Compute $A^{2}+AB+BA+B^{2}$ when $A=
+    \begin{bmatrix}
+      1&3\\
+      -1&4
+    \end{bmatrix}
+    $
+    and $B=
+    \begin{bmatrix}
+      0&-2\\
+      1&-3
+    \end{bmatrix}
+    $ 
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}[Row reduction]
+  Solve the system of linear equations using row reduction
+  \begin{align*}
+    3x+y-2z&=3\\
+    x-8y-14z&=-14\\
+    x+2y+z&=2
+  \end{align*}
+  Interpret your result geometrically. Provide a sketch or an image (e.g.,
+  using Desmos) of the the solution.
+\end{problem}
+
+
+\begin{problem}[Row reduction]
+  Solve the system of linear equations using row reduction
+  \begin{align*}
+    x+3z&=0\\
+    2x+y-z&=0\\
+    4x+y+5z&=0
+  \end{align*}
+  Interpret your result geometrically. Provide a sketch or an image (e.g.,
+  using Desmos) of the the solution.
+\end{problem}
+
+\begin{problem}
+  Solve the system of linear equations
+  \begin{align*}
+    x+2y+z=-2\\
+    2x+2y-2z=3
+  \end{align*}
+\end{problem}
+
+\begin{problem}
+  Determine conditions on the numbers $a,b,$ and $c$ so that the following system of linear equations has
+  at least one solution:
+  \begin{align*}
+      2x-y+3z&=a\\
+      x-3y+2z&=b\\
+      x+2y+z&=c
+  \end{align*}
+  \textit{Hint: use row reduction.}
+\end{problem}
+
+\begin{problem}
+  Write the linear system in matrix form $AX=B$:
+  \begin{align*}
+    2x-y+4z&=1\\ 
+    x+y-z&=4\\
+    y+3x&=5\\
+    x+y&=2
+  \end{align*}
+\end{problem}
+
+\begin{problem}
+  Let $f(x,y) = \frac{1}{2}(x^{2}+y^{2})$. Suppose that $f(x,y)$ represents
+  the temperature of the point $(x,y)$ on the plane, in Kelvin. For example $f(1,3) =5$,
+  so the temperature of the point point $(1,3)$ is 5 Kelvin.
+  \begin{enumerate}[(a)]
+    \item What is the coldest point on the plane? What is its temperature?
+    \item Let $g(x,y)= 2x-y-5$. Use the methods of Lagrange multipliers to
+    find the minimum of $f(x,y)$ subject to the constraint $g(x,y)=0$. (In
+    other words, we are finding the coldest point on the line $y=2x-5$.)
+    \item In part (b), you had to solve a system of equations. Identify the
+    system. How many equations and how many variables does it have? Is it a
+    linear?
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}
+  Let
+  \begin{equation*}
+    A =
+    \begin{bmatrix}
+      2&1&0&0\\
+      1&2&1&0\\
+      0&1&2&1\\
+      0&0&1&2
+    \end{bmatrix}
+  \end{equation*}
+  \begin{enumerate}[(a)]
+    \item Show that $A$ can be row-reduced to the matrix
+    \begin{equation*}
+      U =
+      \begin{bmatrix}
+        2&1&0&0\\
+        0&3/2&1&0\\
+        0&0&4/3&1\\
+        0&0&0&5/4
+      \end{bmatrix}
+    \end{equation*}
+    \item Find a matrix $L$ of the form
+    \begin{equation*}
+      L =
+      \begin{bmatrix}
+        x_{11}&0&0&0\\
+        x_{21}&x_{22}&0&0\\
+        x_{31}&x_{32}&x_{33}&0\\
+        x_{41}&x_{42}&x_{43}&x_{44}\\
+      \end{bmatrix}
+    \end{equation*}
+    such that
+    \begin{equation*}
+      A = LU
+    \end{equation*}
+    \textit{Hint: first compute the matrix product $LU$ symbolically and set
+      the result equal to $A$. This will give a bunch of linear equations. Use
+      the linear equations to deduce the values of the $x_{ij}$'s.}
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}
+  A $2\times 2$ matrix $
+  \begin{bmatrix}
+    a&b\\
+    c&d
+  \end{bmatrix}
+  $ is said to be \demph{positive semi-definite} if
+  \begin{equation*}
+    \begin{bmatrix}
+      x&y
+    \end{bmatrix}
+    \begin{bmatrix}
+      a&b\\
+      c&d
+    \end{bmatrix}
+    \begin{bmatrix}
+      x\\y
+    \end{bmatrix}\geq 0
+  \end{equation*}
+  for all real numbers $x,y$. Show that the matrix
+  \begin{equation*}
+    \begin{bmatrix}
+      1&1\\
+      1&1
+    \end{bmatrix}
+  \end{equation*}
+  is positive semi-definite.
+\end{problem}
+
+\begin{problem}
+  Let
+  \begin{equation*}
+    A = \begin{bmatrix}
+      1&-2&3\\
+      2&-1&4\\
+      1&1&1
+    \end{bmatrix}
+  \end{equation*}
+  \begin{enumerate}[(a)]
+    \item Compute the determinant of $A$.
+    \item Is $A$ invertible? Justify your answer.
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}
+  Compute the inverse of the matrix using row reduction:
+  \begin{equation*}
+    A =
+    \begin{bmatrix}
+      2&-1&3\\
+      1&1&-2\\
+      1&1&5
+    \end{bmatrix}
+  \end{equation*}
+\end{problem}
+\end{document}
+
+% Don't write in starlight, 'Cause the words may come out real
