@@ -1208,15 +1208,18 @@ There are also some nice online tools to help with row reduction, for example:
 
 \newpage
 \section{2025-09-05 | Week 03 | Lecture 05}
-\textit{This lecture is based on section 1.2 in the textbook.}
 
-\subsection{Matrices and matrix notation}
 \begin{center}
   \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
     \textit{\textbf{The nexus question of this lecture:} What is a matrix, and
       what are the fundamental algebraic operations we can do with it?}
   \end{tcolorbox}
 \end{center}
+
+\textit{This lecture is based on section 1.2 in the textbook.}
+
+\subsection{Matrices and matrix notation}
+
 A \demph{matrix} is a rectangular array of objects, usually numbers, which are
 called \demph{entries}. If the number of rows and the number of columns are
 equal, the matrix is said to be a \demph{square matrix}.
@@ -1546,9 +1549,19 @@ The book uses the notation $\mathbf{O}_{m\times n}$ to denote an $m\times n$
 zero matrix, or sometimes even just $\mathbf{O}$.
 
 \newpage
-\section{2025-09-?? | Week 3 | Lecture 06}
+\section{2025-09-08 | Week 3 | Lecture 06}
 
+\begin{center}
+  \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
+    \textit{\textbf{The nexus question of this lecture:} How do we encode a
+      linear system using matrices? And if we have an encoded linear system,
+      what can we tell about it by looking at the matrix?}
+  \end{tcolorbox}
+\end{center}
 
+\textit{This lecture is based on sections 1.2 and 1.3 of the textbook.} 
+
+\subsection{Commutativity}
 On the other hand, matrix multiplication doesn't satisfy the
 \demph{commutative property} (which says that, e.g., $5\cdot 3 = 3\cdot 5$)
 because the products $AB$ and $BA$ are usually not equal. To be precise, two
@@ -1576,31 +1589,167 @@ These two matrices commute because
   \end{bmatrix}.
 \end{equation*}
 
+\subsection{Inverting matrices}
+
 If two matrices satisfy the property that $AB=BA=I$, then they are said to
-be \demph{inverses}. An example are the matrices
+be \demph{inverses}. In this case, we write $B=A^{-1}$ (which doesn't
+mean $1/A$). This is analogous to when we multiply two numbers like
+$3\cdot \frac{1}{3}= \frac{1}{3}\cdot 3=1$.
+
+
+
+\begin{example}[Matrix inverses]
+  An example are the matrices
+  \begin{equation*}
+    A =
+    \begin{bmatrix}
+      1&2\\
+      3&5
+    \end{bmatrix}
+    \quad \text{and} \quad
+    B =
+    \begin{bmatrix}
+      -5&2\\
+      3&-1
+    \end{bmatrix}
+  \end{equation*}
+  Because
+  \begin{align*}
+    AB
+    &=
+      \begin{bmatrix}
+        1&2\\
+        3&5
+      \end{bmatrix}
+           \begin{bmatrix}
+             -5&2\\
+             3&-1
+           \end{bmatrix}
+    \\
+    &= 
+      \begin{bmatrix}
+        1(-5)+ 2\cdot 3 & 1\cdot2+2(-1)\\
+        3(-5)+ 5\cdot 3 & 2\cdot2+5(-1))
+      \end{bmatrix}
+    \\
+    &= 
+      \begin{bmatrix}
+        1&0\\
+        0&1
+      \end{bmatrix}\\
+    &= I_{2}
+  \end{align*}
+  And similarly, $BA = I_{2}$. Therefor $A^{-1}=B$.
+\end{example}
+
+Not every matrix has an inverse. A matrix that doesn't have an inverse is
+called \demph{singular} or \demph{noninvertible}. A matrix that has an
+inverse, is called \demph{nonsingular} or \demph{invertible}.
+
+Note that it is possible for $AB=I$ but $BA\neq I$. For example, if
+\begin{equation*}
+  A=\begin{bmatrix}
+    \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{2}}& 0 & 0\\
+    0&0&\frac{1}{\sqrt{2}}&\frac{1}{\sqrt{2}}
+  \end{bmatrix}
+  \quad \text{and} \quad
+  B=
+  \begin{bmatrix}
+    \frac{1}{\sqrt{2}} & 0\\
+    \frac{1}{\sqrt{2}} & 0\\
+    0&\frac{1}{\sqrt{2}}\\
+    0&\frac{1}{\sqrt{2}}
+  \end{bmatrix}
+\end{equation*}
+Then
+\begin{equation*}
+  AB =
+  \begin{bmatrix}
+    1&0\\
+    0&1
+  \end{bmatrix}
+  \quad \text{but} \quad 
+  BA \neq
+  \begin{bmatrix}
+    1&0\\
+    0&1
+  \end{bmatrix}
+\end{equation*}
+\subsection{Computing matrix inverse}
+
+Suppose we wish to find the inverse of the matrix
 \begin{equation*}
   A =
   \begin{bmatrix}
-    1&2\\
-    3&5
-  \end{bmatrix}
-  \quad \text{and} \quad
-  B =
+    1&4\\
+    2&2
+  \end{bmatrix}.
+\end{equation*}
+Let
+\begin{equation*}
+  X =
   \begin{bmatrix}
-    -5&2\\
-    3&-1
+    x_{11}&x_{12}\\
+    x_{21}&x_{22}\\
   \end{bmatrix}
 \end{equation*}
-since $AB=I$ and $BA=I$. In this case, we write $B=A^{-1}$ (which doesn't
-mean $1/A$). This is analogous to when we multiply two numbers like
-$3\cdot \frac{1}{3}= \frac{1}{3}\cdot 3=1$. One difference, however, is that
-for matrices, is possible for $AB=I$ but $BA\neq I$. Another difference is
-that while every nonzero real number has an inverse, many matrices do not
-have inverses. A matrix that doesn't have an inverse is called
-\demph{singular} or \demph{noninvertible}. A matrix that has an inverse, is
-called \demph{nonsingular} or \demph{invertible}.
+We need $X$ to satisfy
+\begin{equation*}
+  AX =
+  \begin{bmatrix}
+    1&0\\
+    0&1
+  \end{bmatrix}
+\end{equation*}
+Writing out $AX$, we have
+\begin{equation*}
+  AX =
+  \begin{bmatrix}
+    x_{11}+4x_{21}& x_{12}+4x_{22}\\
+    2x_{11}+2x_{21}& 2x_{12}+2x_{22}
+  \end{bmatrix}
+  \overset{\text{set}}{=}
+  \begin{bmatrix}
+    1&0\\
+    0&1
+  \end{bmatrix}
+\end{equation*}
+By setting $AX$ equal to $I_{2}$, we have a system of four linear equations in
+four variables $x_{11},x_{12},x_{21},x_{22}$.
 
+We have a nice way to solve linear systes: row reduction. Moreover, for
+finding inverses, there is a clever way to do it, as I now show. The augmented
+matrix we will use is the following:
+\begin{equation*}
+  \begin{augmentedmatrix}{cc|cc}
+    1&4&1&0\\
+    2&2&0&1
+  \end{augmentedmatrix}
+\end{equation*}
+Row reducing this, we get:
+\begin{equation*}
+  \begin{augmentedmatrix}{cc|cc}
+    1&0&-1/3&2/3\\
+    0&1&1/3&1/6
+  \end{augmentedmatrix}
+\end{equation*}
+and the inverse of $A$ is the the matrix to the right of the bar:
+\begin{equation*}
+  B =
+  \begin{bmatrix}
+    -1/3&2/3\\
+    1/3&1/6
+  \end{bmatrix}
+  = \frac{1}{6}
+  \begin{bmatrix}
+    -2&4\\
+    2&1
+  \end{bmatrix}.
+\end{equation*}
+This approach works for larger matrices as well, see Example 1 in Section 1.3
+of the textbook (p.31).
 
+\subsection{Matrix equations}
 \textbf{Question:} \textit{Why is matrix multiplication defined in such a
   seemingly bizzare way?} A good explanation will have to come later in the
 course, but the beginnings of an answer is that it allows us to represent
@@ -1645,9 +1794,62 @@ left by
   A^{-1}AX = A^{-1}B
 \end{equation*}
 which simplifies to
-\begin{equation*}
+\begin{equation}\label{eq:inverse-solution-to-linear-equation}
   X = A^{-1}B.
-\end{equation*}
+\end{equation}
+Thus, $X$ is the unique solution to our original system. This leads us to the
+following theorem:
+\begin{theorem}
+  \label{thm:unique-solution-invertibility}
+  A linear system $AX=B$ with $n$ equations and $n$ variables has a unique
+  solution if and only if $A$ is invertible.
+\end{theorem}
 
+This theorem is remarkable, because it says we don't need to know anything
+at all about the vector $B$ to know whether the system has a unique solution.
+This hints a deeper structure to linear equations that we will explore more
+fully throughout this course.
+
+
+
+Some observations \cref{eq:inverse-solution-to-linear-equation}:
+\begin{itemize}
+  \item Computationally, it is usually easier to solve a linear system $AX=B$
+  directly using row reduction, rather than (1) finding the inverse of $A$ and
+  then (2) multiplying both sides by $A^{-1}$. So the latter approach isn't
+  recommended for solving a system of linear equations. Just use row
+  reduction.
+  \item Theoretically \cref{eq:inverse-solution-to-linear-equation} tells us
+  something important: namely, that the linear system $AX=B$ has a unique
+  solution if and only if $A$ is nonsingular (i.e., invertible.)
+\end{itemize}
+
+\textbf{A connection:} in your first homework (problem 3), you showed that for
+the matrix $A=
+\begin{bmatrix}
+  a_{11}&a_{12}\\
+  a_{21}&a_{22}
+\end{bmatrix}
+$, the linear system
+\begin{equation*}
+  AX=B
+\end{equation*}
+has a unique solution if and only if the determinant of $A$ (defined as
+$a_{11}a_{22}-a_{12}a_{21}$) is nonzero. That is,
+\begin{equation*}
+  \text{determinant of $A$ is nonzero} \iff \text{ $AX=B$ has a unique solution }
+\end{equation*}
+Connecting this with \cref{thm:unique-solution-invertibility}, we have:
+\begin{equation*}
+  \text{determinant of $A$ is nonzero} \iff \text{ $AX=B$ has a unique solution} \iff
+  \text{$A$ is invertible}
+\end{equation*}
+Putting it together, we have the following theorem:
+\begin{theorem}
+  A matrix $A$ is invertible if and only if its determinant is nonzero.
+\end{theorem}
+We haven't proved this theorem for all matrices; we've only shown that it
+holds for $2\times 2$ matrices. In fact, it holds for all matries, as we'll
+see later.
 
 \end{document}
