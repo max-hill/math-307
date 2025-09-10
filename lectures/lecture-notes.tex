@@ -9,10 +9,12 @@
 \usepackage{abraces}        % asymmetric braces
 \usepackage{skull}
 \usepackage{tikz}
-\usetikzlibrary{arrows.meta, arrows, calc, matrix, positioning}
+\usepackage{pgfplots}
+\usetikzlibrary{arrows.meta, arrows, calc, matrix, positioning, arrows.meta}
 
 \usepackage{hyperref}
 \usepackage[capitalize]{cleveref}
+
 
 
 % Citing theorems by name. (source: https://tex.stackexchange.com/questions/109843/cleveref-and-named-theorems)
@@ -1207,7 +1209,7 @@ There are also some nice online tools to help with row reduction, for example:
 \end{enumerate}
 
 \newpage
-\section{2025-09-05 | Week 03 | Lecture 05}
+\section{2025-09-05 | Week 02 | Lecture 05}
 
 \begin{center}
   \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
@@ -1549,7 +1551,7 @@ The book uses the notation $\mathbf{O}_{m\times n}$ to denote an $m\times n$
 zero matrix, or sometimes even just $\mathbf{O}$.
 
 \newpage
-\section{2025-09-08 | Week 3 | Lecture 06}
+\section{2025-09-08 | Week 03 | Lecture 06}
 
 \begin{center}
   \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
@@ -1823,8 +1825,8 @@ which is that matrix multiplication allows us to compactly represent linear
 systems, though a more compelling answer to this question will come later in
 the course.)
 
-
-\subsection{What does $A$ tell us about the linear system $AX=B$? }
+\subsection{What does \texorpdfstring{$A$}{A} tell us about
+  the linear system \texorpdfstring{$AX=B$}{AX=B}?}
 For the remainder of the lecture, we consider the question, \textit{``What can
   we tell about the solutions to the linear system $AX=B$, just by looking at
   the matrix $A$?''} It is not obvious that we should be able to tell anything
@@ -1838,7 +1840,8 @@ equation on the left by
   A^{-1}AX = A^{-1}B
 \end{equation*}
 which simplifies to
-\begin{equation}\label{eq:inverse-solution-to-linear-equation}
+\begin{equation}
+  \label{eq:inverse-solution-to-linear-equation}
   X = A^{-1}B.
 \end{equation}
 Thus, $X$ is the unique solution to our original system. This motivates the
@@ -1899,7 +1902,540 @@ see later.
 
 
 \newpage
-\section{2025-09-10 | Week 03 | Lecture 07 }
+
+\section{2025-09-10 | Week 03 | Lecture 07}
+
+\textit{This lecture isn't really based on any textbook section, but sections
+  1.5 and 1.6 cover determinants. Please read sections 1.3 and 1.4 for
+  Friday.}
+
+\begin{center}
+  \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
+    \textit{\textbf{The nexus question of this lecture:} What is a
+      determinant, geometrically?}
+  \end{tcolorbox}
+\end{center}
+
+\subsection{The determinant of  \texorpdfstring{$2\times 2$}{2\times2} matrix}
+
+In your homework, you had a problem in which you computed the determinant of a
+$2\times 2$ matrix. Recall that the determinant of a $2\times 2$ matrix is
+defined as the quantity
+\begin{equation*}
+  \det \begin{bmatrix}
+    a&b\\
+    c&d
+  \end{bmatrix} = ad-bc.
+\end{equation*}
+Later we'll see how to define determinants for $n\times n$ matrices, but for
+this lecture I'm going to focus on the $2\times 2$ case in order to hopefully
+demonstrate why you should even care about determinants at all.
+
+\subsection{A matrix is a transformation of space}
+
+Consider the $2\times 2$ matrix
+\begin{equation*}
+  A=\begin{bmatrix}
+    3&1\\
+    1&2
+  \end{bmatrix}.
+\end{equation*}
+
+\subsubsection*{Preliminaries: Some elementary properties of \texorpdfstring{$A$}{A} }
+Let us consider what this matrix does to the standard basis vectors $e_{1}=
+\begin{bmatrix}
+  1\\0
+\end{bmatrix}
+$
+and $e_{2}=
+\begin{bmatrix}
+  0\\1
+\end{bmatrix}
+$:
+
+\begin{equation*}
+  Ae_{1}
+  =
+  \begin{bmatrix}
+    3&1\\
+    1&2
+  \end{bmatrix}
+  \begin{bmatrix}
+    1\\0
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    3\\1
+  \end{bmatrix}
+  \quad \text{and} \quad
+  Ae_{2}
+  =
+  \begin{bmatrix}
+    3&1\\
+    1&2
+  \end{bmatrix}
+  \begin{bmatrix}
+    0\\1
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    1\\2
+  \end{bmatrix}
+\end{equation*}
+In other words, multiplication by $A$ sends the vector $e_{1}$ to the vector
+$\begin{bmatrix} 3\\1 \end{bmatrix}$. It sends the vector $e_{2}$ to
+$\begin{bmatrix} 1\\2 \end{bmatrix}$.
+
+Let's give these vectors names and compute some values that will be useful later:
+\begin{equation*}
+  u =
+  \begin{bmatrix}
+    3\\1
+  \end{bmatrix}
+  \quad \text{and} \quad
+  v =
+  \begin{bmatrix}
+    1\\2
+  \end{bmatrix}
+\end{equation*}
+\begin{itemize}
+  \item The magnitudes of $u$ and $v$ are
+  \begin{equation*}
+    |u| = \sqrt{3^{2}+1^{2}} = \sqrt{10}
+    \quad \text{and} \quad
+    |v| = \sqrt{2^{2}+1^{2}} = \sqrt{5}
+  \end{equation*}
+  \item The cosine of angle $\theta$ between $u$ and $v$ can be computed using
+  the dot product, by the formula
+  \begin{equation*}
+    u\cdot v = |u||v| \cos(\theta).
+  \end{equation*}
+  Doing the computation, we get
+  \begin{equation}\label{eq:cosine-example}
+    \cos(\theta) = \frac{1}{\sqrt{2}}.
+  \end{equation}
+\end{itemize}
+
+\subsubsection*{The key idea}
+Suppose we decided to multiply \textit{every} vector in the plane by the
+matrix $\begin{bmatrix}
+  3&1\\
+  1&2
+\end{bmatrix}$. In that case, we could conceive of the matrix transforming
+space (i.e., the plane) in some way. For a general vector in the plane $\begin{bmatrix} x\\y
+\end{bmatrix}$, the action of $A$ is the following:
+\begin{equation*}
+  \begin{bmatrix}
+    3&1\\
+    1&2
+  \end{bmatrix}
+  \begin{bmatrix}
+    x\\y
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    3x+y\\
+    x+2y
+  \end{bmatrix}
+\end{equation*}
+If we use  ``$\mapsto$'' to mean ``gets sent to'', then we have
+\begin{equation*}
+  \begin{bmatrix}
+    x\\y
+  \end{bmatrix}
+  \mapsto
+  \begin{bmatrix}
+    3x+y\\
+    x+2y
+  \end{bmatrix}
+\end{equation*}
+
+The following plot shows the effect of multiplying \textit{all} vectors in the
+unit square by $A$:
+\begin{center}
+  \includegraphics[scale=.3]{images/linear-transform-first-example}
+  % \begin{tikzpicture}
+  %   % --- Left axis ---
+  %   \begin{axis}[
+  %     name=left,
+  %     at={(0,0)}, anchor=south west,
+  %     axis lines=center,
+  %     xmin=0, xmax=4.5,
+  %     ymin=0, ymax=3.5,
+  %     xtick={1,2,3,4},
+  %     ytick={1,2,3},
+  %     xlabel={$x$}, ylabel={$y$},
+  %     axis line style={->},
+  %     width=7.5cm, height=6.2cm,
+  %     clip=false,
+  %     grid=major,
+  %     major grid style={dashed,draw=gray!60}
+  %     ]
+  %     % unit square + unit vectors
+  %     \addplot[fill=blue!15, draw=blue!50] coordinates {(0,0) (1,0) (1,1) (0,1)} -- cycle;
+  %     \addplot[very thick,->,blue] coordinates {(0,0) (1,0)} node[pos=0.5, below] {$\mathbf e_{1}$};
+  %     \addplot[very thick,->,red]  coordinates {(0,0) (0,1)} node[pos=0.5, left] {$\mathbf e_{2}$};
+  %   \end{axis}
+
+  %   % --- Right axis ---
+  %   \begin{axis}[
+  %     name=right,
+  %     at={(8.5cm,0)}, anchor=south west, % adjust horizontal gap if desired
+  %     axis lines=center,
+  %     xmin=0, xmax=4.5,
+  %     ymin=0, ymax=3.5,
+  %     xtick={1,2,3,4},
+  %     ytick={1,2,3},
+  %     xlabel={$x$}, ylabel={$y$},
+  %     axis line style={->},
+  %     width=7.5cm, height=6.2cm,
+  %     clip=false
+  %     ]
+      
+  %     % Define u = Ae1 and v = Ae2
+  %     \def\ux{3}\def\uy{1}    % u = (3,1)
+  %     \def\vx{1}\def\vy{2}    % v = (1,2)
+
+  %     % --- Custom "grid" aligned with u and v ---
+  %     % Lines parallel to v, offset by k*u   (images of x = k)
+  %     \foreach \k in {0}{
+  %       \addplot[thin,gray!60,dashed]
+  %       plot[domain=0:1.7, samples=2]
+  %       ({\k*\ux + x*\vx},{\k*\uy + x*\vy});
+  %     }
+
+  %     \foreach \k in {1}{
+  %       \addplot[thin,gray!60,dashed]
+  %       plot[domain=-.5:1.2, samples=2]
+  %       ({\k*\ux + x*\vx},{\k*\uy + x*\vy});
+  %     }
+
+   
+  %     % Lines parallel to u, offset by k*v   (images of y = k)
+  %     \foreach \k in {0}{
+  %       \addplot[thin,gray!60,dashed]
+  %       plot[domain=0:1.5, samples=2]
+  %       ({\k*\vx + x*\ux},{\k*\vy + x*\uy});
+  %     }
+  %     \foreach \k in {1}{
+  %       \addplot[thin,gray!60,dashed]
+  %       plot[domain=-.33:1.2, samples=2]
+  %       ({\k*\vx + x*\ux},{\k*\vy + x*\uy});
+  %     }
+
+  %     % image of unit square under A: Ae1=(3,1), Ae2=(1,2)
+  %     \addplot[fill=blue!15, draw=blue!50] coordinates {(0,0) (3,1) (4,3) (1,2)} -- cycle;
+  %     \addplot[very thick,->,blue] coordinates {(0,0) (3,1)}
+  %     node[xshift=4pt,pos=0.6, below] {{\footnotesize $u=A\mathbf e_{1}$}};
+  %     \addplot[very thick,->,red]  coordinates {(0,0) (1,2)} node[xshift=2pt,yshift=4pt,pos=1, left]  {{\footnotesize$v=A\mathbf e_{2}$}};
+  %   \end{axis}
+
+  %   % --- Arching arrow + label between plots ---
+
+  %   \draw[very thick, -{Stealth[length=5mm]}]
+  %   ([xshift=-5cm,yshift=-4cm]left.north east)
+  %   .. controls ($(left.north east)+(-1,-.2)$) and ($(right.north west)+(-1.2,-.2)$) ..
+  %   ([xshift=3cm,yshift=-2.5cm]right.north west)
+  %   node[pos=0.5, above=1pt, fill=white, xshift=3pt, yshift=1pt]
+  %   {{\footnotesize multiply by $\displaystyle \begin{bmatrix}3&1\\[2pt]1&2\end{bmatrix}$}};
+  % \end{tikzpicture}
+\end{center}
+
+The effect of applying $A$ is to transform space (i.e., the plane) by
+stretching it in some way. For this particular matrix, the unit square get
+mapped to the shown parallelogram. Squares adjacent to the unit square get
+sent to adjacent parallelograms.
+
+\subsection{The ``volume scaling factor'' of a transformation}
+\textbf{Question:} By what factor does the matrix
+$\begin{bmatrix}3&1\\1&2\end{bmatrix}$ scale the area of a region in space?
+
+
+\fl{Answer:} The unit square has area 1. What about the parallelogram?
+\begin{center}
+  \begin{tikzpicture}[scale=1.2,>=stealth]
+    % Axes (positive quadrant)
+    \draw[->] (0,0) -- (4.5,0) node[below] {$x$}; \draw[->] (0,0) -- (0,3.5)
+    node[left] {$y$};
+
+    % Ticks and labels
+    \foreach \x in {1,2,3,4} { \draw (\x,-.05) -- (\x,0.05); } \foreach \y in
+    {1,2,3} { \draw (-.06,\y) -- (0.06,\y); }
+
+    % Shade the original unit square
+
+    % Define transformed unit vectors
+    \coordinate (a1) at (3,1); \coordinate (a2) at (1,2);
+
+    % Shade parallelogram spanned by a1 and a2
+    \fill[blue!15] (0,0) -- (a1) -- ($ (a1)+(a2) $) -- (a2) -- cycle;
+    \draw[blue!60] (0,0) -- (a1) -- ($ (a1)+(a2) $) -- (a2) -- cycle;
+
+    % Unit vectors under transformation
+    \draw[->] (0,0) -- (a2) node[sloped, rotate=0, pos=.6, above, left,
+    xshift=-2pt, yshift=8pt] {$\sqrt{5}$}; \draw[->] (0,0) -- (a1)
+    node[sloped, rotate=-2, pos=.5, below] {$\sqrt{10}$};
+
+    % Drop the perpendicular
+    \draw[black] (1,2) -- (1.34,.45) node[midway, sloped,
+    rotate=90,right]{$h$} ;
+
+    % Label the angle
+    \draw[black] (.2,.2) node[sloped, rotate=45, above, right] { $\theta$ };
+  \end{tikzpicture}
+\end{center}
+The parallelogram has area
+\begin{equation}\label{eq:parallelogram-area}
+  (\text{area of parallelogram}) =  (\text{base})\times(\text{height})
+\end{equation}
+In this case, the base of the parallelogram is $|u| = \sqrt{10}$. To find the
+height $h$, use the definition of $\sin(\theta)$:
+\begin{equation*}
+  \sin(\theta) = \frac{\text{opposite}}{\text{hypotenuse}} = \frac{h}{\sqrt{5}}.
+\end{equation*}
+which implies
+\begin{equation*}
+  h = \sqrt{5} \sin(\theta)
+\end{equation*}
+We already know that $\cos(\theta) = \frac{1}{\sqrt{2}}$ by
+\cref{eq:cosine-example}. Therefore
+\begin{align*}
+  \sin^{2}(\theta)
+  &= 1-\cos^{2}(\theta) &&\text{ (since  }\sin^{2}(\theta)+\cos^{2}(\theta)=1)\\
+  &= 1-\frac{1}{2}\\
+  &=\frac{1}{2}.
+\end{align*}
+Taking square roots, we get $\sin(\theta) = \frac{1}{\sqrt{2}}$. Hence
+$h = \frac{\sqrt{5}}{\sqrt{2}}.$ Therefore, by \cref{eq:parallelogram-area},
+\begin{equation*}
+  (\text{area of parallelogram}) = \left( \sqrt{10} \right)  \left( \frac{\sqrt{5}}{\sqrt{2}}  \right) =5.
+\end{equation*}
+To conclude, the linear transformation of space obtained by multiplying every
+vector by the matrix $A=
+\begin{bmatrix}
+  1&3\\
+  2&1
+\end{bmatrix}$
+took a region of area 1 (the unit square) and mapped it to a parallelogram of
+area 5. The scaling is uniform throughout the plane, so every region of area 1
+gets mapped to a region of area 5. In other words, the transformation scales
+the volume by a factor $5$.
+
+
+Now let's look at the determinant of the matrix:
+\begin{equation*}
+  \det \begin{bmatrix}
+    3&1\\
+    1&2
+  \end{bmatrix}
+  =3\cdot2 - 1\cdot1 = 5
+\end{equation*}
+The determinant is also 5. This is not a coincidence. \textbf{The determinant
+  tells us how much space gets scaled by the linear transformation induced
+  by the matrix.}
+
+\subsection{How do we interpret the determinant when it's zero or negative?}
+The determinant measures how much the linear transformation scales volume. But
+then what does it mean geometrically for a matrix to have determinant zero or
+negative?
+
+\begin{itemize}
+  \item If the determinant is zero, that means regions with positive area get
+  mapped to regions of zero area. \textbf{This always occurs as a result of
+    dimension collapse.} For example, the following matrix has determinant
+  zero:
+  \begin{equation*}
+    \begin{bmatrix}
+      1&0\\
+      0&0
+    \end{bmatrix}
+  \end{equation*}
+  Note that
+  \begin{equation*}
+    \begin{bmatrix}
+      1&0\\
+      0&0
+    \end{bmatrix}
+    \begin{bmatrix}
+      x\\y
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      x\\0
+    \end{bmatrix}
+  \end{equation*}
+  Geometrically, this matrix projects every point in the plane to its location
+  on the $x$-axis. This means that every point in the plane (a 2-dimensional
+  surface) gets mapped to the $x$-axis (a 1-dimensional line with zero area).
+  The dimension collapse here is the reduction in dimension from 2D to 1D.
+
+  Another example would be a transformation that projects every point in 3D
+  space onto a specified plane; this is because mapping a 3D region onto a 2D
+  plane destroys volume. An example of such a transformation is obtained from
+  the matrix
+  \begin{equation*}
+    P=
+    \begin{bmatrix}
+      1&0&0\\
+      0&1&0\\
+      0&0&0
+    \end{bmatrix}
+  \end{equation*}
+  which projects points in 3D space onto the $xy$-plane. We haven't discussed
+  how to define the determinant for $3\times 3$ matrices, but based on our
+  geometric intuition, we'd expect $P$ to have determinant zero (it does).
+  
+  \item If the determinant is negative, that means the transformation reverses
+  the orientation of space in the same way a mirror changes left and right
+  hands. In 2D, this occurs when the transformation reflects the plane across
+  a line. For example, the matrix
+  \begin{equation*}
+    R =
+    \begin{bmatrix}
+      0&1\\
+      1&0
+    \end{bmatrix}
+  \end{equation*}
+  reflects the $xy$-plane across the line $y=x$, but doesn't stretch space at
+  all. The determinant is $-1$. Under this transformation, regions don't
+  stretch or shrink, but they do get flipped.
+
+  Another example can be obtained if we decided to \textit{combine} two
+  transformations:
+  \begin{itemize}
+    \item \textbf{First}, flip the $xy$-plane using $R$.
+    \item \textbf{Then}, transform space using the matrix $A$.
+  \end{itemize}
+  To combine these two tranformations, we multiply the matrices like this:
+  \begin{equation*}
+    AR =
+    \underbrace{\begin{bmatrix}
+      3&1\\
+      1&2
+    \end{bmatrix}}_{\tiny 2^{\rm nd}}
+    \underbrace{\begin{bmatrix}
+        0&1\\
+        1&0
+      \end{bmatrix}}_{\tiny 1^{\rm st}}
+    =
+    \begin{bmatrix}
+      3&1\\
+      1&2
+    \end{bmatrix}
+  \end{equation*}
+
+  This new matrix has determinant $-5$. It is similar to the matrix $A$ we
+  considered earlier, but the columns are swapped. Geometrically, this matrix
+  transforms space by first reflecting the plane across the line $y=x$ and
+  then doing the same stretchy thing done by the previous matrix.
+
+  The picture is almost the same as the previous one, but note how the red and
+  blue vectors swapped compared to the first picture. The orientation has
+  changed, which is why the determinant is negative.
+\end{itemize}
+
+\begin{center}
+  \includegraphics[scale=.4]{linear-transformation-first-exampled-flipped.png}
+\end{center}
+% \begin{center}
+%   \begin{tikzpicture}
+%     %   --- Left axis ---
+%     \begin{axis}[
+%       name=left,
+%       at={(0,0)}, anchor=south west,
+%       axis lines=center,
+%       xmin=0, xmax=4.5,
+%       ymin=0, ymax=3.5,
+%       xtick={1,2,3,4},
+%       ytick={1,2,3},
+%       xlabel={$x$}, ylabel={$y$},
+%       axis line style={->},
+%       width=7.5cm, height=6.2cm,
+%       clip=false,
+%       grid=major,
+%       major grid style={dashed,draw=gray!60}
+%       ]
+%       %     unit square + unit vectors
+%       \addplot[fill=blue!15, draw=blue!50] coordinates {(0,0) (1,0) (1,1) (0,1)} -- cycle;
+%       \addplot[very thick,->,blue] coordinates {(0,0) (1,0)} node[pos=0.5, below] {$\mathbf e_{1}$};
+%       \addplot[very thick,->,red]  coordinates {(0,0) (0,1)} node[pos=0.5, left] {$\mathbf e_{2}$};
+%     \end{axis}
+
+%     %   --- Right axis ---
+%     \begin{axis}[
+%       name=right,
+%       at={(8.5cm,0)}, anchor=south west, % adjust horizontal gap if desired
+%       axis lines=center,
+%       xmin=0, xmax=4.5,
+%       ymin=0, ymax=3.5,
+%       xtick={1,2,3,4},
+%       ytick={1,2,3},
+%       xlabel={$x$}, ylabel={$y$},
+%       axis line style={->},
+%       width=7.5cm, height=6.2cm,
+%       clip=false
+%       ]
+  
+%       %     Define u = Ae1 and v = Ae2
+%       \def\ux{3}\def\uy{1}    % u = (3,1)
+%       \def\vx{1}\def\vy{2}    % v = (1,2)
+
+%       %     --- Custom "grid" aligned with u and v ---
+%       %     Lines parallel to v, offset by k*u   (images of x = k)
+%       \foreach \k in {0}{
+%       \addplot[thin,gray!60,dashed]
+%       plot[domain=0:1.7, samples=2]
+%       ({\k*\ux + x*\vx},{\k*\uy + x*\vy});
+%     }
+
+%       \foreach \k in {1}{
+%       \addplot[thin,gray!60,dashed]
+%       plot[domain=-.5:1.2, samples=2]
+%       ({\k*\ux + x*\vx},{\k*\uy + x*\vy});
+%     }
+
+  
+%       %     Lines parallel to u, offset by k*v   (images of y = k)
+%       \foreach \k in {0}{
+%       \addplot[thin,gray!60,dashed]
+%       plot[domain=0:1.5, samples=2]
+%       ({\k*\vx + x*\ux},{\k*\vy + x*\uy});
+%     }
+%       \foreach \k in {1}{
+%       \addplot[thin,gray!60,dashed]
+%       plot[domain=-.33:1.2, samples=2]
+%       ({\k*\vx + x*\ux},{\k*\vy + x*\uy});
+%     }
+
+    
+%       %     image of unit square under A: Ae1=(3,1), Ae2=(1,2)
+%       \addplot[fill=blue!15, draw=blue!50] coordinates {(0,0) (3,1) (4,3) (1,2)} -- cycle;
+%       \addplot[very thick,->,red] coordinates {(0,0) (3,1)}
+%       node[xshift=4pt,pos=0.6, below] {{\footnotesize $A\mathbf e_{2}$}};
+%       \addplot[very thick,->,blue]  coordinates {(0,0) (1,2)} node[xshift=2pt,yshift=4pt,pos=1, left]  {{\footnotesize$A\mathbf e_{1}$}};
+
+
+%       % axis of refletion
+%       \addplot[black, thick, dashed, domain=0:5] {.75*x};
+      
+%     \end{axis}
+
+    
+%     %   --- Arching arrow + label between plots ---
+
+%     \draw[very thick, -{Stealth[length=5mm]}]
+%     ([xshift=-5cm,yshift=-4cm]left.north east)
+%     .. controls ($(left.north east)+(-1,-.2)$) and ($(right.north west)+(-1.2,-.2)$) ..
+%     ([xshift=2.5cm,yshift=-2.3cm]right.north west)
+%     node[pos=0.5, above=1pt, fill=white, xshift=3pt, yshift=1pt]
+%     {{\footnotesize multiply by $\displaystyle \begin{bmatrix}1&3\\[2pt]2&1\end{bmatrix}$}};
+%   \end{tikzpicture}
+% \end{center}
+
+\newpage
+\section{2025-09-12 | Week 03 | Lecture 08}
+\textit{This lecture is based on sections 1.3 and 1.4 in your textbook}
+
 \subsection{Computing matrix inverse}
 
 Suppose we wish to find the inverse of the matrix
@@ -1974,4 +2510,150 @@ and the inverse of $A$ is the the matrix to the right of the bar:
 This approach works for larger matrices as well, see Example 1 in Section 1.3
 of the textbook (p.31).
 
+
+\begin{example}[Example 1 in section 1.3]
+  Find the inverse of the matrix
+  \begin{equation*}
+    A= \begin{bmatrix}
+      2&1&3\\
+      2&1&1\\
+      4&5&1
+    \end{bmatrix}
+  \end{equation*}
+  We set up the augmented matrix
+  \begin{equation*}
+    \begin{augmentedmatrix}{ccc|ccc}
+      2&1&3&1&0&0\\
+      2&1&1&0&1&0\\
+      4&5&1&0&0&1
+    \end{augmentedmatrix}.
+  \end{equation*}
+  After row reduction, we obtain
+  \begin{equation*}
+    \begin{augmentedmatrix}{ccc|ccc}
+      1&0&0&-1/3&7/6&-1/6\\
+      0&1&0&1/6&-5/6&1/3\\
+      0&0&1&1/2&-1/2&0
+    \end{augmentedmatrix}.
+  \end{equation*}
+  Then the inverse of $A$ is given by
+  \begin{equation*}
+    A^{-1} =
+    \begin{bmatrix}
+      -1/3&7/6&-1/6\\
+      1/6&-5/6&1/3\\
+      1/2&-1/2&0
+    \end{bmatrix}.
+  \end{equation*}
+\end{example}
+
+\subsection{Properties of Matrix Inverses}
+\begin{definition}[Matrix Inverse]
+  Let $A$ and $B$ be square matrices. We say that $B$ is the inverse of $A$ if
+  \begin{equation*}
+    BA=I \quad \text{and} \quad  AB=I.
+  \end{equation*}
+  If so, we write $A^{-1}=B$.
+\end{definition}
+
+\begin{theorem}[The socks and shoes property]
+  \label{thm:socks-and-shoes-property}
+  If $A$ and $B$ are both $n\times n$ invertible matrices, then $AB$ is
+  invertible and
+  \begin{equation*}
+    (AB)^{-1} = B^{-1}A^{-1}
+  \end{equation*}
+\end{theorem}
+\begin{proof}[Proof of \cref{thm:socks-and-shoes-property}]
+  It is sufficient to show that $B^{-1}A^{-1}$ is the inverse of $AB$, which
+  we can do by direct computation:
+  \begin{equation*}
+    (AB)(B^{-1}A^{-1}) = A(BB^{-1})A^{-1} = A(I)A^{-1} = AA^{-1} = I.
+  \end{equation*}
+  and
+  \begin{equation*}
+    (B^{-1}A^{-1})(AB) = B^{-1}(A^{-1}A)B = B^{-1}B = I
+  \end{equation*}
+\end{proof}
+
+\begin{theorem}
+  Suppose that $A$ and $B$ are $n\times n$ matrices such that either $AB=I$ or
+  $BA=I$. Then $A$ is an invertible matrix and $A^{-1}=B$
+\end{theorem}
+\begin{proof}
+  proof?
+\end{proof}
+
+\subsection{Triangular Matrices}
+\subsection{Transpose}
+
+Given an $m\times n$ matrix $A=(a_{ij})$, the \demph{transpose} of $A$,
+denoted $A^{\top}$, is the $n\times m$ matrix $A^{\top}=(a_{ji})$. For
+example,
+\begin{equation*}
+  A =
+  \begin{bmatrix}
+    1&2&3\\
+    4&5&6
+  \end{bmatrix}
+  \quad \text{and} \quad
+  A^{\top} =
+  \begin{bmatrix}
+    1&4\\
+    2&5\\
+    3&6
+  \end{bmatrix}
+\end{equation*}
+
+\begin{theorem}[Properties of Transpose]
+  Suppose $A,B$ are matrices. Then whenever defined, the following properties
+  hold:
+  \begin{enumerate}
+    \item $\left( A^{\top} \right)^{\top}=A $
+    \item $\left( A+B \right)^{\top} = A^{\top}+B^{\top}$
+    \item $\left( cA \right)^{\top} = cA^{\top}$
+    \item $\left( AB \right)^{\top}=B^{\top}A^{\top}$
+    \item $\left( A^{\top} \right)^{-1} = \left( A^{-1} \right)^{\top} $
+  \end{enumerate}
+\end{theorem}
+\begin{proof}
+  Maybe prove properties 4 and 5. The proof is kind of neat, just uses the definition
+  of matrix multiplication.
+\end{proof}
+
+\subsection{Symmetric Matrices}
+If $A=A^{\top}$, then we say that $A$ is \demph{symmetric}. An example:
+\begin{equation*}
+  \begin{bmatrix}
+    -5&1&2\\
+    1&4&3\\
+    2&3&6\\
+  \end{bmatrix}
+\end{equation*}
+Symmetric matrices are always square. If $A,B$ are symmetric, then $A+B$ is
+also symmetric.
+\begin{theorem}
+  Let $A$ be any matrix. Then $A^{\top}A$ and $AA^{\top}$ are both symmetric.
+\end{theorem}
+\begin{proof}
+  Uses matrix multiplication.
+\end{proof}
+
+\begin{theorem}
+  If $A$ is an invertible symmetric matrix, then $A^{-1}$ is also symmetric.
+\end{theorem}
+\begin{proof}
+  Using the fact that $\left( A^{-1} \right)^{\top} = \left( A^{\top}
+  \right)^{-1}$, we have
+  \begin{align*}
+    \left( A^{-1} \right)^{\top} 
+    &= \left( A^{\top} \right)^{-1} \\
+    &= \left( A \right)^{-1} \\
+    &= A^{-1}.
+  \end{align*}
+  This calculation shows that $A^{-1}$ is symmetric, since it equals its
+  transpose.
+\end{proof}
+
+\newpage
 \end{document}

@@ -21,5 +21,6 @@ title: Lecture notes
  2025-09-03  | [lecture-04](lectures/lecture-notes-by-day/lecture-04.pdf)      | What is Gauss-Jordan elimination (AKA row reduction) and how can we use it to solve linear systems?  
  2025-09-05  | [lecture-05](lectures/lecture-notes-by-day/lecture-05.pdf)      | What is a matrix, and what are the fundamental algebraic operations we can do with matrices?  
  2025-09-08  | [lecture-06](lectures/lecture-notes-by-day/lecture-06.pdf)      | How do we encode a linear system using matrices? And once thus encoded, what can we say about the linear system just by looking at the matrix?  
+ 2025-09-10  | [lecture-07](lectures/lecture-notes-by-day/lecture-07.pdf)      | What is a determinant, geometrically?  
  
 
