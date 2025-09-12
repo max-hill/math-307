@@ -2146,6 +2146,7 @@ mapped to the shown parallelogram. Squares adjacent to the unit square get
 sent to adjacent parallelograms.
 
 \subsection{The ``volume scaling factor'' of a transformation}
+\label{sec:volume-scaling-factor-transformation}
 \textbf{Question:} By what factor does the matrix
 $\begin{bmatrix}3&1\\1&2\end{bmatrix}$ scale the area of a region in space?
 
@@ -2433,14 +2434,14 @@ negative?
 
 \newpage
 \section{2025-09-12 | Week 03 | Lecture 08}
-\textit{This lecture is based on sections 1.3 and 1.4 in your textbook}
+\textit{This lecture is based on sections 1.3 in your textbook}
 
 
 
 \begin{center}
   \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
-    \textit{\textbf{The nexus question of this lecture:} Something about
-      inverses?}
+    \textit{\textbf{The nexus question of this lecture:} What are the key
+      properties of the matrix inverse?}
   \end{tcolorbox}
 \end{center}
 
@@ -2470,8 +2471,7 @@ negative?
 
 \begin{theorem}[The socks and shoes property]
   \label{thm:socks-and-shoes-property}
-  If $A$ and $B$ are invertible then so is $AB$. The inverse of a product $AB$
-  is
+  If $A$ and $B$ are invertible then so is $AB$, and
   \begin{equation*}
     (AB)^{-1} = B^{-1}A^{-1}
   \end{equation*}
@@ -2479,6 +2479,10 @@ negative?
 
 If you put on socks and then shoes, what is the inverse of that? Take off the
 shoes, and then the socks.
+
+Note that \cref{thm:socks-and-shoes-property} has two conclusions: first, that
+products of matrices are invertible, and second the formula
+$(AB)^{-1}=B^{-1}A^{-1}$.
 
 \begin{proof}[Proof of \cref{thm:socks-and-shoes-property}]
   It is sufficient to show that $B^{-1}A^{-1}$ is the inverse of $AB$, which
@@ -2504,9 +2508,9 @@ framework that that is used to prove it and results like it, because it is
 based on an important idea.
 
 \subsection{Row reduction is multiplication by elementary matrices}
-Section 1.3 in the textbook provides a powerful framework, based on row
-reduction, for deducing properties of inverses. Recall that in row reduction,
-you have three basic operations:
+Section 1.3 in the textbook provides a framework, based on row reduction, for
+deducing properties of inverses. Recall that in row reduction, you have three
+basic operations:
 \begin{itemize}
   \item swapping two rows
   \item multiplying a row by a number
@@ -2565,8 +2569,14 @@ called \demph{elementary matrices}. Here are some examples:
   &&\text{ $3R_{1}+R_{2}\to R_{2}$ }
 \end{align*}
 
-If you can row reduce a matrix $A$ to $I$, that means there exists some sequence
-of elementary matrices $E_{1},\ldots,E_{m}$ such that
+\Fl{Fact:} Elementary matrices are always invertible, because one can always
+undo a row operation. Moreover, by \cref{thm:socks-and-shoes-property} (which
+tells us that products of invertible matrices are invertible), we also know
+that products of elementary matrices are also invertible.
+
+\Fl{What does it all mean?} If you can row reduce a matrix $A$ to $I$, that
+means there exists some sequence of elementary matrices $E_{1},\ldots,E_{m}$
+such that
 \begin{equation*}
   E_{1}E_{2}E_{3}\cdots E_{m}A=I.
 \end{equation*}
@@ -2592,8 +2602,8 @@ We've just proven part of the following theorem:
 
 In particular, we've shown that $(i.)$ implies $(ii.)$. The reverse direction
 (that $(ii.)$ implies $(i.)$) can also be proved using this framework of
-elementary matrices, but I'd rather just illustrate it by showing examples of
-how a matrix inverse can be computed using row reduction.
+elementary matrices, but I'd rather spend the time showing an example of how
+to compute the inverse of a matrix using row reduction.
 
 \subsection{Computing matrix inverses using row-reduction}
 The next example will illustrate a general approach for computing a matrix
@@ -2652,22 +2662,26 @@ inverse.
   four variables $x_{11},x_{12},x_{21},x_{22}$.
 
   We have a nice way to solve linear systes: row reduction. Moreover, for
-  finding inverses, there is a clever way to do it, as I now show. The augmented
-  matrix we will use is the following:
+  finding inverses, there is a clever way to do it, as I now show.
+
+  \fl{Step 1.} Set up an augmented matrix of the following form:
   \begin{equation*}
     \begin{augmentedmatrix}{cc|cc}
       3&1&1&0\\
       1&2&0&1
     \end{augmentedmatrix}
   \end{equation*}
-  Row reducing this, we get:
+  \fl{Step 2.} Completely row reduce the matrix until the left part is the
+  identity matrix. (I'm skipping these steps). After doing this for this
+  example, we get:
   \begin{equation*}
     \begin{augmentedmatrix}{cc|cc}
       1&0&2/5&-1/5\\
       0&1&-1/5&3/5
     \end{augmentedmatrix}
   \end{equation*}
-  and $A^{-1}$ is the the matrix to the right of the bar:
+  \fl{Step 3.} Draw the conclusion that $A^{-1}$ is the the matrix to the
+  right of the bar:
   \begin{equation*}
     A^{-1} =
     \begin{bmatrix}
@@ -2675,19 +2689,34 @@ inverse.
       -1/5&3/5
     \end{bmatrix}
   \end{equation*}
-  Recall that $A$ somehow stretched space in a way that scaled area by a factor
-  of $5$, because $\det(A)=5$. The transformation of $A^{-1}$ undoes whatever
-  $A$ did, so it must shrink space by a factor of $5$. Indeed,
+\end{example}
+
+\begin{remark}
+  The approach in \cref{ex:computing-inverse-matrix} works for larger matrices
+  as well, see Example 1 in Section 1.3 of the textbook (p.31).
+\end{remark}
+
+\begin{remark}
+  Recall that from the previous lecture, we saw that the matrix
+  $A=
+  \begin{bmatrix}
+    3&1\\
+    1&2
+  \end{bmatrix}
+  $ corresponds to a transformation of space that somehow stretched space in a
+  way that scaled area by a factor of $5$, because $\det(A)=5$ (see
+  \cref{sec:volume-scaling-factor-transformation}). Since $A^{-1}$ undoes
+  whatever $A$ did, so it must shrink space by a factor of $5$. Indeed,
   \begin{equation*}
     \det(A^{-1}) 
     = \left(\frac{2}{5}\right)\left(\frac{3}{5}\right)-\left(-\frac{1}{5}\right)\left(-\frac{1}{5}\right) 
     = \frac{6}{25}- \frac{1}{25} 
     = \frac{1}{5}.
   \end{equation*}
-\end{example}
+\end{remark}
 
-Before doing another example, I want to note that
-\cref{ex:computing-inverse-matrix} illustrates the following theorem:
+
+This illustrates the following theorem:
 \begin{theorem}
   If $A^{-1}$ exists then
   \begin{equation*}
@@ -2703,8 +2732,7 @@ $A^{-1}$ must scale it by a factor of $\frac{1}{a}$. We'll probably give an
 actual proof later, but that's the idea.
 
 
-The approach in \cref{ex:computing-inverse-matrix} works for larger matrices
-as well, see Example 1 in Section 1.3 of the textbook (p.31).
+\newpage
 
 
 \begin{example}[Example 1 in section 1.3]
@@ -2743,13 +2771,10 @@ as well, see Example 1 in Section 1.3 of the textbook (p.31).
   \end{equation*}
 \end{example}
 
+Matrix inversion is also related to another important matrix operation:
+transposition, and symmetric matrices.
 
-
-
-\newpage
-\section{2025-09-15 | Week 04 | Lecture 09}
-
-\subsection{Transpose}
+\subsection{The Transpose Operation and Symmetric Matrices}
 
 Given an $m\times n$ matrix $A=(a_{ij})$, the \demph{transpose} of $A$,
 denoted $A^{\top}$, is the $n\times m$ matrix $A^{\top}=(a_{ji})$. For
@@ -2772,7 +2797,7 @@ example,
 \begin{theorem}[Properties of Transpose]
   Suppose $A,B$ are matrices. Then whenever defined, the following properties
   hold:
-  \begin{enumerate}
+  \begin{enumerate}[label=(\roman*.)]
     \item $\left( A^{\top} \right)^{\top}=A $
     \item $\left( A+B \right)^{\top} = A^{\top}+B^{\top}$
     \item $\left( cA \right)^{\top} = cA^{\top}$
@@ -2781,12 +2806,11 @@ example,
   \end{enumerate}
 \end{theorem}
 \begin{proof}
-  Maybe prove properties 4 and 5. The proof is kind of neat, just uses the definition
-  of matrix multiplication.
+  Maybe prove properties (iv.) and (v.). The proof is kind of neat, it just uses
+  the definition of matrix multiplication.
 \end{proof}
 
-\subsection{Symmetric Matrices}
-If $A=A^{\top}$, then we say that $A$ is \demph{symmetric}. An example:
+If $A=A^{\top}$, then we say that $A$ is a \demph{symmetric matrix}. An example:
 \begin{equation*}
   \begin{bmatrix}
     -5&1&2\\
@@ -2796,11 +2820,14 @@ If $A=A^{\top}$, then we say that $A$ is \demph{symmetric}. An example:
 \end{equation*}
 Symmetric matrices are always square. If $A,B$ are symmetric, then $A+B$ is
 also symmetric.
+
+The transpose operation provides a way to construct symmetric matrices:
+
 \begin{theorem}
   Let $A$ be any matrix. Then $A^{\top}A$ and $AA^{\top}$ are both symmetric.
 \end{theorem}
 \begin{proof}
-  Uses matrix multiplication.
+  Uses matrix multiplication. Possible homework exercise.
 \end{proof}
 
 \begin{theorem}
@@ -2818,5 +2845,39 @@ also symmetric.
   This calculation shows that $A^{-1}$ is symmetric, since it equals its
   transpose.
 \end{proof}
+
+
+\newpage
+\section{2025-09-15 | Week 04 | Lecture 09}
+
+Properties of determinants.
+
+Define determinant using cofactor expansion.
+
+Introduce noatation.
+
+Determinant of the identity matrix is 1.
+
+Prove that if $A$ is square and has a row of zeros  (or a column of zeros), then
+the determinant is zero.
+
+Prove that if a matrix has two rows which are the same (or two columns which
+are the same) then the determinant is zero.
+
+If $A$ is triangular (define this), then its determinant is the product of its
+diagonal entries.
+
+$\left| A^{\top} \right| = \left| A \right|$. Proof is by induction.
+
+Prove that determinant is a homomorphism:
+$\left| AB \right| = \left| A \right| \left| B \right|$. The proof is
+geometric: $AB$ composes the linear maps, so of course the volume scaling
+factor gets multiplied.
+
+Prove that $A$ is nonsingular if and only if $|A|\neq 0$. Proof idea is based
+on row reduction.
+
+Probably skip adjoints and Cramer's rule and focus on the linear map stuff.
+
 
 \end{document}
