@@ -2732,153 +2732,405 @@ $A^{-1}$ must scale it by a factor of $\frac{1}{a}$. We'll probably give an
 actual proof later, but that's the idea.
 
 
+% \begin{example}[Example 1 in section 1.3]
+%   Find the inverse of the matrix
+%   \begin{equation*}
+%     A= \begin{bmatrix}
+%       2&1&3\\
+%       2&1&1\\
+%       4&5&1
+%     \end{bmatrix}
+%   \end{equation*}
+%   We set up the augmented matrix
+%   \begin{equation*}
+%     \begin{augmentedmatrix}{ccc|ccc}
+%       2&1&3&1&0&0\\
+%       2&1&1&0&1&0\\
+%       4&5&1&0&0&1
+%     \end{augmentedmatrix}.
+%   \end{equation*}
+%   After row reduction, we obtain
+%   \begin{equation*}
+%     \begin{augmentedmatrix}{ccc|ccc}
+%       1&0&0&-1/3&7/6&-1/6\\
+%       0&1&0&1/6&-5/6&1/3\\
+%       0&0&1&1/2&-1/2&0
+%     \end{augmentedmatrix}.
+%   \end{equation*}
+%   Then the inverse of $A$ is given by
+%   \begin{equation*}
+%     A^{-1} =
+%     \begin{bmatrix}
+%       -1/3&7/6&-1/6\\
+%       1/6&-5/6&1/3\\
+%       1/2&-1/2&0
+%     \end{bmatrix}.
+%   \end{equation*}
+% \end{example}
+
 
 \newpage
 \section{2025-09-15 | Week 04 | Lecture 09}
 
-\begin{example}[Example 1 in section 1.3]
-  Find the inverse of the matrix
-  \begin{equation*}
-    A= \begin{bmatrix}
-      2&1&3\\
-      2&1&1\\
-      4&5&1
-    \end{bmatrix}
-  \end{equation*}
-  We set up the augmented matrix
-  \begin{equation*}
-    \begin{augmentedmatrix}{ccc|ccc}
-      2&1&3&1&0&0\\
-      2&1&1&0&1&0\\
-      4&5&1&0&0&1
-    \end{augmentedmatrix}.
-  \end{equation*}
-  After row reduction, we obtain
-  \begin{equation*}
-    \begin{augmentedmatrix}{ccc|ccc}
-      1&0&0&-1/3&7/6&-1/6\\
-      0&1&0&1/6&-5/6&1/3\\
-      0&0&1&1/2&-1/2&0
-    \end{augmentedmatrix}.
-  \end{equation*}
-  Then the inverse of $A$ is given by
-  \begin{equation*}
-    A^{-1} =
-    \begin{bmatrix}
-      -1/3&7/6&-1/6\\
-      1/6&-5/6&1/3\\
-      1/2&-1/2&0
-    \end{bmatrix}.
-  \end{equation*}
-\end{example}
+\textit{This lecture is based on sections 1.5 and 1.6 in the textbook. We are
+  going to skip section 1.7}
 
-Matrix inversion is also related to another important matrix operation:
-transposition, and symmetric matrices.
 
-\subsection{The Transpose Operation and Symmetric Matrices}
 
-Given an $m\times n$ matrix $A=(a_{ij})$, the \demph{transpose} of $A$,
-denoted $A^{\top}$, is the $n\times m$ matrix $A^{\top}=(a_{ji})$. For
-example,
+\begin{center}
+  \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
+    \textit{\textbf{The nexus question of this lecture:} How do we understand
+      (and compute) the determinant, algebraically?}
+  \end{tcolorbox}
+\end{center}
+
+\subsection{Review of the ``Key Theorem'' of Linear Algebra}
+
+
+\begin{theorem}[The Key Theorem of Linear Algebra (partial version)]
+  \label{thm:key-theorem-linear-algebra-(partial-version))}
+  Let $A$ be an $n\times n$ matrix. Then the following are equivalent:
+  \begin{enumerate}[label=(\roman*.)]
+    \item $A^{-1}$ exists (i.e., $A$ is invertible)
+    \item $\det A \neq 0$
+    \item The linear system $AX=B$ has a unique solution for each $B\in
+    \R^{n}$.
+    \item $A$ is row equivalent to $I$
+    \item ... 
+  \end{enumerate}
+\end{theorem}
+
+Property (iv.) says we can row reduce $A$ into $I$. The term for this is ``row
+equivalence''. Precisely, If $A$ and $B$ are matrices, we say that $A$ is
+\demph{row equivalent} to $B$ if there is a sequence of elementary row
+operations which if applied to $A$ will result in $B$.
+
+
+\subsection{Definition of the determinant}
+
+Consider a square matrix
 \begin{equation*}
   A =
   \begin{bmatrix}
-    1&2&3\\
-    4&5&6
-  \end{bmatrix}
-  \quad \text{and} \quad
-  A^{\top} =
+    a_{11}&a_{12}&\ldots& a_{1n}\\
+    a_{21}&a_{22}&\ldots& a_{2n}\\
+    \vdots&\vdots & &\vdots \\
+    a_{n1}&a_{n2}&\ldots& a_{nn}
+  \end{bmatrix}.
+\end{equation*}
+Given an entry $a_{ij}$, the \demph{minor} of $a_{ij}$, denoted $M_{ij}$, is the matrix
+obtained from $A$ by deleting row $i$ and column $j$ of $A$. For example, if
+\begin{equation*}
+  A =
   \begin{bmatrix}
-    1&4\\
-    2&5\\
-    3&6
+    a_{11},a_{12},a_{13}\\
+    a_{21},a_{22},a_{23}\\
+    a_{31},a_{32},a_{33}\\
   \end{bmatrix}
 \end{equation*}
+then some minors are
+\begin{equation*}
+  M_{11} =
+  \begin{bmatrix}
+    a_{12}&a_{13}\\
+    a_{22}&a_{23}
+  \end{bmatrix},
+  \quad
+  M_{12} =
+  \begin{bmatrix}
+    a_{21}&a_{23}\\
+    a_{31}&a_{33}
+  \end{bmatrix},
+  \quad \text{and} \quad
+  M_{32} =
+  \begin{bmatrix}
+    a_{11}&a_{13}\\
+    a_{21}&a_{23}
+  \end{bmatrix}.
+\end{equation*}
 
-\begin{theorem}[Properties of Transpose]
-  Suppose $A,B$ are matrices. Then whenever defined, the following properties
-  hold:
+\begin{definition}[Determinant]
+  \label{def:determinant}
+  For a $1\times 1$ matrix, $A=[a_{11}]$, we define $\det(A) =1$. If $A$ is an
+  $n\times n$ matrix with $n \geq 2$, we define the determinant recursively as
+  \begin{equation*}
+    \det(A) = \sum_{j=1}^{n}(-1)^{j+1}a_{1j}\det(M_{1j}).
+  \end{equation*}
+\end{definition}
+\Fl{Note:} Note that the determinant is defined only for square matrices.
+
+Geometrically, the determinant is the (signed) volume scaling factor of the
+transformation of space, which is very useful to keep in mind.
+\cref{def:determinant} is also useful because it allows us to see how to
+actually compute determinants.
+
+For a $2\times 2$ matrix, \cref{def:determinant} simplifies to
+\begin{equation*}
+  \det \left(
+    \begin{bmatrix}
+      a_{11}&a_{12}\\
+      a_{21}&a_{22}
+    \end{bmatrix}
+  \right) = a_{11}a_{22}-a_{12}a_{21}.
+\end{equation*}
+
+To simplify notation, we use vertical bars to denote determinant
+$|A|:=\det(A)$, or something like this:
+\begin{equation*}
+  \begin{vmatrix}
+    a_{11}&a_{12}\\
+    a_{21}&a_{22}
+  \end{vmatrix}
+  :=
+  \det \left(
+    \begin{bmatrix}
+      a_{11}&a_{12}\\
+      a_{21}&a_{22}
+    \end{bmatrix}
+    \right).
+\end{equation*}
+
+\begin{example}[Computing the determinant of a $3\times 3$ matrix]
+  \label{ex:computing-determinant-3times-3-matrix}
+  \begin{align*}
+    \begin{vmatrix}
+      2&3&-2\\
+      -1&6&3\\
+      4&-1&1
+    \end{vmatrix}
+        &=
+          2
+          \begin{vmatrix}
+            6&3\\
+            -2&1
+          \end{vmatrix}
+                -3
+                \begin{vmatrix}
+                  -1&3\\
+                  4&1
+                \end{vmatrix}
+                     +(-2)
+                     \begin{vmatrix}
+                       -1&6\\
+                       4&-2
+                     \end{vmatrix}\\
+       &=2 \left[ 6\cdot1 - 3(-2) \right]
+         -3 \left[ (-1)1 - 3\cdot4 \right]
+         -2 \left[ (-1)(-2)-6\cdot4 \right]\\ 
+       &=107.
+  \end{align*}
+\end{example}
+
+\subsection{Computing determinants using cofactor expansions}
+The formula for the determinant in \cref{def:determinant} is called a
+\demph{cofactor expansion} (there are other formulas). A \demph{cofactor} of
+an entry $a_{ij}$ is the quantity
+\begin{equation*}
+  C_{ij} = (-1)^{i+j}\det(M_{ij})
+\end{equation*}
+so our formula was
+\begin{equation*}
+  \det(A) = \sum_{j=1}^{n}  a_{1j}C_{1j}. 
+\end{equation*}
+This is called the \demph{cofactor expansion about the first row.} In fact, we
+could have picked any row or column and done a similar calculation to get the
+determinant:
+\begin{theorem}[Cofactor Expansion]
+  \label{thm:cofactor-expansion}
+  If $A$ is an $n\times n$ matrix with $n \geq 2$, then
   \begin{enumerate}[label=(\roman*.)]
-    \item $\left( A^{\top} \right)^{\top}=A $
-    \item $\left( A+B \right)^{\top} = A^{\top}+B^{\top}$
-    \item $\left( cA \right)^{\top} = cA^{\top}$
-    \item $\left( AB \right)^{\top}=B^{\top}A^{\top}$
-    \item $\left( A^{\top} \right)^{-1} = \left( A^{-1} \right)^{\top} $
+    \item For any fixed $i=1,2,\ldots,n,$ we have
+    \begin{equation*}
+      \det(A) = \sum_{j=1}^{n}a_{ij}C_{ij} \quad \text{(cofactor expansion
+        about the $i^{\rm th}$ row)}
+    \end{equation*}
+    \item For any fixed $j=1,2,\ldots,n$, we have
+    \begin{equation*}
+      \det(A) = \sum_{i=1}^{n}a_{ij}C_{ij} \quad \text{(cofactor expansion
+        about the $j^{\rm th}$ column)} 
+    \end{equation*}
   \end{enumerate}
 \end{theorem}
-\begin{proof}
-  Maybe prove properties (iv.) and (v.). The proof is kind of neat, it just uses
-  the definition of matrix multiplication.
-\end{proof}
+This theorem is proved by induction on $n$ in section 1.7, but the proof is
+technical, so we'll skip it. Two examples will illustrate this theorem.
 
-If $A=A^{\top}$, then we say that $A$ is a \demph{symmetric matrix}. An example:
-\begin{equation*}
-  \begin{bmatrix}
-    -5&1&2\\
-    1&4&3\\
-    2&3&6\\
-  \end{bmatrix}
-\end{equation*}
-Symmetric matrices are always square. If $A,B$ are symmetric, then $A+B$ is
-also symmetric.
+\begin{example}[Alternative cofactor expansions]
 
-The transpose operation provides a way to construct symmetric matrices:
-
-\begin{theorem}
-  Let $A$ be any matrix. Then $A^{\top}A$ and $AA^{\top}$ are both symmetric.
-\end{theorem}
-\begin{proof}
-  Uses matrix multiplication. Possible homework exercise.
-\end{proof}
-
-\begin{theorem}
-  If $A$ is an invertible symmetric matrix, then $A^{-1}$ is also symmetric.
-\end{theorem}
-\begin{proof}
-  Using the fact that $\left( A^{-1} \right)^{\top} = \left( A^{\top}
-  \right)^{-1}$, we have
+  Let's compute the determinant of the matrix from
+  \cref{ex:computing-determinant-3times-3-matrix} in two different ways, using
+  \cref{thm:cofactor-expansion}:
+  
+ The cofactor expansion about the third row:
   \begin{align*}
-    \left( A^{-1} \right)^{\top} 
-    &= \left( A^{\top} \right)^{-1} \\
-    &= \left( A \right)^{-1} \\
-    &= A^{-1}.
+    \begin{vmatrix}
+      2&3&-2\\
+      -1&6&3\\
+      4&-1&1
+    \end{vmatrix}
+        &=
+          a_{31}C_{31}+a_{32}C_{32}+a_{33}C_{33}\\
+       &= 4
+          \begin{vmatrix}
+            3&-2\\
+            6&3
+          \end{vmatrix}
+                -(-2)
+                \begin{vmatrix}
+                  2&-2\\
+                  -1&3
+                \end{vmatrix}
+                     +1
+                     \begin{vmatrix}
+                       2&3\\
+                       -1&6
+                     \end{vmatrix}\\
+       &=107.
   \end{align*}
-  This calculation shows that $A^{-1}$ is symmetric, since it equals its
-  transpose.
+  The cofactor expansion about the second column:
+  \begin{align*}
+    \begin{vmatrix}
+      2&3&-2\\
+      -1&6&3\\
+      4&-1&1
+    \end{vmatrix}
+       &= a_{21}C_{21}+a_{22}C_{22}+a_{32}C_{32}\\
+       &= -3
+          \begin{vmatrix}
+            -1&3\\
+            4&1
+          \end{vmatrix}
+               +6
+               \begin{vmatrix}
+                 2&-2\\
+                 4&1
+               \end{vmatrix}
+                     -(-2)
+                     \begin{vmatrix}
+                       2&-2\\
+                       -1&3
+                     \end{vmatrix}\\
+       &=107.
+  \end{align*}
+\end{example}
+
+\subsection{Key properties of the determinant}
+
+The following theorem is obvious geometrically
+\begin{theorem}
+  If $I$ is an $n\times n$ identity matrix, then $\det(I)=1$. If $\mathbf{O}$
+  is an $n\times n$ zero matrix, then $\det(\mathbf{O})=0$.
+\end{theorem}
+
+\begin{theorem}[Zero row/column]
+  \label{thm:zero-rowcolumn}
+  Let $A$ be an $n\times n$ matrix. If $A$ has a row of zeros (or a column of
+  zeroes), then the determinant is zero.
+\end{theorem}
+\begin{proof}
+  Suppose that the $k^{\rm th}$ row of $A$ has only zero entries. That means
+  \begin{equation*}
+    a_{k1}=0,\quad a_{k2}=0, \quad a_{k3}=0,\quad\ldots \quad \text{and} \quad a_{kn}=0
+  \end{equation*}
+  By \cref{thm:cofactor-expansion}(i.),
+  \begin{equation*}
+    \det(A) = \sum_{j=1}^{n}a_{ij}C_{ij} 
+  \end{equation*}
+  for any choice of $j\in \left\{1,2,\ldots,n\right\}$. Picking $i=k$, we get
+  \begin{align*}
+    \det(A) 
+    &= \sum_{j=1}^{n}a_{kj}C_{kj}\\
+    &= \sum_{j=1}^{n}(0)C_{kj}\\
+    &=0.
+  \end{align*}
+  The proof for the case where $A$ has a column of zero entries is similar.
 \end{proof}
 
+To see why \cref{thm:zero-rowcolumn} is true geometrically, it suffices to
+consider an example
+\begin{example}[A row of zeroes implies zero determinant]
+  \label{ex:row-zeroes-implies-zero-determinant}
+  \begin{equation*}
+    A =
+    \begin{bmatrix}
+      4&5&-1\\
+      6&2&3\\
+      0&0&0\\
+    \end{bmatrix}
+  \end{equation*}
+  \begin{equation*}
+    \begin{bmatrix}
+      4&5&-1\\
+      6&2&3\\
+      0&0&0\\
+    \end{bmatrix}
+    \begin{bmatrix}
+      x\\y\\z
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      4x+5y-z\\ 6x+2y+3z \\0
+    \end{bmatrix}
+  \end{equation*}
+  As a transformation of space, this matrix sends every point $
+  \begin{bmatrix}
+    x\\y\\z
+  \end{bmatrix}
+  $ to another point of the form $
+  \begin{bmatrix}
+    *\\ * \\ 0
+  \end{bmatrix}
+  $. Therefore every point gets mapped to a point in the set
+  \begin{equation*}
+    \left\{(x,y,z)\in \R^{3}: z=0\right\} 
+  \end{equation*}
+  This is the plane $z=0$. So the matrix $A$ effectuates a dimension collapse,
+  from 3 dimensonal space into to a 2-dimensional plane. This destroys volume,
+  so $\det(A)=0$.
+
+  Of course, not every matrix that has determinant zero has a row or column of
+  zeroes. For example, one can check that
+  \begin{equation*}
+    \begin{vmatrix}
+      0&1&2\\
+      3&1&2\\
+      5&2&4
+    \end{vmatrix}=0.
+  \end{equation*}
+\end{example}
+
+\begin{theorem}[The determinant preserves multiplication]
+  \label{thm:determinant-preserves-multiplication}
+  If $A$ and $B$ are $n\times n$ matrices, then
+  \begin{equation*}
+    \det(AB) = \det(A)\det(B).
+  \end{equation*}
+\end{theorem}
+
+The geometric idea of understanding matrices as transformations of space makes
+this theorem obvious. The transformation of space given by $AB$ is
+\begin{itemize}
+  \item first, do the transformation of $B$
+  \item then, do the transformation of $A$.
+\end{itemize}
+If $B$ scales volume by a factor of $2$, and $A$ scales it again by a factor
+of $5$, then the final scaling induced by $AB$ will be $10$. In symbols
+\begin{equation*}
+  \det(AB) = 10 = 5\cdot 2 = \det(A)\det(B).
+\end{equation*}
+The idea is similar when the negative determinants (i.e., corresponding to
+transformations which include some sort of reflection) are used.
 
 \newpage
-\section{2025-09-17 | Week 04 | Lecture 10}
+\section{Possible homework problems}
 
-Properties of determinants.
+\begin{problem}
+  If $A$ is triangular (define this), then its determinant is the product of
+  its diagonal entries.
+\end{problem}
 
-Define determinant using cofactor expansion.
-
-Introduce noatation.
-
-Determinant of the identity matrix is 1.
-
-Prove that if $A$ is square and has a row of zeros  (or a column of zeros), then
-the determinant is zero.
-
-Prove that if a matrix has two rows which are the same (or two columns which
-are the same) then the determinant is zero.
-
-If $A$ is triangular (define this), then its determinant is the product of its
-diagonal entries.
-
-$\left| A^{\top} \right| = \left| A \right|$. Proof is by induction.
-
-Prove that determinant is a homomorphism:
-$\left| AB \right| = \left| A \right| \left| B \right|$. The proof is
-geometric: $AB$ composes the linear maps, so of course the volume scaling
-factor gets multiplied.
-
-Prove that $A$ is nonsingular if and only if $|A|\neq 0$. Proof idea is based
-on row reduction.
-
-Probably skip adjoints and Cramer's rule and focus on the linear map stuff.
+\begin{problem}
+  $\left| A^{\top} \right| = \left| A \right|$. Proof is by induction.
+\end{problem}
 
 
 \end{document}

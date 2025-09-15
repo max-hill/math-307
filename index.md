@@ -23,5 +23,6 @@ title: Lecture notes
  2025-09-08  | [lecture-06](lectures/lecture-notes-by-day/lecture-06.pdf)      | How do we encode a linear system using matrices? And once thus encoded, what can we say about the linear system just by looking at the matrix?  
  2025-09-10  | [lecture-07](lectures/lecture-notes-by-day/lecture-07.pdf)      | What is a determinant, geometrically?  
  2025-09-12  | [lecture-08](lectures/lecture-notes-by-day/lecture-08.pdf)      | What are the key properties of the matrix inverse?  
+ 2025-09-15  | [lecture-09](lectures/lecture-notes-by-day/lecture-09.pdf)      | How do we understand (and compute) the determinant, algebraically?  
  
 
