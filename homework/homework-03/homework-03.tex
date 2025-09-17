@@ -1,0 +1,428 @@
+\documentclass[10pt]{article}
+% Math Packages
+\usepackage{amsmath, mathtools}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{bbm}
+\usepackage{breqn}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{calc}
+\usepackage{forest}
+\usepackage{tikz-qtree}
+\graphicspath{ {./images/} }
+\usepackage{hyperref}
+\usepackage[capitalize]{cleveref}
+\usepackage[shortlabels]{enumitem}
+\usetikzlibrary{arrows,matrix,positioning}
+\usepackage{multicol}
+
+
+% for the pipe symbol
+\usepackage[T1]{fontenc}
+
+% Citing theorems by name. (source: https://tex.stackexchange.com/questions/109843/cleveref-and-named-theorems)
+\makeatletter
+\newcommand{\ncref}[1]{\cref{#1}\mynameref{#1}{\csname r@#1\endcsname}}
+
+\def\mynameref#1#2{%
+  \begingroup
+  \edef\@mytxt{#2}%
+  \edef\@mytst{\expandafter\@thirdoffive\@mytxt}%
+  \ifx\@mytst\empty\else
+  \space(\nameref{#1})\fi
+  \endgroup
+}
+\makeatother
+
+% Colorful Notes
+\usepackage{color} \definecolor{Red}{rgb}{1,0,0} \definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5} \def\red{\color{Red}} \def\blue{\color{Blue}}
+\def\gray{\color{gray}} \def\purple{\color{Purple}}
+\newcommand{\rnote}[1]{{\red [#1]}} % \rnote{foo} gives '[foo]' in red
+\newcommand{\pnote}[1]{{\purple [#1]}} % \pnote{foo} gives '[foo]' in purple
+\newcommand{\bnote}[1]{{\blue #1}} % \bnote{foo} gives 'foo' in blue
+\newcommand{\gnote}[1]{{\gray #1}} % \gnote{foo} gives 'foo' in gray
+\newcommand{\Max}[1]{{\purple [#1]}} % \bnote{foo} then 'foo' is blue
+
+
+% Claim numbering (the counter restarts after each proof environment)
+\newcounter{claimcount}
+\setcounter{claimcount}{0}
+\newenvironment{claim}{\refstepcounter{claimcount}\par\addvspace{\medskipamount}\noindent\textbf{Claim \arabic{claimcount}:}}{}
+\usepackage{etoolbox}
+\AtBeginEnvironment{proof}{\setcounter{claimcount}{0}}
+\newenvironment{claimproof}{\par\addvspace{\medskipamount}\noindent\textit{Proof of Claim  \arabic{claimcount}.}}{\hfill\ensuremath{\qedsymbol} \tiny{Claim}
+
+  \medskip}
+% Add claim support to cleverref
+\crefname{claimcount}{Claim}{Claims}
+
+
+% Math Environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{question}[theorem]{Question}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+
+% Matrices and Column Vectors. 
+\usepackage{stackengine}
+\setstackgap{L}{1.0\normalbaselineskip}
+\usepackage{tabstackengine}
+\setstackEOL{;}% row separator
+\setstackTAB{,}% column separator
+\setstacktabbedgap{1ex}% inter-column gap
+\setstackgap{L}{1.5\normalbaselineskip}% inter-row baselineskip
+\let\nmatrix\bracketMatrixstack  %Usage: \nmatrix{1,2,3\4,5,6}
+\newcommand\cv[1]{\setstackEOL{,}\bracketMatrixstack{#1}} %usage: \cv{1,2,3}
+
+% Custom Math Coqmmands
+\newcommand{\vt}{\vskip 5mm} % vertical space
+\newcommand{\fl}{\noindent\textbf} % first line
+\newcommand{\Fl}{\vt\noindent\textbf} % first line with space above
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert} % norm
+\newcommand{\pnorm}[1]{\left\lVert#1\right\rVert_p} % p-norm
+\newcommand{\qnorm}[1]{\left\lVert#1\right\rVert_q} % q-norm
+\newcommand{\1}[1]{\textbf{1}_{\left[#1\right]}} % indicator function 
+\def\limn{\lim_{n\to\infty}} % shortcut for lim as n-> infinity
+\def\sumn{\sum_{n=1}^{\infty}} % shortcut for sum from n=1 to infinity
+\def\sumkn{\sum_{k=1}^{n}} % shortcut for sum from k=1 to n
+\def\sumin{\sum_{i=1}^{n}} % shortcut for sum from i=1 to n
+\def\SAs{\sigma\text{-algebras}} % shortcut for $\sigma$-algebras
+\def\SA{\sigma\text{-algebra}} % shortcut for $\sigma$-algebra
+\def\Ft{\mathcal{F}_t} % time-indexed sigma-algebra (t)
+\def\Fs{\mathcal{F}_s} % time-indexed sigma-algebra (s)
+\def\F{\mathcal{F}} % sigma-algebra
+\def\G{\mathcal{G}} % sigma-algebra
+\def\R{\mathbb{R}} % Real numbers
+\def\N{\mathbb{N}} % Natural numbers
+\def\Z{\mathbb{Z}} % Integers
+\def\E{\mathbb{E}} % Expectation
+\def\P{\mathbb{P}} % Probability
+\def\Q{\mathbb{Q}} % Q probability
+\def\dist{\text{dist}} %Text 'dist' for things like 'dist(x,y)'
+\newcommand{\indep}{\perp \!\!\! \perp}  %independence symbol
+\def\Var{\mathrm{Var}} % Variance
+\def\tr{\mathrm{tr}} % trace
+
+% Brackets and Parentheses
+\def\[{\left [}
+    \def\]{\right ]}
+% \def\({\left (}
+%   \def\){\right )}
+
+
+
+\usepackage{color}
+\definecolor{Red}{rgb}{1,0,0}
+\definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5}
+\def\red{\color{Red}}
+\def\blue{\color{Blue}}
+\def\gray{\color{gray}}
+\def\purple{\color{Purple}}
+\definecolor{RoyalBlue}{cmyk}{1, 0.50, 0, 0}
+\newcommand{\dempfcolor}[1]{{\color{RoyalBlue}#1}} 
+\newcommand{\demph}[1]{\dempfcolor{{\sl #1}}}
+
+% comment exactly one of the following line to show / hide the solutions
+% \newcommand{\solution}[1]{{\purple #1}} % uncomment to show the solutions
+\newcommand{\solution}[1]{} % uncomment to hide the solutions
+
+
+
+\title{Lecture Notes for Math 372: \\Elementary Probability and Statistics}
+\date{Last updated: \today}
+% \author{mh}
+
+\begin{document}
+\begin{center}
+  \section*{Math 307: Homework 03}
+  \textit{Due Wednesday, September 24 (at the beginning of class)}
+\end{center}
+
+
+\begin{problem}[Important] %strang p80
+  Let $A$ be a $3\times 3$ matrix. Suppose $x_{1},x_{2},$ and $x_{3}$ are
+  column vectors such that
+  \begin{equation*}
+    Ax_{1} =
+    \begin{bmatrix}
+      1\\0\\0
+    \end{bmatrix}
+    \quad \text{and} \quad
+    Ax_{2} =
+    \begin{bmatrix}
+      0\\1\\0
+    \end{bmatrix}
+    \quad \text{and} \quad
+    Ax_{3} =
+    \begin{bmatrix}
+      0\\0\\1
+    \end{bmatrix}.
+  \end{equation*}
+  If the three solutions $x_{1},x_{2}$ and $x_{3}$ are columns of a matrix
+  $X$, what is $AX$?
+\end{problem}
+
+
+
+\begin{problem}
+  \label{problem:thm}
+  Given an $m\times n$ matrix $A=(a_{ij})$, the \demph{\textbf{transpose}} of $A$,
+  denoted $A^{\top}$, is the $n\times m$ matrix $A^{\top}=(a_{ji})$. For
+  example,
+  \begin{equation*}
+    A =
+    \begin{bmatrix}
+      1&2&3\\
+      4&5&6
+    \end{bmatrix}
+    \quad \text{and} \quad
+    A^{\top} =
+    \begin{bmatrix}
+      1&4\\
+      2&5\\
+      3&6
+    \end{bmatrix}
+  \end{equation*}
+  Prove the following theorem.
+
+  \begin{quote}\textbf{Theorem.} (Properties of the transpose).
+    Suppose $A,B$ are matrices. Then whenever defined, the following
+    properties hold:
+    \begin{enumerate}[label=(\roman*.)]
+      \item $\left( A^{\top} \right)^{\top}=A $
+      \item $\left( A+B \right)^{\top} = A^{\top}+B^{\top}$
+      \item $\left( cA \right)^{\top} = cA^{\top}$
+      \item $\left( AB \right)^{\top}=B^{\top}A^{\top}$ \quad\textit{(this is
+        sort of like the socks and shoes property)}
+      \item $\left( A^{\top} \right)^{-1} = \left( A^{-1} \right)^{\top} $
+    \end{enumerate}
+  \end{quote}
+  \textit{(This is Theorem 1.13 in the textbook. The textbook offers a proof
+    of part $(iv.)$, so if you understand that proof, you can use it in your
+    answer. Hint for part $(v.)$: by Theorem 22 (in Lecture 8), all you need
+    to prove is $(A^{-1})^{\top}A^{\top}=I$.}
+\end{problem}
+
+
+
+
+\begin{problem}
+  If $A=A^{\top}$, then we say that $A$ is a \demph{\textbf{symmetric matrix}}. An
+  example:
+  \begin{equation*}
+    \begin{bmatrix}
+      -5&1&2\\
+      1&4&3\\
+      2&3&6\\
+    \end{bmatrix}
+  \end{equation*}
+  Note that symmetric matrices are always square.
+  \begin{enumerate}[(a)]
+    \item Let $A$ be any matrix. Show that $A^{\top}A$ and $AA^{\top}$ are
+    both symmetric matrices. \textit{Hint: use property (iv.) from the Theorem
+      in \cref{problem:thm}.}
+    \item Let $A$ be a symmetric matrix. Show that if $A$ is invertible, then
+    $A^{-1}$ is also symmetric. \textit{Hint: use property (v.) from the
+      Theorem in \cref{problem:thm}.}
+  \end{enumerate}
+\end{problem}
+
+
+
+\begin{problem}
+  An \demph{\textbf{involution}} is a function $f$ such that $f(f(x))=x$ for all $x$.
+  In other words, an involution is a function which is its own inverse. By
+  Part (i.) in the theorem from \cref{problem:thm}, we know that matrix transposition
+  is an involution, since if $f(A)=A^{\top}$, then
+  \begin{equation*}
+    f(f(A))=f(A^{\top})=\left( A^{\top} \right)^{\top}=A.
+  \end{equation*}
+  Another example is matrix inversion, since $\left( A^{-1} \right)^{-1}=A$.
+  Give some other examples of involutions (from any area of math).
+\end{problem}
+
+\begin{problem}
+  Let
+  \begin{equation*}
+    A =
+    \begin{bmatrix}
+      2&-1&3\\
+      4&1&-2\\
+      -3&2&1
+    \end{bmatrix}
+  \end{equation*}
+  \begin{enumerate}[(a)]
+    \item Find $\det(A)$ by expanding about row 1
+    \item Find $\det(A)$ by expanding about row 2
+    \item Find $\det(A)$ by expanding about column 1
+    \item Find $\det(A)$ by expanding about column 3
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}
+  Find the inverse of the matrix
+  \begin{equation*}
+    \begin{bmatrix}
+      0&-2&1\\
+      2&4&-1\\
+      2&1&2
+    \end{bmatrix}
+  \end{equation*}
+\end{problem}
+
+
+\begin{problem}
+  Solve the following linear system:
+  \begin{align*}
+    2x-4y+6z&=2\\
+    -3x+6y-9z&=3
+  \end{align*}
+  Interpret your results geometrically. Provide a sketch or an image (e.g.,
+  using Desmos) of the the solution.
+\end{problem}
+
+\begin{problem}
+  The technical definition of ``nonsingular'' is the following:
+  \begin{quote}
+    \textit{Definition.} An $n\times n$ matrix $A$ is said to
+    be \demph{\textbf{nonsingular}} if the only solution to the system of linear
+    equations $AX=\mathbf{0}$ is $X=\mathbf{0}$.
+  \end{quote}
+  In other words, $A$ produces the output $\mathbf{0}$ only for the input
+  $\mathbf{0}$. Note that in the above definition,
+  \begin{equation*}
+    X=
+    \begin{bmatrix}
+      x_{1}\\
+      \vdots\\
+      x_{n}
+    \end{bmatrix}
+    \quad \text{and} \quad 
+    \mathbf{0}=
+    \begin{bmatrix}
+      0\\
+      \vdots\\
+      0
+    \end{bmatrix}.
+  \end{equation*}
+  Prove that a matrix $A$ is nonsingular if and only if $\det A=0$.
+  \textit{(Hint: use the key theorem of linear algebra from lecture 9).}
+\end{problem}
+
+\begin{problem}[More determinants]
+  \begin{enumerate}[(a)]
+    \item[]
+    \item Compute the determinant by doing a cofactor expansion across an
+    approriate row or column.
+    \begin{equation*}
+      \begin{vmatrix}
+        -3&0&4\\
+        2&-1&3\\
+        4&0&5
+      \end{vmatrix}
+    \end{equation*}
+    \item Compute the determinant by doing a cofactor expansion across an
+    approriate row or column.
+    \begin{equation*}
+      \begin{vmatrix}
+        6&-5&1&3\\
+        3&1&-2&-1\\
+        0&7&0&0\\
+        3&3&0&9
+      \end{vmatrix}
+    \end{equation*}
+    
+  \end{enumerate}
+  \textit{Hint: Don't try to brute force this calculation. Be clever. See
+    Example 1 in section 1.5 of the textbook.}
+\end{problem}
+
+
+\begin{problem}[Permutation Matrices]
+  A square matrix called a \demph{\textbf{permutation matrix}} if exactly one
+  entry in each row and column is equal to $1$ and all other entries are $0$.
+  Multiplication by such matrices affects a permutation of the rows or columns
+  of the matrix multiplied. For example,
+  \begin{equation*}
+    \begin{bmatrix}
+      0&1&0\\
+      1&0&0\\
+      0&0&1
+    \end{bmatrix}
+    \begin{bmatrix}
+      1\\2\\3
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      2\\1\\3
+    \end{bmatrix}
+  \end{equation*}
+  Left multiplication permutes the rows (as shown above). Right multiplication
+  permutes the columns.
+
+  \begin{enumerate}[(a)]
+    \item Consider the set $\left\{1,2,3,4,5\right\}$. One permutation of this
+    set is $(3,2,4,1,5)$. Find the permutation matrix $P$ such that
+    \begin{equation*}
+      P
+      \begin{bmatrix}
+        1\\2\\3\\4\\5
+      \end{bmatrix}
+      =
+      \begin{bmatrix}
+        3\\2\\4\\1\\5
+      \end{bmatrix}
+    \end{equation*}
+    \item Find a permtuation matrix $Q$ such that
+    \begin{equation*}
+      Q
+      \begin{bmatrix}
+        3\\2\\4\\1\\5
+      \end{bmatrix}
+      =
+      \begin{bmatrix}
+        1\\2\\3\\4\\5
+      \end{bmatrix}
+    \end{equation*}
+    \item  What do you notice about the relationship between $P$ and $Q$?
+
+    \item Give a geometric argument for why the determinant of a permutation
+    matrix is always $+1$ or $-1$. (You don't need to give a proof, but try to
+    be convincing.)
+
+    % \item How many distinct $2\times 2$ permutation matrices are there? How many
+    % $3\times 3$ permutations matrices? How many $n\times n$ permutation matrices?
+
+    % \item Argue that the product of permutation matrices is again a permutation matrix.
+  \end{enumerate}
+\end{problem}
+
+
+\begin{problem}
+  Solve the following linear system:
+  \begin{align*}
+    2x+3y&=5\\
+    2x+y&=2\\
+    x-2y&=1
+  \end{align*}
+  Interpret your results geometrically. Provide a sketch or an image (e.g.,
+  using Desmos) of the the solution.
+\end{problem}
+
+\end{document}
+
+% Don't write in starlight, 'Cause the words may come out real

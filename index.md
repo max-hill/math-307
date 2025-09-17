@@ -24,5 +24,6 @@ title: Lecture notes
  2025-09-10  | [lecture-07](lectures/lecture-notes-by-day/lecture-07.pdf)      | What is a determinant, geometrically?  
  2025-09-12  | [lecture-08](lectures/lecture-notes-by-day/lecture-08.pdf)      | What are the key properties of the matrix inverse?  
  2025-09-15  | [lecture-09](lectures/lecture-notes-by-day/lecture-09.pdf)      | How do we understand (and compute) the determinant, algebraically?  
+ 2025-09-17  | [lecture-10](lectures/lecture-notes-by-day/lecture-10.pdf)      | What are some useful connections between the geometric and algebraic interpretations of the determinant?  
  
 
