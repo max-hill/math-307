@@ -2785,7 +2785,7 @@ actual proof later, but that's the idea.
   \end{tcolorbox}
 \end{center}
 
-\subsection{Review of the ``Key Theorem'' of Linear Algebra}
+\subsection{Review of the ``key theorem'' of linear algebra}
 
 
 \begin{theorem}[The Key Theorem of Linear Algebra (partial version)]
@@ -3147,7 +3147,7 @@ following relationship:
 \end{proof}
 
 
-\subsection{Determinants and Dimension Collapse}
+\subsection{Determinants and dimension collapse}
 The next theorem describes a class of matrices which have dimension zero
 because they collapse space:
 
@@ -3235,7 +3235,7 @@ consider an example
   other. This has something to do with it. 
 \end{example}
 
-\subsection{Determinants and Axis-Aligned Stretching}
+\subsection{Determinants and axis-aligned stretching}
 A special case of matrices are those which \demph{triangular}. A matrix is
 said to be \demph{upper triangular}, if all entries below the main diagonal
 are equal to zero. Like this:
@@ -3365,10 +3365,401 @@ This theorem can be proved by induction on $n$.
 %   This proves case $2$, completing the proof of the theorem.
 % \end{proof}
 
+\newpage
+\section{2025-09-19 | Week 04 | Lecture 11}
+
+\textit{This lecture is based on sections 2.1 and 2.2 in the textbook.}
+\begin{center}
+  \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
+    \textit{\textbf{The nexus question of this lecture:} What are the
+      essential properties of vectors?}
+  \end{tcolorbox}
+\end{center}
+
+So far we have defined
+a ``vector'' as any $n\times 1$ column matrix
+\begin{equation*}
+  x=\begin{bmatrix}
+    x_{1}\\\vdots\\x_{n}
+  \end{bmatrix}
+\end{equation*}
+whose entries are real numbers. We can think of the vector $x$ in several ways
+\begin{itemize}
+  \item as a data structure consisting of an ordered list of entries
+  \item as an arrow in space, possessing both magnitude and direction (e.g., a
+  velocity)
+  \item as a ``point'' in the $n$-dimensional space $\R^{n}$.
+\end{itemize}
+In some sense, these different notions are just superficially different ways
+of thinking about the same fundamental underlying mathematical object.
+
+So what are the \textit{essential} properties of vectors?
+
+
+\subsection{The criteria for vectorhood}
+Thinking abstractly, I propose that any definition of vectors should capture
+three key properties:
+\begin{enumerate}
+  \item \textbf{Vector addition:} we have to be able to add vectors together,
+  which always gives us another vector (as opposed to some other sort of
+  mathematical object)
+  \begin{equation*}
+    \begin{bmatrix}
+      x_{1}\\\vdots\\x_{n}
+    \end{bmatrix}
+    +
+    \begin{bmatrix}
+      y_{1}\\\vdots\\y_{n}
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      x_{1}+y_{1}\\\vdots\\x_{n}+y_{n}
+    \end{bmatrix}
+  \end{equation*}
+  \item \textbf{Scalar multiplication:} We can \textit{scale} vectors, by
+  multiplying by a scalar $c\in \R$
+  \begin{equation*}
+    c\begin{bmatrix}
+      x_{1}\\\vdots\\x_{n}
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      cx_{1}\\\vdots\\cx_{n}
+    \end{bmatrix}
+  \end{equation*}
+  and the act of scaling a vector always returns a vector.
+  \item \textbf{The algebra:} When doing algebra with vectors, the algebra
+  should behaves mostly how we'd expect (e.g., if $u,v$ are vectors then
+  $u+v=v+u$, and if $c$ is a scalar then $c(u+v)=cu+cv$, etc.). The exception
+  is that you don't need to be able to multiply or divide vectors.
+\end{enumerate}
+
+We'll offer a more precise definition later, but in some sense, these three
+things are really all it should take to define a ``vector''. But understanding
+vectors in this way opens up a lot of room for things that don't necessarily
+``look like'' the vectors in $\R^{n}$, but nonetheless behave precisely in the
+ways that vectors should behave.
+
+\subsection{Some new examples of vectors}
+
+\begin{example}[The infinite-dimensional vector space of sequences]
+  \begin{equation*}
+    \R^{\N}:= \left\{(a_{1},a_{2},a_{3},\ldots): a_{1},a_{2},\ldots\in \R\right\} 
+  \end{equation*}
+  Here, the ``vectors'' are actually infinite sequences, like
+  \begin{equation*}
+    (1, 1/2, 1/3, 1/4,\ldots)
+    \quad \text{or} \quad 
+    (0, 1, 0, 1, 0, 1,\ldots)
+    \quad \text{or} \quad 
+    (0,0,0,0,0,\ldots)
+    \quad \text{or} \quad 
+    (1, 2, 4, 8, 16, 32,\ldots)
+  \end{equation*}
+  Of course we can add
+  two sequences
+  \begin{equation*}
+    (a_{1},a_{2},a_{3},\ldots) + (b_{1},b_{2},b_{3},\ldots) = (a_{1}+b_{1},a_{2}+b_{2},a_{3}+b_{3},\ldots)
+  \end{equation*}
+  and we can scale them
+  \begin{equation*}
+    c(a_{1},a_{2},\ldots) = (ca_{1},ca_{2},\ldots)
+  \end{equation*}
+  and there's no reason to think that arithmetic would behave differently with
+  infinite sequences than with finite column vectors.
+
+  While $\R^{n}$ is $n$-dimensional space with vectors of length $n$,
+  $\R^{\N}$ is infinite-dimensional with vectors which are infinitely long.
+\end{example}
+
+Polynomials seem to fit the same criteria for vectorhood as well:
+
+\begin{example}[Polynomials of degree at most 2]
+  \begin{equation*}
+    \R[x]_{ \leq 2} = \left\{a_{0}+a_{1}x+a_{2}x^{2} :
+      a_{0},\ldots,a_{2}\in \R\text{ and }x \text{ is an symbolic variable}\right\} 
+  \end{equation*}
+
+  Here, the ``vectors'' are polynomials like
+  \begin{equation*}
+    1+x+3x^{2} \quad \text{or} \quad x-x^{2} \quad \text{or} \quad -1+x.
+  \end{equation*}
+  Here, we can add the ``vectors'' of this set in the usual way. If
+  \begin{equation*}
+    u = a_{0}+a_{1}x+a_{2}x^{2} \quad \text{and} \quad  v = b_{0}+b_{1}x+b_{2}x^{2},
+  \end{equation*}
+  Then the vector $u+v$ is 
+  \begin{equation*}
+    (a_{0}+a_{0})+(a_{1}+a_{1})x+(a_{2}+a_{2})x^{2}
+  \end{equation*}
+  which is again a polynomial.
+  
+  We also have a notion of scalar multiplication. If $c\in \R$, then
+  \begin{align*}
+    cu
+    &= c \left( a_{0}+a_{1}x+a_{2}x^{2} \right) \\
+    &= ca_{0}+ca_{1}x+ca_{2}x^{2}
+  \end{align*}
+  which is still a polynomial of degree at most 2.
+  
+  \fl{Question:} What is the dimension of the  ``space'' $\R[x]_{ \leq 2}$?
+
+  To specify an element of $\R[x]_{ \leq 2}$, which takes the form
+  \begin{equation*}
+    a_{0}+a_{1}x+a_{2}x^{2},
+  \end{equation*}
+  we need to know three numbers: $a_{0},a_{1},a_{2}$. So there are three
+  independent variables, meaning the dimension is 3. We can see this by
+  ``rewriting'' the elements of $\R[x]_{ \leq 2}$ as
+  \begin{equation*}
+    a_{0}+a_{1}x+a_{2}x^{2} \quad \leftrightarrow \quad
+    \begin{bmatrix}
+      a_{0}\\a_{1}\\a_{2}
+    \end{bmatrix}
+  \end{equation*}
+  in which it becomes clear that the dimension really is $3$.
+
+  We can define $\R[x]_{ \leq n}$ similarly to $\R[x]_{ \leq 2}$, as
+  \begin{equation*}
+    \R[x]_{ \leq n} = \left\{a_{0}+a_{1}x+a_{2}x^{2} + \ldots+ a_{n}x^{n}:
+      a_{0},a_{1},\ldots,a_{n}\in \R \text{ and }x \text{ is a symbolic variable}\right\} 
+  \end{equation*}
+  in which case the dimension is $n+1$ (because you need to specify $n+1$
+  coefficients).
+\end{example}
+
+But why stop at polynomials? We can regard functions as ``vectors'' too!
+
+\begin{example}[Real-valued continuous functions on the closed unit interval]
+  Let
+  \begin{equation*}
+    C[0,1] = \left\{f:[0,1] \to \R \mid f \text{ is continuous}\right\} 
+  \end{equation*}
+  For example, this includes functions like
+  \begin{equation*}
+    \sin(x), \quad e^{x}, \quad 4x^{2}-1, \quad 4
+  \end{equation*}
+  Here ``vector addition'' is defined in the usual way of adding functions
+  (i.e., $f+g$ is the function $f(x)+g(x)$), and ``scalar multiplication'' as
+  well (i.e., $af$ is the function $af(x)$).
+
+  \fl{Question:} What is the dimension of $C[0,1]$?
+
+  Consider that $\R[x]_{ \leq 2}\subseteq C[0,1]$ (since polynomials are
+  continuous). Therefore, $C[0,1]$ contains a set of dimension $2$, so its
+  dimension is at least $2$.
+
+  Similarly, for every positive integer $n$ (no matter how large), we have
+  $\R[x]_{ \leq n}\subseteq C[0,1]$. Hence, $C[0,1]$ contains a set of
+  dimension at least $n+1$, for every $n \geq 1$. So $C[0,1]$ must be
+  infinite-dimensional.
+\end{example}
+
+\begin{example}[Possible velocities of a particle]
+  Consider the set of possible velocities of an electron in space. This is a
+  vector space. Clearly this is 3-dimensional (assuming space itself is
+  3-dimensional).
+
+  But it's not immediately clear how to represent these velocity vectors in
+  the form
+  \begin{equation*}
+    \begin{bmatrix}
+      x\\y\\z
+    \end{bmatrix}
+  \end{equation*}
+  since in real life, space doesn't have coordinate axis.
+\end{example}
+
+Although these examples don't necessarily ``look like'' sets of vectors (at
+least superficially), they all share the common essential structure embodied
+in properties 1,2, and 3.
+
+We can finally define our subject matter:
+
+\begin{center}
+  \textbf{Linear algebra is the study of finite dimensional ``spaces'' of
+    vectors.}
+\end{center}
+
+\newpage
+\section{2025-09-22 | Week 5 | Lecture 12}
+\subsection{Vector space}
+
+\begin{definition}[Vector Space]
+  \label{def:vector-space}
+  A set $V$ is called a \demph{vector space} if there are operations called
+  ``vector addition'' and ``scalar multiplication'' on $V$ such that the
+  following 8 properties hold
+  \begin{enumerate}
+    \item $u+v=v+u$ for all $u,v\in V$ \quad {\footnotesize(``vector addition is commutative'')}
+    \item $u+(v+w)=(u+v)+w$ for all $u,v,w\in V$ \quad {\footnotesize(``vector addition is associative'')}
+    \item there is a ``zero vector'' $\vec{0}\in V$ such that $v+\vec{0}=v$
+    for all $v\in V$ \quad {\footnotesize(``there is a zero vector'')}
+    \item for each $v\in V$ there is an element $-v$ such that $v+(-v)=0$ \quad {\footnotesize(``every vector has an additive inverse'')}
+    \item $c(u+v)=cu+cv$ for all $c\in \R$ and all $u,v\in V$ \quad {\footnotesize(``scalar multiplication distributes over vector addition'')}
+    \item $(c+d)v=cv+dv$ for all $c,d\in\R$ and all $v\in V$ \quad {\footnotesize(``scalar multiplication distributes over scalar addition'')}
+    \item $c(dv)=(cd)v$ for all $c,d\in \R$ and all $v\in V$ \quad {\footnotesize(``scalar multiplication is associative'')}
+    \item $1\cdot v=v$ for all $v\in V$. \quad {\footnotesize(``multiplying a vector by one doesn't change it.'')}
+  \end{enumerate}
+  These 8 properties are called \demph{the vector space axioms.} The elements
+  of $V$ are called \demph{vectors}. Note that in addition to these, in the
+  definitions of ``vector addition'' and ``scalar multiplication'' we
+  implicitly require the following 2 additional properties:
+  \begin{enumerate}
+    \item $u+v\in V$ whenever $u,v\in V$ \quad {\footnotesize(``$V$ is closed
+      under vector addition'')}
+    \item $cv\in V$ whenever $c\in \R$ and $v\in V$ \quad {\footnotesize(``$V$
+      is closed under scalar multiplication'')}
+  \end{enumerate}
+  These last two just say that (1) the sum of two vectors is itself a vector,
+  and (2) the act of scaling a vector returns a vector.
+\end{definition}
+
+
+At heart, this is just a list of the essential properties of vectors that we
+are familiar with.
+
+
+\begin{example}[The $n$-dimensional vector space $\R^{n}$]
+  We regard $\R^{n}$ as the set of $n\times 1$ column vectors with real entries:
+  \begin{equation*}
+    \R^{n} = \left\{
+      \begin{bmatrix}
+        x_{1}\\
+        \vdots\\
+        x_{n}
+      \end{bmatrix}
+      :
+      x_{1},\ldots,x_{n}\in \R
+    \right\}.
+  \end{equation*}
+  The ``vector addition'' is defined as \textit{entrywise addition}
+  \begin{equation*}
+    \begin{bmatrix}
+      x_{1}\\
+      \vdots\\
+      x_{n}
+    \end{bmatrix}
+    +
+    \begin{bmatrix}
+      y_{1}\\
+      \vdots\\
+      y_{n}
+    \end{bmatrix}
+    :=
+    \begin{bmatrix}
+      x_{1}+y_{1}\\
+      \vdots\\
+      x_{n}+y_{n}
+    \end{bmatrix}
+  \end{equation*}
+  and the ``scalar multiplication'' is defined for every real number $c$ as
+  \begin{equation*}
+    c\begin{bmatrix}
+      x_{1}\\
+      \vdots\\
+      x_{n}
+    \end{bmatrix}
+    :=
+    \begin{bmatrix}
+      cx_{1}\\
+      \vdots\\
+      cx_{n}
+    \end{bmatrix}
+  \end{equation*}
+  To check that $\R^{3}$ is a vector space, we have to verify each of the 8
+  vector space axioms (tedious, I know).
+\end{example}
 
 
 
+Now it feels like we haven't done anything. What are the virtues of studying
+abstract ``vector spaces'' rather than just studying $\R^{n}$, which we are
+all already somewhat familiar with.
 
+
+Are there any other mathematical objects that satisfy the vector space
+axioms??
+
+From this point, I strongly recommend memorizing every definition that you
+see, as soon as you can.
+
+\subsection{Properties of Vector Spaces}
+
+\begin{theorem}[Basic properties of vector spaces]
+  Let $V$ be a vector space. Then
+  \begin{itemize}
+    \item The zero vector $\vec{0}\in V$ is unique.
+    \item The negative of a vector $v\in V$ is unique.
+    \item For any $v\in V$, $0\cdot v=\vec{0}$.
+    \item For any real number $c$, $c\vec{0}=\vec{0}$
+    \item For any $v\in V$, $(-1)v=-v$.
+  \end{itemize}
+\end{theorem}
+
+Vector spaces can have smaller vector spaces sitting inside them.
+
+\begin{definition}[Subspace]
+  \label{def:subspace}
+  A subset $W$ of a vector space $V$ is called a \demph{subspace} of $V$ if
+  $W$ is itself a vector space under vector addition and scalar multiplication.
+\end{definition}
+
+
+\begin{example}
+  Let $W$ be the set
+  \begin{equation*}
+    W:= \left\{
+      \begin{bmatrix}
+        x\\y\\0
+      \end{bmatrix}: x,y\in \R
+    \right\} 
+  \end{equation*}
+  Then $W$ is a subspace of $\R^{3}$. To verify this, we first need to check
+  that it is closed under vector addition and scalar multiplication. We also
+  need to check that $W$ satisfies the vector space axioms. Axioms 1 and 2 are
+  inherited from $V$. For axiom 3, we clearly have
+  \begin{equation*}
+    \vec{0}=
+    \begin{bmatrix}
+      0\\0\\0
+    \end{bmatrix}\in W
+  \end{equation*}
+  For Axiom 4, we can check that if
+  \begin{equation*}
+    v =
+    \begin{bmatrix}
+      x\\y\\0
+    \end{bmatrix}
+    \quad \text{then} \quad
+    -v =
+    \begin{bmatrix}
+      -x\\-y\\0
+    \end{bmatrix}
+  \end{equation*}
+  and that
+  \begin{equation*}
+    v+(-v) =     \begin{bmatrix}
+      x\\y\\0
+    \end{bmatrix}+    \begin{bmatrix}
+      -x\\-y\\0
+    \end{bmatrix}
+    =
+    \vec{0}
+  \end{equation*}
+  The other 3 axioms are inherited from $V$.
+\end{example}
+
+We didn't really need to check all 8 axioms to verify that $W$ is a subspace
+$V$. The important criteria to check are summarized in the following theorem
+\begin{theorem}
+  Let $W$ be a nonempty subset of a vector space $V$. Then $W$ is a subspace
+  iff the following conditions are satisfied:
+  \begin{enumerate}[label=(\roman*.)]
+    \item $u+v\in W$ whenever $u,v\in V.$
+    \item $cu\in W$ whenever $c\in \R$ and $u\in W$.
+  \end{enumerate}
+\end{theorem}
 \end{document}
 
 
@@ -3384,3 +3775,64 @@ This theorem can be proved by induction on $n$.
 \begin{problem}
   $\left| A^{\top} \right| = \left| A \right|$. Proof is by induction.
 \end{problem}
+
+
+
+
+
+
+Importantly, \Cref{fig:m1} illustrates the danger of choosing $m$ too large,
+since it impacts the conservativity of the SDL test. For $\eta=m=1$, the test is
+highly conservative (top left), with SDL $p$-values tending to be larger than
+LR $p$-values (positive histogram mean). At $m=5$, the test retained an
+acceptable size (middle left), and additional simulations with other
+parameters (not shown) indicate that $m=5$ was a uniformly good choice. On the
+other hand, $m>5$ resulted in invalid tests with an excess of small
+$p$-values. \Cref{fig:m1} illustrates this for $m=15$, with the leftmost plot
+exhibiting for most levels an excess in the test size, and the histogram a
+negative mean.
+
+Moreover, choosing $\eta=m$ very small (e.g., $m=1$) is also
+suboptimal. For $m=1$, the rejection region plot (top right) has a smaller
+rejection region than for the LR test (shown in \cref{fig:dettests} of the Supplementray materials), and its $p$-values exhibit substantial random
+variability. By contrast, increasing $m$ had the
+benefit of increasing both the size of the rejection region and the precision
+of the SDL $p$-values (right column), with the latter observation also evident
+in the histograms, which concentrate with larger $m$. To quantify this, we
+also computed the variance of the SDL $p$-values from 100 test applications
+for each of 100 simulated datasets, and observed a decrease from $0.068$ for
+$(m=1)$ to $0.030$ for $(m=5)$.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
