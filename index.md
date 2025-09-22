@@ -26,5 +26,6 @@ title: Lecture notes
  2025-09-15  | [lecture-09](lectures/lecture-notes-by-day/lecture-09.pdf)      | How do we understand (and compute) the determinant, algebraically?  
  2025-09-17  | [lecture-10](lectures/lecture-notes-by-day/lecture-10.pdf)      | What are some useful connections between the geometric and algebraic interpretations of the determinant?  
  2025-09-19  | [lecture-11](lectures/lecture-notes-by-day/lecture-11.pdf)      | What are the essential properties of vectors?  
+ 2025-09-22  | [lecture-12](lectures/lecture-notes-by-day/lecture-12.pdf)      | What is a vector space?  
  
 

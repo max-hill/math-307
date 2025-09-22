@@ -3583,13 +3583,29 @@ We can finally define our subject matter:
 
 \newpage
 \section{2025-09-22 | Week 5 | Lecture 12}
-\subsection{Vector space}
+
+
+\textit{This lecture is based on sections 2.1 and 2.2 in the textbook.}
+\begin{center}
+  \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
+    \textit{\textbf{The nexus question of this lecture:} What is a vector
+      space?}
+  \end{tcolorbox}
+\end{center}
+\subsection{Vector spaces}
 
 \begin{definition}[Vector Space]
   \label{def:vector-space}
   A set $V$ is called a \demph{vector space} if there are operations called
   ``vector addition'' and ``scalar multiplication'' on $V$ such that the
-  following 8 properties hold
+  following 2 ``closure properties'' properties hold
+  \begin{enumerate}
+    \item [C1.] $u+v\in V$ whenever $u,v\in V$ \quad {\footnotesize(``$V$ is closed
+      under vector addition'')}
+    \item [C2.] $cv\in V$ whenever $c\in \R$ and $v\in V$ \quad {\footnotesize(``$V$
+      is closed under scalar multiplication'')}
+  \end{enumerate}
+  and the following 8 algebraic properties hold:
   \begin{enumerate}
     \item $u+v=v+u$ for all $u,v\in V$ \quad {\footnotesize(``vector addition is commutative'')}
     \item $u+(v+w)=(u+v)+w$ for all $u,v,w\in V$ \quad {\footnotesize(``vector addition is associative'')}
@@ -3601,18 +3617,12 @@ We can finally define our subject matter:
     \item $c(dv)=(cd)v$ for all $c,d\in \R$ and all $v\in V$ \quad {\footnotesize(``scalar multiplication is associative'')}
     \item $1\cdot v=v$ for all $v\in V$. \quad {\footnotesize(``multiplying a vector by one doesn't change it.'')}
   \end{enumerate}
-  These 8 properties are called \demph{the vector space axioms.} The elements
-  of $V$ are called \demph{vectors}. Note that in addition to these, in the
-  definitions of ``vector addition'' and ``scalar multiplication'' we
-  implicitly require the following 2 additional properties:
-  \begin{enumerate}
-    \item $u+v\in V$ whenever $u,v\in V$ \quad {\footnotesize(``$V$ is closed
-      under vector addition'')}
-    \item $cv\in V$ whenever $c\in \R$ and $v\in V$ \quad {\footnotesize(``$V$
-      is closed under scalar multiplication'')}
-  \end{enumerate}
-  These last two just say that (1) the sum of two vectors is itself a vector,
-  and (2) the act of scaling a vector returns a vector.
+  These 10 properties are called \demph{the vector space axioms.} The elements
+  of $V$ are called \demph{vectors}.
+  
+  Note that C1 and C2 just say that (1) the sum of two vectors is itself a
+  vector, and (2) the act of scaling a vector returns a vector. Axioms A1-A8
+  say that the usual rules of algebra apply.
 \end{definition}
 
 
@@ -3668,42 +3678,62 @@ are familiar with.
     \end{bmatrix}
   \end{equation*}
   To check that $\R^{3}$ is a vector space, we have to verify each of the 8
-  vector space axioms (tedious, I know).
+  vector space axioms.
 \end{example}
 
 
 
-Now it feels like we haven't done anything. What are the virtues of studying
-abstract ``vector spaces'' rather than just studying $\R^{n}$, which we are
-all already somewhat familiar with.
-
-
-Are there any other mathematical objects that satisfy the vector space
-axioms??
-
-From this point, I strongly recommend memorizing every definition that you
-see, as soon as you can.
-
 \subsection{Properties of Vector Spaces}
 
 \begin{theorem}[Basic properties of vector spaces]
+  \label{thm:basic-properties-vector-spaces}
   Let $V$ be a vector space. Then
   \begin{itemize}
     \item The zero vector $\vec{0}\in V$ is unique.
-    \item The negative of a vector $v\in V$ is unique.
-    \item For any $v\in V$, $0\cdot v=\vec{0}$.
+    \item If $u+v=\vec{0}$ then $u=-v$ (i.e., the negative of $v$ is unique.)
+    \item For any $v\in V$, $0 v=\vec{0}$.
     \item For any real number $c$, $c\vec{0}=\vec{0}$
     \item For any $v\in V$, $(-1)v=-v$.
   \end{itemize}
 \end{theorem}
+\begin{proof}[Note about the proof of
+  \cref{thm:basic-properties-vector-spaces}]
+  The proofs of these properties are not so important, but it is worth
+  thinking carefully about \textit{why} basic properties like these need to be
+  proved: while these properties might seem ``obvious'' for $\R^{n}$, general
+  vector spaces may look very different from $\R^{n}$. See text for details.
+\end{proof}
 
+
+\subsection{Subspaces}
 Vector spaces can have smaller vector spaces sitting inside them.
 
 \begin{definition}[Subspace]
   \label{def:subspace}
   A subset $W$ of a vector space $V$ is called a \demph{subspace} of $V$ if
-  $W$ is itself a vector space under vector addition and scalar multiplication.
+  $W$ is itself a vector space under the same operations of vector addition
+  and scalar multiplication used by $V$ .
 \end{definition}
+
+
+We didn't really need to check all 8 axioms to verify that $W$ is a subspace
+$V$. The important criteria to check are summarized in the following theorem
+\begin{theorem}
+  \label{thm:subspace-criteria}
+  Let $W$ be a nonempty subset of a vector space $V$. Then $W$ is a subspace
+  iff the following conditions are satisfied:
+  \begin{enumerate}[label=(\roman*.)]
+    \item $u+v\in W$ whenever $u,v\in V.$
+    \item $cu\in W$ whenever $c\in \R$ and $u\in W$.
+  \end{enumerate}
+\end{theorem}
+\begin{proof}[Proof sketch]
+  The proof consists of checking that $W$ satisfies the vector space axioms.
+  Since $W\subseteq V$, most of them are satisfied automatically becuase they
+  are ``inherited'' from $V$. The ones that aren't can be deduced from (i) and
+  (ii). See text for details.
+\end{proof}
+
 
 
 \begin{example}
@@ -3715,54 +3745,68 @@ Vector spaces can have smaller vector spaces sitting inside them.
       \end{bmatrix}: x,y\in \R
     \right\} 
   \end{equation*}
-  Then $W$ is a subspace of $\R^{3}$. To verify this, we first need to check
-  that it is closed under vector addition and scalar multiplication. We also
-  need to check that $W$ satisfies the vector space axioms. Axioms 1 and 2 are
-  inherited from $V$. For axiom 3, we clearly have
-  \begin{equation*}
-    \vec{0}=
-    \begin{bmatrix}
-      0\\0\\0
-    \end{bmatrix}\in W
-  \end{equation*}
-  For Axiom 4, we can check that if
-  \begin{equation*}
-    v =
-    \begin{bmatrix}
-      x\\y\\0
-    \end{bmatrix}
-    \quad \text{then} \quad
-    -v =
-    \begin{bmatrix}
-      -x\\-y\\0
-    \end{bmatrix}
-  \end{equation*}
-  and that
-  \begin{equation*}
-    v+(-v) =     \begin{bmatrix}
-      x\\y\\0
-    \end{bmatrix}+    \begin{bmatrix}
-      -x\\-y\\0
-    \end{bmatrix}
-    =
-    \vec{0}
-  \end{equation*}
-  The other 3 axioms are inherited from $V$.
+  Then $W$ is a subspace of $\R^{3}$. By \cref{thm:subspace-criteria}, to
+  verify this, we first need to check that it is closed under vector addition
+  and scalar multiplication.
 \end{example}
 
-We didn't really need to check all 8 axioms to verify that $W$ is a subspace
-$V$. The important criteria to check are summarized in the following theorem
-\begin{theorem}
-  Let $W$ be a nonempty subset of a vector space $V$. Then $W$ is a subspace
-  iff the following conditions are satisfied:
-  \begin{enumerate}[label=(\roman*.)]
-    \item $u+v\in W$ whenever $u,v\in V.$
-    \item $cu\in W$ whenever $c\in \R$ and $u\in W$.
-  \end{enumerate}
-\end{theorem}
+\begin{example}
+  The set 
+  \begin{equation*}
+    A=\left\{\begin{bmatrix}
+        x\\y\\1
+      \end{bmatrix}: x,y\in \R\right\} \subseteq \R^{2}
+  \end{equation*}
+  does not form a subspace of $\R^{3}$. This is because the sum of any two
+  vectors in $A$ has the form
+  $\begin{bmatrix}
+    *\\ * \\ 2
+  \end{bmatrix}$,
+  which is not itself in $A$.
+\end{example}
+
+
+
+
+
+
+\begin{example}[Important example]
+  Let $A$ be an $m\times n$ matrix. The solutions to the linear system
+  \begin{equation*}
+    AX=0
+  \end{equation*}
+  is a subspace in $\R^{n}$. We will check this example in the next class.
+\end{example}
+
+\newpage
+\section{2025-09-24 | Week 05 | Lecture 13}
+
+
+The subspace connection
+
+
+
+\begin{example}[Important example]
+  Let $A$ be an $m\times n$ matrix. The solutions to the linear system
+  \begin{equation*}
+    AX=0
+  \end{equation*}
+  is a subspace in $\R^{n}$.
+\end{example}
+
+
+\begin{example}
+  Do the vectors of the form
+  \begin{equation*}
+    \begin{bmatrix}
+      x\\y\\x-2y
+    \end{bmatrix}
+  \end{equation*}
+  form a subspace of $\R^{3}$?
+\end{example}
+
+
 \end{document}
-
-
 
 \newpage
 \section{Possible homework problems}
