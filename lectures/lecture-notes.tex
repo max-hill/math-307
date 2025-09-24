@@ -130,7 +130,8 @@
 \newcommand{\Var}{\mathrm{Var}}   % Variance
 \newcommand{\tr}{\mathrm{tr}}     % Trace
 \newcommand{\dist}{\mathrm{dist}} % Distance
-\newcommand{\diag}{\mathrm{diag}} % Distance
+\newcommand{\diag}{\mathrm{diag}} % diag
+\newcommand{\Span}{\mathrm{Span}} % span
 
 
 \usepackage{biblatex}
@@ -3475,6 +3476,7 @@ ways that vectors should behave.
 Polynomials seem to fit the same criteria for vectorhood as well:
 
 \begin{example}[Polynomials of degree at most 2]
+  \label{ex:polynomials-degree-at-most-2}
   \begin{equation*}
     \R[x]_{ \leq 2} = \left\{a_{0}+a_{1}x+a_{2}x^{2} :
       a_{0},\ldots,a_{2}\in \R\text{ and }x \text{ is an symbolic variable}\right\} 
@@ -3582,7 +3584,7 @@ We can finally define our subject matter:
 \end{center}
 
 \newpage
-\section{2025-09-22 | Week 5 | Lecture 12}
+\section{2025-09-22 | Week 05 | Lecture 12}
 
 
 \textit{This lecture is based on sections 2.1 and 2.2 in the textbook.}
@@ -3719,7 +3721,7 @@ Vector spaces can have smaller vector spaces sitting inside them.
 We didn't really need to check all 8 axioms to verify that $W$ is a subspace
 $V$. The important criteria to check are summarized in the following theorem
 \begin{theorem}
-  \label{thm:subspace-criteria}
+  \label{thm:subspace-criteria-a}
   Let $W$ be a nonempty subset of a vector space $V$. Then $W$ is a subspace
   iff the following conditions are satisfied:
   \begin{enumerate}[label=(\roman*.)]
@@ -3745,7 +3747,7 @@ $V$. The important criteria to check are summarized in the following theorem
       \end{bmatrix}: x,y\in \R
     \right\} 
   \end{equation*}
-  Then $W$ is a subspace of $\R^{3}$. By \cref{thm:subspace-criteria}, to
+  Then $W$ is a subspace of $\R^{3}$. By \cref{thm:subspace-criteria-a}, to
   verify this, we first need to check that it is closed under vector addition
   and scalar multiplication.
 \end{example}
@@ -3780,32 +3782,516 @@ $V$. The important criteria to check are summarized in the following theorem
 
 \newpage
 \section{2025-09-24 | Week 05 | Lecture 13}
+\textit{This lecture is based on section 2.2 in the text.}
 
+\begin{center}
+  \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
+    \textit{\textbf{The nexus question of this lecture:} What do linear
+      subspaces look like?}
+  \end{tcolorbox}
+\end{center}
 
-The subspace connection
+\subsection{Subspaces}
+Recall that given a vector space $V$, a nonempty subset $W$ is a \demph{linear
+subspace} if $W$ is a vector space (under the same vector addition and scalar
+multiplication as $V$.)
 
+Recall also the following theorem from last time:
 
-
-\begin{example}[Important example]
-  Let $A$ be an $m\times n$ matrix. The solutions to the linear system
-  \begin{equation*}
-    AX=0
-  \end{equation*}
-  is a subspace in $\R^{n}$.
-\end{example}
+\begin{theorem}
+  \label{thm:subspace-criteria}
+  Let $W$ be a nonempty subset of a vector space $V$. Then $W$ is a linear subspace
+  iff the following conditions are satisfied:
+  \begin{enumerate}[label=(\roman*.)]
+    \item $u+v\in W$ whenever $u,v\in V.$
+    \item $cu\in W$ whenever $c\in \R$ and $u\in W$.
+  \end{enumerate}
+\end{theorem}
 
 
 \begin{example}
   Do the vectors of the form
   \begin{equation*}
-    \begin{bmatrix}
-      x\\y\\x-2y
-    \end{bmatrix}
+    W=\left\{\begin{bmatrix}
+        x\\y\\x-2y
+      \end{bmatrix}: x,y,z\in \R\right\}\subseteq \R^{3} 
   \end{equation*}
   form a subspace of $\R^{3}$?
+
+  Yes. To check this, we will apply \cref{thm:subspace-criteria}.
+  \begin{itemize}
+    \item \textbf{Condition (i):} Let $u,v\in W$. We need to show that $u+v\in
+    W$. First, write
+    \begin{equation*}
+      u =
+      \begin{bmatrix}
+        x_{1}\\y_{1}\\x_{1}+2y_{1}
+      \end{bmatrix}
+      \quad \text{and} \quad 
+      v =
+      \begin{bmatrix}
+        x_{2}\\y_{2}\\x_{2}+2y_{2}.
+      \end{bmatrix}
+    \end{equation*}
+    Then
+    \begin{equation*}
+      u+v =
+      \begin{bmatrix}
+        x_{1}+x_{2}\\
+        y_{1}+y_{2}\\
+        (x_{1}+x_{2}) +2(y_{1}+y_{2})
+      \end{bmatrix}
+    \end{equation*}
+    And we observe that this vector is in $W$. So $u+v\in W$, as desired.
+    \item \textbf{Condition (ii):} Let $u\in W$ and $c\in \R$. We need to show
+    that $cu\in W$.
+    \begin{equation*}
+      cu =c
+      \begin{bmatrix}
+        x_{1}\\y_{1}\\x_{1}+2y_{1}
+      \end{bmatrix}
+      =
+      \begin{bmatrix}
+        cx_{1}\\cy_{1}\\cx_{1}+2cy_{1}
+      \end{bmatrix}
+    \end{equation*}
+    Observe that this vector is in $W$ (with $x=cx_{1}$ and $y=cy_{1}$). So
+    $cu\in W$, as desired.
+  \end{itemize}
 \end{example}
 
 
+\begin{example}
+  Let $\R[x]$ be the set of all polynomials in the variable $x$. And let
+  $\R[x]_{ \leq n}$ be the set of all polynomials of degree $ \leq n$. That is,
+  \begin{equation*}
+    \R[x]_{ \leq n} = \left\{a_{0}+a_{1}x+a_{2}x^{2}+\ldots+a_{n}x^{n}: a_{0},\ldots,a_{n}\in \R\right\} 
+  \end{equation*}
+  Then $\R[x]_{ \leq n}$ is a subspace of $\R[x]$. To see why, we just need to
+  check the conditions of \cref{thm:subspace-criteria}.
+  \begin{itemize}
+    \item closure under addition
+    \item closure under scalar multiplication
+  \end{itemize}
+  See \cref{ex:polynomials-degree-at-most-2}.
+\end{example}
+
+
+\subsection{The kernel of a matrix}
+Given an $m\times n$ matrix $A$, the \demph{kernel} of $A$, denoted $\ker(A)$,
+is the set
+\begin{equation*}
+  \ker(A) =  \left\{X=
+    \begin{bmatrix}
+      x_{1}\\\vdots\\x_{n}
+    \end{bmatrix}\in \R^{n}
+    : AX=\vec{0}
+  \right\} 
+\end{equation*}
+Geometrically, the kernel is the set of of points in space that get $A$ sent
+to the origin under the transormation of $A$. Moreover, since the kernel is
+the solution set to the linear system $AX=\vec{0}$, we know that it must
+either
+\begin{itemize}
+  \item consist of a unique point (i.e., the linear system has exactly one solution)
+  \item consist infinitely many points. (i.e., the system as infinitely many
+  solutions)
+  \item consist of zero points (i.e., the system has no solutions)
+\end{itemize}
+But note that no matter what the matrix $A$ is, the linear system $AX=\vec{0}$
+always has at least one solution, namely $X=\vec{0}$. Thus, $\ker(A)$ either
+consists of the single point $X=\vec{0}$, or it contains infinitely many points.
+
+In fact, we can say more than that: the kernel of a matrix is always a linear subspace.
+
+\begin{theorem}[Kernels are subspaces]
+  \label{thm:kernels-are-subspaces}
+  Let $A$ be an $m\times n$ matrix. The solutions to the linear system
+  \begin{equation*}
+    AX=\vec{0}
+  \end{equation*}
+  is a subspace in $\R^{n}$. In other words, $\ker(A)$ is a linear
+  subspace of $\R^{n}$.
+\end{theorem}
+\begin{proof}
+  To prove this theorem, we will apply \cref{thm:subspace-criteria}.
+  It will suffice to show that (i) if $u,v\in \ker(A)$ then $u+v\in \ker(A)$,
+  and (ii) if $c\in \R$ then $cu\in \ker(A)$.
+
+  \begin{itemize}
+    \item \textbf{Proof of (i):}  Let $u,v\in \ker(A)$. Then
+    \begin{equation*}
+      Au = \vec{0} \quad \text{and} \quad Av=\vec{0}.
+    \end{equation*}
+    Then
+    \begin{equation*}
+      A(u+v) = Au+Av = \vec{0}+\vec{0} =\vec{0}
+    \end{equation*}
+    Therefore $u+v\in \ker(A)$.
+    \item \textbf{Proof of (ii):} Let $c\in \R$ and $u\in \ker(A)$. Then
+    \begin{equation*}
+      A(cu) = cAu = c(\vec{0})=\vec{0}.
+    \end{equation*}
+    This shows that $cu\in \ker(A)$.
+  \end{itemize}
+\end{proof}
+
+\cref{thm:kernels-are-subspaces} is only half the story; the converse is also true
+\begin{theorem}[Every subspace is a kernel]
+  \label{thm:every-subspace-kernel}
+  Every subspace of $\R^{n}$ is the kernel of some matrix.
+\end{theorem}
+We don't yet have the technical machinery to express why this is true, but
+we'll encounter it in the coming weeks (linear spans, linear independence, and
+bases).
+
+If we accept \cref{thm:every-subspace-kernel} on face for now, it tells us
+some useful geometric information about linear subspaces of $\R^{n}$. Namely,
+a linear subspaces of $\R^{n}$ is always one of the following:
+\begin{itemize}
+  \item the point $\left\{\vec{0}\right\} $
+  \item a line passing through the origin
+  \item a plane passing through the origin
+  \item an $n$-dimensional hyperplane passing through the origin, for $n>3$.
+\end{itemize}
+
+We can also connect the notion of kernel back to our ``key theorem'', which
+now stands as the following:
+
+\begin{theorem}[The Key Theorem of Linear Algebra (partial version)]
+  Let $A$ be an $n\times n$ matrix. Then the following are equivalent:
+  \begin{enumerate}[label=(\roman*.)]
+    \item $A$ is invertible (i.e., $A^{-1}$ exists)
+    \item $\det A \neq 0$
+    \item The linear system $AX=B$ has a unique solution for each $B\in
+    \R^{n}$.
+    \item $A$ is row equivalent to $I$
+    \item $A$ is nonsingular (i.e., the only solution to the linear system
+    $AX=\vec{0}$ is $X=\vec{0}$)
+    \item $\ker(A)= \left\{\vec{0}\right\} $
+  \end{enumerate}
+\end{theorem}
+
+\newpage
+\section{2025-09-26 | Week 06 | Lecture 14}
+\subsection{Linear Span}
+
+\begin{definition}[Linear combination]
+  \label{def:linear-combination}
+  Let $V$ be a vector space and let $v_{1},\ldots,v_{n}\in V$. An expression
+  of the form
+  \begin{equation*}
+    c_{1}v_{1}+c_{2}v_{2}+\ldots+c_{n}v_{n}
+  \end{equation*}
+  is called a \demph{linear combination} of $v_{1},\ldots,v_{n}$. The linear
+  combination with $c_{1}=c_{2}=\ldots=c_{n}=0$ is called the \demph{trivial
+    linear combination}. If at leat one of the $c_{i}$'s is nonzero we say
+  that the linear combination is \demph{nonstrivial}.
+\end{definition}
+
+\begin{definition}[Span]
+  \label{def:span}
+  Given a set of vectors $S=\left\{v_{1},\ldots,v_{n}\right\} $, the set of all their linear
+  combinations is called the \demph{span of $S$}, and is denoted $\Span(S)$.
+  In set notation,
+  \begin{align*}
+    \Span(S) 
+    &= \Span\left\{v_{1},\ldots,v_{n}\right\} \\
+    &= \left\{c_{1}v_{1}+\ldots+c_{n}v_{n}: c_{1},\ldots,c_{n}\in \R\right\} \subseteq V
+  \end{align*}
+  If $\Span(S) = V$ then we say that $S$ \demph{spans} $V$. This means that
+  every vector in $V$ can be written as a linear combination of vectors in
+  $S$.
+
+  Note that $\Span(S)$ always contains the point $\vec{0}$, which is achieved
+  by the trivial linear combination.
+\end{definition}
+
+
+\begin{theorem}
+  If $V$ is a vector space and $v_{1},\ldots,v_{n}\in V$, then
+  $\Span(v_{1},\ldots,v_{n})$ is a subspace of $V$.
+\end{theorem}
+\begin{proof}
+  Follows from an application of \cref{thm:subspace-criteria}. (You should
+  check this).
+\end{proof}
+
+
+\begin{example}
+  Is the vector
+  \begin{equation*}
+    v=\begin{bmatrix}
+      2\\-5\\1\\10
+    \end{bmatrix}
+  \end{equation*}
+  in
+  \begin{equation*}
+    \Span \left\{
+      \begin{bmatrix}
+        1\\-1\\2\\3
+      \end{bmatrix},
+      \begin{bmatrix}
+        1\\-2\\-1\\1
+      \end{bmatrix},
+      \begin{bmatrix}
+        -1\\0\\1\\3
+      \end{bmatrix}
+    \right\} ?
+  \end{equation*}
+
+  To check this, we need to determine if there exists constants
+  $c_{1},c_{2},c_{3}\in \R$ such that
+  \begin{equation*}
+    c_{1}
+    \begin{bmatrix}
+      1\\-1\\2\\3
+    \end{bmatrix}
+    +
+    c_{2}
+    \begin{bmatrix}
+      1\\-2\\-1\\1
+    \end{bmatrix}
+    +
+    c_{3}
+    \begin{bmatrix}
+      -1\\0\\1\\3
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      2\\-5\\1\\10
+    \end{bmatrix}.
+  \end{equation*}
+  If there exists at least one choice of $c_{1},c_{2},c_{3}$ such that the
+  above holds, then $v$ is in the span.
+  
+  Converting this to a system of equations, we have
+  \begin{align*}
+    c_{1}+c_{2}-c_{3} &= 2\\
+    -c_{1}-2c_{2} &= -5\\
+    2c_{1}-c_{2}+c_{3} &= 1\\
+    3c_{1}+2c_{2}+3c_{3} &= 10.
+  \end{align*}
+  We can solve this by setting up an augmented matrix and row-reducing. Doing
+  this, we find there are infinitely many solutions, which tells us that
+  indeed $v$ is in the span. 
+\end{example}
+
+
+\begin{example}
+  Let $S = \left\{
+  \begin{bmatrix}
+    1\\-2
+  \end{bmatrix},
+  \begin{bmatrix}
+    2\\-4
+  \end{bmatrix}\right\}.$
+Does $S$ span $\R^{2}$? In other words, we are asking if $\Span(S) =\R^{2}$.
+
+Observe that $\Span(S)\subseteq \R^{2}.$ We need to check whether
+$\R^{2}\subseteq \Span(S)$.
+
+Consider an arbitrary vector $
+\begin{bmatrix}
+  a\\b
+\end{bmatrix}\in \R^{2}.$ We need to check whether there exist $c_{1},c_{2}\in
+\R$ such that
+\begin{equation*}
+  c_{1}
+  \begin{bmatrix}
+    1\\-2
+  \end{bmatrix}
+  +c_{2}
+  \begin{bmatrix}
+    2\\-4
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    a\\b
+  \end{bmatrix}.
+\end{equation*}
+Converting this linear system into an augmented matrix, we have
+\begin{equation*}
+  \begin{augmentedmatrix}{cc|c}
+    1&2&a\\
+    -2&-2&b
+  \end{augmentedmatrix}
+  \overset{R_{2}+2R_{1} \to R_{2}}{\longrightarrow}
+  \begin{augmentedmatrix}{cc|c}
+    1&2&a\\
+    0&0&b+2a
+  \end{augmentedmatrix}  
+\end{equation*}
+From this form, we see that there is a solution if and only if $b+2a=0$.
+
+So for example, if we pick the vector $
+\begin{bmatrix}
+  a\\b
+\end{bmatrix}=
+\begin{bmatrix}
+  1\\0
+\end{bmatrix}
+$
+then there is no solution, meaning we cannot find $c_{1},c_{2}$ such that 
+\begin{equation*}
+  c_{1}
+  \begin{bmatrix}
+    1\\-2
+  \end{bmatrix}
+  +c_{2}
+  \begin{bmatrix}
+    2\\-4
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    1\\0
+  \end{bmatrix}.
+\end{equation*}
+Therefore $\Span(S)\neq \R^{2}$.
+\end{example}
+
+
+\section{Linear Independence}
+
+\begin{definition}
+  Let $V$ be a vector space and let $v_{1},\ldots,v_{n}\in V$. We say that the
+  set $\left\{v_{1},\ldots,v_{n}\right\}$ is \demph{linearly dependent} if
+  there are scalars $c_{1},c_{2},\ldots,c_{n}$ \textit{not all zero} such that
+  \begin{equation*}
+    c_{1}v_{1}+c_{2}v_{2}+\ldots+c_{n}v_{n} = \vec{0}.
+  \end{equation*}
+  If the vectors $v_{1},\ldots,v_{n}$ are not linearly dependent, we say that
+  they are \demph{linearly independent.}
+\end{definition}
+
+
+\begin{example}
+  Are the vectors
+  \begin{equation*}
+    \begin{bmatrix}
+      1\\2\\3
+    \end{bmatrix},
+    \begin{bmatrix}
+      3\\2\\1
+    \end{bmatrix},
+    \begin{bmatrix}
+      -1\\2\\5
+    \end{bmatrix}
+  \end{equation*}
+  linearly dependent or lienarly independent?
+\end{example}
+
+
+
+\begin{theorem}
+  Let $V$ be a vector space, and let $v_{1},\ldots,v_{n}\in V$. Then the
+  $v_{1},\ldots,v_{n}$ are linearly dependent if and only if one of the
+  $v_{1},\ldots,v_{n}$ is a linear combination of the others.
+\end{theorem}
+\begin{proof}
+  Suppose $v_{1},\ldots,v_{n}$ are linearly dependent. Then there are
+  $c_{1},\ldots,c_{n}\in \R$ not all zero such that
+  \begin{equation*}
+    c_{1}v_{1}+c_{2}v_{2}+\ldots+c_{n}v_{n}=0
+  \end{equation*}
+  We know that at least one of the $c_{i}$'s is nonzero. By possibly renaming
+  the vectors, we may assume that $c_{1}\neq 0$. Then rearranging the above
+  equation, we have
+  \begin{equation*}
+    v_{1} = \left(-\frac{c_{2}}{c_{1}}\right)v_{2}+ \left(-\frac{c_{3}}{c_{1}}\right)v_{3}+\ldots+ \left(-\frac{c_{n}}{c_{1}}\right)v_{n}
+  \end{equation*}
+  Thus $v_{1}$ is a linear combination of the other vectors.
+
+  Now, let's prove the converse. Suppose that $v_{1}$ is a linear combination
+  of $v_{2},\ldots,v_{n}$. Then there exists constants $c_{2},\ldots,c_{n}$
+  (not the same as before) such that
+  \begin{equation*}
+    v_{1} = c_{2}v_{2}+\ldots+c_{n}v_{n}
+  \end{equation*}
+  and hence
+  \begin{equation*}
+    (-1)v_{1}+c_{2}v_{2}+\ldots+c_{n}v_{n} =0
+  \end{equation*}
+  And this shows that $v_{1},\ldots,v_{n}$ are lienarly dependent.
+\end{proof}
+
+
+One consequence of this theorem is that if you have two vectors $u,v$, then
+they are linearly dependent if and only if one of them is a scalar multiple of
+the other.
+
+
+\begin{definition}[Basis]
+  \label{def:basis}
+  Let $V$ be a vector space and let $v_{1},\ldots,v_{n}\in V$. We say that
+  $v_{1},\ldots,v_{n}$ are a \demph{basis} for $V$ if both the following
+  conditions are satisfied:
+  \begin{enumerate}[label=(\roman*.)]
+    \item  $v_{1},\ldots,v_{n}$ are linearly independent.
+    \item $v_{1},\ldots,v_{n}$ span $V$.
+  \end{enumerate}
+\end{definition}
+
+\begin{example}[The standard basis vectors]
+  \label{ex:standard-basis-vectors}
+  The vectors
+  \begin{equation*}
+    e_{1}=
+    \begin{bmatrix}
+      1\\0\\0
+    \end{bmatrix}, \quad 
+    e_{2}=
+    \begin{bmatrix}
+      0\\1\\0
+    \end{bmatrix}, \quad 
+    e_{3}=
+    \begin{bmatrix}
+      0\\0\\1
+    \end{bmatrix}
+  \end{equation*}
+  are a basis for $\R^{3}$.
+
+  To check this, observe that
+  \begin{enumerate}[label=(\roman*.)]
+    \item (linear independence) It is clear that equality holds in the equation
+    \begin{equation*}
+      c_{1}e_{1}+c_{2}e_{2}+c_{3}e_{3}=0
+    \end{equation*}
+    only if $c_{1}=c_{2}=c_{3}=0$. That is, there is no nontrivial linear
+    combination of $e_{1},e_{2},e_{3}$ which equals the zero vector. So
+    $e_{1},e_{2},e_{3}$ are linearly independent.
+    \item (spanning) If $
+    \begin{bmatrix}
+      a\\b\\c
+    \end{bmatrix}
+    $
+    is an arbitrary matrix in $\R^{3}$, then
+    \begin{equation*}
+      ae_{1}+be_{2}+ce_{3} =
+      \begin{bmatrix}
+        a\\b\\c
+      \end{bmatrix}
+    \end{equation*}
+    Therefore $\Span(e_{1},e_{2},e_{3})$ includes every vector in $\R^{3}$.
+  \end{enumerate}
+\end{example}
+
+
+\begin{example}
+  Show that
+  \begin{equation*}
+    \begin{bmatrix}
+      1\\0\\1
+    \end{bmatrix},\quad
+    \begin{bmatrix}
+      1\\1\\1
+    \end{bmatrix},\quad
+    \begin{bmatrix}
+      -1\\1\\1
+    \end{bmatrix}
+  \end{equation*}
+  form a basis for $\R^{3}$.
+\end{example}
 \end{document}
 
 \newpage
@@ -3819,64 +4305,4 @@ The subspace connection
 \begin{problem}
   $\left| A^{\top} \right| = \left| A \right|$. Proof is by induction.
 \end{problem}
-
-
-
-
-
-
-Importantly, \Cref{fig:m1} illustrates the danger of choosing $m$ too large,
-since it impacts the conservativity of the SDL test. For $\eta=m=1$, the test is
-highly conservative (top left), with SDL $p$-values tending to be larger than
-LR $p$-values (positive histogram mean). At $m=5$, the test retained an
-acceptable size (middle left), and additional simulations with other
-parameters (not shown) indicate that $m=5$ was a uniformly good choice. On the
-other hand, $m>5$ resulted in invalid tests with an excess of small
-$p$-values. \Cref{fig:m1} illustrates this for $m=15$, with the leftmost plot
-exhibiting for most levels an excess in the test size, and the histogram a
-negative mean.
-
-Moreover, choosing $\eta=m$ very small (e.g., $m=1$) is also
-suboptimal. For $m=1$, the rejection region plot (top right) has a smaller
-rejection region than for the LR test (shown in \cref{fig:dettests} of the Supplementray materials), and its $p$-values exhibit substantial random
-variability. By contrast, increasing $m$ had the
-benefit of increasing both the size of the rejection region and the precision
-of the SDL $p$-values (right column), with the latter observation also evident
-in the histograms, which concentrate with larger $m$. To quantify this, we
-also computed the variance of the SDL $p$-values from 100 test applications
-for each of 100 simulated datasets, and observed a decrease from $0.068$ for
-$(m=1)$ to $0.030$ for $(m=5)$.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
