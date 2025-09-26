@@ -3970,21 +3970,6 @@ now stands as the following:
   \end{tcolorbox}
 \end{center}
 
-\subsection{Review of key theorem}
-
-\begin{theorem}[The Key Theorem of Linear Algebra (partial version)]
-  Let $A$ be an $n\times n$ matrix. Then the following are equivalent:
-  \begin{enumerate}[label=(\roman*.)]
-    \item $A$ is invertible (i.e., $A^{-1}$ exists)
-    \item $\det A \neq 0$
-    \item The linear system $AX=B$ has a unique solution for each $B\in
-    \R^{n}$.
-    \item $A$ is row equivalent to $I$
-    \item The only solution to $AX=\vec{0}$ is $X=\vec{0}$ (i.e., $A$ is nonsingular)
-    \item $\ker(A)= \left\{\vec{0}\right\}$
-    \item ???
-  \end{enumerate}
-\end{theorem}
 
 \subsection{Linear Span}
 
@@ -4028,9 +4013,7 @@ vectors.
     v=\begin{bmatrix}
       2\\-5\\1\\10
     \end{bmatrix}
-  \end{equation*}
-  in
-  \begin{equation*}
+  \quad \text{in} \quad 
     \Span \left\{
       \begin{bmatrix}
         1\\-1\\2\\3
@@ -4108,13 +4091,11 @@ vectors.
   \begin{bmatrix}
     2\\-4
   \end{bmatrix}\right\}.$
-Does $S$ span $\R^{2}$? In other words, we are asking if $\Span(S) =\R^{2}$.
-
-Consider an arbitrary vector $
+Does $S$ span $\R^{2}$? In other words, we are asking whether we write every vector $
 \begin{bmatrix}
   x\\y
-\end{bmatrix}\in \R^{2}.$ We need to check whether there exist $c_{1},c_{2}\in
-\R$ such that
+\end{bmatrix}\in \R^{2}
+$ as a linear combination of the form
 \begin{equation*}
   c_{1}
   \begin{bmatrix}
@@ -4127,8 +4108,10 @@ Consider an arbitrary vector $
   =
   \begin{bmatrix}
     x\\y
-  \end{bmatrix}.
+  \end{bmatrix}
 \end{equation*}
+for some values of $c_{1}$ and $c_{2}$?
+
 Converting this linear system into an augmented matrix, we have
 \begin{equation*}
   \begin{augmentedmatrix}{cc|c}
@@ -4141,9 +4124,8 @@ Converting this linear system into an augmented matrix, we have
     0&0&y+2x
   \end{augmentedmatrix}  
 \end{equation*}
-From this form, we see that there is a solution if and only if $y=-2x$.
-
-So for example, if we pick the vector $
+From this form, we see that there is a solution if and only if $y=-2x$. So for
+example, if we pick the vector $
 \begin{bmatrix}
   x\\y
 \end{bmatrix}=
@@ -4188,11 +4170,34 @@ we know from the last lecture is one of the possible forms a subspace can take.
 \end{example}
 
 
-\subsection{Linear Independence}
+We've shown how to build a subspace using a set of vectors: namely, take the
+span of the vectors. This is nice, but insufficient. It is of interest to know
+what is the \textit{minimal} number of vectors needed to build a given
+subspace? That is, how can we build a subspace with as few vectors as
+possible? And how can we know that we can't use fewer vectors? To answer these
+question, we need the notion of \textit{linear independence}, which will be
+next lecture.
 
-We've shown how to build a subspace using a set of vectors; namely, take
-the span of the vectors. We now turn to the second half of the question: how
-can we do so with the fewest number of vectors possible?
+\newpage
+\section{2025-09-29 | Week 06 | Lecture 15}
+
+
+\subsection{Review of key theorem}
+
+\begin{theorem}[The Key Theorem of Linear Algebra (partial version)]
+  Let $A$ be an $n\times n$ matrix. Then the following are equivalent:
+  \begin{enumerate}[label=(\roman*.)]
+    \item $A$ is invertible (i.e., $A^{-1}$ exists)
+    \item $\det A \neq 0$
+    \item The linear system $AX=B$ has a unique solution for each $B\in
+    \R^{n}$.
+    \item $A$ is row equivalent to $I$
+    \item The only solution to $AX=\vec{0}$ is $X=\vec{0}$ (i.e., $A$ is nonsingular)
+    \item $\ker(A)= \left\{\vec{0}\right\}$
+    \item ???
+  \end{enumerate}
+\end{theorem}
+\subsection{Linear Independence}
 
 \begin{definition}
   Let $V$ be a vector space and let $v_{1},\ldots,v_{n}\in V$. We say that the
@@ -4255,7 +4260,6 @@ can we do so with the fewest number of vectors possible?
   \end{equation*}
   And this shows that $v_{1},\ldots,v_{n}$ are lienarly dependent.
 \end{proof}
-
 
 One consequence of this theorem is that if you have two vectors $u,v$, then
 they are linearly dependent if and only if one of them is a scalar multiple of
