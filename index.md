@@ -29,5 +29,6 @@ title: Lecture notes
  2025-09-22  | [lecture-12](lectures/lecture-notes-by-day/lecture-12.pdf)      | What is a vector space?  
  2025-09-24  | [lecture-13](lectures/lecture-notes-by-day/lecture-13.pdf)      | What do linear subspaces look like?  
  2025-09-26  | [lecture-14](lectures/lecture-notes-by-day/lecture-14.pdf)      | How do we build a linear subspace from a set of vectors?  
+ 2025-09-29  | [lecture-15](lectures/lecture-notes-by-day/lecture-15.pdf)      | How do we know if a linear system is minimal---i.e., that it doesn’t have any redundant equations?  
  
 

@@ -4181,8 +4181,17 @@ next lecture.
 \newpage
 \section{2025-09-29 | Week 06 | Lecture 15}
 
+\begin{center}
+  \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
+    \textit{\textbf{The nexus question of this lecture:} How do we know if a
+      linear system is minimal ---i.e., that it doesn't have any redundant equations?}
+  \end{tcolorbox}
+\end{center}
 
-\subsection{Review of key theorem}
+(Investigating this question will help set us up to answer the question of how
+to build a linear subspace with a \textbf{minimal} set of vectors.)
+
+\subsection{Some review}
 
 \begin{theorem}[The Key Theorem of Linear Algebra (partial version)]
   Let $A$ be an $n\times n$ matrix. Then the following are equivalent:
@@ -4197,8 +4206,64 @@ next lecture.
     \item ???
   \end{enumerate}
 \end{theorem}
-\subsection{Linear Independence}
 
+Review definition of kernel, too.
+
+
+\subsection{Dependent linear systems}
+Consider the linear system
+\begin{equation*}
+  \left\{ \begin{array}{l@{}l} E_{1}: \quad x+y+z=5  \\  E_{2}: \quad x+5y+z=6 \\E_{3}: \quad 3x+7y+3z=16 \end{array}\right.
+\end{equation*}
+
+
+The set of solutions to this system is the the intersection of three planes in
+3d space, one for each equation. In principle, each equation imposes some
+restriction on what the solution set can be. For examplep, $E_{1}$ and $E_{2}$
+intersect to form a line, so solutions must lie on that line. $E_{3}$ is the
+equation of another plane, and while it is not parallel to either $E_{1}$ or
+$E_{2}$, when we plot all three planes, we see that the intersection is the
+same line we get by just intersecting $E_{1},E_{2}$:
+
+\begin{center}
+  \includegraphics[scale=.15]{images/dependent-system-example}
+\end{center}
+
+Hence, the solutions to the system of equations form a line. The third plane
+in our system failed to to cut the line of intersection down to a single
+point. The equation $E_{3}$ didn't impose any additional restrictions on the
+solution set that weren't already imposed by $E_{1}$ and $E_{2}$. This is
+because $E_{3}=2E_{1}+E_{2}$. In some sense, $E_{3}$ is just $E_{1}$ and
+$E_{2}$ in disguise.
+
+Indeed, if we row reduce, we get a row of zeros:
+\begin{align*}
+  \begin{augmentedmatrix}{ccc|c}
+    1&1&1&5\\
+    1&5&1&6\\
+    3&7&3&16
+  \end{augmentedmatrix}
+           \overset{R_{3}-R_{2} \to R_{3}}{\longrightarrow}
+  \begin{augmentedmatrix}{ccc|c}
+    1&1&1&5\\
+    1&5&1&6\\
+    2&2&1&10
+  \end{augmentedmatrix}
+           \overset{R_{3}-2R_{1} \to R_{3}}{\longrightarrow}
+  \begin{augmentedmatrix}{ccc|c}
+    1&1&1&5\\
+    1&5&1&6\\
+    0&0&0&0
+  \end{augmentedmatrix}
+\end{align*}
+This implies that the solutions of the system can be expressed as the
+intersection of only the first two planes.
+
+How can we predict exactly when this will happen? To understand exactly when a
+linear system yields exactly one solution vs.~infinitely many solutions, we
+need the concept of ``linear independence''.
+
+\subsection{Linear independence}
 \begin{definition}
   Let $V$ be a vector space and let $v_{1},\ldots,v_{n}\in V$. We say that the
   set $\left\{v_{1},\ldots,v_{n}\right\}$ is \demph{linearly dependent} if
@@ -4209,6 +4274,11 @@ next lecture.
   If the vectors $v_{1},\ldots,v_{n}$ are not linearly dependent, we say that
   they are \demph{linearly independent.}
 \end{definition}
+
+Geometrically, we can visualize linear dependence in the following way.  For
+vectors in 3-dimensional space, two vectors are linearly dependent if they lie
+on the same line. \textit{Three vectors are linearly dependent if they lie in the same
+plane.}
 
 
 \begin{example}
@@ -4225,9 +4295,137 @@ next lecture.
     \end{bmatrix}
   \end{equation*}
   linearly dependent or linearly independent?
+
+  To determine the answer we need to solve the
+  linear system, to see if there are any solutions other than $c_{1}=c_{2}=c_{3}=0$.
+  \begin{equation*}
+    \begin{bmatrix}
+      1&3&-1\\
+      2&2&2\\
+      3&1&5
+    \end{bmatrix}
+    \begin{bmatrix}
+      c_1\\c_2\\c_3
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      0\\0\\0
+    \end{bmatrix}
+  \end{equation*}
+  Row reducing, we get
+  \begin{equation*}
+    \begin{augmentedmatrix}{cccc}
+      1&3&-1&0\\
+      2&2&2&0\\
+      3&1&5&0
+    \end{augmentedmatrix}
+    \longrightarrow
+    \begin{augmentedmatrix}{cccc}
+      1&0&2&0\\
+      0&1&-1&0\\
+      0&0&0&0
+    \end{augmentedmatrix}
+  \end{equation*}
+  Convert back to equations
+  \begin{align*}
+    c_{1}+2c_{3}&=0\\
+    c_{2}-c_{3}&=0\\
+    0&=0
+  \end{align*}
+  We can write this as
+  \begin{align*}
+    c_{1}&=-2c_{3}\\
+    c_{2}&=c_{3}
+  \end{align*}
+  with free variable $c_{3}\in \R$. Therefore, there are infinitely many
+  solutions. For example, if $c_{3}=1$, we get the solution
+  \begin{equation*}
+    \begin{bmatrix}
+      c_{1}\\c_{2}\\c_{3}
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      -2\\1\\1
+    \end{bmatrix}
+  \end{equation*}
+  We've shown that there is a nontrivial linear combination of the vectors
+  which equals zero. Therefore they are linearly dependent.
 \end{example}
 
+\textbf{This example illustrates a general method:} To check any set of
+vectors $v_{1},\ldots,v_{n}$ for independence, put them in the colunns of $A$
+Then solve the system $Ac=\vec{0}$. The vectors are dependent if there is a
+solution other than $c=\vec{0} $
 
+
+
+To relate today's discussion of linear independence back to our nexus
+question, we utilize our key theorem. Let $A$ be an $n\times n$ matrix, and
+let $B\in \R^{n}$ be an arbitrary vector. We wish to know whether the linear
+system $AX=B$ has a unique solution or not. (After all, if it has infinitely
+many solutions, that means we have at least one redundant equation.)
+
+
+Then the following statements are equivalent:
+\begin{center}
+  The columns of $A$ are linearly independent.
+
+  $\Updownarrow$
+  
+  The only solution to $AX=\vec{0}$ is $X=\vec{0}$.
+
+  $\Updownarrow$
+
+  $A$ is nonsingular
+  
+  $\Updownarrow$
+
+  The equation $AX=B$ has exactly one solution for any $B\in \R^{n}$. 
+\end{center}
+
+
+
+\newpage
+\begin{example}
+  Show that the columns of the following matrix are linearly independent:
+  \begin{equation*}
+    \begin{bmatrix}
+      3&4&2\\0&1&5\\0&0&2
+    \end{bmatrix}
+  \end{equation*}
+  Look for a linear combination that makes zero:
+  
+  \begin{equation*}
+    c_{1}
+    \begin{bmatrix}
+      3\\0\\0
+    \end{bmatrix}
+    +
+    c_{2}
+    \begin{bmatrix}
+      4\\1\\0
+    \end{bmatrix}
+    +
+    c_{3}
+    \begin{bmatrix}
+      2\\5\\2
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      0\\0\\0
+    \end{bmatrix}
+  \end{equation*}
+  We need to show that $c_{1},c_{2},c_{3}$ are all forced to be zero.
+
+  Indeed, the third row forces $c_{3}$ to be zero. Then the second row forces
+  $c_{2}$ to be zero. Then the first row forces $c_{1}$ to be zero. Hence, the
+  columns are linearly independent
+\end{example}
+
+\subsubsection{An alternative characterization of linear depencence}
+
+The following theorem gives us another quite useful characterization of linear
+dependence.
 
 \begin{theorem}
   Let $V$ be a vector space, and let $v_{1},\ldots,v_{n}\in V$. Then the
@@ -4261,10 +4459,25 @@ next lecture.
   And this shows that $v_{1},\ldots,v_{n}$ are lienarly dependent.
 \end{proof}
 
-One consequence of this theorem is that if you have two vectors $u,v$, then
+
+One useful consequence of this theorem is that if you have two vectors $u,v$, then
 they are linearly dependent if and only if one of them is a scalar multiple of
 the other.
 
+
+\newpage
+\section{2025-10-01: Week 06 | Lecture 16}
+
+\begin{center}
+  \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
+    \textit{\textbf{The nexus question of this lecture:} How can we build
+      linear subspaces from a \textbf{minimal} set of vectors?}
+  \end{tcolorbox}
+\end{center}
+
+\subsection{Basis}
+Linear independence allows us to make precise the notion of what it means for
+a spaning set of vectors to be minimal. Such a set is called a basis:
 
 \begin{definition}[Basis]
   \label{def:basis}
@@ -4310,7 +4523,7 @@ the other.
       a\\b\\c
     \end{bmatrix}
     $
-    is an arbitrary matrix in $\R^{3}$, then
+    is an arbitrary vector in $\R^{3}$, then
     \begin{equation*}
       ae_{1}+be_{2}+ce_{3} =
       \begin{bmatrix}
