@@ -4386,6 +4386,98 @@ Then the following statements are equivalent:
 
 
 \newpage
+
+\newpage
+\section{2025-10-01: Week 06 | Lecture 16}
+
+\begin{center}
+  \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
+    \textit{\textbf{The nexus question of this lecture:} How can we build
+      linear subspaces from a \textbf{minimal} set of vectors?}
+  \end{tcolorbox}
+\end{center}
+
+\subsection{Linear Indepdenence}
+
+\begin{definition}
+  Let $V$ be a vector space and let $v_{1},\ldots,v_{n}\in V$. We say that the
+  set $\left\{v_{1},\ldots,v_{n}\right\}$ is \demph{linearly dependent} if
+  there are scalars $c_{1},c_{2},\ldots,c_{n}$ \textit{not all zero} such that
+  \begin{equation*}
+    c_{1}v_{1}+c_{2}v_{2}+\ldots+c_{n}v_{n} = \vec{0}.
+  \end{equation*}
+  If the vectors $v_{1},\ldots,v_{n}$ are not linearly dependent, we say that
+  they are \demph{linearly independent.}
+\end{definition}
+
+\textbf{General method:} To check any set of vectors $v_{1},\ldots,v_{n}$
+for independence, put them in the colunns of $A$ Then solve the system
+$Ac=\vec{0}$. The vectors are dependent if there is a solution other than
+$c=\vec{0} $
+
+\begin{example}
+  \label{ex:linear-independence-1}
+  Are the vectors
+  \begin{equation*}
+    \left\{
+      \begin{bmatrix}
+        1\\0\\1
+      \end{bmatrix},
+      \begin{bmatrix}
+        1\\1\\1
+      \end{bmatrix},
+      \begin{bmatrix}
+        -1\\1\\1
+      \end{bmatrix}
+    \right\}
+  \end{equation*}
+  linearly independent?
+
+  \textbf{Solution:}
+  We need to check if the linear system
+  \begin{equation*}
+    \begin{bmatrix}
+      1&1&-1\\
+      0&1&1\\
+      1&1&1
+    \end{bmatrix}
+    \begin{bmatrix}
+      c_{1}\\c_{2}\\c_{3}
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      0\\0\\0
+    \end{bmatrix}
+  \end{equation*}
+  has any nontrivial solutions.
+
+  Using row reduction, we have
+  \begin{equation*}
+    \begin{augmentedmatrix}{ccc|c}
+      1&1&-1&0\\
+      0&1&1&0\\
+      1&1&1&0      
+    \end{augmentedmatrix}
+  \end{equation*}
+  can be row reduced to
+  \begin{equation*}
+    \begin{augmentedmatrix}{ccc|c}
+      1&1&-1&0\\
+      0&1&1&0\\
+      0&0&2&0      
+    \end{augmentedmatrix}    
+  \end{equation*}
+  We could go further, but this is sufficient. Converting back to a system of equations,
+  \begin{align*}
+    c_{1}+c_{2}-c_{3}&=0 \\
+    c_{2}+c_{3}&=0 \\
+    2c_{3}&=0 \\
+  \end{align*}
+  Back substitution gives $c_{1}=c_{2}=c_{3}=0$. Thus, the only solution to
+  the linear system is the trival solution. Therefore the set of vectors is
+  linearly independent.
+\end{example}
+
 \begin{example}
   Show that the columns of the following matrix are linearly independent:
   \begin{equation*}
@@ -4422,58 +4514,8 @@ Then the following statements are equivalent:
   columns are linearly independent
 \end{example}
 
-\subsubsection{An alternative characterization of linear depencence}
-
-The following theorem gives us another quite useful characterization of linear
-dependence.
-
-\begin{theorem}
-  Let $V$ be a vector space, and let $v_{1},\ldots,v_{n}\in V$. Then the
-  $v_{1},\ldots,v_{n}$ are linearly dependent if and only if one of the
-  $v_{1},\ldots,v_{n}$ is a linear combination of the others.
-\end{theorem}
-\begin{proof}
-  Suppose $v_{1},\ldots,v_{n}$ are linearly dependent. Then there are
-  $c_{1},\ldots,c_{n}\in \R$ not all zero such that
-  \begin{equation*}
-    c_{1}v_{1}+c_{2}v_{2}+\ldots+c_{n}v_{n}=0
-  \end{equation*}
-  We know that at least one of the $c_{i}$'s is nonzero. By possibly renaming
-  the vectors, we may assume that $c_{1}\neq 0$. Then rearranging the above
-  equation, we have
-  \begin{equation*}
-    v_{1} = \left(-\frac{c_{2}}{c_{1}}\right)v_{2}+ \left(-\frac{c_{3}}{c_{1}}\right)v_{3}+\ldots+ \left(-\frac{c_{n}}{c_{1}}\right)v_{n}
-  \end{equation*}
-  Thus $v_{1}$ is a linear combination of the other vectors.
-
-  Now, let's prove the converse. Suppose that $v_{1}$ is a linear combination
-  of $v_{2},\ldots,v_{n}$. Then there exists constants $c_{2},\ldots,c_{n}$
-  (not the same as before) such that
-  \begin{equation*}
-    v_{1} = c_{2}v_{2}+\ldots+c_{n}v_{n}
-  \end{equation*}
-  and hence
-  \begin{equation*}
-    (-1)v_{1}+c_{2}v_{2}+\ldots+c_{n}v_{n} =0
-  \end{equation*}
-  And this shows that $v_{1},\ldots,v_{n}$ are lienarly dependent.
-\end{proof}
 
 
-One useful consequence of this theorem is that if you have two vectors $u,v$, then
-they are linearly dependent if and only if one of them is a scalar multiple of
-the other.
-
-
-\newpage
-\section{2025-10-01: Week 06 | Lecture 16}
-
-\begin{center}
-  \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
-    \textit{\textbf{The nexus question of this lecture:} How can we build
-      linear subspaces from a \textbf{minimal} set of vectors?}
-  \end{tcolorbox}
-\end{center}
 
 \subsection{Basis}
 Linear independence allows us to make precise the notion of what it means for
@@ -4485,10 +4527,24 @@ a spaning set of vectors to be minimal. Such a set is called a basis:
   $v_{1},\ldots,v_{n}$ are a \demph{basis} for $V$ if both the following
   conditions are satisfied:
   \begin{enumerate}[label=(\roman*.)]
-    \item  $v_{1},\ldots,v_{n}$ are linearly independent.
-    \item $v_{1},\ldots,v_{n}$ span $V$.
+    \item $v_{1},\ldots,v_{n}$ span $V$. 
+    \item $v_{1},\ldots,v_{n}$ are linearly independent. 
   \end{enumerate}
 \end{definition}
+Condition (i.) says that you have enough vectors to generate the lienar space
+$V$, and condition (ii.) says that \textit{you don't have too many vectors}
+(i.e., minimality). To answer the motivating question of the last few
+lectures, a basis is a minimal generating set for a linear subspace (which may
+include be whole space $V$).
+
+This latter point about minimality is related to the following theorem
+
+\begin{theorem}
+  Let $V$ be a vector space, and let $v_{1},\ldots,v_{n}\in V$. Then the
+  $v_{1},\ldots,v_{n}$ are linearly dependent if and only if one of the
+  $v_{1},\ldots,v_{n}$ is a linear combination of the others.
+\end{theorem}
+
 
 \begin{example}[The standard basis vectors]
   \label{ex:standard-basis-vectors}
@@ -4549,7 +4605,162 @@ a spaning set of vectors to be minimal. Such a set is called a basis:
     \end{bmatrix}
   \end{equation*}
   form a basis for $\R^{3}$.
+
+  \textbf{Solution:} We already checked that these vectors are linearly
+  independent in \cref{ex:linear-independence-1}. To it suffices to show that
+  we can write any vector $
+  \begin{bmatrix}
+    z\\y\\z
+  \end{bmatrix}
+  $ in $\R^{3}$ as a linear combination of the three vectors.
+
+  To see this, set up the system
+  \begin{equation*}
+    \begin{bmatrix}
+      1&1&-1\\
+      0&1&1\\
+      1&1&1      
+    \end{bmatrix}
+    \begin{bmatrix}
+      c_{1}\\c_{2}\\c_{3}
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      x\\y\\z
+    \end{bmatrix}.
+  \end{equation*}
+  If this system always has a solution, then the vectors span $\R^{3}$. If
+  there is some vector $ \begin{bmatrix} x\\y\\z \end{bmatrix} $ such that the
+  above equation has no solutions, then the vectors do not span $\R^{3}$. We
+  can check it by (you guessed it) row reducing.
+  
+  \begin{equation}\label{eq:1}
+    \begin{augmentedmatrix}{ccc|c}
+      1&1&-1&x\\
+      0&1&1&y\\
+      1&1&1&z      
+    \end{augmentedmatrix}
+    \overset{R_{3}-R_{1}\to R_{3}}{\longrightarrow}
+    \begin{augmentedmatrix}{ccc|c}
+      1&1&-1&x\\
+      0&1&1&y\\
+      0&0&2&z-x      
+    \end{augmentedmatrix}
+    \overset{R_{1}-R_{2} \to R_{1}}{\longrightarrow}
+    \begin{augmentedmatrix}{ccc|c}
+      1&0&-2&x-y\\
+      0&1&1&y\\
+      0&0&2&z-x      
+    \end{augmentedmatrix}
+  \end{equation}
+  \begin{equation*}
+    \overset{R_{1}+R_{3} \to R_{1}}{\longrightarrow}
+    \begin{augmentedmatrix}{ccc|c}
+      1&0&0&z-y\\
+      0&1&1&y\\
+      0&0&2&z-x      
+    \end{augmentedmatrix}
+    \overset{R_{2}-\frac{1}{2}R_{3} \to R_{2}}{\longrightarrow}
+    \begin{augmentedmatrix}{ccc|c}
+      1&0&0&z-y\\
+      0&1&0&y-\frac{1}{2}(z-x)\\
+      0&0&2&z-x      
+    \end{augmentedmatrix}
+    \overset{\frac{1}{2}R_{3} \to R_{3}}{\longrightarrow}
+    \begin{augmentedmatrix}{ccc|c}
+      1&0&0&z-y\\
+      0&1&0&y-\frac{1}{2}(z-x)\\
+      0&0&1&\frac{1}{2}(z-x)
+    \end{augmentedmatrix}
+  \end{equation*}
+  Therefore, the solution is $c_{1} =z-y$, $c_{2} =
+  y+\frac{x}{2}-\frac{z}{2}$, $c_{3}= \frac{z}{2}-\frac{x}{2}$. Since this
+  solution exists for any $x,y,z$, we have shown that the vectors form a basis.
 \end{example}
+
+\newpage
+\begin{theorem}
+  Let $V$ be a vector space and let $v_{1},\ldots,v_{n}$ be a basis for $V$.
+  Then every vector can be written as a unique linear combination
+  of $v_{1},\ldots,v_{n}$.
+\end{theorem}
+\begin{proof}
+  Let $u\in V$ be arbitrary. Since $v_{1},\ldots,v_{n}$ is a basis, it spans
+  $V$. Therefore we can write $u$ as a linear combination
+  \begin{equation}\label{eq:2}
+    u = c_{1}v_{1}+c_{2}v_{2}+\ldots+c_{n}v_{n}
+  \end{equation}
+  for some $c_{1},\ldots,c_{n}\in \R$. This shows that $u$ can be written as a
+  linear combination of $v_{1},\ldots,v_{n}$.
+
+  It remains to show that there is only one way to write $u$ as a linear
+  combination of $v_{1},\ldots,v_{n}$.
+
+  Suppose we have some \textit{other} linear combination
+  \begin{equation}\label{eq:3}
+    u = c_{1}'v_{1}+c_{2}'v_{2}+\ldots+c_{n}'v_{n}
+  \end{equation}
+  where $c_{1}',\ldots,c_{n}\in \R$. Then
+  \begin{align*}
+    0 
+    &= u-u\\
+    &= \left(  c_{1}v_{1}+c_{2}v_{2}+\ldots+c_{n}v_{n} \right) - \left(  c_{1}'v_{1}+c_{2}'v_{2}+\ldots+c_{n}'v_{n} \right)\\ 
+    &= (c_{1}-c_{1}')v+(c_{2}-c_{2}')v+\ldots+ (c_{n}-c_{n}')v
+  \end{align*}
+  Since $v_{1},\ldots,v_{n}$ are linearly independent, it follows that
+  \begin{equation*}
+    c_{1}=c_{1}', \quad c_{2}=c_{2}',\quad \ldots \quad c_{n}=c_{n}'
+  \end{equation*}
+  So the two linear combinations in \cref{eq:2,eq:3} are actually the same.
+  This shows uniqueness.
+\end{proof}
+
+
+
+\newpage
+\subsection{An alternative characterization of linear depencence}
+
+The following theorem gives us another quite useful characterization of linear
+dependence.
+
+\begin{theorem}
+  Let $V$ be a vector space, and let $v_{1},\ldots,v_{n}\in V$. Then the
+  $v_{1},\ldots,v_{n}$ are linearly dependent if and only if one of the
+  $v_{1},\ldots,v_{n}$ is a linear combination of the others.
+\end{theorem}
+\begin{proof}
+  Suppose $v_{1},\ldots,v_{n}$ are linearly dependent. Then there are
+  $c_{1},\ldots,c_{n}\in \R$ not all zero such that
+  \begin{equation*}
+    c_{1}v_{1}+c_{2}v_{2}+\ldots+c_{n}v_{n}=0
+  \end{equation*}
+  We know that at least one of the $c_{i}$'s is nonzero. By possibly renaming
+  the vectors, we may assume that $c_{1}\neq 0$. Then rearranging the above
+  equation, we have
+  \begin{equation*}
+    v_{1} = \left(-\frac{c_{2}}{c_{1}}\right)v_{2}+ \left(-\frac{c_{3}}{c_{1}}\right)v_{3}+\ldots+ \left(-\frac{c_{n}}{c_{1}}\right)v_{n}
+  \end{equation*}
+  Thus $v_{1}$ is a linear combination of the other vectors.
+
+  Now, let's prove the converse. Suppose that $v_{1}$ is a linear combination
+  of $v_{2},\ldots,v_{n}$. Then there exists constants $c_{2},\ldots,c_{n}$
+  (not the same as before) such that
+  \begin{equation*}
+    v_{1} = c_{2}v_{2}+\ldots+c_{n}v_{n}
+  \end{equation*}
+  and hence
+  \begin{equation*}
+    (-1)v_{1}+c_{2}v_{2}+\ldots+c_{n}v_{n} =0
+  \end{equation*}
+  And this shows that $v_{1},\ldots,v_{n}$ are lienarly dependent.
+\end{proof}
+
+
+One useful consequence of this theorem is that if you have two vectors $u,v$, then
+they are linearly dependent if and only if one of them is a scalar multiple of
+the other.
+
+
 \end{document}
 
 \newpage
