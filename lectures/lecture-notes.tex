@@ -5084,7 +5084,8 @@ $\mathrm{rank}(A)=\dim CS(A)$ and that $NS(A) = \ker(A)$, we have
     \end{align*}
     where $x_{3},x_{4}$ are free variables.
     
-    Therefore 
+    Therefore if $x\in RS(A_{\rm RREF})$ (equivlently, if $x$ satisfies
+    \cref{eq:5}), then it has the following form
     \begin{equation*}
       \begin{bmatrix}
         x_{1}\\x_{2}\\x_{3}\\x_{4}
@@ -5103,7 +5104,7 @@ $\mathrm{rank}(A)=\dim CS(A)$ and that $NS(A) = \ker(A)$, we have
       + x_{4}
       \begin{bmatrix}
         -3\\7\\0\\1
-      \end{bmatrix}
+      \end{bmatrix}.
     \end{equation*}
   \end{enumerate}
   This shows that the vectors
@@ -5116,9 +5117,9 @@ $\mathrm{rank}(A)=\dim CS(A)$ and that $NS(A) = \ker(A)$, we have
       -3\\7\\0\\1
     \end{bmatrix}
   \end{equation*}
-  span the nullspace of $A$. Moreover, they are also linearly independent (two
-  vectors are linearly independent if and only if they are not scalar
-  multiples of each other). Therefore
+  span $NS(A)$. Moreover, they are also linearly independent (since two
+  vectors are linearly dependent if and only if they are multiples of each
+  other, which these are clearly not). Therefore
   \begin{equation*}
     \begin{bmatrix}
       1\\-6\\0\\1
