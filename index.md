@@ -31,5 +31,7 @@ title: Lecture notes
  2025-09-26  | [lecture-14](lectures/lecture-notes-by-day/lecture-14.pdf)      | How do we build a linear subspace from a set of vectors?  
  2025-09-29  | [lecture-15](lectures/lecture-notes-by-day/lecture-15.pdf)      | How do we know if a linear system is minimal---i.e., that it doesn’t have any redundant equations?  
  2025-10-01  | [lecture-16](lectures/lecture-notes-by-day/lecture-16.pdf)      | How do we build a vector space from a minimal set of vectors?  
+ 2025-10-03  | [lecture-18](lectures/lecture-notes-by-day/lecture-18.pdf)      | Bases and dimension of a vector space  
+ 2025-10-05  | [lecture-18](lectures/lecture-notes-by-day/lecture-18.pdf)      | What are the three fundamental subspaces associated with a matrix A?  
  
 

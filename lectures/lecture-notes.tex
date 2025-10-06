@@ -4679,6 +4679,554 @@ This latter point about minimality is related to the following theorem
 \end{example}
 
 \newpage
+\section{2025-10-03 | Week 06 | Lecture 17}
+\textit{Sub lecture by R. Willett.}
+
+\textit{Lecture on section 2.4}
+
+If $V$ is a vector space, a \demph{basis} for $V$ is a collection
+$v_{1},\ldots,v_{n}\in V$ such that
+\begin{itemize}
+  \item  $v_{1},\ldots,v_{n}$ span $V$
+  \item $v_{1},\ldots,v_{n}$ are linearly independent
+\end{itemize}
+
+\begin{example}[Bases]
+  $\R^{3}$ has `standard basis'
+  \begin{equation*}
+    \begin{bmatrix}
+      1\\0\\0
+    \end{bmatrix},
+    \begin{bmatrix}
+      0\\1\\0
+    \end{bmatrix},
+    \begin{bmatrix}
+      0\\0\\1
+    \end{bmatrix},
+  \end{equation*}
+  but there may be others, e.g.,
+  \begin{equation*}
+    \begin{bmatrix}
+      3\\0\\0
+    \end{bmatrix},
+    \begin{bmatrix}
+      4\\1\\0
+    \end{bmatrix},
+    \begin{bmatrix}
+      2\\5\\2
+    \end{bmatrix},
+  \end{equation*}
+  or
+  \begin{equation*}
+    \begin{bmatrix}
+      1\\0\\1
+    \end{bmatrix},
+    \begin{bmatrix}
+      1\\1\\1
+    \end{bmatrix},
+    \begin{bmatrix}
+      -1\\1\\1
+    \end{bmatrix},
+  \end{equation*}
+\end{example}
+
+
+\begin{example}
+  $M_{m\times n}(\R)$ has basis $E_{11},E_{12},\ldots,E_{1n},E_{21}, \ldots,
+  E_{2n},\ldots, E_{m1},\ldots E_{mn}$
+  where $E_{ij}$ is an $m\times n$ matrix with $1$ at position $(i,j)$ and
+  zero else.
+
+  Again, there are others, e.g.
+  \begin{equation*}
+    \begin{bmatrix}
+      1&0\\
+      0&-1
+    \end{bmatrix},
+    \begin{bmatrix}
+      1&0\\
+      0&1
+    \end{bmatrix},
+    \begin{bmatrix}
+      0&1\\
+      1&0
+    \end{bmatrix},
+    \begin{bmatrix}
+      0&-1\\
+      1&0
+    \end{bmatrix}
+  \end{equation*}
+\end{example}
+
+\begin{theorem}[Theorem 2.9 in textbook -- not obvious!]
+  If $v_{1},\ldots,v_{n}$ and $w_{1},\ldots,w_{m}$ are both bases for the same
+  vector space, then $m=n$.
+\end{theorem}
+
+\begin{definition}[Dimension]
+  \label{def:dimension}
+  The \demph{dimension} of a vector space is the number of elements in a
+  basis. Notation for the dimension of $V$:
+  \begin{equation*}
+    \dim(V).
+  \end{equation*}
+\end{definition}
+
+\begin{example}[Dimension]
+  \label{ex:dimension}
+  \begin{itemize}
+    \item $\dim(\R^{3})=3$ and more generally $\dim(\R^{n})=n$. 
+    \item $\dim( \R[x]_{ \leq 2})=3$ and more generally $\dim(\R[x]_{ \leq n})=n+1$
+  \end{itemize}
+  \textbf{Comments:}
+  \begin{itemize}
+    \item Some vector spaces have bases with infinitely many vectors (e.g. a
+    basis for $\R[x]$ is $1,x,x^{2},x^{3},\ldots$). In this case, the
+    dimension of $V$ is infinite. Notation: $\dim(V)=\infty$.
+
+    (In this course, you will mainly focus on finite dimensional vector
+    spaces.)
+    \item If $V$ is the $0$ vector space, we write $\dim(V)=0$.
+  \end{itemize}
+\end{example}
+
+\begin{theorem}[Some important properties of dimension (see 2.11 and 2.12)]
+  \label{thm:some-important-properties-dimension}
+  Let $V$ be a vector space with $\dim(V)=n$. Then
+  \begin{enumerate}
+    \item [(a)] If $v_{1},\ldots,v_{k}\in V$ are linearly independent, then
+    $k \leq n$ and there are $v_{k+1},v_{k+2},\ldots,v_{n}$ with
+    $v_{1},\ldots,v_{k},v_{k+1},\ldots,v_{n}$ a basis (``linear independent
+    collections cannot be too big'')
+    \item [(b)] If $v_{1},\ldots,v_{k}\in V$ span $V$, then $k \geq n$, and some
+    collection of $n$ vectors from $v_{1},\ldots,v_{k}$ is a basis
+    `(``spanning collections collections cannot be too small'')
+  \end{enumerate}
+\end{theorem}
+
+\begin{theorem}[Dimension-basis]
+  \label{thm:dimension-basis-lemma}
+  Suppose $v_{1},\ldots,v_{n}\in V$, where $\dim(V)=n$. Then
+  \begin{itemize}
+    \item If $v_{1},\ldots v_{n}$ span $V$, then they are a basis.
+    \item If $v_{1},\ldots,v_{n}$ are linearly independent, they are a basis.
+  \end{itemize}
+\end{theorem}
+\begin{example}
+  Which (if any) of the following collections is a basis for $\R^{3}$?
+  \begin{enumerate}[label=(\alph*)]
+    \item $
+    \begin{bmatrix}
+      1\\3\\5
+    \end{bmatrix},
+    \begin{bmatrix}
+      4\\5\\6
+    \end{bmatrix}
+    $ 
+    \item $
+    \begin{bmatrix}
+      1\\2\\3
+    \end{bmatrix},
+    \begin{bmatrix}
+      4\\5\\6
+    \end{bmatrix},
+    \begin{bmatrix}
+      7\\8\\9
+    \end{bmatrix}
+    $ 
+    \item
+    $
+    \begin{bmatrix}
+      1\\2\\3
+    \end{bmatrix},
+    \begin{bmatrix}
+      4\\5\\6
+    \end{bmatrix},
+    \begin{bmatrix}
+      7\\8\\9
+    \end{bmatrix},
+    \begin{bmatrix}
+      10\\11\\12
+    \end{bmatrix}
+    $ 
+  \end{enumerate}
+  \textbf{Solution:}
+  \begin{enumerate}%[label=(\alph*)]
+    \item [(a)] No: has too few vectors (so cannot span)
+    \item [(c)] No: has too many vectors (so cannot be linearly independeent)
+    \item [(b)] To check linear independence, we need to check whether
+    \begin{equation*}
+      c_{1}
+      \begin{bmatrix}
+        1\\2\\3
+      \end{bmatrix}
+      +c_{2}
+      \begin{bmatrix}
+        4\\5\\6
+      \end{bmatrix}
+      +c_{3}
+      \begin{bmatrix}
+        7\\8\\9
+      \end{bmatrix}
+      =
+      \begin{bmatrix}
+        0\\0\\0
+      \end{bmatrix}
+    \end{equation*}
+    has nontrivial solutions.
+
+    Check linear independence by row reducing:
+    \begin{align*}
+      \begin{bmatrix}
+        1&4&7\\
+        2&5&8\\
+        3&6&9
+      \end{bmatrix}
+         & \longrightarrow
+           \begin{bmatrix}
+             1&4&7\\
+             0&-3&-6\\
+             0&-6&-12
+           \end{bmatrix} &&\text{ $R_{2}-2R_{1}$ and $R_{3}-3R_{1} $ }\\
+         & \longrightarrow
+           \begin{bmatrix}
+             1&4&7\\
+             0&-3&-6\\
+             0&0&0
+           \end{bmatrix} &&\text{ $R_{3}-2R_{2}$ }
+    \end{align*}
+    As we have a row of zeroes, there are no conditions on $c_{3}$, and we see
+    that there are infinitely many solutions.
+
+    We conclude that the collection is not a basis (since it's not linearly
+    independent.)
+  \end{enumerate}
+\end{example}
+
+\subsection{Null space, row space, column space}
+
+Let $A\in M_{m\times n}(\R)$. There are three important vector spaces
+associated with $A:$
+
+\begin{itemize}
+  \item The \demph{column space}, which is the subspace of $M_{m\times 1}(\R)$
+  spanned by the columns of $A$. Notation: $CS(A)$ 
+  \item The \demph{row space}, which is the subspace of $M_{1\times n}(\R)$
+  spanned by the rows of $A$. Notation $RS(A)$.
+  \item The \demph{null space} (aka: kernel) which is the subspace of $R^{n}$
+  of vectors $x$ such that $Ax=0$. Notation $NS(A)$ or $\ker(A)$.
+\end{itemize}
+
+\newpage
+\section{2025-10-06 | Week 07 | Lecture 18}
+
+\begin{center}
+  \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
+    \textit{\textbf{The nexus question of this lecture:} What are the three
+      fundamental linear subspaces associated with a matrix $A$?}
+  \end{tcolorbox}
+\end{center}
+
+\subsection{Three fundamental subspaces}
+\begin{definition}[The fundamental subspaces of $A$]
+  \label{def:fundamental-subspaces-a}
+  Let $A\in M_{m\times n}(\R)$. There are three important vector spaces
+  associated with $A:$
+
+  \begin{itemize}
+    \item The \demph{column space}, which is the subspace of
+    $M_{m\times 1}(\R)$ spanned by the columns of $A$. Notation: $CS(A)$
+    \item The \demph{row space}, which is the subspace of $M_{1\times n}(\R)$
+    spanned by the rows of $A$. Notation $RS(A)$.
+    \item The \demph{null space} which is the subspace of $R^{n}$ of vectors
+    $x$ such that $Ax=0$. Notation $NS(A)$. The nullspace and the kernel are
+    the same thing.
+  \end{itemize}
+\end{definition}
+
+\begin{remark}[Connection between column space and matrix multiplication]
+  The idea of column space is natural. If
+  \newcommand*{\vertbar}{\rule[-1ex]{0.5pt}{2.5ex}}
+  \newcommand*{\horzbar}{\,\rule[.5ex]{2.5ex}{0.5pt}\,}
+  \begin{equation*}
+    A = 
+    \left[
+      \begin{array}{cccc}
+        \vertbar & \vertbar &        & \vertbar \\
+        A_{1}    & A_{2}    & \ldots & A_{n}    \\
+        \vertbar & \vertbar &        & \vertbar 
+      \end{array}
+    \right]\in M_{m\times n}(\R)
+  \end{equation*}
+  then for any vector $x= (x_{1},\ldots,x_{n})^{\top} \in \R^{n}$
+  \begin{equation*}
+    Ax = A_{1}x_{1}+A_{2}x_{2}+\ldots+A_{n}x_{n}
+  \end{equation*}
+  This is linear combination of the columns of $A$, so the output $Ax$ is
+  always an element of the column space. Another word for column space is the
+  \demph{image} or \demph{range} of the [linear transformation of the] matrix $A$.
+\end{remark}
+
+
+\begin{definition}[rank]
+  The \demph{rank} of a matrix is the dimension of its column space (= dim of
+  row space).
+\end{definition}
+
+
+\begin{theorem}
+  For $A\in M_{m\times n}(\R)$, the dimensions satisfy
+  \begin{equation*}
+    \dim RS(A) = \dim CS(A)
+  \end{equation*}
+  and
+  \begin{equation*}
+    \underbrace{\dim CS(A)}_{\text{`rank'}} + \underbrace{\dim
+      NS(A)}_{\text{`nullity'}} = \underbrace{n}_{\text{\# cols of }A}
+  \end{equation*}
+\end{theorem}
+The second part is called the rank-nullity theorem. Noting that
+$\mathrm{rank}(A)=\dim CS(A)$ and that $NS(A) = \ker(A)$, we have
+
+
+
+
+\subsection{Some examples of computing bases for the three fundamental subspaces}
+\begin{example}[Row space, column space, null space]
+  Let
+  \begin{equation*}
+    A =
+    \begin{bmatrix}
+      1&0&-1&3\\
+      2&1&4&-1\\
+      4&1&2&5
+    \end{bmatrix}
+    \in M_{3\times 4}(\R).
+  \end{equation*}
+  Find bases for
+  \begin{enumerate}
+    \item[(a)] $RS(A)$
+    \item[(b)] $NS(A)$
+  \end{enumerate}
+  \textbf{Solution}
+  \begin{enumerate}
+    \item[(a)] Wrong:
+    \begin{equation*}
+      \begin{bmatrix}1&0&-1&3\end{bmatrix},
+      \begin{bmatrix}2&1&4&-1\end{bmatrix},
+      \begin{bmatrix}4&1&2&5\end{bmatrix}
+    \end{equation*}
+    Better approach:
+    
+    \textit{Idea: row reduction does not change row space, so row reduce until we get
+      a linearly independent set.}
+
+    The reduced row echelon form is
+    \begin{equation}\label{eq:4}
+      A_{\rm RREF} = \begin{bmatrix}
+        1&0&-1&3\\
+        0&1&6&-7\\
+        0&0&0&0
+      \end{bmatrix}
+    \end{equation}
+    A basis of $A_{\rm RREF}$ is
+    \begin{equation*}
+      \begin{bmatrix}1&0&-1&3 \end{bmatrix},\
+      \begin{bmatrix}0&1&6&7 \end{bmatrix}
+    \end{equation*}
+    (since these are linearly independent). Moreover, we note that since row
+    reduction doesn't change the row space,
+    \begin{equation*}
+      RS(A)= RS(A_{\rm RREF}).
+    \end{equation*}
+    and hence
+    \begin{equation*}
+      \begin{bmatrix}1&0&-1&3 \end{bmatrix},\
+      \begin{bmatrix}0&1&6&7 \end{bmatrix}
+    \end{equation*}
+    are a basis for $RS(A)$ as well.
+    
+    \item [(b)] We will use the fact that
+    \begin{equation*}
+      NS(A) = NS(A_{\rm RREF}).
+    \end{equation*}
+    So it suffices to find a basis for $NS(A_{\rm RREF})$. Let's do a
+    computation to sese what $NS(A_{\rm RREF})$ looks like. Recall that
+    $NS(A_{\rm RREF})$ consists of the vectors $x$ satisfying
+    \begin{equation}\label{eq:5}
+      A_{\rm RREF}x = 0
+    \end{equation}
+    If $x=(x_{1},\ldots,x_{5})^{\top}$ satisfies \cref{eq:5}, then we have
+    \begin{equation*}
+      \begin{bmatrix}
+        1&0&-1&3\\
+        0&1&6&-7\\
+        0&0&0&0
+      \end{bmatrix}
+      \begin{bmatrix}
+        x_{1}\\x_{2}\\x_{3}\\x_{4}
+      \end{bmatrix}
+      =
+      \begin{bmatrix}
+        0\\0\\0\\0
+      \end{bmatrix}.
+    \end{equation*}
+    Writing this as equations, we have
+    \begin{align*}
+      x_{1}-x_{3}+3x_{4}&=0\\
+      x_{2}+6x_{3}-7x_{4}&=0\\
+                        0&=0.
+    \end{align*}
+    Therfore we have:
+    \begin{align*}
+      x_{1} &= x_{3}-3x_{4}\\
+      x_{2} &= -6x_{3}+7x_{4}
+    \end{align*}
+    where $x_{3},x_{4}$ are free variables.
+    
+    Therefore 
+    \begin{equation*}
+      \begin{bmatrix}
+        x_{1}\\x_{2}\\x_{3}\\x_{4}
+      \end{bmatrix}
+      =
+      \begin{bmatrix}
+        x_{3}-3x_{4}\\
+        -6x_{3}+7x_{4}\\
+        x_{3}\\
+        x_{4}
+      \end{bmatrix}
+      = x_{3}
+      \begin{bmatrix}
+        1\\-6\\0\\1
+      \end{bmatrix}
+      + x_{4}
+      \begin{bmatrix}
+        -3\\7\\0\\1
+      \end{bmatrix}
+    \end{equation*}
+  \end{enumerate}
+  This shows that the vectors
+  \begin{equation*}
+    \begin{bmatrix}
+      1\\-6\\0\\1
+    \end{bmatrix}
+    ,
+    \begin{bmatrix}
+      -3\\7\\0\\1
+    \end{bmatrix}
+  \end{equation*}
+  span the nullspace of $A$. Moreover, they are also linearly independent (two
+  vectors are linearly independent if and only if they are not scalar
+  multiples of each other). Therefore
+  \begin{equation*}
+    \begin{bmatrix}
+      1\\-6\\0\\1
+    \end{bmatrix}
+    ,
+    \begin{bmatrix}
+      -3\\7\\0\\1
+    \end{bmatrix}
+  \end{equation*}
+  form a basis for $NS(A_{\rm RREF})$. Since $NS(A_{\rm RREF})=NS(A)$, they
+  are a basis for $NS(A)$ as well. Since there are two vectors in the basis,
+  $\dim NS(A)=2$.
+\end{example}
+
+\newpage
+
+
+
+\newpage
+\section{2025-10-08 | Week 07 | Lecture 19}
+
+
+
+To find the column space, take the transpose, row-reduce to find a basis for
+$RS(A^{\top})$, then transpose back. This is shown in the next example
+\begin{example}
+  find the column space of
+  \begin{equation*}
+    A =
+    \begin{bmatrix}
+      1&1&2\\
+      -1&1&0\\
+      0&1&1
+    \end{bmatrix}.
+  \end{equation*}
+
+  \Fl{Solution:} We row reduce $A^{\top}$ which gives
+  \begin{equation*}
+    A^{\top} =
+    \begin{bmatrix}
+      1&-1&0\\
+      1&1&1\\
+      2&0&1
+    \end{bmatrix}
+    \rightarrow
+    \begin{bmatrix}
+      1&-1&0\\
+      0&2&1\\
+      0&0&0
+    \end{bmatrix}
+  \end{equation*}
+  The nonzero rows are a basis for the rowspace of $A^{\top}$. Transposing
+  back, we have
+  \begin{equation*}
+    \begin{bmatrix}
+      1\\-1\\0
+    \end{bmatrix}
+    \quad \text{and} \quad
+    \begin{bmatrix}
+      0\\2\\1
+    \end{bmatrix}
+  \end{equation*}
+  This is a basis for the colum space of $A$. 
+\end{example}
+
+\subsection{An alternative characterization of linear depencence}
+
+The following theorem gives us another quite useful characterization of linear
+dependence.
+
+\begin{theorem}
+  Let $V$ be a vector space, and let $v_{1},\ldots,v_{n}\in V$. Then the
+  $v_{1},\ldots,v_{n}$ are linearly dependent if and only if one of the
+  $v_{1},\ldots,v_{n}$ is a linear combination of the others.
+\end{theorem}
+\begin{proof}
+  Suppose $v_{1},\ldots,v_{n}$ are linearly dependent. Then there are
+  $c_{1},\ldots,c_{n}\in \R$ not all zero such that
+  \begin{equation*}
+    c_{1}v_{1}+c_{2}v_{2}+\ldots+c_{n}v_{n}=0
+  \end{equation*}
+  We know that at least one of the $c_{i}$'s is nonzero. By possibly renaming
+  the vectors, we may assume that $c_{1}\neq 0$. Then rearranging the above
+  equation, we have
+  \begin{equation*}
+    v_{1} = \left(-\frac{c_{2}}{c_{1}}\right)v_{2}+ \left(-\frac{c_{3}}{c_{1}}\right)v_{3}+\ldots+ \left(-\frac{c_{n}}{c_{1}}\right)v_{n}
+  \end{equation*}
+  Thus $v_{1}$ is a linear combination of the other vectors.
+
+  Now, let's prove the converse. Suppose that $v_{1}$ is a linear combination
+  of $v_{2},\ldots,v_{n}$. Then there exists constants $c_{2},\ldots,c_{n}$
+  (not the same as before) such that
+  \begin{equation*}
+    v_{1} = c_{2}v_{2}+\ldots+c_{n}v_{n}
+  \end{equation*}
+  and hence
+  \begin{equation*}
+    (-1)v_{1}+c_{2}v_{2}+\ldots+c_{n}v_{n} =0
+  \end{equation*}
+  And this shows that $v_{1},\ldots,v_{n}$ are linearly dependent.
+\end{proof}
+
+
+One useful consequence of this theorem is that if you have two vectors $u,v$,
+then they are linearly dependent if and only if one of them is a scalar
+multiple of the other.
+
+\subsection{Basis decomposition}
 \begin{theorem}
   Let $V$ be a vector space and let $v_{1},\ldots,v_{n}$ be a basis for $V$.
   Then every vector can be written as a unique linear combination
@@ -4715,55 +5263,32 @@ This latter point about minimality is related to the following theorem
   This shows uniqueness.
 \end{proof}
 
-
-
-\newpage
-\subsection{An alternative characterization of linear depencence}
-
-The following theorem gives us another quite useful characterization of linear
-dependence.
-
-\begin{theorem}
-  Let $V$ be a vector space, and let $v_{1},\ldots,v_{n}\in V$. Then the
-  $v_{1},\ldots,v_{n}$ are linearly dependent if and only if one of the
-  $v_{1},\ldots,v_{n}$ is a linear combination of the others.
+\begin{theorem}[Rank-nullity]
+  Let $A$ be an $m\times n$ matrix. Then
+  \begin{equation*}
+    \mathrm{rank}(A) + \dim\ \ker(A) = n
+  \end{equation*}
 \end{theorem}
 \begin{proof}
-  Suppose $v_{1},\ldots,v_{n}$ are linearly dependent. Then there are
-  $c_{1},\ldots,c_{n}\in \R$ not all zero such that
-  \begin{equation*}
-    c_{1}v_{1}+c_{2}v_{2}+\ldots+c_{n}v_{n}=0
-  \end{equation*}
-  We know that at least one of the $c_{i}$'s is nonzero. By possibly renaming
-  the vectors, we may assume that $c_{1}\neq 0$. Then rearranging the above
-  equation, we have
-  \begin{equation*}
-    v_{1} = \left(-\frac{c_{2}}{c_{1}}\right)v_{2}+ \left(-\frac{c_{3}}{c_{1}}\right)v_{3}+\ldots+ \left(-\frac{c_{n}}{c_{1}}\right)v_{n}
-  \end{equation*}
-  Thus $v_{1}$ is a linear combination of the other vectors.
+  \begin{align*}
+    \text{rank}(A)
+    &= \dim RS(A) &&\text{by definition }\\
+    &\overset{*}{=} \left( \text{\# of nonzero rows in RREF} \right)\\ 
+    &= \left( \text{\# of nonfree variables in solution of } Ax=0 \right)\\ 
+    &= n- \left( \text{\# of free variables in solution of } Ax=0\right)\\ 
+    &= n - \dim \ker(A)
+  \end{align*}
 
-  Now, let's prove the converse. Suppose that $v_{1}$ is a linear combination
-  of $v_{2},\ldots,v_{n}$. Then there exists constants $c_{2},\ldots,c_{n}$
-  (not the same as before) such that
-  \begin{equation*}
-    v_{1} = c_{2}v_{2}+\ldots+c_{n}v_{n}
-  \end{equation*}
-  and hence
-  \begin{equation*}
-    (-1)v_{1}+c_{2}v_{2}+\ldots+c_{n}v_{n} =0
-  \end{equation*}
-  And this shows that $v_{1},\ldots,v_{n}$ are lienarly dependent.
+  The second equality marked $*$ follows because (1) row operations preserve the row space
+  (i.e. the span of the rows does not change when we do row operations), and
+  because (2) in RREF, the nonzero rows are a basis for the row space (they
+  are linearly independent and span it)
+
+  The equality marked $**$ follows because, after row reduction, the rows that
+  are zero impose no restrictions on the corresponding variables
 \end{proof}
-
-
-One useful consequence of this theorem is that if you have two vectors $u,v$, then
-they are linearly dependent if and only if one of them is a scalar multiple of
-the other.
-
 
 \end{document}
 
-\newpage
-\section{Possible homework problems}
 
 
