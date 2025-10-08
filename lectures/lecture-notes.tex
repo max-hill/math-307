@@ -4993,6 +4993,7 @@ $\mathrm{rank}(A)=\dim CS(A)$ and that $NS(A) = \ker(A)$, we have
 
 \subsection{Some examples of computing bases for the three fundamental subspaces}
 \begin{example}[Row space, column space, null space]
+  \label{ex:row-space-column-space-null-space}
   Let
   \begin{equation*}
     A =
@@ -5140,13 +5141,195 @@ $\mathrm{rank}(A)=\dim CS(A)$ and that $NS(A) = \ker(A)$, we have
 
 \newpage
 \section{2025-10-08 | Week 07 | Lecture 19}
+\textit{Topics: section 2.4 - fundamental subspaces, rank nullity, rank, and
+  dimension}
+
+\subsection{An alternative characterization of linear dependence
+}
+The following theorem gives us another quite useful characterization of linear
+dependence:
+
+\begin{theorem}
+  Let $V$ be a vector space, and let $v_{1},\ldots,v_{n}\in V$. Then the
+  $v_{1},\ldots,v_{n}$ are linearly dependent if and only if one of the
+  $v_{1},\ldots,v_{n}$ is a linear combination of the others.
+\end{theorem}
+% \begin{proof}
+%   Suppose $v_{1},\ldots,v_{n}$ are linearly dependent. Then there are
+%   $c_{1},\ldots,c_{n}\in \R$ not all zero such that
+%   \begin{equation*}
+%     c_{1}v_{1}+c_{2}v_{2}+\ldots+c_{n}v_{n}=0
+%   \end{equation*}
+%   We know that at least one of the $c_{i}$'s is nonzero. By possibly renaming
+%   the vectors, we may assume that $c_{1}\neq 0$. Then rearranging the above
+%   equation, we have
+%   \begin{equation*}
+%     v_{1} = \left(-\frac{c_{2}}{c_{1}}\right)v_{2}+ \left(-\frac{c_{3}}{c_{1}}\right)v_{3}+\ldots+ \left(-\frac{c_{n}}{c_{1}}\right)v_{n}
+%   \end{equation*}
+%   Thus $v_{1}$ is a linear combination of the other vectors.
+
+%   Now, let's prove the converse. Suppose that $v_{1}$ is a linear combination
+%   of $v_{2},\ldots,v_{n}$. Then there exists constants $c_{2},\ldots,c_{n}$
+%   (not the same as before) such that
+%   \begin{equation*}
+%     v_{1} = c_{2}v_{2}+\ldots+c_{n}v_{n}
+%   \end{equation*}
+%   and hence
+%   \begin{equation*}
+%     (-1)v_{1}+c_{2}v_{2}+\ldots+c_{n}v_{n} =0
+%   \end{equation*}
+%   And this shows that $v_{1},\ldots,v_{n}$ are linearly dependent.
+% \end{proof}
+Taking $n=2$ in the above theorem gives a useful consequence: two $u,v$, are
+linearly dependent if and only if they are scalar multiples of each other.
+
+For example, the vectors $  \begin{bmatrix}
+  1\\2\\3
+\end{bmatrix},
+\begin{bmatrix}
+  3\\6\\9
+\end{bmatrix}.
+$ are scalar multiples of each other, and
+hence are dependent. On the other hand, the vectors $  \begin{bmatrix}
+  1\\2\\3
+\end{bmatrix},
+\begin{bmatrix}
+  3\\6\\10
+\end{bmatrix}.
+ $ are not scalar multiples of each other, so they are linearly independent.
 
 
+\subsection{Rank-Nullity Theorem}
 
-To find the column space, take the transpose, row-reduce to find a basis for
-$RS(A^{\top})$, then transpose back. This is shown in the next example
+\begin{definition}[Rank]
+  The \demph{rank} of a matrix $A$, denoted $\text{rank}(A)$, is the dimension
+  of the column space of $A$. That is,
+  \begin{equation*}
+    \text{rank}(A) = \dim CS(A) \ \ (= \dim RS(A))
+  \end{equation*}
+\end{definition}
+
+\begin{theorem}[Rank-nullity]
+  \label{thm:rank-nullity}
+  Let $A$ be an $m\times n$ matrix. Then
+  \begin{equation*}
+    \underbrace{\dim CS(A)}_{\mathrm{rank}(A)} + \underbrace{\dim NS(A)}_{\mathrm{nullity(A)}} = n
+  \end{equation*}
+\end{theorem}
+% \begin{proof}
+%   \begin{align*}
+%     \text{rank}(A)
+%     &= \dim RS(A) &&\text{by definition }\\
+%     &\overset{*}{=} \left( \text{\# of nonzero rows in RREF} \right)\\ 
+%     &= \left( \text{\# of nonfree variables in solution of } Ax=0 \right)\\ 
+%     &= n- \left( \text{\# of free variables in solution of } Ax=0\right)\\ 
+%     &= n - \dim \ker(A)
+%   \end{align*}
+
+%   The second equality marked $*$ follows because (1) row operations preserve the row space
+%   (i.e. the span of the rows does not change when we do row operations), and
+%   because (2) in RREF, the nonzero rows are a basis for the row space (they
+%   are linearly independent and span it)
+
+%   % The equality marked $**$ follows because, after row reduction, the rows that
+%   % are zero impose no restrictions on the corresponding variables
+% \end{proof}
+
+
+\subsection{More examples of computing bases for the three fundamental
+  subspaces}
+\begin{example}[\cref{ex:row-space-column-space-null-space} continued]
+  Consider the matrix
+  \begin{equation*}
+    A =
+    \begin{bmatrix}
+      1&0&-1&3\\
+      2&1&4&-1\\
+      4&1&2&5
+    \end{bmatrix}
+    \in M_{3\times 4}(\R).
+  \end{equation*}
+
+  Previously, we showed the following:
+
+  \begin{itemize}
+    \item The vectors
+    $\begin{bmatrix}1&0&-1&3 \end{bmatrix},\
+    \begin{bmatrix}0&1&6&7 \end{bmatrix}$
+    form a basis for $RS(A)$. Hence, $\dim RS(A)=2$.
+
+    \item The vectors
+    $\begin{bmatrix}
+      1\\-6\\0\\1
+    \end{bmatrix}
+    ,
+    \begin{bmatrix}
+      -3\\7\\0\\1
+    \end{bmatrix} $
+    form a basis for $NS(A)$. Hence $\dim NS(A)=2$.
+  \end{itemize}
+  \textbf{Question:} What is $\text{rank}(A)$? In other words, what is
+  $\dim CS(A)$?
+
+  \Fl{Solution 1 (general method):} \textit{Idea: to find the column space, take
+  the transpose, row-reduce to find a basis for $RS(A^{\top})$, then transpose
+  back.}
+
+  \begin{equation*}
+    A^{\top} =
+    \begin{bmatrix}
+      1&2&4\\
+      0&1&1\\
+      -1&4&2\\
+      3&-1&5
+    \end{bmatrix}
+    \overset{\text{row reduction}}{\longrightarrow}
+    \begin{bmatrix}
+      1&2&4\\
+      0&1&1\\
+      0&0&0\\
+      0&0&0
+    \end{bmatrix}.
+  \end{equation*}
+  Thus, the vectors
+  \begin{equation*}
+    \begin{bmatrix}
+      1&2&4
+    \end{bmatrix}
+    ,
+    \begin{bmatrix}
+      0&1&1
+    \end{bmatrix}
+  \end{equation*}
+  form a basis for $RS(A^{\top})$. Transposing back, it follows that the vectors
+  $\begin{bmatrix}
+    1\\2\\4
+  \end{bmatrix},
+  \begin{bmatrix}
+    0\\1\\1
+  \end{bmatrix}$
+  form a basis for $CS(A)$. Since there are two vectors in the basis, it
+  follows that $\dim CS(A)=2$.
+  
+  \Fl{Solution 2:} By the Rank-Nullity Theorem (\cref{thm:rank-nullity}),
+  we have
+  \begin{equation*}
+    \dim CS(A) + \dim NS(A) = 4
+  \end{equation*}
+  Since $\dim NS(A)=2$ (because 2 vectors in the basis), it follows that
+  \begin{equation*}
+    \dim CS(A) = 2.
+  \end{equation*}
+
+  \Fl{Solution 3:} In the last lecture, we showed that $\dim RS(A) =2$. Recall
+  that $\text{rank}(A) := \dim CS(A) = \dim RS(A)$. Therefore $\dim CS(A)=2$.
+  
+
+\end{example}
+
+
 \begin{example}
-  find the column space of
+  Find the column space of
   \begin{equation*}
     A =
     \begin{bmatrix}
@@ -5156,7 +5339,11 @@ $RS(A^{\top})$, then transpose back. This is shown in the next example
     \end{bmatrix}.
   \end{equation*}
 
-  \Fl{Solution:} We row reduce $A^{\top}$ which gives
+  \Fl{Solution:} We will again use the general method for finding the column
+  space from the previous example. The three steps are: (1) take the transpose,
+  (2) row-reduce to find a basis for $RS(A^{\top})$, then (3) transpose back.
+
+  We row reduce $A^{\top}$ which gives
   \begin{equation*}
     A^{\top} =
     \begin{bmatrix}
@@ -5164,15 +5351,14 @@ $RS(A^{\top})$, then transpose back. This is shown in the next example
       1&1&1\\
       2&0&1
     \end{bmatrix}
-    \rightarrow
+    \overset{\text{row reduction}}{\longrightarrow}
     \begin{bmatrix}
       1&-1&0\\
       0&2&1\\
       0&0&0
-    \end{bmatrix}
+    \end{bmatrix}.
   \end{equation*}
-  The nonzero rows are a basis for the rowspace of $A^{\top}$. Transposing
-  back, we have
+  The nonzero rows are a basis for $R(A^{\top})$. Transposing back, we have
   \begin{equation*}
     \begin{bmatrix}
       1\\-1\\0
@@ -5185,48 +5371,32 @@ $RS(A^{\top})$, then transpose back. This is shown in the next example
   This is a basis for the colum space of $A$. 
 \end{example}
 
-\subsection{An alternative characterization of linear depencence}
 
-The following theorem gives us another quite useful characterization of linear
-dependence.
+\subsection{Connection between rank and invertibility}
 
 \begin{theorem}
-  Let $V$ be a vector space, and let $v_{1},\ldots,v_{n}\in V$. Then the
-  $v_{1},\ldots,v_{n}$ are linearly dependent if and only if one of the
-  $v_{1},\ldots,v_{n}$ is a linear combination of the others.
+  \label{thm:rank-invertibiility}
+  Let $A$ be an $n\times n$ matrix. Then $A$ is invertible if and only if
+  $\text{rank}(A)=n$.
 \end{theorem}
-\begin{proof}
-  Suppose $v_{1},\ldots,v_{n}$ are linearly dependent. Then there are
-  $c_{1},\ldots,c_{n}\in \R$ not all zero such that
-  \begin{equation*}
-    c_{1}v_{1}+c_{2}v_{2}+\ldots+c_{n}v_{n}=0
-  \end{equation*}
-  We know that at least one of the $c_{i}$'s is nonzero. By possibly renaming
-  the vectors, we may assume that $c_{1}\neq 0$. Then rearranging the above
-  equation, we have
-  \begin{equation*}
-    v_{1} = \left(-\frac{c_{2}}{c_{1}}\right)v_{2}+ \left(-\frac{c_{3}}{c_{1}}\right)v_{3}+\ldots+ \left(-\frac{c_{n}}{c_{1}}\right)v_{n}
-  \end{equation*}
-  Thus $v_{1}$ is a linear combination of the other vectors.
 
-  Now, let's prove the converse. Suppose that $v_{1}$ is a linear combination
-  of $v_{2},\ldots,v_{n}$. Then there exists constants $c_{2},\ldots,c_{n}$
-  (not the same as before) such that
-  \begin{equation*}
-    v_{1} = c_{2}v_{2}+\ldots+c_{n}v_{n}
-  \end{equation*}
-  and hence
-  \begin{equation*}
-    (-1)v_{1}+c_{2}v_{2}+\ldots+c_{n}v_{n} =0
-  \end{equation*}
-  And this shows that $v_{1},\ldots,v_{n}$ are linearly dependent.
-\end{proof}
+One way to see why this is true involves thinking of $A$ as a transformation
+of $n$-dimensional space $\R^{n}$. Observe that
+\begin{itemize}
+  \item $A$ is non-invertible exactly when the transformation collapses the dimension.
+  \item The rank of $A$ is the dimension of its range (since range = 
+  column space).
+  \item So if $\text{rank}(A)<n$ then a dimension collapse occurs, in which
+  case $A$ is not invertible. But if $\text{rank}(A)=n$, then no dimension
+  collapse occurs, so $A$ is invertible in that case.
+\end{itemize}
 
 
-One useful consequence of this theorem is that if you have two vectors $u,v$,
-then they are linearly dependent if and only if one of them is a scalar
-multiple of the other.
+Thus, \cref{thm:rank-invertibiility} gives another condition we can add to our
+key theorem.
 
+\newpage
+\section{2025-10-10 | Week 7 | Lecture 20}
 \subsection{Basis decomposition}
 \begin{theorem}
   Let $V$ be a vector space and let $v_{1},\ldots,v_{n}$ be a basis for $V$.
@@ -5264,30 +5434,6 @@ multiple of the other.
   This shows uniqueness.
 \end{proof}
 
-\begin{theorem}[Rank-nullity]
-  Let $A$ be an $m\times n$ matrix. Then
-  \begin{equation*}
-    \mathrm{rank}(A) + \dim\ \ker(A) = n
-  \end{equation*}
-\end{theorem}
-\begin{proof}
-  \begin{align*}
-    \text{rank}(A)
-    &= \dim RS(A) &&\text{by definition }\\
-    &\overset{*}{=} \left( \text{\# of nonzero rows in RREF} \right)\\ 
-    &= \left( \text{\# of nonfree variables in solution of } Ax=0 \right)\\ 
-    &= n- \left( \text{\# of free variables in solution of } Ax=0\right)\\ 
-    &= n - \dim \ker(A)
-  \end{align*}
-
-  The second equality marked $*$ follows because (1) row operations preserve the row space
-  (i.e. the span of the rows does not change when we do row operations), and
-  because (2) in RREF, the nonzero rows are a basis for the row space (they
-  are linearly independent and span it)
-
-  The equality marked $**$ follows because, after row reduction, the rows that
-  are zero impose no restrictions on the corresponding variables
-\end{proof}
 
 \end{document}
 
