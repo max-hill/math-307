@@ -1,0 +1,369 @@
+\documentclass[10pt]{article}
+% Math Packages
+\usepackage{amsmath, mathtools}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{bbm}
+\usepackage{breqn}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{calc}
+\usepackage{forest}
+\usepackage{tikz-qtree}
+\graphicspath{ {./images/} }
+\usepackage{hyperref}
+\usepackage[capitalize]{cleveref}
+\usepackage[shortlabels]{enumitem}
+\usetikzlibrary{arrows,matrix,positioning}
+\usepackage{multicol}
+
+
+% for the pipe symbol
+\usepackage[T1]{fontenc}
+
+% Citing theorems by name. (source: https://tex.stackexchange.com/questions/109843/cleveref-and-named-theorems)
+\makeatletter
+\newcommand{\ncref}[1]{\cref{#1}\mynameref{#1}{\csname r@#1\endcsname}}
+
+\def\mynameref#1#2{%
+  \begingroup
+  \edef\@mytxt{#2}%
+  \edef\@mytst{\expandafter\@thirdoffive\@mytxt}%
+  \ifx\@mytst\empty\else
+  \space(\nameref{#1})\fi
+  \endgroup
+}
+\makeatother
+
+% Colorful Notes
+\usepackage{color} \definecolor{Red}{rgb}{1,0,0} \definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5} \def\red{\color{Red}} \def\blue{\color{Blue}}
+\def\gray{\color{gray}} \def\purple{\color{Purple}}
+\newcommand{\rnote}[1]{{\red [#1]}} % \rnote{foo} gives '[foo]' in red
+\newcommand{\pnote}[1]{{\purple [#1]}} % \pnote{foo} gives '[foo]' in purple
+\newcommand{\bnote}[1]{{\blue #1}} % \bnote{foo} gives 'foo' in blue
+\newcommand{\gnote}[1]{{\gray #1}} % \gnote{foo} gives 'foo' in gray
+\newcommand{\Max}[1]{{\purple [#1]}} % \bnote{foo} then 'foo' is blue
+
+
+% Claim numbering (the counter restarts after each proof environment)
+\newcounter{claimcount}
+\setcounter{claimcount}{0}
+\newenvironment{claim}{\refstepcounter{claimcount}\par\addvspace{\medskipamount}\noindent\textbf{Claim \arabic{claimcount}:}}{}
+\usepackage{etoolbox}
+\AtBeginEnvironment{proof}{\setcounter{claimcount}{0}}
+\newenvironment{claimproof}{\par\addvspace{\medskipamount}\noindent\textit{Proof of Claim  \arabic{claimcount}.}}{\hfill\ensuremath{\qedsymbol} \tiny{Claim}
+
+  \medskip}
+% Add claim support to cleverref
+\crefname{claimcount}{Claim}{Claims}
+
+
+% Math Environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{question}[theorem]{Question}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+
+% Matrices and Column Vectors. 
+\usepackage{stackengine}
+\setstackgap{L}{1.0\normalbaselineskip}
+\usepackage{tabstackengine}
+\setstackEOL{;}% row separator
+\setstackTAB{,}% column separator
+\setstacktabbedgap{1ex}% inter-column gap
+\setstackgap{L}{1.5\normalbaselineskip}% inter-row baselineskip
+\let\nmatrix\bracketMatrixstack  %Usage: \nmatrix{1,2,3\4,5,6}
+\newcommand\cv[1]{\setstackEOL{,}\bracketMatrixstack{#1}} %usage: \cv{1,2,3}
+
+% Custom Math Coqmmands
+\newcommand{\vt}{\vskip 5mm} % vertical space
+\newcommand{\fl}{\noindent\textbf} % first line
+\newcommand{\Fl}{\vt\noindent\textbf} % first line with space above
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert} % norm
+\newcommand{\pnorm}[1]{\left\lVert#1\right\rVert_p} % p-norm
+\newcommand{\qnorm}[1]{\left\lVert#1\right\rVert_q} % q-norm
+\newcommand{\1}[1]{\textbf{1}_{\left[#1\right]}} % indicator function 
+\def\limn{\lim_{n\to\infty}} % shortcut for lim as n-> infinity
+\def\sumn{\sum_{n=1}^{\infty}} % shortcut for sum from n=1 to infinity
+\def\sumkn{\sum_{k=1}^{n}} % shortcut for sum from k=1 to n
+\def\sumin{\sum_{i=1}^{n}} % shortcut for sum from i=1 to n
+\def\SAs{\sigma\text{-algebras}} % shortcut for $\sigma$-algebras
+\def\SA{\sigma\text{-algebra}} % shortcut for $\sigma$-algebra
+\def\Ft{\mathcal{F}_t} % time-indexed sigma-algebra (t)
+\def\Fs{\mathcal{F}_s} % time-indexed sigma-algebra (s)
+\def\F{\mathcal{F}} % sigma-algebra
+\def\G{\mathcal{G}} % sigma-algebra
+\def\R{\mathbb{R}} % Real numbers
+\def\N{\mathbb{N}} % Natural numbers
+\def\Z{\mathbb{Z}} % Integers
+\def\E{\mathbb{E}} % Expectation
+\def\P{\mathbb{P}} % Probability
+\def\Q{\mathbb{Q}} % Q probability
+\def\dist{\text{dist}} %Text 'dist' for things like 'dist(x,y)'
+\newcommand{\indep}{\perp \!\!\! \perp}  %independence symbol
+\def\Var{\mathrm{Var}} % Variance
+\def\tr{\mathrm{tr}} % trace
+
+% Brackets and Parentheses
+\def\[{\left [}
+    \def\]{\right ]}
+% \def\({\left (}
+%   \def\){\right )}
+
+
+
+\usepackage{color}
+\definecolor{Red}{rgb}{1,0,0}
+\definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5}
+\def\red{\color{Red}}
+\def\blue{\color{Blue}}
+\def\gray{\color{gray}}
+\def\purple{\color{Purple}}
+\definecolor{RoyalBlue}{cmyk}{1, 0.50, 0, 0}
+\newcommand{\dempfcolor}[1]{{\color{RoyalBlue}#1}} 
+\newcommand{\demph}[1]{\dempfcolor{{\sl #1}}}
+
+% comment exactly one of the following line to show / hide the solutions
+% \newcommand{\solution}[1]{{\purple #1}} % uncomment to show the solutions
+\newcommand{\solution}[1]{} % uncomment to hide the solutions
+
+
+
+\title{Lecture Notes for Math 372: \\Elementary Probability and Statistics}
+\date{Last updated: \today}
+% \author{mh}
+
+\begin{document}
+\begin{center}
+  \section*{Math 307: Homework 06}
+  \textit{Due Wednesday, October 15 (at the beginning of class). This homework
+  is mostly based on sections 2.3 and 2.4 in the textbook.}
+\end{center}
+
+
+
+
+\begin{problem}
+  Is $
+  \begin{bmatrix}
+    3&5\\3&4
+  \end{bmatrix}
+  $ in $\text{Span} \left\{
+    \begin{bmatrix}
+      1&1\\
+      0&1
+    \end{bmatrix},
+    \begin{bmatrix}
+      1&1\\
+      1&0
+    \end{bmatrix},
+    \begin{bmatrix}
+      1&0\\
+      0&-1
+    \end{bmatrix}
+  \right\}$?
+\end{problem}
+
+
+\begin{problem}
+  Find the determinant of the matrix $
+  \begin{bmatrix}
+    4&3&2&1\\
+    -2&5&-1&-2\\
+    0&1&0&0\\
+    0&2&0&-2
+  \end{bmatrix}
+  $
+\end{problem}
+
+\begin{problem}
+  \begin{enumerate}[(a)]
+    \item []
+    \item Find the inverse of the matrix $
+    \begin{bmatrix}
+      0&-2&1\\
+      2&4&-1\\
+      2&1&2
+    \end{bmatrix}
+    $ using row reduction.
+    \item Use the inverse matrix from part (a) to solve the linear system
+    \begin{equation*}
+      \left\{ \begin{array}{l@{}l}
+          -2y+z=2 \\
+          2x+4y-z=-1\\
+          2x+y+2z=5
+        \end{array}\right.
+    \end{equation*}
+  \end{enumerate}
+\end{problem}
+\begin{problem}
+  Show that $
+  \begin{bmatrix}
+    2\\-1\\0
+  \end{bmatrix},
+  \begin{bmatrix}
+    1\\3\\-1
+  \end{bmatrix},
+  \begin{bmatrix}
+    1\\-4\\-1
+  \end{bmatrix}
+  $
+  form a basis for $\R^{3}$.
+\end{problem}
+
+
+
+\begin{problem}
+  For each part, determine whether the vectors form a basis for $\R^{3}$.
+  \begin{enumerate}[(a)]
+    \item $
+    \begin{bmatrix}
+      1\\1\\4
+    \end{bmatrix},
+    \begin{bmatrix}
+      2\\-1\\0
+    \end{bmatrix},
+    \begin{bmatrix}
+      0\\-1\\8
+    \end{bmatrix}
+    $
+    \item $
+    \begin{bmatrix}
+      1\\1\\1
+    \end{bmatrix},
+    \begin{bmatrix}
+      -3\\2\\5
+    \end{bmatrix},
+    \begin{bmatrix}
+      4\\4\\5
+    \end{bmatrix},
+    \begin{bmatrix}
+      0\\-3\\1
+    \end{bmatrix}
+    $
+    \item $
+    \begin{bmatrix}
+      -7\\-9\\1
+    \end{bmatrix},
+    \begin{bmatrix}
+      1\\2\\2
+    \end{bmatrix}
+    $
+  \end{enumerate}
+\end{problem}
+\noindent \textbf{Instructions for for problems 3-6:}
+\begin{enumerate}[(a)]
+  \item Find a basis for the nullspace of the matrix
+  \item Find a basis for the row space of the matrix
+  \item Find a basis for the column space of the matrix
+  \item Determine the rank of the matrix
+  \item Determine whether the matrix is invertible
+\end{enumerate}
+\textit{Note that parts (a)-(c) do not have unique answers.}
+
+\begin{problem}
+  $
+    \begin{bmatrix}
+      1&1\\1&-2
+    \end{bmatrix}
+  $
+\end{problem}
+
+\begin{problem}
+  $
+    \begin{bmatrix}
+      1&-1&1\\-1&1&0\\1&-1&2
+    \end{bmatrix}
+  $
+\end{problem}
+
+\begin{problem}
+  $
+    \begin{bmatrix}
+      2&-1&0\\1&1&-1\\1&0&1
+    \end{bmatrix}
+  $
+\end{problem}
+
+\begin{problem}
+  $
+    \begin{bmatrix}
+      1&1&0&3\\
+      1&1&1&-2\\
+      3&3&2&-1
+    \end{bmatrix}
+  $
+\end{problem}
+
+
+
+\begin{problem}
+  Determine whether the given vectors are linearly dependent or linearly
+  independent.
+  \begin{enumerate}[(a)]
+    \item $\begin{bmatrix}
+      1&0\\
+      -1&1
+    \end{bmatrix},
+    \begin{bmatrix}
+      0&1\\
+      1&0
+    \end{bmatrix},
+    \begin{bmatrix}
+      1&1\\
+      1&1
+    \end{bmatrix}$
+    \item $x^{3}-1$, $x^{2}-1$, $x-1$, $1$. 
+  \end{enumerate}
+\end{problem}
+% \begin{problem}[The matrix exponential]
+%   Recall that for any real number $x$, the \demph{exponential function}
+%   $e^{x}$ is defined by the power series
+%   \begin{equation}\label{eq:1}
+%     e^{x} = \sum_{k=0}^{\infty}\frac{x^{k}}{k!}.
+%   \end{equation}
+%   \begin{enumerate}[(a)]
+%     \item Remarkably, the exponential function is defined even if $x$ is a
+%     matrix. In particular, letting $A$ be any square matrix, we can define the
+%     \demph{matrix exponential} as
+%     \begin{equation*}
+%       e^{A} = \sum_{k=0}^{\infty} \frac{A^{k}}{k!}.
+%     \end{equation*}
+%     Note that $e^{A}$ is a square matrix of the same dimensions as $A$.
+%     Compute $e^{A}$ when $A =
+%     \begin{bmatrix}
+%       2&0\\
+%       0&3
+%     \end{bmatrix}
+%     $. 
+%     \item Let $b$ and $t$ be real numbers. By differentiating the series in
+%     \cref{eq:1} term-by-term (with $x=bt$), show that
+%     \begin{equation*}
+%       \frac{d}{dt} \left[ e^{bt}  \right] = b e^{bt}.
+%     \end{equation*}
+%     \item Let $B$ be any square matrix, and let $t$ be a real number.
+%     Following your approach in part (b), show that
+%     \begin{equation*}
+%       \frac{d}{dt} \left[ e^{Bt} \right]  = B e^{Bt}.
+%     \end{equation*}
+%   \end{enumerate}
+% \end{problem}
+
+
+
+\end{document}
+
+% Don't write in starlight, 'Cause the words may come out real
