@@ -5396,8 +5396,15 @@ Thus, \cref{thm:rank-invertibiility} gives another condition we can add to our
 key theorem.
 
 \newpage
-\section{2025-10-10 | Week 7 | Lecture 20}
+\section{2025-10-10 | Week 07 | Lecture 20}
 
+\begin{center}
+  \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
+    \textit{\textbf{The nexus question of this lecture:} What is a linear transformation?}
+  \end{tcolorbox}
+\end{center}
+
+\textit{This lecture is based on section 5.1 in the textbook.w}
 
 \subsection{Function notation}
 
@@ -5482,7 +5489,47 @@ function.
     \end{bmatrix}
   \end{equation*}
   we can check that this is also a linear transformation.
+
+  First observe that we can write
+  \begin{equation*}
+    T
+    \begin{bmatrix}
+      x\\y\\z
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      1&1&-1\\
+      1&2&1
+    \end{bmatrix}
+    \begin{bmatrix}
+      x\\y\\z
+    \end{bmatrix}.
+  \end{equation*}
+  Letting $A =  \begin{bmatrix}
+    1&1&-1\\
+    1&2&1
+  \end{bmatrix}$, we can write
+  \begin{equation*}
+    T(v) = Av, \text{ for }v\in \R^{3}.
+  \end{equation*}
+  Let's check conditions (i) and (ii) in the definition of linear transformation:
+  \begin{itemize}
+    \item Proof of (i): Let $u,v\in \R^{3}$. Then
+    \begin{equation*}
+      T(u+v) = A(u+v) = Au+Av = T(u)+T(v)
+    \end{equation*}
+    This shows that condition (i) holds. 
+    \item Proof of (ii): Let $c\in \R$ and $u\in \R^{3}$. Then
+    \begin{equation*}
+      T(cu )= A(cu) = c(Au) = cT(u)
+    \end{equation*}
+    This shows that condition (ii) holds.
+  \end{itemize}
+  Therefore since both conditions are met, $T$ is a linear transformation.
 \end{example}
+
+The proofs from the previous example didn't depend on the specific
+form of $A$, only that $A$ was a matrix. Thus we have the following theorem:
 
 \begin{theorem}
   If $A$ is an $m\times n$ matrix, then the function $T: \R^{n}\to \R^{m}$
@@ -5492,9 +5539,6 @@ function.
   \end{equation*}
   is a linear transformation.
 \end{theorem}
-\begin{proof}
-  Easy to check this.
-\end{proof}
 
 Linear transformations of this form are called \demph{matrix transformations}.
 
@@ -5523,7 +5567,8 @@ combinations.
     T(0)=0.
   \end{equation*}
 
-  Proof of (ii) is omitted.
+  Proof of (ii) is omitted, but follows from the definition of linear
+  transformation. (HW?)
 \end{proof}
 
 \begin{definition}
@@ -5552,9 +5597,12 @@ matrices. Huh.
       x\\y\\z
     \end{bmatrix}.
   \end{equation*}
-  \Fl{Question:} Find a basis for $\ker(T)$.
+  \Fl{Question:} Find a basis for $\ker(T)$. [Equivalently: find a basis for $NS(A)$.]
 
-  \Fl{Solution:} Solve the homogeneous system $AX=0$:
+  \Fl{Solution:} \textit{Idea: solve the homogeneous system $AX=0$, then
+    interpret the solution.}
+
+  The system $AX=0$ is
   \begin{equation*}
     \begin{bmatrix}
       1&1&-1\\1&2&1
@@ -5565,8 +5613,9 @@ matrices. Huh.
     =
     \begin{bmatrix}
       0\\0
-    \end{bmatrix}
+    \end{bmatrix}.
   \end{equation*}
+  We can solve this with row reduction:
   \begin{equation*}
     \begin{augmentedmatrix}{ccc|c}
       1&1&-1&0\\
@@ -5576,9 +5625,9 @@ matrices. Huh.
     \begin{augmentedmatrix}{ccc|c}
       1&0&-3&0\\
       0&1&2&0
-    \end{augmentedmatrix}
+    \end{augmentedmatrix}.
   \end{equation*}
-  This corresponds to
+  This corresponds to the equations
   \begin{equation*}
     \left\{ \begin{array}{l@{}l} x-3z=0 \\ y+2z=0 \end{array}\right.
   \end{equation*}
@@ -5586,7 +5635,7 @@ matrices. Huh.
   \begin{equation*}
     \left\{ \begin{array}{l@{}l} x=3z \\ y=-2z \end{array}\right.
   \end{equation*}
-  with $z$ a free variable. Thus, every solution $
+  where $z$ a free variable. Thus, every solution $
   \begin{bmatrix}
     x\\y\\z
   \end{bmatrix}
@@ -5603,10 +5652,13 @@ matrices. Huh.
   \begin{bmatrix}
     3\\-2\\1
   \end{bmatrix}
-  $ fomr a basis for $\ker(T)$.
+  $ form a basis for $\ker(T)$.
 \end{example}
 
 
+
+\newpage
+\section{2025-10-13 | Week 08 | Lecture 21}
 \begin{example}[Cool example]
   \label{ex:cool-example}
   Suppose that $T: \R^{3}\to \R^{2}$ is a linear transformation.
