@@ -4,7 +4,7 @@
 \graphicspath{{./images/}}
 
 \usepackage{amsmath, amssymb, amsthm, amsfonts, mathtools, bbm, breqn}
-\usepackage{enumitem}       % for shortlabels
+\usepackage[shortlabels]{enumitem}       % for shortlabels
 \usepackage{multicol}       % multiple columns
 \usepackage{abraces}        % asymmetric braces
 \usepackage{skull}
@@ -5397,7 +5397,351 @@ key theorem.
 
 \newpage
 \section{2025-10-10 | Week 7 | Lecture 20}
-\subsection{Basis decomposition}
+
+
+\subsection{Function notation}
+
+When a function $f$ goes from a set $X$ to a set $Y$, we write
+\begin{equation*}
+  f:X \to Y
+\end{equation*}
+which is read as ``$f$ maps $X$ to $Y$''. The set $X$ is the \demph{domain} of
+$f$. The set $Y$ is the \demph{codomain} of $f$. The subset
+\begin{equation*}
+  \mathrm{Range}(f) = \left\{f(x)\mid x\in X\right\} 
+\end{equation*}
+is called the \demph{range} of $f$.
+
+\begin{example}
+  \begin{itemize}
+    \item Let $f(x) = e^{x}$. Then $f: \R \to \R$. The range of this function is the
+    set of positive real numbers.
+    \item Let $g: \R^{2} \to \R$ ge given by
+    \begin{equation*}
+      g \left(
+        \begin{bmatrix}
+          x\\y
+        \end{bmatrix}
+      \right)  = x^{2}-y^{2}
+    \end{equation*}
+    The range of the function is $\R$, which is the same as its codomain.
+  \end{itemize}
+\end{example}
+
+\subsection{Linear Transformation}
+\begin{definition}
+  Let $V,W$ be vector spaces and $T:V \to W$ a function. We say that $T$ is a
+  \demph{linear transformation} if, for all vectors $u,v\in V$ and $c\in \R$,
+  we have
+  \begin{enumerate}[label=(\roman*)]
+    \item $T(u+v)= T(u)+T(v) $ \quad (preserves addition)
+    \item $T(cV)= cT(v)$.  \quad (preserves scalar multiplication)
+  \end{enumerate}
+  Sometimes people refer to linear transformations as \demph{linear
+    operators}, which means the same thing.
+\end{definition}
+
+You have seen linear transformations before, even if you didn't call them that
+at the time. For example, the derivative operator $\frac{d}{dx}$ is one such
+function.
+
+\begin{example}
+  Let $P= \left\{ \text{all polynomials in the variable }x\right\}$. So an
+  arbitary element of $P$ looks like
+  \begin{equation*}
+    p = c_{0}+c_{1}x+c_{2}x^{2}+\ldots+c_{r}x^{r}
+  \end{equation*}
+  for some nonnegative integer $r$.
+  
+  We know that $P$ is a vector space. Define a function
+  \begin{equation*}
+    T: P \to P
+  \end{equation*}
+  where $T(p) = p'$. In other words, $T= \frac{d}{dx}$.
+
+  To check that $T$ is a linear transformation, let $p,q\in P$ and $c\in \R$. Then
+  \begin{itemize}
+    \item $T(p+q) = \frac{d}{dx}\left[ p(x)+q(x) \right]= p'(x)+q'(x) =
+    T(p)+ T(q)$. 
+    \item $T(cp)= \frac{d}{dx}\left[ cp(x) \right]= c \frac{d}{dx} \left[ p(x)
+    \right] = c T(p)$.
+  \end{itemize}
+\end{example}
+
+\begin{example}
+  Let $T:\R^{3}\to \R^{2}$ be ggiven by
+  \begin{equation*}
+    T
+    \begin{bmatrix}
+      x\\y\\z
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      x+y-z\\
+      x+2y+x
+    \end{bmatrix}
+  \end{equation*}
+  we can check that this is also a linear transformation.
+\end{example}
+
+\begin{theorem}
+  If $A$ is an $m\times n$ matrix, then the function $T: \R^{n}\to \R^{m}$
+  given by
+  \begin{equation*}
+    T(X) = AX
+  \end{equation*}
+  is a linear transformation.
+\end{theorem}
+\begin{proof}
+  Easy to check this.
+\end{proof}
+
+Linear transformations of this form are called \demph{matrix transformations}.
+
+
+\begin{theorem}
+  Suppose $T:V \to W$ is a linear transformation. Then
+  \begin{enumerate}[label=(\roman*)]
+    \item $T(0)=0$.
+    \item For any vectors $v_{1},\ldots,v_{n}\in V$ and scalars
+    $c_{1},\ldots,c_{n}\in \R$, we have
+    \begin{equation*}
+      T(c_{1}v_{1}+\ldots+c_{n}v_{n})=
+      c_{1}T(v_{1})+\ldots+c_{n}T(v_{n})
+    \end{equation*}
+  \end{enumerate}
+\end{theorem}
+The second property says that linear transformations preserve linear
+combinations.
+\begin{proof}
+  To show that $T(0)=0$ involves a trick. Observe that
+  \begin{equation*}
+    T(0) = T(0+0) = T(0)+T(0).
+  \end{equation*}
+  Subtracting $T(0)$ from both sides gives
+  \begin{equation*}
+    T(0)=0.
+  \end{equation*}
+
+  Proof of (ii) is omitted.
+\end{proof}
+
+\begin{definition}
+  The \demph{kernel} of a linear transformation $T:V \to W$ the set
+  \begin{equation*}
+    \ker(T) = \left\{v\in V : T(v) = 0\right\} 
+  \end{equation*}
+\end{definition}
+The previous theorem shows that $0$ is always in $\ker(T)$. Just like
+matrices. Huh.
+
+
+\begin{example}
+  Let $T: \R^{3}\to \R^{3}$ be the linear transformation defined by
+  \begin{equation*}
+    T
+    \begin{bmatrix}
+      x\\y\\z
+    \end{bmatrix}
+    :=
+    \underbrace{\begin{bmatrix}
+      1&1&-1\\
+      1&2&1
+    \end{bmatrix}}_{A}
+    \begin{bmatrix}
+      x\\y\\z
+    \end{bmatrix}.
+  \end{equation*}
+  \Fl{Question:} Find a basis for $\ker(T)$.
+
+  \Fl{Solution:} Solve the homogeneous system $AX=0$:
+  \begin{equation*}
+    \begin{bmatrix}
+      1&1&-1\\1&2&1
+    \end{bmatrix}
+    \begin{bmatrix}
+      x\\y\\z
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      0\\0
+    \end{bmatrix}
+  \end{equation*}
+  \begin{equation*}
+    \begin{augmentedmatrix}{ccc|c}
+      1&1&-1&0\\
+      1&2&1&0
+    \end{augmentedmatrix}
+    \overset{\text{row reduction}}{\longrightarrow}
+    \begin{augmentedmatrix}{ccc|c}
+      1&0&-3&0\\
+      0&1&2&0
+    \end{augmentedmatrix}
+  \end{equation*}
+  This corresponds to
+  \begin{equation*}
+    \left\{ \begin{array}{l@{}l} x-3z=0 \\ y+2z=0 \end{array}\right.
+  \end{equation*}
+  or
+  \begin{equation*}
+    \left\{ \begin{array}{l@{}l} x=3z \\ y=-2z \end{array}\right.
+  \end{equation*}
+  with $z$ a free variable. Thus, every solution $
+  \begin{bmatrix}
+    x\\y\\z
+  \end{bmatrix}
+  $ to $AX=0$ takes the form
+  \begin{equation*}
+    \begin{bmatrix}
+      3z\\-2z\\z
+    \end{bmatrix} =
+    \begin{bmatrix}
+      3\\-2\\1
+    \end{bmatrix}z
+  \end{equation*}
+  Therefore the vector $
+  \begin{bmatrix}
+    3\\-2\\1
+  \end{bmatrix}
+  $ fomr a basis for $\ker(T)$.
+\end{example}
+
+
+\begin{example}[Cool example]
+  \label{ex:cool-example}
+  Suppose that $T: \R^{3}\to \R^{2}$ is a linear transformation.
+
+  Note that the vectors
+  \begin{equation*}
+    \begin{bmatrix}
+      1\\1\\0
+    \end{bmatrix},
+    \begin{bmatrix}
+      0\\1\\1
+    \end{bmatrix},
+    \begin{bmatrix}
+      1\\0\\1
+    \end{bmatrix}
+  \end{equation*}
+  form a basis of $\R^{3}$. (Check this).
+
+  Suppose that $T$ is defined for each of these three basis vectors as
+  \begin{equation*}
+    T
+    \begin{bmatrix}
+      1\\1\\0
+    \end{bmatrix} :=
+    \begin{bmatrix}
+      2\\3
+    \end{bmatrix},
+    \quad
+    T
+    \begin{bmatrix}
+      0\\1\\
+    \end{bmatrix}
+    :=
+    \begin{bmatrix}
+      0\\3
+    \end{bmatrix},
+    \quad \text{and} \quad 
+    T
+    \begin{bmatrix}
+      1\\0\\1
+    \end{bmatrix}
+    :=
+    \begin{bmatrix}
+      0\\2
+    \end{bmatrix}.
+  \end{equation*}
+
+  \Fl{Question:} What is $T \begin{bmatrix} 1\\3\\0 \end{bmatrix}$?
+
+  \Fl{Solution:} First, we will write $
+  \begin{bmatrix}
+    1\\3\\0
+  \end{bmatrix}
+  $ as a linear combination of the basis vectors. To do this, we solve the linear system
+  \begin{equation*}
+    c_{1}
+    \begin{bmatrix}
+      1\\1\\0
+    \end{bmatrix}
+    +
+    c_{2}
+    \begin{bmatrix}
+      0\\1\\1
+    \end{bmatrix}
+    +
+    c_{3}
+    \begin{bmatrix}
+      1\\0\\1
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      1\\3\\0
+    \end{bmatrix}
+  \end{equation*}
+  which gives these unique solution $c_{1}=2$, $c_{2}=1$, $c_{3}=-1$.
+
+  Then
+  \begin{align*}
+    T
+    \begin{bmatrix}
+      1\\3\\0
+    \end{bmatrix}
+    &=
+      T \left(
+      2
+      \begin{bmatrix}
+        1\\1\\0
+      \end{bmatrix}
+    +
+    \begin{bmatrix}
+      0\\1\\1
+    \end{bmatrix}
+    -
+    \begin{bmatrix}
+      1\\0\\1
+    \end{bmatrix}
+      \right)\\ 
+    &=2T
+      \begin{bmatrix}
+        1\\1\\0
+      \end{bmatrix}
+    + T
+    \begin{bmatrix}
+      0\\1\\1
+    \end{bmatrix}
+    - T
+    \begin{bmatrix}
+      1\\0\\1
+    \end{bmatrix}\\
+    &=
+    2
+    \begin{bmatrix}
+      2\\3
+    \end{bmatrix}
+    +
+    \begin{bmatrix}
+      0\\3
+    \end{bmatrix}
+    -
+    \begin{bmatrix}
+      0\\2
+    \end{bmatrix}\\
+    &=
+    \begin{bmatrix}
+      4\\7
+    \end{bmatrix}.
+  \end{align*}
+  We could ask the same question for an arbitrary matrix, namely, what is
+  $T \begin{bmatrix}
+    x\\y\\z
+  \end{bmatrix}
+  $? See pg 237-238 in the textbook.
+\end{example}
+\newpage
+\section{Basis decomposition}
 \begin{theorem}
   Let $V$ be a vector space and let $v_{1},\ldots,v_{n}$ be a basis for $V$.
   Then every vector can be written as a unique linear combination
