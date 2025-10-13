@@ -132,6 +132,8 @@
 \newcommand{\dist}{\mathrm{dist}} % Distance
 \newcommand{\diag}{\mathrm{diag}} % diag
 \newcommand{\Span}{\mathrm{Span}} % span
+\newcommand{\range}{\mathrm{range}} % range
+\newcommand{\rank}{\mathrm{rank}} % rank
 
 
 \usepackage{biblatex}
@@ -5659,6 +5661,18 @@ matrices. Huh.
 
 \newpage
 \section{2025-10-13 | Week 08 | Lecture 21}
+\begin{center}
+  \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
+    \textit{\textbf{The nexus question of this lecture:} Is a basis all you need? }
+  \end{tcolorbox}
+\end{center}
+
+\textit{This lecture is based on sections 5.1 and 2.4}
+
+\subsection{All you need is a basis}
+If we know how a linear transformation acts on a basis, then we know its
+values on all other vectors as well.
+
 \begin{example}[Cool example]
   \label{ex:cool-example}
   Suppose that $T: \R^{3}\to \R^{2}$ is a linear transformation.
@@ -5708,7 +5722,7 @@ matrices. Huh.
 
   \Fl{Question:} What is $T \begin{bmatrix} 1\\3\\0 \end{bmatrix}$?
 
-  \Fl{Solution:} First, we will write $
+  \fl{Solution:} First, we will write $
   \begin{bmatrix}
     1\\3\\0
   \end{bmatrix}
@@ -5755,7 +5769,7 @@ matrices. Huh.
     \begin{bmatrix}
       1\\0\\1
     \end{bmatrix}
-      \right)\\ 
+    \right)\\ 
     &=2T
       \begin{bmatrix}
         1\\1\\0
@@ -5769,10 +5783,10 @@ matrices. Huh.
       1\\0\\1
     \end{bmatrix}\\
     &=
-    2
-    \begin{bmatrix}
-      2\\3
-    \end{bmatrix}
+      2
+      \begin{bmatrix}
+        2\\3
+      \end{bmatrix}
     +
     \begin{bmatrix}
       0\\3
@@ -5780,11 +5794,10 @@ matrices. Huh.
     -
     \begin{bmatrix}
       0\\2
-    \end{bmatrix}\\
-    &=
-    \begin{bmatrix}
-      4\\7
-    \end{bmatrix}.
+    \end{bmatrix}=
+      \begin{bmatrix}
+        4\\7
+      \end{bmatrix}.
   \end{align*}
   We could ask the same question for an arbitrary matrix, namely, what is
   $T \begin{bmatrix}
@@ -5792,9 +5805,17 @@ matrices. Huh.
   \end{bmatrix}
   $? See pg 237-238 in the textbook.
 \end{example}
-\newpage
-\section{Basis decomposition}
-\begin{theorem}
+
+This example shows that if we how a linear transform acts on a basis, then we
+know everything about it. This suggests that there is something very special
+about a basis, that it's a way to represent a vector space as a whole using
+just a finite set of vectors.
+
+\subsection{Unique basis representations}
+
+
+\begin{theorem}[Unique basis representation]
+  \label{thm:unique-basis-representation}
   Let $V$ be a vector space and let $v_{1},\ldots,v_{n}$ be a basis for $V$.
   Then every vector can be written as a unique linear combination
   of $v_{1},\ldots,v_{n}$.
@@ -5830,7 +5851,149 @@ matrices. Huh.
   This shows uniqueness.
 \end{proof}
 
+One consequence of \cref{thm:unique-basis-representation} is that it allows us
+to translate any $n$-dimensional vector space, no matter how exotic, to the
+more familiar setting of $\R^{n}$. The idea is as follows:
+\begin{enumerate}
+  \item Let $V$ be an abstract vector space (functions, polynomials, whatever)
+  of dimension $n$.
+  \item Pick a basis $v_{1},\ldots,v_{n}$ for $V$
+  \item Each $a\in V$ can be written as
+  \begin{equation*}
+    a_{1}v_{1}+a_{2}v_{2}+\ldots+a_{n}v_{n}
+  \end{equation*}
+  where $a_{1},\ldots,a_{n}\in \R$. In particular,
+  \cref{thm:unique-basis-representation} tells us that there is only one
+  choice of $a_{1},\ldots,a_{n}$ that work. So we can write
+  \begin{equation*}
+    a =
+    \begin{bmatrix}
+      a_{1}\\
+      a_{2}\\
+      \vdots\\
+      a_{n}
+    \end{bmatrix}
+  \end{equation*}
+\end{enumerate}
+In other words, any $n$-dimensional vector space is just $\R^{n}$ in disguise.
+So from one perpsective, to study all (finite-dimensional) vector spaces, it's
+enough to just study $\R^{n}$.
 
+But there's a catch. Doing this requires ``picking'' a basis---and if you and
+I pick different bases, then we will end up with different representations of
+the same fundamental objects. Consider the set of direction vectors that an
+electron could move. Clearly this ``is'' $\R^{3}$, but since there are no
+coordinate axes, we need to \textit{choose} what the $x,y,z$ directions are: I
+can just declare that a particular direction is the $x$ direction, for
+example. But if you choose a different direction, then we'll end up with
+different ways of representing the same directions. My $
+\begin{bmatrix}
+  1\\2\\0
+\end{bmatrix} 
+$ might be your $
+\begin{bmatrix}
+  5\\-3\\2
+\end{bmatrix}
+$. This may be undesirable.
+
+If you and I each choose different basis for $\R^{3}$, are we really studying
+the same space? Maybe we are (I think so!). This is because many properties in
+linear algebra are ``basis invariant'' in the sense that they don't depend on
+the basis you pick. An example is the dimension of a vector space or its
+linear subspaces. Another example is linear transformations: many geometric
+properties of linear transformations (e.g., whether they preserve orientation,
+how much they stretch space, whether they collapse the dimesnion) don't depend
+on how we choose to represent the space. But if that's the case, then maybe we
+shouldn't need to rely on picking bases to study these things.
+
+So my answer to the nexus question, ``is a basis all you need'' is ``mostly
+yes, but sometimes it's more than than you need.''
+
+\newpage
+\section{2025-10-15 | Week 08 | Lecture 22}
+\subsection{The dimension of the column space equals the dimension of the row space}
+
+We begin with the following theorem, stated without proof.
+\begin{theorem}
+  \label{thm:ker-range-subspace}
+  If $ T: V \to W$ is a linear transformation, then $\ker(T) $ is a subspace
+  of $V$ and $\range(T)$ is a subspace of $W$.
+\end{theorem}
+
+Because $\ker(T),\range(T)$ are subspaces by \cref{thm:ker-range-subspace},
+they each have bases. Suppose $\dim V =n$ and $\dim \ker(T)=k$ for some
+$k \leq n$. Then with some work (omitted), one can find vectors
+$v_{1},\ldots, v_{n}\in V$ which form a basis for $V$ with the special
+property that
+\begin{itemize}
+  \item $v_{1},\ldots,v_{k}$ is a basis for $\ker(T)$; and,
+  \item  $v_{k+1},v_{k+1},\ldots, v_{n}$ is a basis for $\range(T)$.
+\end{itemize}
+This shows that $\dim \range(T) = n-k$ (since that's the number of vectors in
+$v_{k+1},v_{k+2},\ldots,v_{n}$. Therefore
+\begin{equation*}
+  \dim \range(T) = \dim(V)- \dim \ker(T).
+\end{equation*}
+or equivalently
+\begin{equation*}
+  \dim \ker(T) + \dim \range(T) = \dim(V). 
+\end{equation*}
+We can state this idea in the following theorem
+
+\begin{theorem}[Rank Nullity Theorem -- Theorem 5.4 on page 242]
+                                    ]
+  If $T:V \to W$ is a linear transformation where $V$ is a finite dimensional
+  vector space, then
+  \begin{equation*}
+    \dim \ker(T) + \dim \range(T) = \dim V
+  \end{equation*}
+  It $T$ is given by an $n\times m$ matrix $A$, then we can restate this as
+  \begin{equation}\label{eq:6}
+    \dim NS(A) + \dim CS(A) = n
+  \end{equation}
+  (recall that the column space is the range, and that nullspace and kernel
+  are synonyms).
+\end{theorem}
+
+We can now prove the following theorem, which says that the row space and
+column space of a matrix are the same thing.
+\begin{theorem}
+  If $A$ is any $m\times n$ matrix, then
+  \begin{equation*}
+    \dim RS(A) = \dim NS(A)
+  \end{equation*}
+\end{theorem}
+\begin{proof}
+  
+  After row reduction of $A$, we have have $n$ rows, some of which are zero
+  rows and some not. So
+  \begin{equation*}
+    \underbrace{\left( \text{\# zero rows} \right)}_{???}
+    +\underbrace{\left( \text{\# nonzero rows} \right)}_{\dim RS(A)} = n
+  \end{equation*}
+  Observe that $(\text{\# zero rows})$ is the number of free variables in the
+  solutions of $AX=0$. In other words,  $(\text{\# zero rows})= \dim NS(A)$.
+
+  Puthing these togther, we have
+  \begin{equation*}
+    \dim NS(A)+\dim RS(A) = n
+  \end{equation*}
+  By \cref{eq:6},
+  \begin{equation*}
+    \dim NS(A)+\dim RS(A) = \dim NS(A) + \dim CS(A)
+  \end{equation*}
+  Subtracting $NS(A)$ from both sides implies the statement of the theorem.
+\end{proof}
+
+This theorem says that we are justified in writing
+\begin{equation*}
+  \rank(A) = \dim NS(A) = \dim CS(A)
+\end{equation*}
+and hence that
+\begin{equation*}
+  \rank(A) + \mathrm{nullity}(A)=n
+\end{equation*}
+for any $m\times n$ matrix $A$.
 \end{document}
 
 
