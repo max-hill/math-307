@@ -36,5 +36,6 @@ title: Lecture notes
  2025-10-08  | [lecture-19](lectures/lecture-notes-by-day/lecture-19.pdf)      | Examples of calculations of dimension and basis of fundamental subspaces  
  2025-10-10  | [lecture-20](lectures/lecture-notes-by-day/lecture-20.pdf)      | What is a linear transformation?  
  2025-10-13  | [lecture-21](lectures/lecture-notes-by-day/lecture-21.pdf)      | Is a basis all you need?  
+ 2025-10-15  | [lecture-22](lectures/lecture-notes-by-day/lecture-22.pdf)      | Why do the row space and column space always have the same dimension?  
  
 
