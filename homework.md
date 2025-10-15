@@ -13,5 +13,6 @@ permalink: /homework/
  2025-10-01  | [homework-04](homework/homework-04/homework-04.pdf)      | Linear subspaces, span, review of previous topics
  2025-10-08  | [homework-05](homework/homework-05/homework-05.pdf)      | Linear subspaces, span, linear independence, basis
  2025-10-15  | [homework-06](homework/homework-06/homework-06.pdf)      | Linear independence and bases 
+ 2025-10-22  | [homework-07](homework/homework-07/homework-07.pdf)      | Computing subspaces, linear transformation
  
 
