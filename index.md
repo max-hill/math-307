@@ -37,5 +37,6 @@ title: Lecture notes
  2025-10-10  | [lecture-20](lectures/lecture-notes-by-day/lecture-20.pdf)      | What is a linear transformation?  
  2025-10-13  | [lecture-21](lectures/lecture-notes-by-day/lecture-21.pdf)      | Is a basis all you need?  
  2025-10-15  | [lecture-22](lectures/lecture-notes-by-day/lecture-22.pdf)      | Why do the row space and column space always have the same dimension?  
+ 2025-10-17  | [lecture-23](lectures/lecture-notes-by-day/lecture-23.pdf)      | Why is matrix multiplication defined the way it is?  
  
 

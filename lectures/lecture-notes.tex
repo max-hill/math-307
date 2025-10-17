@@ -1418,6 +1418,7 @@ Then the product $P=AB$ is a $p\times q$ matrix $P=(p_{ij})$, whose entries are
   &= \sum_{k=1}^{n}a_{ik}b_{kj}.
 \end{align*}
 \end{tcolorbox}
+
 For example,
 \begin{equation*}
   \begin{bmatrix}
@@ -6146,10 +6147,259 @@ for any $m\times n$ matrix $A$.
 
 \newpage
 \section{2025-10-17 | Week 08 | Lecture 23}
-\subsection{The algebra of linear transformations}
-\textit{Based on section 5.2}
+\begin{center}
+  \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
+    \textit{\textbf{The nexus question of this lecture:} Why is matrix
+      multiplication defined the way it is?}
+  \end{tcolorbox}
+\end{center}
+\textit{This lecture is based on section 5.2}
 
-\subsubsection{Linear combinations}
+\subsection{Combining linear transformations: the geometric perspective}
+
+A \demph{linear transformation} is a function $T:V \to W$ given by with the
+property that
+\begin{equation*}
+  T(av+bv')=aT(v)+bT(v')
+\end{equation*}
+for any $v,v'\in V$ and $a,b\in \R$.
+
+If $V=\R^{2}$ then linear transformations include things like
+\begin{itemize}
+  \item rotations about the origin
+  \item reflections across any line of the form $y=mx$
+  \item projections of the plane onto a line of the form $y=mx$
+  \item uniform stretching of space
+  \item any shearing of the plane (i.e., which slants the plane)
+  \item any combinations of these
+\end{itemize}
+(The story is similar for higher dimensions, but we get some weirder
+transformations: for example in $\R^{4}$, one can rotate space about two axes
+at once.)
+
+The last bullet---that we can combine linear transformations---is significant.
+In math-speak, let
+\begin{equation*}
+  S,R:\R^{2}\to \R^{2}
+\end{equation*}
+be linear transformations. If we do $S$ and then do $R$, is the resulting
+transformation of space is the function composition $R\circ S$.
+\begin{example}
+  For example, the following matrix rotates space clockwise about the origin
+  by $30^{\circ}$ (i.e., $\pi/6$ radians):
+  \begin{equation*}
+    R
+    =
+    \begin{bmatrix}
+      \cos(\pi/6) & \sin(\pi/6)\\
+      -\sin(\pi/6)& \cos(\pi/6)
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      \frac{\sqrt{3}}{2} & \frac{1}{2}\\
+      -\frac{1}{2} & \frac{\sqrt{3}}{2}
+    \end{bmatrix}
+  \end{equation*}
+  and the following matrix stretches space in the $x$-direction by a factor of
+  $2$:
+  \begin{equation*}
+    S =
+    \begin{bmatrix}
+      2&0\\
+      0&1
+    \end{bmatrix}
+  \end{equation*}
+
+  Then rotating and then stretching is achieved by doing $S$ and then $R$.
+  That is, by $R\circ S$. I claim this is given by the matrix product
+  \begin{equation*}
+    RS =
+    \begin{bmatrix}
+      \frac{\sqrt{3}}{2} & \frac{1}{2}\\
+      -\frac{1}{2} & \frac{\sqrt{3}}{2}
+    \end{bmatrix}
+    \begin{bmatrix}
+      2&0\\
+      0&1
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      \sqrt{3}& \frac{1}{2}\\
+      -1 & \frac{\sqrt{3}}{2}
+    \end{bmatrix}
+  \end{equation*}
+  \textbf{The core idea of this lecture is that matrix multiplication is
+    defined in such a way that this always happens: i.e., that the product
+    $RS$ corresponds to doing transformation $S$ and then doing transformation
+    $T$.}
+
+  In other words, the idea of composing linear transformations comes first.
+  The reason why people defined matrix multiplication the way it is, is
+  because they wanted it to represent composition of linear functions. We make
+  this idea more precise in the next section.
+\end{example}
+
+
+
+
+
+\subsection{Matrix multiplication is composition of linear transformations}
+
+Recall that if $f:X \to Y$ and $g:Y \to Z$ are functions, we define the
+copmosition $g\circ f$ as
+\begin{equation*}
+  g\circ f(x) := g(f(x)), \ x\in X.
+\end{equation*}
+Function composition can be thought of a form of ``multiplication'' (sort of).
+
+\begin{theorem}[Composition of linear transformations]
+  \label{thm:composition-linear-transformations}
+  If $T:V \to W$ and $S:W \to U$ are linear transformations, then the
+  composite function $ST=S\circ T$ is a linear transformation $ST:V \to U$ is
+  a linear transformation.
+\end{theorem}
+
+\begin{claim}
+  \label{claim:matrix-representation}
+  Every linear transformation can be represented by a matrix.
+\end{claim}
+\begin{claimproof}
+  This is the subject of the next lecture.
+\end{claimproof}
+
+
+\begin{theorem}
+  When we compose linear transformations $T$ and $S$, this corresponds to
+  multiplying their matrices.
+\end{theorem}
+
+We will prove the case of $2\times 2$ matrices. For a proof of the general
+case (which holds for any matrices), see Theorem 5.10 in the textbook (p
+258).
+
+\begin{proof}
+  Suppose $T,S:\R^{2}\to \R^{2}$ are linear transformations. By
+  \cref{claim:matrix-representation} both
+  $T$ and $S$ can be represented by $2\times 2$ matrices. That is, there exist
+  $a,b,c,d,A,B,C,D\in \R$ such that
+  \begin{equation*}
+    T
+    \begin{bmatrix}
+      x\\y
+    \end{bmatrix}
+    :=
+    \begin{bmatrix}
+      a&b\\
+      c&d
+    \end{bmatrix}
+    \begin{bmatrix}
+      x\\y
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      ax+by\\
+      cx+dy
+    \end{bmatrix}
+    \quad \text{and} \quad
+    S
+    \begin{bmatrix}
+      x\\y
+    \end{bmatrix}
+    :=
+    \begin{bmatrix}
+      A&B\\
+      C&D
+    \end{bmatrix}
+    \begin{bmatrix}
+      x\\y
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      Ax+By\\
+      Cx+Dy
+    \end{bmatrix}.
+  \end{equation*}
+  The matrix product is
+  \begin{equation*}
+    \begin{bmatrix}
+      A&B\\
+      C&D
+    \end{bmatrix}
+    \begin{bmatrix}
+      a&b\\
+      c&d
+    \end{bmatrix}
+    =
+    \underbrace{
+      \begin{bmatrix}
+      Aa+Bc&Ab+Bd\\
+      Ca+Dc&Cb+Dd
+    \end{bmatrix}}_{\text{call this }M}
+  \end{equation*}
+   
+  To show that $S\circ T$ corresponds exactly to matrix multiplication, we
+  need to show that
+  \begin{equation}\label{eq:9}
+    S\circ T \left(
+      \begin{bmatrix}
+      x\\y
+    \end{bmatrix}
+  \right) 
+     =
+    M
+    \begin{bmatrix}
+      x\\y
+    \end{bmatrix}
+  \end{equation}
+  for all $
+  \begin{bmatrix}
+    x\\y
+  \end{bmatrix}\in \R^{2}.
+  $
+  This is because left-hand side of the aboe equation is the composition $S\circ T$. The
+  right hand side is the product of the matrices for $S$ and $T$. By showing
+  that the equality holds, we will show that they are the same thing.
+  
+  Indeed, 
+  \begin{align*}
+    S\circ T \left(
+    \begin{bmatrix}
+      x\\y
+    \end{bmatrix}
+    \right)
+    &=
+    S \left( T
+    \begin{bmatrix}
+      x\\y
+    \end{bmatrix}
+    \right)\\
+    &=S \left(
+      \begin{bmatrix}
+        ax+by\\cx+dy
+      \end{bmatrix}
+    \right)\\ 
+    &=
+      \begin{bmatrix}
+        A(ax+by)+B(cx+dy)\\
+        C(ax+by)+D(cx+dy)
+      \end{bmatrix}\\
+    &=
+      \begin{bmatrix}
+        (Aa+Bc)x+(Ab+Bd)y\\
+        (Ca+Dc)x+(Cb+Dd)y
+      \end{bmatrix}\\
+    &= M
+      \begin{bmatrix}
+        x\\y
+      \end{bmatrix}.
+  \end{align*}
+  We have demonstrated that \cref{eq:9} holds. We are done. :)
+\end{proof}
+\newpage
+
+\section{2025-10-20 | Week 09 | Lecture 24}
+
+\subsubsection{Linear Transformations}
 Let $V$ and $W$ be vector spaces. Consider two linear transformations $T:V \to
 W$ and $S:V \to W$. The function $T+S$ is defined as
 \begin{equation*}
@@ -6160,32 +6410,102 @@ And for $c\in \R$, $cT$ is defined as
   (cT)(v):=cT(v),\ v\in V
 \end{equation*}
 
-\begin{theorem}[Linear combinations of linear transformations]
+\begin{theorem}
   \label{thm:linear-combinations-of-linear-transformations}
   If $T,S:V \to W$ are linear transformations, then so are $T+S$ and $cT$.
-  More generally, if $T_{1},\ldots,T_{n}:V \to W$ are
-  linear transformations and $c_{1},\ldots,c_{n}\in \R$, then
-  \begin{equation*}
-    c_{1}T_{1}+c_{2}T_{2}+\ldots+c_{n}T_{n}
-  \end{equation*}
-  is also a linear transformation.
+  % More generally, if $T_{1},\ldots,T_{n}:V \to W$ are
+  % linear transformations and $c_{1},\ldots,c_{n}\in \R$, then
+  % \begin{equation*}
+  %   c_{1}T_{1}+c_{2}T_{2}+\ldots+c_{n}T_{n}
+  % \end{equation*}
+  % is also a linear transformation.
 \end{theorem}
 
-\subsubsection{Composition}
-Recall that if $f:X \to Y$ and $g:Y \to Z$ are functions, we define the
-copmosition $g\circ f$ as
+(In other words, the set of linear transformations $T:V\to W$ is closed under
+addition and scalar multiplication. So the set of linear transformations forms
+a vector space. The rabbit hole goes deep...)
+
+
+\subsubsection{Algebraic rules}
+We can also do algebra with linear transformation.
+
+\begin{theorem}
+  Let $R,S,T$ be linear transformations and $c,d\in R$. Then
+  \begin{itemize}
+    \item $S+T=T+S$
+    \item $R+(S+T)=(R+S)+T$
+    \item $c(dT)=(cd)T $
+    \item $c(S+T)=cS+cT$
+    \item $R(ST)=(RS)T$
+    \item $R(S+T)=RS+RT$
+    \item $(R+S)T=RT+ST$
+    \item $c(ST)=(cS)T=S(cT)$
+  \end{itemize}
+\end{theorem}
+
+Observe the glaring lack of the rule that $ST=TS$, which doesn't hold in
+general. In fact, all of the above rules are are identical to the rules for
+matrix algebra (i.e., if $S,T,$ and $R$ are matrices).
+
+This is because linear transformations are, in some sense, matrices
+\subsection{Representing a linear transformation with a matrix}
+
+Let $V,W$ be vector spaces such that $\dim V=n$ and $\dim W=m$. Let
+$T:V \to W$ be a linear transformation.
+
+We will show how to represent $T$ as a matrix, but to do so we need to choose
+a basis for $V$ and $W$. Let $\alpha = \left\{v_{1},\ldots,v_{n}\right\} $ be a basis for $V$ and
+$\beta = \left\{w_{1},\ldots,w_{m}\right\}$ be a basis for $W$.
+
+From \cref{ex:cool-example}, we know that to specify $T$, it is sufficient to
+know how $T$ acts on the basis $v_{1},\ldots,v_{n}$.
+
+We know that $T(v_{1}),\ldots,T(v_{n})$ are all vectors in $W$. Every vector
+in $W$ can be written as a linear combination of the basis vectors
+$w_{1},\ldots,w_{m}$.  In other words,
+\begin{align*}
+  T(v_{1}) &= a_{11}w_{1}+a_{21}w_{2}+\ldots+a_{m1}w_{m}\\
+  T(v_{2}) &= a_{12}w_{1}+a_{22}w_{2}+\ldots+a_{m2}w_{m}\\
+           &\ \vdots\\
+  T(v_{n}) &= a_{1n}w_{1}+a_{2n}w_{2}+\ldots+a_{mn}w_{m}
+\end{align*}
+for $a_{ij}\in \R$.
+
+We can ``forget'' about the basis and write these as vectors:
 \begin{equation*}
-  g\circ f(x) := g(f(x)), \ x\in X.
+  T(v_{1}) =
+  \begin{bmatrix}
+    a_{11}\\a_{21}\\\vdots \\a_{m1}
+  \end{bmatrix}_{\beta}
+  \quad
+  T(v_{2}) =
+  \begin{bmatrix}
+    a_{12}\\a_{22}\\\vdots \\a_{m2}
+  \end{bmatrix}_{\beta}
+  \quad
+  \cdots
+  \quad
+  T(v_{n}) =
+  \begin{bmatrix}
+    a_{1n}\\a_{2n}\\\vdots \\a_{mn}
+  \end{bmatrix}_{\beta}
 \end{equation*}
-Function composition can be thought of a form of ``multiplication'' (sort of).
-And we often denote $g\circ f$ by $gf$.
+But I've put $\beta$ in the corner to remind us that these vectors represent
+linear combinations of the basis $\beta=\left\{w_{1},\ldots,w_{m}\right\}$.
 
-\begin{theorem}[Composition of linear transformations]
-  \label{thm:composition-linear-transformations}
-  If $T:V \to W$ and $S:W \to U$ are linear transformations, then the
-  composite function $ST=S\circ T$ is a linear transformation $ST:V \to U$ is
-  a linear transformation.
-\end{theorem}
+We can then represent $T$ simply as the $m\times n$ matrix
+\begin{equation*}
+  \begin{bmatrix}
+    a_{11}&a_{12}&\cdots& a_{1n}\\
+    a_{21}&a_{22}&\cdots& a_{2n}\\
+    \vdots&\vdots&\ddots&\vdots\\
+    a_{m1}&a_{m2}&\cdots& a_{mn}
+  \end{bmatrix}
+\end{equation*}
+whose columns are the above vectors. We call this matrix \demph{the matrix of
+  $T$ with respect to the bases $\alpha$ and $\beta$.} It is denoted
+$[T]_{\alpha}^{\beta}$.
+
 
 \begin{example}
   Suppose
@@ -6273,25 +6593,6 @@ Notice that
     1&3\\3&-1
   \end{bmatrix}
 \end{equation*}
-
-\subsubsection{Algebraic rules}
-\begin{theorem}
-  Let $R,S,T$ be linear transformations and $c,d\in R$. Then
-  \begin{itemize}
-    \item $S+T=T+S$
-    \item $R+(S+T)=(R+S)+T$
-    \item $c(dT)=(cd)T $
-    \item $c(S+T)=cS+cT$
-    \item $R(ST)=(RS)T$
-    \item $R(S+T)=RS+RT$
-    \item $(R+S)T=RT+ST$
-    \item $c(ST)=(cS)T=S(cT)$
-  \end{itemize}
-\end{theorem}
-
-
-\subsection{Matrices for Linear Transformation}
-\textit{Based on section 5.2}
 
 \end{document}
 
