@@ -6055,12 +6055,12 @@ This has two nonzero zero rows after row-reduction, so $r=2$.
 We can check this. The augmented matrix above corresponds to the linear system
 \begin{align*}
   x_{1}+2x_{3}+3x_{4}+4x_{5}&=0\\
-  x_{2}+5x_{3}+6x_{4}+7x_{6}&=0
+  x_{2}+5x_{3}+6x_{4}+7x_{5}&=0
 \end{align*}
 or
 \begin{align*}
   x_{1}&=-2x_{3}-3x_{4}-4x_{5}\\
-  x_{2}&=-5x_{3}-6x_{4}-7x_{6}
+  x_{2}&=-5x_{3}-6x_{4}-7x_{5}
 \end{align*}
 and this has three free variables $x_{3},x_{4},x_{5}$. Therefore the solutions
 to $AX=0$ are of the form
@@ -6273,6 +6273,26 @@ Notice that
     1&3\\3&-1
   \end{bmatrix}
 \end{equation*}
+
+\subsubsection{Algebraic rules}
+\begin{theorem}
+  Let $R,S,T$ be linear transformations and $c,d\in R$. Then
+  \begin{itemize}
+    \item $S+T=T+S$
+    \item $R+(S+T)=(R+S)+T$
+    \item $c(dT)=(cd)T $
+    \item $c(S+T)=cS+cT$
+    \item $R(ST)=(RS)T$
+    \item $R(S+T)=RS+RT$
+    \item $(R+S)T=RT+ST$
+    \item $c(ST)=(cS)T=S(cT)$
+  \end{itemize}
+\end{theorem}
+
+
+\subsection{Matrices for Linear Transformation}
+\textit{Based on section 5.2}
+
 \end{document}
 
 
