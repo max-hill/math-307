@@ -1,0 +1,336 @@
+\documentclass[10pt]{article}
+% Math Packages
+\usepackage{amsmath, mathtools}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{bbm}
+\usepackage{breqn}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{calc}
+\usepackage{forest}
+\usepackage{tikz-qtree}
+\graphicspath{ {./images/} }
+\usepackage{hyperref}
+\usepackage[capitalize]{cleveref}
+\usepackage[shortlabels]{enumitem}
+\usetikzlibrary{arrows,matrix,positioning}
+\usepackage{multicol}
+
+
+% for the pipe symbol
+\usepackage[T1]{fontenc}
+
+% Citing theorems by name. (source: https://tex.stackexchange.com/questions/109843/cleveref-and-named-theorems)
+\makeatletter
+\newcommand{\ncref}[1]{\cref{#1}\mynameref{#1}{\csname r@#1\endcsname}}
+
+\def\mynameref#1#2{%
+  \begingroup
+  \edef\@mytxt{#2}%
+  \edef\@mytst{\expandafter\@thirdoffive\@mytxt}%
+  \ifx\@mytst\empty\else
+  \space(\nameref{#1})\fi
+  \endgroup
+}
+\makeatother
+
+% Colorful Notes
+\usepackage{color} \definecolor{Red}{rgb}{1,0,0} \definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5} \def\red{\color{Red}} \def\blue{\color{Blue}}
+\def\gray{\color{gray}} \def\purple{\color{Purple}}
+\newcommand{\rnote}[1]{{\red [#1]}} % \rnote{foo} gives '[foo]' in red
+\newcommand{\pnote}[1]{{\purple [#1]}} % \pnote{foo} gives '[foo]' in purple
+\newcommand{\bnote}[1]{{\blue #1}} % \bnote{foo} gives 'foo' in blue
+\newcommand{\gnote}[1]{{\gray #1}} % \gnote{foo} gives 'foo' in gray
+\newcommand{\Max}[1]{{\purple [#1]}} % \bnote{foo} then 'foo' is blue
+
+
+% Claim numbering (the counter restarts after each proof environment)
+\newcounter{claimcount}
+\setcounter{claimcount}{0}
+\newenvironment{claim}{\refstepcounter{claimcount}\par\addvspace{\medskipamount}\noindent\textbf{Claim \arabic{claimcount}:}}{}
+\usepackage{etoolbox}
+\AtBeginEnvironment{proof}{\setcounter{claimcount}{0}}
+\newenvironment{claimproof}{\par\addvspace{\medskipamount}\noindent\textit{Proof of Claim  \arabic{claimcount}.}}{\hfill\ensuremath{\qedsymbol} \tiny{Claim}
+
+  \medskip}
+% Add claim support to cleverref
+\crefname{claimcount}{Claim}{Claims}
+
+
+% Math Environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{question}[theorem]{Question}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+
+% Matrices and Column Vectors. 
+\usepackage{stackengine}
+\setstackgap{L}{1.0\normalbaselineskip}
+\usepackage{tabstackengine}
+\setstackEOL{;}% row separator
+\setstackTAB{,}% column separator
+\setstacktabbedgap{1ex}% inter-column gap
+\setstackgap{L}{1.5\normalbaselineskip}% inter-row baselineskip
+\let\nmatrix\bracketMatrixstack  %Usage: \nmatrix{1,2,3\4,5,6}
+\newcommand\cv[1]{\setstackEOL{,}\bracketMatrixstack{#1}} %usage: \cv{1,2,3}
+
+% Custom Math Coqmmands
+\newcommand{\vt}{\vskip 5mm} % vertical space
+\newcommand{\fl}{\noindent\textbf} % first line
+\newcommand{\Fl}{\vt\noindent\textbf} % first line with space above
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert} % norm
+\newcommand{\pnorm}[1]{\left\lVert#1\right\rVert_p} % p-norm
+\newcommand{\qnorm}[1]{\left\lVert#1\right\rVert_q} % q-norm
+\newcommand{\1}[1]{\textbf{1}_{\left[#1\right]}} % indicator function 
+\def\limn{\lim_{n\to\infty}} % shortcut for lim as n-> infinity
+\def\sumn{\sum_{n=1}^{\infty}} % shortcut for sum from n=1 to infinity
+\def\sumkn{\sum_{k=1}^{n}} % shortcut for sum from k=1 to n
+\def\sumin{\sum_{i=1}^{n}} % shortcut for sum from i=1 to n
+\def\SAs{\sigma\text{-algebras}} % shortcut for $\sigma$-algebras
+\def\SA{\sigma\text{-algebra}} % shortcut for $\sigma$-algebra
+\def\Ft{\mathcal{F}_t} % time-indexed sigma-algebra (t)
+\def\Fs{\mathcal{F}_s} % time-indexed sigma-algebra (s)
+\def\F{\mathcal{F}} % sigma-algebra
+\def\G{\mathcal{G}} % sigma-algebra
+\def\R{\mathbb{R}} % Real numbers
+\def\N{\mathbb{N}} % Natural numbers
+\def\Z{\mathbb{Z}} % Integers
+\def\E{\mathbb{E}} % Expectation
+\def\P{\mathbb{P}} % Probability
+\def\Q{\mathbb{Q}} % Q probability
+\def\dist{\text{dist}} %Text 'dist' for things like 'dist(x,y)'
+\newcommand{\indep}{\perp \!\!\! \perp}  %independence symbol
+\def\Var{\mathrm{Var}} % Variance
+\def\tr{\mathrm{tr}} % trace
+
+% Brackets and Parentheses
+\def\[{\left [}
+    \def\]{\right ]}
+% \def\({\left (}
+%   \def\){\right )}
+
+
+
+\usepackage{color}
+\definecolor{Red}{rgb}{1,0,0}
+\definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5}
+\def\red{\color{Red}}
+\def\blue{\color{Blue}}
+\def\gray{\color{gray}}
+\def\purple{\color{Purple}}
+\definecolor{RoyalBlue}{cmyk}{1, 0.50, 0, 0}
+\newcommand{\dempfcolor}[1]{{\color{RoyalBlue}#1}} 
+\newcommand{\demph}[1]{\dempfcolor{{\sl #1}}}
+
+% comment exactly one of the following line to show / hide the solutions
+% \newcommand{\solution}[1]{{\purple #1}} % uncomment to show the solutions
+\newcommand{\solution}[1]{} % uncomment to hide the solutions
+
+
+
+\title{Lecture Notes for Math 372: \\Elementary Probability and Statistics}
+\date{Last updated: \today}
+% \author{mh}
+
+\begin{document}
+\begin{center}
+  \section*{Math 307: Homework 08}
+  \textit{Due Wednesday, October 29. This homework is mostly based on section
+    5.1 in the textbook.}
+\end{center}
+
+\begin{problem}
+  Find all solutions of
+  \begin{equation*}
+    \left\{ \begin{array}{l@{}l}
+        x_{1}+x_{2}+x_{3}+x_{4}=0\\
+        x_{1}+x_{2}+x_{3}-x_{4}=4\\
+        x_{1}+x_{2}-x_{3}+x_{4}=-4\\
+        x_{1}-x_{2}+x_{3}+x_{4}=2\\
+      \end{array}\right.
+  \end{equation*}
+\end{problem}
+
+
+\begin{problem}
+  Let
+  \begin{equation*}
+    A=
+    \begin{bmatrix}
+      4&-1&2&1\\
+      2&3&-1&-2\\
+      0&7&-4&-5\\
+      2&-11&7&8
+    \end{bmatrix}
+  \end{equation*}
+  For the following parts, you must fully justify your work to recieve
+  credit---this includes providing at least one or two complete sentences
+  explaining why your calculations justify your answer.
+  \begin{enumerate}[(a)]
+    \item Find a basis for $NS(A)$
+    \item Find a basis for $RS(A)$
+    \item Find a basis for $CS(A)$
+    \item Determine the rank of $A$.
+    \item Determine whether the matrix is invertible
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}
+  The matrix $A=
+  \begin{bmatrix}
+    2&0\\
+    0&1
+  \end{bmatrix}
+  $ produces a \demph{stretching} in the $x$-direction. Draw the circle
+  $x^{2}+y^{2}=1$. What happens to this circle when space is transformed by
+  $A$? Illustrate your answer with a sketch.
+\end{problem}
+
+\begin{problem}
+  The matrix $A=
+  \begin{bmatrix}
+    1&0\\
+    3&1
+  \end{bmatrix}
+  $ yields a \demph{shearing} transformation, which leaves the $y$-axis
+  unchanged. Sketch its effect on the $x$-axis, by indicating what happens to
+  the points $(x,y)= (1,0),(2,0)$, and $(-1,0)$---and how the whole axis is
+  transformed.
+\end{problem}
+
+\begin{problem}
+  \begin{enumerate}[(a)]
+    \item[]
+    \item What $2\times 2$ matrix has the effect of rotating every vector
+    counterclockwise $90^{\circ}$ and then projecting the result onto the
+    $x$-axis?
+    \item What $2\times 2$ matrix represents projection onto the $x$-axis
+    followed by projection onto the $y$-axis?
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}
+  Let $c$ be a scalar, and let $T:V \to W$ be a linear transformation. Verify
+  that $cT$ is a linear transformation.
+\end{problem}
+
+
+\begin{problem}
+  Let $S,T:\R^{2} \to \R^{2}$ be the linear transformations
+  \begin{equation*}
+    S
+    \begin{bmatrix}
+      x\\y
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      2x-y\\x+2y
+    \end{bmatrix}
+    \quad \text{and} \quad
+    T
+    \begin{bmatrix}
+      x\\y
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      x+3y\\x-y
+    \end{bmatrix}.
+  \end{equation*}
+  \begin{enumerate}[(a)]
+    \item Find matrices $A,B$ such that $T$ and $S$ are expressed as the
+    matrix transformations $T(X)=AX$ and $S(X) = BX$.
+    \item Find the matrix $C$ such that the composition $S\circ T$ is
+    expressed in the form $(S\circ T)(X)=CX$. Then verify that $C=AB$.
+    \item Find the matrix $D$ such that the composition $T\circ S$ is
+    expressed in the form $(T\circ S)(X)=DX$. Then verify that $D=BA$.
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}
+  The $4$ Hadamard matrix is
+  \begin{equation*}
+    H=
+    \begin{bmatrix}
+      1&1&1&1\\
+      1&-1&1&-1\\
+      1&1&-1&-1\\
+      1&-1&-1&1
+    \end{bmatrix}
+  \end{equation*}
+  Find $H^{-1}$ and write $v=
+  \begin{bmatrix}
+    7\\5\\3\\1
+  \end{bmatrix}
+  $
+  as a linear combination of the columns of $H$.
+\end{problem}
+
+\begin{problem}
+  Find the rank and nullsapce of
+  \begin{equation*}
+    A=
+    \begin{bmatrix}
+      0&0&1\\
+      0&0&1\\
+      1&1&1
+    \end{bmatrix}
+    \quad \text{and} \quad
+    B =
+    \begin{bmatrix}
+      0&0&1&2\\
+      0&0&1&2\\
+      1&1&1&0
+    \end{bmatrix}
+  \end{equation*}
+\end{problem}
+
+\begin{problem}
+  If $S$ and $T$ are linear transformations with $S(v)=T(v)=v$, then
+  $S(T(v))=v$ or $v^{2}$?
+\end{problem}
+
+\begin{problem}
+  A linear transformation must leave the zero vector fixed: $T(0)=0$. Prove
+  this from $T(u+v)=T(u)+T(v)$ by choosing $v=\underline{\phantom{hello}}$.
+  Prove it also from the requirement $T(cv)=cT(v)$ by choosing
+  $c=\underline{\phantom{hello}}$.
+\end{problem}
+
+
+\begin{problem}
+  Every straight line remains straight after a linear transformation. If $z$
+  is halfway between $x$ and $y$, show that $Az$ is halfway between $Ax$ and
+  $Ay$
+\end{problem}
+
+\begin{problem}
+  True or false, with counterexample if false:
+  \begin{enumerate}[(a)]
+    \item If the vectors $x_{1},\ldots,x_{m}$ span a subspace $S$, then $\dim
+    S =m.$
+    \item The intersection of two subspaces of a vector space cannot be
+    emptpy.
+    \item If $Ax=Ay$, then $x=y$.
+    \item The row space of $A$ has a unique basis that can be computed by
+    reducing $A$ to reduced row-echelon form.
+    \item If a square matrix $A$ has independent columns, then so does $A^{2}$.
+  \end{enumerate}
+\end{problem}
+
+\end{document}
+
+% Don't write in starlight, 'Cause the words may come out real

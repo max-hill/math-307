@@ -38,5 +38,6 @@ title: Lecture notes
  2025-10-13  | [lecture-21](lectures/lecture-notes-by-day/lecture-21.pdf)      | Is a basis all you need?  
  2025-10-15  | [lecture-22](lectures/lecture-notes-by-day/lecture-22.pdf)      | Why do the row space and column space always have the same dimension?  
  2025-10-17  | [lecture-23](lectures/lecture-notes-by-day/lecture-23.pdf)      | Why is matrix multiplication defined the way it is?  
+ 2025-10-20  | [lecture-24](lectures/lecture-notes-by-day/lecture-24.pdf)      | How do we find a matrix to represent a linear transformation?  
  
 

@@ -4534,7 +4534,7 @@ a spaning set of vectors to be minimal. Such a set is called a basis:
     \item $v_{1},\ldots,v_{n}$ are linearly independent. 
   \end{enumerate}
 \end{definition}
-Condition (i.) says that you have enough vectors to generate the lienar space
+Condition (i.) says that you have enough vectors to generate the linear space
 $V$, and condition (ii.) says that \textit{you don't have too many vectors}
 (i.e., minimality). To answer the motivating question of the last few
 lectures, a basis is a minimal generating set for a linear subspace (which may
@@ -6357,7 +6357,7 @@ case (which holds for any matrices), see Theorem 5.10 in the textbook (p
     x\\y
   \end{bmatrix}\in \R^{2}.
   $
-  This is because left-hand side of the aboe equation is the composition $S\circ T$. The
+  This is because left-hand side of the above equation is the composition $S\circ T$. The
   right hand side is the product of the matrices for $S$ and $T$. By showing
   that the equality holds, we will show that they are the same thing.
   
@@ -6399,8 +6399,18 @@ case (which holds for any matrices), see Theorem 5.10 in the textbook (p
 \newpage
 
 \section{2025-10-20 | Week 09 | Lecture 24}
+\begin{center}
+  \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
+    \textit{\textbf{The nexus question of this lecture:} How do we find a
+      matrix to represent a linear transformation?}
+  \end{tcolorbox}
+\end{center}
+\textit{This lecture is based on section 5.2 and 5.3}
 
-\subsubsection{Linear Transformations}
+
+\subsection{The algebra of linear transformations}
+
+\subsubsection{Algebraic operations}
 Let $V$ and $W$ be vector spaces. Consider two linear transformations $T:V \to
 W$ and $S:V \to W$. The function $T+S$ is defined as
 \begin{equation*}
@@ -6422,104 +6432,16 @@ And for $c\in \R$, $cT$ is defined as
   % is also a linear transformation.
 \end{theorem}
 
-(In other words, the set of linear transformations $T:V\to W$ is closed under
-addition and scalar multiplication. So the set of linear transformations forms
-a vector space. The rabbit hole goes deep...)
-
-
-\subsubsection{Algebraic rules}
-We can also do algebra with linear transformation.
-
-\begin{theorem}
-  Let $R,S,T$ be linear transformations and $c,d\in R$. Then
-  \begin{itemize}
-    \item $S+T=T+S$
-    \item $R+(S+T)=(R+S)+T$
-    \item $c(dT)=(cd)T $
-    \item $c(S+T)=cS+cT$
-    \item $R(ST)=(RS)T$
-    \item $R(S+T)=RS+RT$
-    \item $(R+S)T=RT+ST$
-    \item $c(ST)=(cS)T=S(cT)$
-  \end{itemize}
-\end{theorem}
-
-Observe the glaring lack of the rule that $ST=TS$, which doesn't hold in
-general. In fact, all of the above rules are are identical to the rules for
-matrix algebra (i.e., if $S,T,$ and $R$ are matrices).
-
-This is because linear transformations are, in some sense, matrices
-\subsection{Representing a linear transformation with a matrix}
-
-Let $V,W$ be vector spaces such that $\dim V=n$ and $\dim W=m$. Let
-$T:V \to W$ be a linear transformation.
-
-We will show how to represent $T$ as a matrix, but to do so we need to choose
-a basis for $V$ and $W$. Let $\alpha = \left\{v_{1},\ldots,v_{n}\right\} $ be a basis for $V$ and
-$\beta = \left\{w_{1},\ldots,w_{m}\right\}$ be a basis for $W$.
-
-From \cref{ex:cool-example}, we know that to specify $T$, it is sufficient to
-know how $T$ acts on the basis $v_{1},\ldots,v_{n}$.
-
-We know that $T(v_{1}),\ldots,T(v_{n})$ are all vectors in $W$. Every vector
-in $W$ can be written as a linear combination of the basis vectors
-$w_{1},\ldots,w_{m}$.  In other words,
-\begin{align*}
-  T(v_{1}) &= a_{11}w_{1}+a_{21}w_{2}+\ldots+a_{m1}w_{m}\\
-  T(v_{2}) &= a_{12}w_{1}+a_{22}w_{2}+\ldots+a_{m2}w_{m}\\
-           &\ \vdots\\
-  T(v_{n}) &= a_{1n}w_{1}+a_{2n}w_{2}+\ldots+a_{mn}w_{m}
-\end{align*}
-for $a_{ij}\in \R$.
-
-We can ``forget'' about the basis and write these as vectors:
-\begin{equation*}
-  T(v_{1}) =
-  \begin{bmatrix}
-    a_{11}\\a_{21}\\\vdots \\a_{m1}
-  \end{bmatrix}_{\beta}
-  \quad
-  T(v_{2}) =
-  \begin{bmatrix}
-    a_{12}\\a_{22}\\\vdots \\a_{m2}
-  \end{bmatrix}_{\beta}
-  \quad
-  \cdots
-  \quad
-  T(v_{n}) =
-  \begin{bmatrix}
-    a_{1n}\\a_{2n}\\\vdots \\a_{mn}
-  \end{bmatrix}_{\beta}
-\end{equation*}
-But I've put $\beta$ in the corner to remind us that these vectors represent
-linear combinations of the basis $\beta=\left\{w_{1},\ldots,w_{m}\right\}$.
-
-We can then represent $T$ simply as the $m\times n$ matrix
-\begin{equation*}
-  \begin{bmatrix}
-    a_{11}&a_{12}&\cdots& a_{1n}\\
-    a_{21}&a_{22}&\cdots& a_{2n}\\
-    \vdots&\vdots&\ddots&\vdots\\
-    a_{m1}&a_{m2}&\cdots& a_{mn}
-  \end{bmatrix}
-\end{equation*}
-whose columns are the above vectors. We call this matrix \demph{the matrix of
-  $T$ with respect to the bases $\alpha$ and $\beta$.} It is denoted
-$[T]_{\alpha}^{\beta}$.
+In other words, the set of linear transformations $T:V\to W$ is closed under
+addition and scalar multiplication. This suggests that set of linear
+transformations from $V$ to $W$ forms a vector space. (It does. The rabbit
+hole goes deep...)
 
 
 \begin{example}
   Suppose
+  
   \begin{equation*}
-    T
-    \begin{bmatrix}
-      x\\y
-    \end{bmatrix}
-    :=
-    \begin{bmatrix}
-      x+y\\x-y
-    \end{bmatrix}
-    \quad \text{and} \quad
     S
     \begin{bmatrix}
       x\\y
@@ -6528,12 +6450,62 @@ $[T]_{\alpha}^{\beta}$.
     \begin{bmatrix}
       2x-y\\x+2y
     \end{bmatrix}
+    \quad \text{and} \quad 
+    T
+    \begin{bmatrix}
+      x\\y
+    \end{bmatrix}
+    :=
+    \begin{bmatrix}
+      x+y\\x-y
+    \end{bmatrix}
   \end{equation*}
 \end{example}
-What is $ST$?
+\fl{Question 1: What is $S+3T$?}
 
 \begin{align*}
-  ST
+  (S+3T)\left(
+  \begin{bmatrix}
+    x\\y
+  \end{bmatrix}
+  \right) 
+  &= S
+    \left(\begin{bmatrix}
+        x\\y
+      \end{bmatrix}\right)
+  +3T
+  \left(\begin{bmatrix}
+      x\\y
+    \end{bmatrix}\right)\\
+  &=
+    \begin{bmatrix}
+      2x-y\\
+      x+2y
+    \end{bmatrix}
+  +3
+  \begin{bmatrix}
+    x+y\\
+    x-y
+  \end{bmatrix}\\
+  &=
+    \begin{bmatrix}
+      2x-y\\x+2y
+    \end{bmatrix}
+  +
+  \begin{bmatrix}
+    3x+3y\\
+    3x-3y
+  \end{bmatrix}\\
+  &=
+    \begin{bmatrix}
+      5x+2y\\
+      4x-y
+    \end{bmatrix}
+\end{align*}
+
+\fl{Question 2: What is $S\circ T$?}
+\begin{align*}
+  S\circ T
   \begin{bmatrix}
     x\\y
   \end{bmatrix}
@@ -6541,7 +6513,7 @@ What is $ST$?
     \begin{bmatrix}
       x\\y
     \end{bmatrix}
-    \right)\\ 
+  \right)\\ 
   &=S
     \begin{bmatrix}
       x+y\\
@@ -6565,36 +6537,1087 @@ At this point we note that we can represent
   \begin{bmatrix}
     2&-1\\
     1&2
-  \end{bmatrix}
+  \end{bmatrix},
   \quad
   T =
   \begin{bmatrix}
     1&1\\
     1&-1
-  \end{bmatrix}
+  \end{bmatrix},
   \quad
-  ST
+  S\circ T
   =
   \begin{bmatrix}
     1&3\\3&-1
+  \end{bmatrix},
+  \quad
+  S+3T
+  =
+  \begin{bmatrix}
+   5&2\\
+   4&-1
   \end{bmatrix}
 \end{equation*}
 Notice that
 \begin{equation*}
-  \begin{bmatrix}
+  \underbrace{
+    \begin{bmatrix}
     2&-1\\
     1&2
-  \end{bmatrix}
+  \end{bmatrix}}_{S}
+\underbrace{
   \begin{bmatrix}
     1&1\\
     1&-1
-  \end{bmatrix}
+  \end{bmatrix}}_{T}
   =
+  \underbrace{\begin{bmatrix}
+    1&3\\
+    3&-1
+  \end{bmatrix}}_{S\circ T}
+  \quad \text{and that} \quad 
+  \underbrace{\begin{bmatrix}
+    2&-1\\
+    1&2
+  \end{bmatrix}}_{S}
+  + 3
+  \underbrace{\begin{bmatrix}
+    1&1\\
+    1&-1
+  \end{bmatrix}}_{T}
+  =
+  \underbrace{
+    \begin{bmatrix}
+    5&2\\4&-1
+  \end{bmatrix}}_{S+3T}
+\end{equation*}
+
+\subsubsection{Algebraic rules}
+The standard algebraic rules work with linear transformations:
+
+\begin{theorem}
+  Let $R,S,T$ be linear transformations and $c,d\in R$. Then
+  \begin{itemize}
+    \item $S+T=T+S$
+    \item $R+(S+T)=(R+S)+T$
+    \item $c(dT)=(cd)T $
+    \item $c(S+T)=cS+cT$
+    \item $R(ST)=(RS)T$
+    \item $R(S+T)=RS+RT$
+    \item $(R+S)T=RT+ST$
+    \item $c(ST)=(cS)T=S(cT)$
+  \end{itemize}
+\end{theorem}
+
+Observe the glaring lack of the rule that $ST=TS$, which doesn't hold in
+general. In fact, all of the above rules are are identical to the rules for
+matrix algebra (i.e., if $S,T,$ and $R$ are matrices).
+
+This makes sense because, as we show in the next section, linear
+transformations can be encoded with matrices. 
+
+\subsection{Representing a linear transformation with a matrix}
+
+Let
+$T:V \to W$ be a linear transformation.
+
+\fl{Goal:} Find a matrix to represent $T$.
+
+We'll start by choosing a basis for $V$ and $W$. Let
+$\alpha = \left\{v_{1},\ldots,v_{n}\right\} $ be a basis for $V$ and
+$\beta = \left\{w_{1},\ldots,w_{m}\right\}$ be a basis for $W$.
+
+Following the ideas of \cref{ex:cool-example}, it is enough to understand how
+$T$ acts on the basis $v_{1},\ldots,v_{n}$.
+
+Observe that
+\begin{itemize}
+  \item Every vector in $W$ can be written as a unique linear combination of
+  the basis vectors $w_{1},\ldots,w_{m}$ (because these form a basis).
+  \item The vectors $T(v_{1}),\ldots,T(v_{n})$ are all vectors in $W$.
+\end{itemize}
+From these two observations, we can find scalars $a_{ij}\in \R$ such that
+\begin{align*}
+  T(v_{1}) &= a_{11}w_{1}+a_{21}w_{2}+\ldots+a_{m1}w_{m}\\
+  T(v_{2}) &= a_{12}w_{1}+a_{22}w_{2}+\ldots+a_{m2}w_{m}\\
+           &\ \vdots\\
+  T(v_{n}) &= a_{1n}w_{1}+a_{2n}w_{2}+\ldots+a_{mn}w_{m}.
+\end{align*}
+
+We can change notation by writing thes as \demph{coordinate vectors}:
+\begin{equation*}
+  T(v_{1}) =
   \begin{bmatrix}
-    1&3\\3&-1
+    a_{11}\\a_{21}\\\vdots \\a_{m1}
+  \end{bmatrix}_{\beta}
+  \quad
+  T(v_{2}) =
+  \begin{bmatrix}
+    a_{12}\\a_{22}\\\vdots \\a_{m2}
+  \end{bmatrix}_{\beta}
+  \quad
+  \cdots
+  \quad
+  T(v_{n}) =
+  \begin{bmatrix}
+    a_{1n}\\a_{2n}\\\vdots \\a_{mn}
+  \end{bmatrix}_{\beta}
+\end{equation*}
+Here, the subscript $\beta$ indicates that these vectors represent linear
+combinations of the basis $\beta=\left\{w_{1},\ldots,w_{m}\right\}$.
+
+We can then represent $T$ simply as the $m\times n$ matrix
+\begin{equation*}
+  [T]_{\alpha}^{\beta}=
+  \begin{bmatrix}
+    a_{11}&a_{12}&\cdots& a_{1n}\\
+    a_{21}&a_{22}&\cdots& a_{2n}\\
+    \vdots&\vdots&\ddots&\vdots\\
+    a_{m1}&a_{m2}&\cdots& a_{mn}
+  \end{bmatrix}
+\end{equation*}
+whose columns are the above vectors. We call this matrix \demph{the matrix of
+  $T$ with respect to the bases $\alpha$ and $\beta$.} It is denoted
+$[T]_{\alpha}^{\beta}$. 
+
+
+
+
+\begin{example}
+  Let $T(
+  \begin{bmatrix}
+    x\\y
+  \end{bmatrix}
+  ) =
+  \begin{bmatrix}
+    x+y\\x-y
+  \end{bmatrix}
+  $.
+  Then we can write $v_{1} =
+  \begin{bmatrix}
+    1\\0
+  \end{bmatrix}
+  $
+  and $v_{2} =
+  \begin{bmatrix}
+    0\\1
+  \end{bmatrix}
+  $.
+
+  Here, we take as our basis $\alpha=\beta=\left\{v_{1},v_{2}\right\}$.
+  Observe that
+  \begin{itemize}
+    \item $T(v_{1})=
+    \begin{bmatrix}
+      1\\1
+    \end{bmatrix}
+    $
+    \item $T(v_{2})=
+    \begin{bmatrix}
+      1\\-1
+    \end{bmatrix}
+    $.
+  \end{itemize}
+  Then
+  \newcommand*{\vertbar}{\rule[-1ex]{0.5pt}{2.5ex}}
+  \newcommand*{\horzbar}{\,\rule[.5ex]{2.5ex}{0.5pt}\,}
+
+  \begin{equation*}
+    [T]_{\alpha}^{\beta} =
+    \begin{bmatrix}
+      \begin{array}{cc}
+        \vertbar & \vertbar\\
+        T(v_{1})    & T(v_{2})\\
+        \vertbar & \vertbar \\
+      \end{array}
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      1&1\\
+      1&-1
+    \end{bmatrix}
+  \end{equation*}
+  Which makes sense, because
+  \begin{equation*}
+    T
+    \begin{bmatrix}
+      x\\y
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      x+y\\x-y
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      1&1\\1&-1
+    \end{bmatrix}
+    \begin{bmatrix}
+      x\\y
+    \end{bmatrix}.
+  \end{equation*}
+\end{example}
+
+\newpage
+
+
+\newpage
+\section{2025-10-22 | Week 09 | Lecture 25}
+\subsection{Some examples of linear transformations}
+\textit{Based on section 2.5 in Strang's Linear Algebra and its Applications}
+
+\begin{theorem}[Chagne of basis]
+  Let $\mathbb{A}$ and $\mathbb{B}$ be vector spaces. If
+  $T: \mathbb{A} \to \mathbb{B}$ is a linear map,
+  $\alpha= \left\{\alpha_{1},\ldots,\alpha_{n}\right\}$ is a basis of
+  $\mathbb{A}$, and $\beta= \left\{\beta_{1},\ldots,\beta_{m}\right\} $ is a
+  basis of $\mathbb{B}$, then we can represent $T$ by the matrix
+  \newcommand*{\vertbar}{\rule[-1ex]{0.5pt}{2.5ex}}
+  \newcommand*{\horzbar}{\,\rule[.5ex]{2.5ex}{0.5pt}\,}
+
+  \begin{equation*}
+    [T]_{\alpha}^{\beta}
+       = 
+      \left[
+        \begin{array}{cccc}
+          \vertbar & \vertbar &        & \vertbar \\
+          T(\alpha_{1})    & T(\alpha_{2})    & \ldots & T(\alpha_{n})    \\
+          \vertbar & \vertbar &        & \vertbar 
+        \end{array}
+      \right]
+    \end{equation*}
+    where
+    $T(\alpha_{i}) = A\alpha_{i} =
+    a_{1i}\beta_{1}+a_{2i}\beta_{2}+\ldots+a_{mi}\beta_{m}$ for each
+    $i=1,\ldots,n$.
+
+    (Here, $\alpha_{1},\ldots,\alpha_{n}$ are vectors in $\mathbb{A}$ and
+    $\beta_{1},\ldots,\beta_{n}$ are vectors in $\mathbb{B}$.)
+\end{theorem}
+
+
+\begin{example}[Example 1 in Section 5.3]
+  Let $T:\R^{3}\to \R^{3}$ be the linear transformation
+  \begin{equation*}
+    T
+    \begin{bmatrix}
+      x\\y\\z
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      5x+z\\
+      3x+2y-3z\\
+      5x
+    \end{bmatrix}
+  \end{equation*}
+  Let
+  \begin{equation*}
+    \alpha= \left\{
+      \begin{bmatrix}
+        1\\0\\0
+      \end{bmatrix},
+      \begin{bmatrix}
+        0\\1\\0
+      \end{bmatrix},
+      \begin{bmatrix}
+        0\\0\\1
+      \end{bmatrix}
+    \right\}
+    = \left\{e_{1},e_{2},e_{3}\right\}.
+  \end{equation*}
+  Clearly $\alpha$ is a basis of $\R^{3}$.
+
+  \begin{enumerate}[(a)]
+    \item \textbf{Question:} Find the matrix of $T$ with respect to the standard basis $\alpha$,
+    $[T]_{\alpha}^{\alpha}$.
+    
+    \textbf{Solution:} Observe that
+    \begin{equation*}
+      T(e_{1}) = T
+      \begin{bmatrix}
+        1\\0\\0
+      \end{bmatrix}
+      =
+      \begin{bmatrix}
+        5\\3\\5
+      \end{bmatrix}
+      =5e_{1}+3e_{2}+5e_{3}
+    \end{equation*}
+    Similarly,
+    \begin{equation*}
+      T(e_{2}) =
+      \begin{bmatrix}
+        0\\2\\0
+      \end{bmatrix}
+      = 0e_{1}+2e_{2}+0e_{3}
+      \quad \text{and} \quad
+      T(e_{3})=
+      \begin{bmatrix}
+        1\\-3\\0
+      \end{bmatrix}
+      = 1e_{1}-3e_{2}+0e_{3}
+    \end{equation*}
+    These becomes the columns of the matrix
+    \begin{equation*}
+      [T]_{\alpha}^{\alpha} =
+      \begin{bmatrix}
+        5&0&1\\
+        3&2&-3\\
+        5&0&0
+      \end{bmatrix}
+    \end{equation*}
+    
+    \item \textbf{Question:} Let $\beta=
+    \left\{\beta_{1},\beta_{2},\beta_{3}\right\}$ where 
+    \begin{equation*}
+      \beta_{1} =
+      \begin{bmatrix}
+        1\\1\\2
+      \end{bmatrix},
+      \quad
+      \beta_{2} =
+      \begin{bmatrix}
+        1\\-1\\1
+      \end{bmatrix},
+      \quad
+      \beta_{3}
+      \begin{bmatrix}
+        1\\1\\1
+      \end{bmatrix}
+    \end{equation*}
+    This is a basis of $\R^{3}$. Find $[T]_{\alpha}^{\beta}$, the matrix of
+    $T$ with respect to the bases $\alpha$ and $\beta$.
+
+    \textit{(The point of this
+    example is to show you how to find $[T]_{\alpha}^{\beta}$ mechanistically;
+    I'm not trying to illustrate why this particular choice of basis $\beta$
+    is good or meaningful---it's not.)}
+
+    \textbf{Solution:} The columns of $[T]_{\alpha}^{\beta}$ are the vectors
+    $T(e_{1}),T(e_{2}),T(e_{3})$ expressed in terms of the $\beta$.
+    \begin{equation*}
+      T(e_{1}) =
+      \begin{bmatrix}
+        5\\3\\1
+      \end{bmatrix},
+      \quad
+      T(e_{2}) =
+      \begin{bmatrix}
+        0\\2\\0
+      \end{bmatrix},
+      \quad
+      T(e_{3}) =
+      \begin{bmatrix}
+        1\\-3\\0
+      \end{bmatrix}
+    \end{equation*}
+    Observe that
+    \begin{itemize}
+      \item $T(e_{1})
+      =
+      T \left(
+        \begin{bmatrix}
+          1\\0\\0
+        \end{bmatrix}
+      \right) 
+      =
+      \begin{bmatrix}
+        5\\3\\1
+      \end{bmatrix}
+      \overset{*}{=}
+      0
+      \underbrace{\begin{bmatrix}
+        1\\1\\2
+      \end{bmatrix}}_{\beta_{1}}
+      +1
+      \underbrace{\begin{bmatrix}
+        1\\-1\\1
+      \end{bmatrix}}_{\beta_{2}}
+      +4
+      \underbrace{\begin{bmatrix}
+        1\\1\\1
+      \end{bmatrix}}_{\beta_{3}}
+      =
+      \begin{bmatrix}
+        0\\1\\4
+      \end{bmatrix}_{\beta}
+      $
+      \item  $T(e_{1})
+      =
+      T \left(
+        \begin{bmatrix}
+          0\\1\\0
+        \end{bmatrix}
+      \right) 
+      =
+      \begin{bmatrix}
+        0\\2\\0
+      \end{bmatrix}
+      \overset{*}{=}
+      0
+      \underbrace{\begin{bmatrix}
+          1\\1\\2
+        \end{bmatrix}}_{\beta_{1}}
+      -1
+      \underbrace{\begin{bmatrix}
+          1\\-1\\1
+        \end{bmatrix}}_{\beta_{2}}
+      +1
+      \underbrace{\begin{bmatrix}
+          1\\1\\1
+        \end{bmatrix}}_{\beta_{3}}
+      =
+      \begin{bmatrix}
+        0\\-1\\1
+      \end{bmatrix}_{\beta}
+      $
+    \item  $T(e_{3})
+      =
+      T \left(
+        \begin{bmatrix}
+          0\\0\\1
+        \end{bmatrix}
+      \right) 
+      =
+      \begin{bmatrix}
+        1\\-3\\0
+      \end{bmatrix}
+      \overset{*}{=}
+      -1
+      \underbrace{\begin{bmatrix}
+          1\\1\\2
+        \end{bmatrix}}_{\beta_{1}}
+      +2
+      \underbrace{\begin{bmatrix}
+          1\\-1\\1
+        \end{bmatrix}}_{\beta_{2}}
+      +0
+      \underbrace{\begin{bmatrix}
+          1\\1\\1
+        \end{bmatrix}}_{\beta_{3}}
+      =
+      \begin{bmatrix}
+        -1\\2\\0
+      \end{bmatrix}_{\beta}
+      $
+    \end{itemize}
+
+    
+    \begin{tcolorbox}[colframe=black, colback=gray!5, arc=2mm, boxrule=0.8pt,
+      breakable, title=The starred equalities,   coltitle=black,colbacktitle=black!10]
+      Note that the equalities marked with a $(*)$ required solving a linear
+      system. In the $T(e_{1})$ case, for example, we needed to solve the
+      linear system
+      \begin{equation*}
+        \begin{bmatrix}
+          5\\3\\5
+        \end{bmatrix}
+        = c_{1}
+        \begin{bmatrix}
+          1\\1\\2
+        \end{bmatrix}
+        +
+        c_{2}
+        \begin{bmatrix}
+          1\\-1\\1
+        \end{bmatrix}
+        +c_{3}
+        \begin{bmatrix}
+          1\\1\\1
+        \end{bmatrix},
+      \end{equation*}
+      which has solution $c_{1}=0$, $c_{2}=1$, $c_{3}=4$.
+    \end{tcolorbox}
+    Therefore
+    \newcommand*{\vertbar}{\rule[-1ex]{0.5pt}{2.5ex}}
+    \newcommand*{\horzbar}{\,\rule[.5ex]{2.5ex}{0.5pt}\,}
+    \begin{equation*}
+      [T]_{\alpha}^{\beta}
+      = 
+      \begin{bmatrix}
+        \begin{array}{ccc}
+          \vertbar & \vertbar &         \vertbar \\
+          T(e_{1})    & T(e_{2})   & T(e_{3})    \\
+          \vertbar & \vertbar &         \vertbar 
+        \end{array}
+      \end{bmatrix}
+      =
+      \begin{bmatrix}
+        0&0&-1\\
+        1&-1&2\\
+        4&1&0
+      \end{bmatrix}l
+    \end{equation*}
+    This matrix represents the same linear transformation, $T$, but now we are
+    using $\beta$ as the basis for $T$, rather than $\alpha$ as in part (a).
+    For some linear transformations, the is a ``best'' basis to use (and often
+    it is not the standard basis!)
+  \end{enumerate}
+\end{example}
+
+
+\begin{example}[Differentiation]
+  Consider $P_{3}= \left\{p\in \R[x]: \deg p \leq 3\right\} $. We've already
+  seen that $\frac{d}{dx}: P_{3}\to P_{3}$ is a linear transformation.
+
+  Given an element $p\in P_{3}$, we have $p(x)=
+  c_{0}+c_{1}x+c_{2}x_{2}+c_{3}x_{3}$. A basis for $P_{3}$ is
+  \begin{equation*}
+    \beta= \left\{b_{1}= 1,\quad b_{2}=x, \quad b_{3}=x^{2}, \quad b_{3}=x^{3}\right\} 
+  \end{equation*}
+  The action of $D=\frac{d}{dt}$  on these four vectors is
+  \begin{equation*}
+    Db_{1} = 0, \quad Db_{2}=p_{1}, \quad Db_{3}=p_{2}, \quad Db_{4}=b_{3} 
+  \end{equation*}
+
+  The matrix for $\frac{d}{dx}$ is
+  \begin{equation*}
+    D=\begin{bmatrix}
+      0&1&0&0\\
+      0&0&2&0\\
+      0&0&0&3\\
+      0&0&0&0
+    \end{bmatrix}
+  \end{equation*}
+  For example, if $p(x)=3+5x-7x^{2}+2x^{3}$, we can write it as
+  \begin{equation*}
+    p =
+    \begin{bmatrix}
+      3\\5\\-7\\2
+    \end{bmatrix}_{\beta}
+  \end{equation*}
+  In which case
+  \begin{equation*}
+    Dp =\begin{bmatrix}
+      0&1&0&0\\
+      0&0&2&0\\
+      0&0&0&3\\
+      0&0&0&0
+    \end{bmatrix}
+    \begin{bmatrix}
+      3\\5\\-7\\2
+    \end{bmatrix}_{\beta}
+    =
+    \begin{bmatrix}
+      5\\-14\\6\\0
+    \end{bmatrix}_{\beta}
+  \end{equation*}
+  the right hand side is the coordinate vector form of the polynomial $5-14x+6x^{2}$.
+
+  This is the derivative of $p(x) = 3+5x-7x^{2}+2x^{3}$.
+\end{example}
+
+
+
+
+\begin{example}[Horizontal and Vertical Dilations]
+  Scale space by $a>0$ in the $x$ direction and $b>0$ in the $y$-direction
+  \begin{equation*}
+    \begin{bmatrix}
+      a&0\\
+      0&b
+    \end{bmatrix}
+  \end{equation*}
+  This can be undone by
+  \begin{equation*}
+    \begin{bmatrix}
+      \frac{1}{a}&0\\
+      0& \frac{1}{b}
+    \end{bmatrix}
+  \end{equation*}
+\end{example}
+
+
+\begin{example}[Shear]
+  \begin{equation*}
+    A=\begin{bmatrix}
+      1&a\\
+      0&1
+    \end{bmatrix}
+    \quad \text{and} \quad
+    B=\begin{bmatrix}
+      1&0\\
+      b&1
+    \end{bmatrix}
+  \end{equation*}
+  These have inverses
+  \begin{equation*}
+    A^{-1}=\begin{bmatrix}
+      1&-a\\
+      0&1
+    \end{bmatrix}
+    \quad \text{and} \quad
+    B^{-1}=\begin{bmatrix}
+      1&0\\
+      -b&1
+    \end{bmatrix} 
+  \end{equation*}
+  
+
+  \begin{center}
+    \begin{tikzpicture}
+      % --- Left plot ---
+      \begin{axis}[
+        name=left,
+        at={(0,0)}, anchor=south west,
+        axis lines=center,
+        xmin=0, xmax=4.5,
+        ymin=0, ymax=3.5,
+        xtick={1,2,3,4},
+        ytick={1,2,3},
+        xlabel={$x$}, ylabel={$y$},
+        axis line style={->},
+        width=7.5cm, height=6.2cm,
+        clip=false,
+        grid=major,
+        major grid style={dashed,draw=gray!60}
+        ]
+        % unit square + unit vectors
+        \addplot[fill=blue!15, draw=blue!50] coordinates {(0,0) (1,0) (1,1) (0,1)} -- cycle;
+        \addplot[very thick,->,blue] coordinates {(0,0) (1,0)} node[pos=0.5, below] {$\mathbf e_{1}$};
+        \addplot[very thick,->,red]  coordinates {(0,0) (0,1)} node[pos=0.5, left] {$\mathbf e_{2}$};
+      \end{axis}
+
+      % --- Right plot ---
+      \begin{axis}[
+        name=right,
+        at={(8.5cm,0)}, anchor=south west, % adjust horizontal gap if desired
+        axis lines=center,
+        xmin=0, xmax=4.5,
+        ymin=0, ymax=3.5,
+        xtick={1,2,3,4},
+        ytick={1,2,3},
+        xlabel={$x$}, ylabel={$y$},
+        axis line style={->},
+        width=7.5cm, height=6.2cm,
+        clip=false
+        ]
+        
+        % Define u = Ae1 and v = Ae2
+        \def\ux{.25}\def\uy{1}    % u = (0.25,1)
+        \def\vx{1}\def\vy{0}    % v = (1,0)
+
+        % --- Custom "grid" aligned with u and v ---
+        % Lines parallel to v, offset by k*u   (images of x = k)
+        \foreach \k in {1,2,3}{
+          \addplot[thin,gray!60,dashed]
+          plot[domain=0:4.7, samples=]
+          ({x*\vx},{\k*\uy + x*\vy});
+        }
+
+        \foreach \k in {1}{
+          \addplot[thin,gray!60,dashed]
+          plot[domain=0:1.2, samples=2]
+          ({\k*\ux + x*\vx},{\k*\uy + x*\vy});
+        }
+
+        
+        % Lines parallel to u, offset by k*v   (images of y = k)
+        \foreach \k in {0}{
+          \addplot[thin,gray!60,dashed]
+          plot[domain=0:3.2, samples=2]
+          ({\k*\vx + x*\ux},{\k*\vy + x*\uy});
+        }
+        \foreach \k in {0,1,2,3,4}{
+          \addplot[thin,gray!60,dashed]
+          plot[domain=0:3.2, samples=2]
+          ({\k*\vx + x*\ux},{\k*\vy + x*\uy});
+        }
+
+        % image of unit square under A: Ae1=(3,1), Ae2=(1,2)
+        \addplot[fill=blue!15, draw=blue!50] coordinates {(0,0) (1,0) (1.25,1) (.25,1)} -- cycle;
+        \addplot[very thick,->,blue] coordinates {(0,0) (1,0)}
+        node[xshift=4pt,pos=0.6, below left] {{\footnotesize $u=A\mathbf e_{1}$}};
+        \addplot[very thick,->,red]  coordinates {(0,0) (.25,1)}
+        node[xshift=9pt,yshift=4pt,pos=1]  {{\footnotesize$v=A\mathbf e_{2}$}};
+      \end{axis}
+
+      % --- Arching arrow + label between plots ---
+      \draw[very thick, -{Stealth[length=5mm]}]
+      ([xshift=-5cm,yshift=-4cm]left.north east)
+      .. controls ($(left.north east)+(-1,-.2)$) and ($(right.north west)+(-1.2,-.2)$) ..
+      ([xshift=3cm,yshift=-2.5cm]right.north west)
+      node[pos=0.5, above=1pt, fill=white, xshift=3pt, yshift=1pt]
+      {{\footnotesize multiply by $\displaystyle \begin{bmatrix}1&0.25\\[2pt]0&1\end{bmatrix}$}};
+    \end{tikzpicture}
+  \end{center}
+  This transformation is a \demph{horizontal shear}. It does not change the
+  height of any point. Points above the $x$-axis get shifted right (because
+  $a=0.25$ is positive) and points below the $x$-axis get shifted left. The
+  further away from the $x$-axis, the greater the horizontal shift. The
+  $x$-axis is not changed at all by this transformation---it is
+  \demph{invariant} under the linear transformation. This transformation can
+  be undone by $
+  \begin{bmatrix}
+    1&-0.25\\
+    0&1
+  \end{bmatrix}
+  $, which is the inverse.
+
+  The transformation
+  \begin{equation*}
+    \begin{bmatrix}
+      1&0\\
+      b&1
+    \end{bmatrix}
+  \end{equation*}
+  is similar, but effectuates a \demph{vertical shear}.
+\end{example}
+
+
+A square matrix $A$ is said to be an \demph{orthogonal matrix} is $A$ and $A^{\top}$ are
+inverses.
+
+The determinant of an orthogonal matrix is alwasy $\pm 1$ because
+\begin{equation*}
+  1 = \det(I)=\det (A^{\top}A) = \det(A^{\top})\det(A) =\left(\det(A)\right)^{2}.
+\end{equation*}
+Orthogonal matrices has the property that they \textit{preserve distances},
+i.e., that
+\begin{equation*}
+  \dist(x,y) = \dist(Ax,Ay).
+\end{equation*}
+In words, if you choose any two points, their distance doesn't change under
+the linear transformation---the points may get sent to new coordinates, but
+the distance between them doesn't change.
+
+If $A$ is an orthogonal matrix and $\det(A)=1$, then we say that $A$ is a
+\demph{rotation}.
+
+
+
+\begin{example}[Rotation]
+  Let $R_{\theta}:\R^{2}\to \R^{2}$ be a rotation of the plane about origin by
+  $\theta$ radians counterclockwise. This linear transformation is represented
+  by the matrix
+  \begin{equation*}
+    R_{\theta}=
+    \begin{bmatrix}
+      \cos(\theta)& -\sin(\theta)\\
+      \sin(\theta)& \cos(\theta)
+    \end{bmatrix}    
+  \end{equation*}
+  Using the trig identities
+  \begin{align*}
+    \cos(a+b) 
+    &= \cos(a)\cos(b) - \sin(a)\sin(b)\\
+    \sin(a+b)
+    &= \sin(a)\cos(b) + \cos(a)\sin(b)
+  \end{align*}
+  we can show that
+  \begin{equation*}
+    R_{a}R_{b}=R_{a+b}
+  \end{equation*}
+  That says that, eg if you rotate by say $10^{\circ}$ and then by
+  $24^{\circ}$, the result is a rotation by $34^{\circ}$.
+
+  Observe that $R_{\theta}^{\top}= R_{-\theta}$. In other words,
+  \begin{equation*}
+    R_{\theta}^{\top}R_{\theta} = R_{-\theta}R_{\theta}=R_{0}=I
+  \end{equation*}
+  Therefore $R$ and $R^{\top}$ are inverses.
+\end{example}
+
+A matrix $A$ is said to be a \demph{projection} if $A^{2}=A$. The simplest
+projection is the identity $I$, but usually projections collapse dimension. 
+
+\begin{example}[Projections]
+  Consider the line passing through the origin and the point
+  $(c,s)=(\cos(\theta),\sin(\theta))$. Let $P$ be the projection onto the
+  $\theta$-line. This is given by the matrix
+  \begin{equation*}
+    P =
+    \begin{bmatrix}
+      c^{2}&cs\\cs&s^{2}
+    \end{bmatrix}
+  \end{equation*}
+  This matrix has no inverse, because the linear transformation has no inverse
+  (because it collapses dimension). Indeed, $\det P = c^{2}s^{2}- (cs)^{2}=0$
+
+  Points on the $\theta$-line are pojected to themselves. So projecting twice
+  is the same as projecting onces, so $P^{2}=P$. This is easy to check using
+  $s^{2}+c^{2}=1$:
+  \begin{equation*}
+    P^{2}
+    \begin{bmatrix}
+      c^{2}&cs\\
+      cs&s^{2}
+    \end{bmatrix}
+    \begin{bmatrix}
+      c^{2}&cs\\
+      cs&s^{2}
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      c^{2}(c^{2}+s^{2})& cs(c^{2}+s^{2})\\
+      cs(c^{2}+s^{2})& s^{2}(c^{2}+s^{2})
+    \end{bmatrix}
+    = P
+  \end{equation*}
+
+  The nullspace of $P$ is the line $y=-\frac{c}{s}x$. (picture)
+\end{example}
+
+\begin{example}[Reflection]
+  Reflection across the $\theta$-line (i.e. the line passing through the
+  origin with angle $\theta$) is given by the following matrix:
+  \begin{equation*}
+    H =
+    \begin{bmatrix}
+      2c^{2}-1&2cs\\
+      2cs&2s^{2}-1
+    \end{bmatrix}
+  \end{equation*}
+  where $c=\cos(\theta)$ and $s=\sin(\theta)$.
+
+  Observe
+  \begin{equation*}
+    H^{2}=H
+  \end{equation*}
+
+  For example, $\theta=90^{\circ}$ gives
+  \begin{equation*}
+    H =
+    \begin{bmatrix}
+      0&1\\
+      1&0
+    \end{bmatrix}
+  \end{equation*}
+\end{example}
+
+\begin{example}
+  Find a linear transformation that consists of stretching space in the
+  direction $\theta=45^{\circ}$ (i.e. $\theta=\pi/4$ radians) by a factor of
+  $2$.
+
+  \fl{Answer:} The linear transformation we are looking for is
+  \begin{equation*}
+    R_{-\frac{\pi}{4}}
+    \begin{bmatrix}
+      1&0\\
+      0&2
+    \end{bmatrix}
+    R_{\frac{\pi}{4}}
+  \end{equation*}
+  since this rotates space $45^{\circ}$ counterclockwise, then stretches space vertically by a
+  factor of $2$, and rotates space back $45^{\circ}$ clockwise.
+
+  Now,
+  \begin{equation*}
+    R_{\frac{\pi}{4}}
+    =
+    \begin{bmatrix}
+      \cos(\frac{\pi}{4})&-\sin(\frac{\pi}{4})\\
+      \sin(\frac{\pi}{4})& \cos(\frac{\pi}{4})
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      \frac{\sqrt{2}}{2}& -\frac{\sqrt{2}}{2}\\
+      \frac{\sqrt{2}}{2}& \frac{\sqrt{2}}{2}
+    \end{bmatrix}
+    =
+    \frac{1}{\sqrt{2}}
+    \begin{bmatrix}
+      1&-1\\
+      1&1
+    \end{bmatrix}
+  \end{equation*}
+  and
+  \begin{equation*}
+    R_{-\frac{\pi}{4}} = R_{\frac{\pi}{4}}^{\top} = \frac{1}{\sqrt{2}}
+    \begin{bmatrix}
+      1&1\\
+      -1&1
+    \end{bmatrix}
+  \end{equation*}
+  Doing the matrix multiplication we get:
+  \begin{equation*}
+    \frac{1}{2}
+    \begin{bmatrix}
+      3&1\\1&3
+    \end{bmatrix}
+  \end{equation*}
+  This matrix represents the linear transformation which stretches space in
+  the direction $\theta=45^{\circ}$.
+\end{example}
+
+Observe that
+\begin{equation*}
+  A
+  \begin{bmatrix}
+    1\\1
+  \end{bmatrix}
+  =2
+  \begin{bmatrix}
+    1\\1
   \end{bmatrix}
 \end{equation*}
 
+\newpage
+\section{2025-10-24 | Week 09 | Lecture 25}
+
+
+\subsection{Eigenvalues}
+
+
+\begin{definition}[Eigenvalue]
+  \label{def:eigenvalue}
+  If $A$ is an $n\times n$ matrix, an \demph{eigenvector} of $A$ is a nonzero
+  column vector $v\in \R^{n}$ such that
+  \begin{equation*}
+    Av=\lambda v
+  \end{equation*}
+  for some scalar $\lambda\in \R$. The scalar $\lambda$ is called the eigenvalue.
+\end{definition}
+
+
+\begin{example}
+  For example
+  \begin{equation*}
+    A=
+    \begin{bmatrix}
+      1&-3\\
+      -2&2
+    \end{bmatrix}
+  \end{equation*}
+  has eigenvewctor
+  \begin{equation*}
+    v=
+    \begin{bmatrix}
+      -1\\1
+    \end{bmatrix}
+  \end{equation*}
+  with eigenvalue $4$.
+\end{example}
+
+
+\subsection{Finding eigenvalues?}
+
+Answer: solve the system
+$AX =\lambda X$
+or equivalently
+\begin{equation*}
+  (\lambda I-A)X=0.
+\end{equation*}
+
+\begin{theorem}
+  Let $A$ be an $n\times n$ matrix. Then $\lambda\in \R$ is an eigenvalue of
+  $A$ if and only if $\det(\lambda I-A)=0$.
+\end{theorem}
+
+
+\begin{definition}
+  The \demph{characteristic equation of $A$ } is
+  \begin{equation*}
+    \det(\lambda I-A)=0.
+  \end{equation*}
+\end{definition}
+When $A$ is an $n\times n$ matrix, the left hand side of the characteristic
+equation is a polynomial in the variable $\lambda$ of degree $n$, and is
+called the \demph{characteristic polynomial} of $A$.
+
+
+\begin{example}
+  Let
+  \begin{equation*}
+    A =
+    \begin{bmatrix}
+      1&-3\\-2&2
+    \end{bmatrix}.
+  \end{equation*}
+  Then the characteristic polynomial of $A$ is
+  \begin{align*}
+    \det(\lambda I-A) 
+    &= \det
+      \begin{bmatrix}
+        \lambda-1& 3\\
+        2& \lambda-2
+      \end{bmatrix} \\
+    &=(\lambda-1)(\lambda-2)-6\\
+    &=\lambda^{2}-3\lambda-4\\
+    &(\lambda-4)(\lambda+1)
+  \end{align*}
+  This is equal to zero if and only if $\lambda=4$ or $\lambda=-1$. Therefore
+  the eigenvalues of $A$ are $\lambda=4$ and $\lambda=-1.$ 
+\end{example}
+
+
+\subsection{Finding eigenvectors}
+
+The eigenvectors are the nontrivial solutions of the homogeneous ssytem
+\begin{equation*}
+  (\lambda I-A)X =0
+\end{equation*} 
+In other words, the eigenvectors are the nonzero vectors in the linear
+subspace
+\begin{equation*}
+  NS(\lambda I-A).
+\end{equation*}
+So we just need to compute a basis of this nullspace, which is called the
+\demph{eigenspace}. When we ask to find the eigenvalues, it is always enough
+to just compute the basis of the eigenspace.
+
+
+
+
+\begin{example}
+  Find the eigenvectors of the matrix
+  \begin{equation*}
+    A=
+    \begin{bmatrix}
+      1&-3\\
+      -2&2
+    \end{bmatrix}
+  \end{equation*}
+  The equations we need to solve are
+  \begin{itemize}
+    \item \textbf{When $\lambda=4$:} $4I-A=0$ or
+    \begin{equation*}
+      \begin{bmatrix}
+        3&3\\
+        2&2
+      \end{bmatrix}
+      \begin{bmatrix}
+        x\\y
+      \end{bmatrix}
+      =
+      \begin{bmatrix}
+        0\\0
+      \end{bmatrix}
+    \end{equation*}
+    Reducing we get NS of the form $y
+    \begin{bmatrix}
+      -1\\1
+    \end{bmatrix}, \, y\in \R
+    $
+    \item \textbf{When $\lambda=-1$:} $-I-A=0$
+    Here we get a NS generated by a single basis element $
+    \begin{bmatrix}
+      3\\2
+    \end{bmatrix}
+    $
+  \end{itemize}
+\end{example}
+
+
+\begin{example}
+  Find the eigenvals and eigenvectors of
+  \begin{equation*}
+    \begin{bmatrix}
+      2&-1&3\\
+      0&-1&0\\
+      0&0&-1
+    \end{bmatrix}
+  \end{equation*}
+  First we compute the characteristic polynomial:
+  \begin{equation*}
+    \det(\lambda I-A) = ... = (\lambda-2)(\lambda+1)^{2}
+  \end{equation*}
+  This equals zero iff $\lambda=2$ or $\lambda=-1$. These are the
+  eigvenvalues.
+
+  To find eigenvectors, we need to find a basis nfor the nullspaces $NS(2I-A)$
+  and $NS(-I-A)$.
+\end{example}
 \end{document}
 
 
