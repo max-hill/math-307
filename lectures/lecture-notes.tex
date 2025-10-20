@@ -6664,7 +6664,14 @@ We can change notation by writing thes as \demph{coordinate vectors}:
   \end{bmatrix}_{\beta}
 \end{equation*}
 Here, the subscript $\beta$ indicates that these vectors represent linear
-combinations of the basis $\beta=\left\{w_{1},\ldots,w_{m}\right\}$.
+combinations of the basis $\beta=\left\{w_{1},\ldots,w_{m}\right\}$. That is,
+we are using the notation
+\begin{equation*}
+  \begin{bmatrix}
+    a_{1i}\\a_{2i}\\\vdots \\a_{mi}
+  \end{bmatrix}_{\beta} = a_{1i}w_{1}+a_{2i}w_{2}+\ldots+w_{mi}w_{m}, \quad i=1,\ldots,n.
+\end{equation*}
+
 
 We can then represent $T$ simply as the $m\times n$ matrix
 \begin{equation*}
@@ -6684,11 +6691,11 @@ $[T]_{\alpha}^{\beta}$.
 
 
 \begin{example}
-  Let $T(
-  \begin{bmatrix}
-    x\\y
-  \end{bmatrix}
-  ) =
+  Let $T
+  \left(\begin{bmatrix}
+      x\\y
+    \end{bmatrix}
+  \right) =
   \begin{bmatrix}
     x+y\\x-y
   \end{bmatrix}
