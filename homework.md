@@ -4,6 +4,8 @@ title: Homework
 permalink: /homework/
 ---
 
+My office hours are 12:30-1:30 on Mondays and Fridays. My office is PSB 304. You don't need to make an appointment to stop in.
+
 
  Due Date        | Lecture Notes              | Topics Covered
 -------------|----------------------------|-------------
