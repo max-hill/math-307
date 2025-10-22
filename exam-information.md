@@ -6,7 +6,7 @@ permalink: /exam-information/
 
 ## midterm exam
 
-- midterm will be in class, around week 12 (i.e., mid November)
+- Midterm will be in class, on November 24. At least one practice exam will be provided.
 
 ## final exam
 
