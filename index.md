@@ -9,6 +9,8 @@ layout: home
 title: Lecture notes
 ---
 
+My office hours are 12:30-1:30 on Mondays and Fridays. My office is PSB 304. You don't need to make an appointment to stop in.
+
 [Full lecture notes - working draft](lectures/lecture-notes.pdf)
 
 [Tentative course schedule](/lectures/lecture-notes-by-day/tentative-course-schedule.pdf)
