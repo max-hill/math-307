@@ -5456,6 +5456,7 @@ at the time. For example, the derivative operator $\frac{d}{dx}$ is one such
 function.
 
 \begin{example}
+  \label{ex:derivative-is-a-linear-transformation}
   Let $P= \left\{ \text{all polynomials in the variable }x\right\}$. So an
   arbitary element of $P$ looks like
   \begin{equation*}
@@ -5704,7 +5705,7 @@ values on all other vectors as well.
     \quad
     T
     \begin{bmatrix}
-      0\\1\\
+      0\\1\\1
     \end{bmatrix}
     :=
     \begin{bmatrix}
@@ -6769,10 +6770,21 @@ $[T]_{\alpha}^{\beta}$.
 
 \newpage
 \section{2025-10-22 | Week 09 | Lecture 25}
-\subsection{Some examples of linear transformations}
-\textit{Based on section 2.5 in Strang's Linear Algebra and its Applications}
+\begin{center}
+  \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
+    \textit{\textbf{The nexus question of this lecture:} The matrix we use to
+      represent a linear transformation depends on the bases we choose. How
+      does the matrix change when whe choose different bases?}
+  \end{tcolorbox}
+\end{center}
+\textit{This lecture is based on section 5.3 in the textbook}
 
-\begin{theorem}[Chagne of basis]
+\subsection{Introduction to change of basis}
+
+The following theorem summarizes the main ideas from the previous lecture.
+
+\begin{theorem}[Change of Basis I]
+  \label{thm:change-of-basis-I}
   Let $\mathbb{A}$ and $\mathbb{B}$ be vector spaces. If
   $T: \mathbb{A} \to \mathbb{B}$ is a linear map,
   $\alpha= \left\{\alpha_{1},\ldots,\alpha_{n}\right\}$ is a basis of
@@ -6803,6 +6815,7 @@ $[T]_{\alpha}^{\beta}$.
 
 
 \begin{example}[Example 1 in Section 5.3]
+  \label{ex:example-1-section-5.3}
   Let $T:\R^{3}\to \R^{3}$ be the linear transformation
   \begin{equation*}
     T
@@ -6816,26 +6829,24 @@ $[T]_{\alpha}^{\beta}$.
       5x
     \end{bmatrix}
   \end{equation*}
-  Let
+  Let  $\alpha= \left\{e_{1},e_{2},e_{3}\right\}$,
+  where
   \begin{equation*}
-    \alpha= \left\{
-      \begin{bmatrix}
-        1\\0\\0
-      \end{bmatrix},
-      \begin{bmatrix}
-        0\\1\\0
-      \end{bmatrix},
-      \begin{bmatrix}
-        0\\0\\1
-      \end{bmatrix}
-    \right\}
-    = \left\{e_{1},e_{2},e_{3}\right\}.
+    e_{1}=\begin{bmatrix}
+      1\\0\\0
+    \end{bmatrix}, \quad
+    e_{2}=\begin{bmatrix}
+      0\\1\\0
+    \end{bmatrix}, \quad
+    e_{3}=\begin{bmatrix}
+      0\\0\\1
+    \end{bmatrix}.
   \end{equation*}
   Clearly $\alpha$ is a basis of $\R^{3}$.
 
   \begin{enumerate}[(a)]
-    \item \textbf{Question:} Find the matrix of $T$ with respect to the standard basis $\alpha$,
-    $[T]_{\alpha}^{\alpha}$.
+    \item \textbf{Question:} Find the matrix of $T$ with respect to the
+    standard basis $\alpha$, that is, find $[T]_{\alpha}^{\alpha}$.
     
     \textbf{Solution:} Observe that
     \begin{equation*}
@@ -6872,9 +6883,9 @@ $[T]_{\alpha}^{\beta}$.
         5&0&0
       \end{bmatrix}
     \end{equation*}
-    
+
     \item \textbf{Question:} Let $\beta=
-    \left\{\beta_{1},\beta_{2},\beta_{3}\right\}$ where 
+    \left\{\beta_{1},\beta_{2},\beta_{3}\right\}$, where 
     \begin{equation*}
       \beta_{1} =
       \begin{bmatrix}
@@ -6886,107 +6897,104 @@ $[T]_{\alpha}^{\beta}$.
         1\\-1\\1
       \end{bmatrix},
       \quad
-      \beta_{3}
+      \beta_{3}=
       \begin{bmatrix}
         1\\1\\1
-      \end{bmatrix}
+      \end{bmatrix}.
     \end{equation*}
-    This is a basis of $\R^{3}$. Find $[T]_{\alpha}^{\beta}$, the matrix of
-    $T$ with respect to the bases $\alpha$ and $\beta$.
+    This is a basis of $\R^{3}$. Find $[T]_{\beta}^{\beta}$, the matrix of
+    $T$ with respect to the basis $\beta$.
 
     \textit{(The point of this
-    example is to show you how to find $[T]_{\alpha}^{\beta}$ mechanistically;
-    I'm not trying to illustrate why this particular choice of basis $\beta$
-    is good or meaningful---it's not.)}
+      example is to show you how to find $[T]_{\beta}^{\beta}$ mechanistically;
+      I'm not trying to illustrate why this particular choice of basis $\beta$
+      is good or meaningful---it's not.)}
 
-    \textbf{Solution:} The columns of $[T]_{\alpha}^{\beta}$ are the vectors
-    $T(e_{1}),T(e_{2}),T(e_{3})$ expressed in terms of the $\beta$.
+    \textbf{Solution:} The columns of $[T]_{\beta}^{\beta}$ are the vectors
+    $T(\beta_{1}),T(\beta_{2}),T(\beta_{3})$ expressed in terms of the vectors
+    in $\beta$. By plugging $\beta_{1},\beta_{2},\beta_{3}$ into $T$, we see that
     \begin{equation*}
-      T(e_{1}) =
+      T(\beta_{1}) =
       \begin{bmatrix}
-        5\\3\\1
+        7\\-1\\5
       \end{bmatrix},
       \quad
-      T(e_{2}) =
+      T(\beta_{2}) =
       \begin{bmatrix}
-        0\\2\\0
+        6\\-2\\5
       \end{bmatrix},
       \quad
-      T(e_{3}) =
+      T(\beta_{3}) =
       \begin{bmatrix}
-        1\\-3\\0
+        6\\2\\5
       \end{bmatrix}
     \end{equation*}
-    Observe that
+    But in the above equations, the right hand sides are all expressed in
+    terms of $e_{1},e_{2},e_{3}$. For example,
+    \begin{equation*}
+      T(\beta_{1}) =
+      \begin{bmatrix}
+        7\\-1\\5
+      \end{bmatrix}
+      =7e_{1}-e_{2}+5e_{3}.
+    \end{equation*}
+    This is no good: we
+    need to express them using in basis $\beta$. Observe that
     \begin{itemize}
-      \item $T(e_{1})
-      =
-      T \left(
-        \begin{bmatrix}
-          1\\0\\0
-        \end{bmatrix}
-      \right) 
+      \item $T(\beta_{1})
       =
       \begin{bmatrix}
-        5\\3\\1
+        7\\-1\\5
       \end{bmatrix}
       \overset{*}{=}
-      0
-      \underbrace{\begin{bmatrix}
-        1\\1\\2
-      \end{bmatrix}}_{\beta_{1}}
-      +1
-      \underbrace{\begin{bmatrix}
-        1\\-1\\1
-      \end{bmatrix}}_{\beta_{2}}
-      +4
-      \underbrace{\begin{bmatrix}
-        1\\1\\1
-      \end{bmatrix}}_{\beta_{3}}
-      =
-      \begin{bmatrix}
-        0\\1\\4
-      \end{bmatrix}_{\beta}
-      $
-      \item  $T(e_{1})
-      =
-      T \left(
-        \begin{bmatrix}
-          0\\1\\0
-        \end{bmatrix}
-      \right) 
-      =
-      \begin{bmatrix}
-        0\\2\\0
-      \end{bmatrix}
-      \overset{*}{=}
-      0
+      -2
       \underbrace{\begin{bmatrix}
           1\\1\\2
         \end{bmatrix}}_{\beta_{1}}
-      -1
+      +4
       \underbrace{\begin{bmatrix}
           1\\-1\\1
         \end{bmatrix}}_{\beta_{2}}
-      +1
+      +5
+      \underbrace{\begin{bmatrix}
+          1\\1\\1
+        \end{bmatrix}}_{\beta_{3}}
+      =
+      -2\beta_{1}+4\beta_{2}+5\beta_{3}=
+      \begin{bmatrix}
+        -2\\4\\5
+      \end{bmatrix}_{\beta}
+      $
+
+      Similarly,
+      
+      \item  $T(\beta_{2})
+      =
+      \begin{bmatrix}
+        6\\-2\\5
+      \end{bmatrix}
+      \overset{*}{=}
+      -1
+      \underbrace{\begin{bmatrix}
+          1\\1\\2
+        \end{bmatrix}}_{\beta_{1}}
+      +4
+      \underbrace{\begin{bmatrix}
+          1\\-1\\1
+        \end{bmatrix}}_{\beta_{2}}
+      +3
       \underbrace{\begin{bmatrix}
           1\\1\\1
         \end{bmatrix}}_{\beta_{3}}
       =
       \begin{bmatrix}
-        0\\-1\\1
+        -1\\4\\3
       \end{bmatrix}_{\beta}
       $
-    \item  $T(e_{3})
-      =
-      T \left(
-        \begin{bmatrix}
-          0\\0\\1
-        \end{bmatrix}
-      \right) 
-      =
+      \item  $T(\beta_{3})
+     =
       \begin{bmatrix}
-        1\\-3\\0
+        6\\2\\5
       \end{bmatrix}
       \overset{*}{=}
       -1
@@ -6997,26 +7005,52 @@ $[T]_{\alpha}^{\beta}$.
       \underbrace{\begin{bmatrix}
           1\\-1\\1
         \end{bmatrix}}_{\beta_{2}}
-      +0
+      +5
       \underbrace{\begin{bmatrix}
           1\\1\\1
         \end{bmatrix}}_{\beta_{3}}
       =
       \begin{bmatrix}
-        -1\\2\\0
+        -1\\2\\5
       \end{bmatrix}_{\beta}
       $
     \end{itemize}
 
-    
+    Therefore by \cref{thm:change-of-basis-I}
+    \newcommand*{\vertbar}{\rule[-1ex]{0.5pt}{2.5ex}}
+    \newcommand*{\horzbar}{\,\rule[.5ex]{2.5ex}{0.5pt}\,}
+    \begin{equation*}
+      [T]_{\beta}^{\beta}
+      = 
+      \begin{bmatrix}
+        \begin{array}{ccc}
+          \vertbar & \vertbar &         \vertbar \\
+          T(\beta_{1})    & T(\beta_{2})   & T(\beta_{3})    \\
+          \vertbar & \vertbar &         \vertbar 
+        \end{array}
+      \end{bmatrix}
+      =
+      \begin{bmatrix}
+        -2&-1&-1\\
+        4&4&2\\
+        5&3&5
+      \end{bmatrix}
+    \end{equation*}
+    This matrix represents the same linear transformation, $T$, but now we are
+    using $\beta$ as the basis for $\R^{3}$ rather than $\alpha$ as in part (a).
+    For some linear transformations, the is a ``best'' basis to use (and often
+    it is not the standard basis!)
+
+    There is also a 
+
     \begin{tcolorbox}[colframe=black, colback=gray!5, arc=2mm, boxrule=0.8pt,
-      breakable, title=The starred equalities,   coltitle=black,colbacktitle=black!10]
+      breakable, title=The starred equalities above,   coltitle=black,colbacktitle=black!10]
       Note that the equalities marked with a $(*)$ required solving a linear
-      system. In the $T(e_{1})$ case, for example, we needed to solve the
+      system. In the $T(\beta_{1})$ case, for example, we needed to solve the
       linear system
       \begin{equation*}
         \begin{bmatrix}
-          5\\3\\5
+          7\\-1\\5
         \end{bmatrix}
         = c_{1}
         \begin{bmatrix}
@@ -7032,60 +7066,354 @@ $[T]_{\alpha}^{\beta}$.
           1\\1\\1
         \end{bmatrix},
       \end{equation*}
-      which has solution $c_{1}=0$, $c_{2}=1$, $c_{3}=4$.
+      which has solution $c_{1}=-2$, $c_{2}=4$, $c_{3}=5$.
     \end{tcolorbox}
-    Therefore
-    \newcommand*{\vertbar}{\rule[-1ex]{0.5pt}{2.5ex}}
-    \newcommand*{\horzbar}{\,\rule[.5ex]{2.5ex}{0.5pt}\,}
-    \begin{equation*}
-      [T]_{\alpha}^{\beta}
-      = 
-      \begin{bmatrix}
-        \begin{array}{ccc}
-          \vertbar & \vertbar &         \vertbar \\
-          T(e_{1})    & T(e_{2})   & T(e_{3})    \\
-          \vertbar & \vertbar &         \vertbar 
-        \end{array}
-      \end{bmatrix}
-      =
-      \begin{bmatrix}
-        0&0&-1\\
-        1&-1&2\\
-        4&1&0
-      \end{bmatrix}l
-    \end{equation*}
-    This matrix represents the same linear transformation, $T$, but now we are
-    using $\beta$ as the basis for $T$, rather than $\alpha$ as in part (a).
-    For some linear transformations, the is a ``best'' basis to use (and often
-    it is not the standard basis!)
+
+
+    
+    % \item \textbf{Question:} Let $\beta=
+    % \left\{\beta_{1},\beta_{2},\beta_{3}\right\}$ where 
+    % \begin{equation*}
+    %   \beta_{1} =
+    %   \begin{bmatrix}
+    %     1\\1\\2
+    %   \end{bmatrix},
+    %   \quad
+    %   \beta_{2} =
+    %   \begin{bmatrix}
+    %     1\\-1\\1
+    %   \end{bmatrix},
+    %   \quad
+    %   \beta_{3}=
+    %   \begin{bmatrix}
+    %     1\\1\\1
+    %   \end{bmatrix}
+    % \end{equation*}
+    % This is a basis of $\R^{3}$. Find $[T]_{\alpha}^{\beta}$, the matrix of
+    % $T$ with respect to the bases $\alpha$ and $\beta$.
+
+    % \textit{(The point of this
+    % example is to show you how to find $[T]_{\alpha}^{\beta}$ mechanistically;
+    % I'm not trying to illustrate why this particular choice of basis $\beta$
+    % is good or meaningful---it's not.)}
+
+    % \textbf{Solution:} The columns of $[T]_{\alpha}^{\beta}$ are the vectors
+    % $T(e_{1}),T(e_{2}),T(e_{3})$ expressed in terms of the $\beta$.
+    % \begin{equation*}
+    %   T(e_{1}) =
+    %   \begin{bmatrix}
+    %     5\\3\\1
+    %   \end{bmatrix},
+    %   \quad
+    %   T(e_{2}) =
+    %   \begin{bmatrix}
+    %     0\\2\\0
+    %   \end{bmatrix},
+    %   \quad
+    %   T(e_{3}) =
+    %   \begin{bmatrix}
+    %     1\\-3\\0
+    %   \end{bmatrix}
+    % \end{equation*}
+    % Observe that
+    % \begin{itemize}
+    %   \item $T(e_{1})
+    %   =
+    %   T \left(
+    %     \begin{bmatrix}
+    %       1\\0\\0
+    %     \end{bmatrix}
+    %   \right) 
+    %   =
+    %   \begin{bmatrix}
+    %     5\\3\\1
+    %   \end{bmatrix}
+    %   \overset{*}{=}
+    %   0
+    %   \underbrace{\begin{bmatrix}
+    %     1\\1\\2
+    %   \end{bmatrix}}_{\beta_{1}}
+    %   +1
+    %   \underbrace{\begin{bmatrix}
+    %     1\\-1\\1
+    %   \end{bmatrix}}_{\beta_{2}}
+    %   +4
+    %   \underbrace{\begin{bmatrix}
+    %     1\\1\\1
+    %   \end{bmatrix}}_{\beta_{3}}
+    %   =
+    %   \begin{bmatrix}
+    %     0\\1\\4
+    %   \end{bmatrix}_{\beta}
+    %   $
+    %   \item  $T(e_{2})
+    %   =
+    %   T \left(
+    %     \begin{bmatrix}
+    %       0\\1\\0
+    %     \end{bmatrix}
+    %   \right) 
+    %   =
+    %   \begin{bmatrix}
+    %     0\\2\\0
+    %   \end{bmatrix}
+    %   \overset{*}{=}
+    %   0
+    %   \underbrace{\begin{bmatrix}
+    %       1\\1\\2
+    %     \end{bmatrix}}_{\beta_{1}}
+    %   -1
+    %   \underbrace{\begin{bmatrix}
+    %       1\\-1\\1
+    %     \end{bmatrix}}_{\beta_{2}}
+    %   +1
+    %   \underbrace{\begin{bmatrix}
+    %       1\\1\\1
+    %     \end{bmatrix}}_{\beta_{3}}
+    %   =
+    %   \begin{bmatrix}
+    %     0\\-1\\1
+    %   \end{bmatrix}_{\beta}
+    %   $
+    % \item  $T(e_{3})
+    %   =
+    %   T \left(
+    %     \begin{bmatrix}
+    %       0\\0\\1
+    %     \end{bmatrix}
+    %   \right) 
+    %   =
+    %   \begin{bmatrix}
+    %     1\\-3\\0
+    %   \end{bmatrix}
+    %   \overset{*}{=}
+    %   -1
+    %   \underbrace{\begin{bmatrix}
+    %       1\\1\\2
+    %     \end{bmatrix}}_{\beta_{1}}
+    %   +2
+    %   \underbrace{\begin{bmatrix}
+    %       1\\-1\\1
+    %     \end{bmatrix}}_{\beta_{2}}
+    %   +0
+    %   \underbrace{\begin{bmatrix}
+    %       1\\1\\1
+    %     \end{bmatrix}}_{\beta_{3}}
+    %   =
+    %   \begin{bmatrix}
+    %     -1\\2\\0
+    %   \end{bmatrix}_{\beta}
+    %   $
+    % \end{itemize}
+
+    
+    % \begin{tcolorbox}[colframe=black, colback=gray!5, arc=2mm, boxrule=0.8pt,
+    %   breakable, title=The starred equalities,   coltitle=black,colbacktitle=black!10]
+    %   Note that the equalities marked with a $(*)$ required solving a linear
+    %   system. In the $T(e_{1})$ case, for example, we needed to solve the
+    %   linear system
+    %   \begin{equation*}
+    %     \begin{bmatrix}
+    %       5\\3\\5
+    %     \end{bmatrix}
+    %     = c_{1}
+    %     \begin{bmatrix}
+    %       1\\1\\2
+    %     \end{bmatrix}
+    %     +
+    %     c_{2}
+    %     \begin{bmatrix}
+    %       1\\-1\\1
+    %     \end{bmatrix}
+    %     +c_{3}
+    %     \begin{bmatrix}
+    %       1\\1\\1
+    %     \end{bmatrix},
+    %   \end{equation*}
+    %   which has solution $c_{1}=0$, $c_{2}=1$, $c_{3}=4$.
+    % \end{tcolorbox}
+    % Therefore
+    % \begin{equation*}
+    %   [T]_{\alpha}^{\beta}
+    %   = 
+    %   \begin{bmatrix}
+    %     \begin{array}{ccc}
+    %       \vertbar & \vertbar &         \vertbar \\
+    %       T(e_{1})    & T(e_{2})   & T(e_{3})    \\
+    %       \vertbar & \vertbar &         \vertbar 
+    %     \end{array}
+    %   \end{bmatrix}
+    %   =
+    %   \begin{bmatrix}
+    %     0&0&-1\\
+    %     1&-1&2\\
+    %     4&1&0
+    %   \end{bmatrix}
+    % \end{equation*}
+
   \end{enumerate}
 \end{example}
 
 
-\begin{example}[Differentiation]
-  Consider $P_{3}= \left\{p\in \R[x]: \deg p \leq 3\right\} $. We've already
-  seen that $\frac{d}{dx}: P_{3}\to P_{3}$ is a linear transformation.
 
+
+\subsection{The change of basis matrix}
+Suppose $\alpha=\left\{\alpha_{1},\ldots,\alpha_{n}\right\}$ and
+$\beta=\left\{\beta_{1},\ldots,\beta_{n}\right\}$ are bases for the same
+vector space $V$.
+
+We can write the vectors of basis $\beta$ in terms of the vectors of basis
+$\alpha$:
+\begin{align*}
+  \beta_{1} &= p_{11}\alpha_{1}+p_{21}\alpha_{2}+\ldots+p_{n1}\alpha_{n}
+  \\
+  \beta_{2} &= p_{12}\alpha_{1}+p_{22}\alpha_{2}+\ldots+p_{n2}\alpha_{n}\\
+            &\ \vdots\\
+  \beta_{n} &= p_{1n}\alpha_{1}+p_{2n}\alpha_{2}+\ldots+p_{nn}\alpha_{n}.
+\end{align*}
+where the $p$'s are all scalars. In other notation, we can write the above
+equations as
+\begin{equation*} 
+  \beta_{1} = \begin{bmatrix}
+    p_{11}\\
+    p_{21}\\
+    \vdots\\
+    p_{n1}
+  \end{bmatrix}_{\alpha}, \quad
+  \beta_{2}=\begin{bmatrix}
+    p_{12}\\
+    p_{22}\\
+    \vdots\\
+    p_{n2}
+  \end{bmatrix}_{\alpha}, \quad
+  \cdots
+  \beta_{n}=\begin{bmatrix}
+    p_{1n}\\
+    p_{2n}\\
+    \vdots\\
+    p_{nn}
+  \end{bmatrix}_{\alpha}.
+\end{equation*}
+Concatenating these column vectors, we obtain the matrix
+\begin{equation*}
+  P =
+  \begin{bmatrix}
+    p_{11}&p_{12}&\cdots& p_{1n}\\
+    p_{21}&p_{22}&\cdots& p_{2n}\\
+    \vdots&\vdots&\ddots&\vdots\\
+    p_{n1}&p_{n2}&\cdots& p_{nn}
+  \end{bmatrix}
+\end{equation*}
+This matrix is called \demph{the change of basis matrix from $\alpha$ to
+  $\beta$}.
+
+The following theorem is Corollary 5.13 in the textbook.
+\begin{theorem}[Change of basis II]
+  \label{thm:change-of-basis-II}
+  If $T:V\to V$ is a linear transformation, $\alpha$ and $\beta$ are bases of
+  $V$, and $P$ is the change of basis matrix from $\alpha$ to $\beta$, then
+  $[T]_{\beta}^{\beta} = P^{-1}[T]_{\alpha}^{\alpha}P.$
+\end{theorem}
+
+\begin{example}[Using a change of basis matrix]
+  In \cref{ex:example-1-section-5.3}, we had
+  \begin{equation*}
+    [T]_{\alpha}^{\alpha}=
+    \begin{bmatrix}
+      5&0&1\\3&2&-3\\5&0&0
+    \end{bmatrix}
+    \quad \text{and} \quad
+    [T]_{\beta}^{\beta}=
+    \begin{bmatrix}
+      -2&-1&-1\\4&4&2\\5&3&5
+    \end{bmatrix}
+  \end{equation*}
+  One can compute the change of basis matrix $P$ and its inverse $P^{-1}$ for
+  $\alpha$ and $\beta$. (For details, see Example 2 pages 260-261.) These are
+  \begin{equation*}
+    P =
+    \begin{bmatrix}
+      1&1&1\\
+      1&-1&1\\
+      2&1&1
+    \end{bmatrix}
+    \quad \text{and} \quad P^{-1} =
+    \begin{bmatrix}
+      -1&0&1\\
+      1/2&-1/2&0\\
+      3/2&1/2&-1
+    \end{bmatrix}.
+  \end{equation*}
+  Thus we could solve part (b) using the formula in
+  \cref{thm:change-of-basis-II}:
+  \begin{align*}
+    [T]_{\beta}^{\beta} 
+    &= P^{-1} [T]_{\alpha}^{\alpha}P\\
+    &= \begin{bmatrix}
+      -1&0&1\\
+      1/2&-1/2&0\\
+      3/2&1/2&-1
+    \end{bmatrix}
+               \begin{bmatrix}
+                 5&0&1\\
+                 3&2&-3\\
+                 5&0&0
+               \end{bmatrix}
+                      \begin{bmatrix}
+                        1&1&1\\
+                        1&-1&1\\
+                        2&1&1
+                      \end{bmatrix}\\
+    &=\begin{bmatrix}
+      -2&-1&-1\\
+      4&4&2\\
+      5&3&5
+    \end{bmatrix}.
+  \end{align*}
+  This computation agrees with the answer for $[T]_{\beta}^{\beta}$ that we
+  obtained in \cref{ex:example-1-section-5.3}.
+\end{example}
+
+\newpage
+\section{2025-10-24 | Week 09 | Lecture 25}
+
+
+\subsection{A cool example}
+
+\begin{example}[Differentiation of polynomials]
+  Consider $P_{3}= \left\{p\in \R[x]: \deg (p) \leq 3\right\} $. 
   Given an element $p\in P_{3}$, we have $p(x)=
-  c_{0}+c_{1}x+c_{2}x_{2}+c_{3}x_{3}$. A basis for $P_{3}$ is
+  c_{0}+c_{1}x+c_{2}x^{2}+c_{3}x^{3}$. A basis for $P_{3}$ is
   \begin{equation*}
-    \beta= \left\{b_{1}= 1,\quad b_{2}=x, \quad b_{3}=x^{2}, \quad b_{3}=x^{3}\right\} 
-  \end{equation*}
-  The action of $D=\frac{d}{dt}$  on these four vectors is
-  \begin{equation*}
-    Db_{1} = 0, \quad Db_{2}=p_{1}, \quad Db_{3}=p_{2}, \quad Db_{4}=b_{3} 
+    \beta= \left\{\beta_{1}= 1,\quad \beta_{2}=x, \quad \beta_{3}=x^{2}, \quad \beta_{4}=x^{3}\right\} 
   \end{equation*}
 
-  The matrix for $\frac{d}{dx}$ is
+  Let $D = \frac{d}{dt}$. We've already seen that $D: P_{3}\to P_{3}$ is a
+  linear transformation (see \cref{ex:derivative-is-a-linear-transformation}).
+
+  \Fl{Question:} What is $[T]_{\beta}^{\beta}$, the matrix of $T$ with
+  respect to the basis $\beta$?
+
+  \fl{Idea:} First, we consider how  $D=\frac{d}{dt}$ acts on the vectors
+  $\beta_{1},\beta_{2},\beta_{3}$, and write the output in terms of the
+  vectors $\beta_{1},\beta_{2},\beta_{3}$. 
+
+  \fl{Solution:} Observe that
   \begin{equation*}
-    D=\begin{bmatrix}
+    D\beta_{1} = 0, \quad D\beta_{2}=\beta_{1}, \quad D\beta_{3}=2\beta_{2}, \quad D\beta_{4}=3\beta_{3} 
+  \end{equation*}
+
+  The matrix for $\frac{d}{dx}$ with respect to the basis $\beta$ is
+  \begin{equation*}
+    [D]_{\beta}^{\beta}
+    =\begin{bmatrix}
       0&1&0&0\\
       0&0&2&0\\
       0&0&0&3\\
       0&0&0&0
     \end{bmatrix}
   \end{equation*}
-  For example, if $p(x)=3+5x-7x^{2}+2x^{3}$, we can write it as
+  For example, if $p(x)=3+5x-7x^{2}+2x^{3}$, we can write $p$ as
   \begin{equation*}
     p =
     \begin{bmatrix}
@@ -7094,7 +7422,7 @@ $[T]_{\alpha}^{\beta}$.
   \end{equation*}
   In which case
   \begin{equation*}
-    Dp =\begin{bmatrix}
+    [D]_{\beta}^{\beta}p =\begin{bmatrix}
       0&1&0&0\\
       0&0&2&0\\
       0&0&0&3\\
@@ -7108,12 +7436,16 @@ $[T]_{\alpha}^{\beta}$.
       5\\-14\\6\\0
     \end{bmatrix}_{\beta}
   \end{equation*}
-  the right hand side is the coordinate vector form of the polynomial $5-14x+6x^{2}$.
-
-  This is the derivative of $p(x) = 3+5x-7x^{2}+2x^{3}$.
+  The ``coordinate vector'' notation on the right hand side means the
+  following:
+  \begin{equation*}
+    \begin{bmatrix}
+      5\\-14\\6\\0
+    \end{bmatrix}_{\beta}
+    =5\beta_{1}-14\beta_{2}+6\beta_{3}+0\beta_{4} = 5-14x+6x^{2}.
+  \end{equation*}
+  It worked! This is the derivative of $p(x) = 3+5x-7x^{2}+2x^{3}$.
 \end{example}
-
-
 
 
 \begin{example}[Horizontal and Vertical Dilations]

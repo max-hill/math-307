@@ -149,84 +149,10 @@
 \begin{document}
 \begin{center}
   \section*{Math 307: Homework 08}
-  \textit{Due Wednesday, October 29. This homework is mostly based on section
-    5.1 in the textbook.}
+  \textit{Due Friday, October 31. This homework draws on sections
+    5.1, 5,2 and 5.3 in the textbook.}
 \end{center}
 
-\begin{problem}
-  Find all solutions of
-  \begin{equation*}
-    \left\{ \begin{array}{l@{}l}
-        x_{1}+x_{2}+x_{3}+x_{4}=0\\
-        x_{1}+x_{2}+x_{3}-x_{4}=4\\
-        x_{1}+x_{2}-x_{3}+x_{4}=-4\\
-        x_{1}-x_{2}+x_{3}+x_{4}=2\\
-      \end{array}\right.
-  \end{equation*}
-\end{problem}
-
-
-\begin{problem}
-  Let
-  \begin{equation*}
-    A=
-    \begin{bmatrix}
-      4&-1&2&1\\
-      2&3&-1&-2\\
-      0&7&-4&-5\\
-      2&-11&7&8
-    \end{bmatrix}
-  \end{equation*}
-  For the following parts, you must fully justify your work to recieve
-  credit---this includes providing at least one or two complete sentences
-  explaining why your calculations justify your answer.
-  \begin{enumerate}[(a)]
-    \item Find a basis for $NS(A)$
-    \item Find a basis for $RS(A)$
-    \item Find a basis for $CS(A)$
-    \item Determine the rank of $A$.
-    \item Determine whether the matrix is invertible
-  \end{enumerate}
-\end{problem}
-
-\begin{problem}
-  The matrix $A=
-  \begin{bmatrix}
-    2&0\\
-    0&1
-  \end{bmatrix}
-  $ produces a \demph{stretching} in the $x$-direction. Draw the circle
-  $x^{2}+y^{2}=1$. What happens to this circle when space is transformed by
-  $A$? Illustrate your answer with a sketch.
-\end{problem}
-
-\begin{problem}
-  The matrix $A=
-  \begin{bmatrix}
-    1&0\\
-    3&1
-  \end{bmatrix}
-  $ yields a \demph{shearing} transformation, which leaves the $y$-axis
-  unchanged. Sketch its effect on the $x$-axis, by indicating what happens to
-  the points $(x,y)= (1,0),(2,0)$, and $(-1,0)$---and how the whole axis is
-  transformed.
-\end{problem}
-
-\begin{problem}
-  \begin{enumerate}[(a)]
-    \item[]
-    \item What $2\times 2$ matrix has the effect of rotating every vector
-    counterclockwise $90^{\circ}$ and then projecting the result onto the
-    $x$-axis?
-    \item What $2\times 2$ matrix represents projection onto the $x$-axis
-    followed by projection onto the $y$-axis?
-  \end{enumerate}
-\end{problem}
-
-\begin{problem}
-  Let $c$ be a scalar, and let $T:V \to W$ be a linear transformation. Verify
-  that $cT$ is a linear transformation.
-\end{problem}
 
 
 \begin{problem}
@@ -251,6 +177,7 @@
     \end{bmatrix}.
   \end{equation*}
   \begin{enumerate}[(a)]
+    \setlength{\itemsep}{0pt}
     \item Find matrices $A,B$ such that $T$ and $S$ are expressed as the
     matrix transformations $T(X)=AX$ and $S(X) = BX$.
     \item Find the matrix $C$ such that the composition $S\circ T$ is
@@ -260,8 +187,219 @@
   \end{enumerate}
 \end{problem}
 
+
+
 \begin{problem}
-  The $4$ Hadamard matrix is
+  Let
+  \begin{equation*}
+    A=
+    \begin{bmatrix}
+      4&-1&2&1\\
+      2&3&-1&-2\\
+      0&7&-4&-5\\
+      2&-11&7&8
+    \end{bmatrix}
+  \end{equation*}
+  For the following parts, you must fully justify your work to recieve
+  credit---this includes providing at least one or two complete sentences
+  explaining why your calculations justify your answer.
+  \begin{enumerate}[(a)]
+    \setlength{\itemsep}{0pt}
+    \item Find a basis for $NS(A)$
+    \item Find a basis for $RS(A)$
+    \item Find a basis for $CS(A)$
+    \item Determine the rank of $A$.
+    \item Determine whether the matrix is invertible
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}
+  If $S$ and $T$ are linear transformations with $S(v)=T(v)=v$, then
+  $S(T(v))=v$ or $v^{2}$?
+\end{problem}
+
+
+\begin{problem}
+  True or false, with counterexample if false:
+  \begin{enumerate}[(a)]
+    \setlength{\itemsep}{0pt}
+    \item If the vectors $x_{1},\ldots,x_{m}$ span a subspace $S$, then $\dim
+    S =m.$
+    \item The intersection of two subspaces of a vector space cannot be
+    emptpy.
+    \item If $Ax=Ay$, then $x=y$.
+    \item The row space of $A$ has a unique basis that can be computed by
+    reducing $A$ to reduced row-echelon form.
+    \item If a square matrix $A$ has independent columns, then so does
+    $A^{2}$.
+    \item Any two bases of a linear subspace have the same number vectors.
+  \end{enumerate}
+\end{problem}
+
+
+\begin{problem}
+  Find all solutions of
+  \begin{equation*}
+    \left\{ \begin{array}{l@{}l}
+        x_{1}+x_{2}+x_{3}+x_{4}=0\\
+        x_{1}+x_{2}+x_{3}-x_{4}=4\\
+        x_{1}+x_{2}-x_{3}+x_{4}=-4\\
+        x_{1}-x_{2}+x_{3}+x_{4}=2\\
+      \end{array}\right.
+  \end{equation*}
+\end{problem}
+
+
+\begin{problem}
+  A linear transformation must leave the zero vector fixed: $T(0)=0$. Prove
+  this from $T(u+v)=T(u)+T(v)$ by choosing $v=\underline{\phantom{hello}}$.
+  Prove it also from the requirement $T(cv)=cT(v)$ by choosing
+  $c=\underline{\phantom{hello}}$.
+\end{problem}
+
+\begin{problem}
+  Every straight line remains straight after a linear transformation. If $z$
+  is halfway between $x$ and $y$, show that $Az$ is halfway between $Ax$ and
+  $Ay$
+\end{problem}
+
+
+
+\begin{problem}
+  Let $T: \R^{2}\to \R^{2}$ be the linear transformation
+  \begin{equation*}
+    T
+    \begin{bmatrix}
+      x_{1}\\x_{2}
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      x_{1}+x_{2}\\
+      x_{1}-x_{2}
+    \end{bmatrix}.
+  \end{equation*}
+  \begin{enumerate}[(a)]
+    \setlength{\itemsep}{0pt}
+    \item Find $[T]_{\alpha}^{\alpha}$ where $\alpha$ is the standard basis
+    for $\R^{2}$.
+    \item Let $\beta$ be the basis for $\R^{2}$ consisting of $
+    \begin{bmatrix}
+      1\\-1
+    \end{bmatrix},
+    \begin{bmatrix}
+      -2\\1
+    \end{bmatrix}$. Find the change of basis matrix from $\alpha$ to $\beta$.
+    \item Find the change of basis matrix from $\beta$ to $\alpha$. 
+    \item Find $[T]_{\beta}^{\beta} $
+    \item Find $[v]_{\beta}$ for $v=
+    \begin{bmatrix}
+      -2\\3
+    \end{bmatrix}
+    $
+    \item Find $[T(v)]_{\beta}$.
+    \item Use the result of part (f) to find $T(v)$.
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}
+  Let $\beta$ be the basis of $\R^{2}$ consisting of the vectors
+  $\begin{bmatrix} 2\\1
+  \end{bmatrix},
+  \begin{bmatrix}
+    1\\1
+  \end{bmatrix}$. 
+  \begin{enumerate}[(a)]
+    \setlength{\itemsep}{0pt}
+    \item Write the vectors $
+    \begin{bmatrix}
+      5\\-4
+    \end{bmatrix},
+    \begin{bmatrix}
+      2\\1
+    \end{bmatrix},
+    $
+    and
+    $
+    \begin{bmatrix}
+      1\\1
+    \end{bmatrix}
+    $ in terms of the basis $\beta$. Please write your final answers as column
+    vectors of the form $\begin{bmatrix} x\\y \end{bmatrix}_{\beta}$.
+    \item Let $T$ be the linear transformation $T =
+    \begin{bmatrix}
+      x_{1}\\x_{2}
+    \end{bmatrix}=
+    \begin{bmatrix}
+      5x_{1}+3x_{2}\\
+      -6x_{1}-4x_{2}
+    \end{bmatrix}$.
+    
+    \item Find $[T]_{\alpha}^{\alpha}$, where $\alpha$ is the standard basis of $\R^{2}$ consisting of the vectors $
+    \begin{bmatrix}
+      1\\0
+    \end{bmatrix},
+    \begin{bmatrix}
+      0\\1
+    \end{bmatrix}
+    $.
+    \item Find $[T]_{\beta}^{\beta}$.
+  \end{enumerate}
+\end{problem}
+
+
+
+\begin{problem}
+  Let $c$ be a scalar, and let $T:V \to W$ be a linear transformation. Verify
+  that $cT$ is a linear transformation.
+\end{problem}
+
+\begin{problem}
+  The matrix $A=
+  \begin{bmatrix}
+    2&0\\
+    0&1
+  \end{bmatrix}
+  $ produces a \demph{stretching} in the $x$-direction. Draw the circle
+  $x^{2}+y^{2}=1$. What happens to this circle when space is transformed by
+  $A$? Illustrate your answer with a sketch.
+\end{problem}
+
+\begin{problem}
+  \begin{enumerate}[(a)]
+    \setlength{\itemsep}{0pt}
+    \item[]
+    \item What $2\times 2$ matrix has the effect of rotating every vector
+    counterclockwise $90^{\circ}$ and then projecting the result onto the
+    $x$-axis?
+    \item What $2\times 2$ matrix represents projection onto the $x$-axis
+    followed by projection onto the $y$-axis?
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}
+  The matrix $A=
+  \begin{bmatrix}
+    1&0\\
+    3&1
+  \end{bmatrix}
+  $ yields a \demph{shearing} transformation, which leaves the $y$-axis
+  unchanged. Sketch its effect on the $x$-axis, by indicating what happens to
+  the points $(x,y)= (1,0),(2,0)$, and $(-1,0)$---and how the whole axis is
+  transformed.
+\end{problem}
+
+
+
+
+
+
+
+
+
+
+
+\begin{problem}
+  The $4$-Hadamard matrix is
   \begin{equation*}
     H=
     \begin{bmatrix}
@@ -279,57 +417,28 @@
   as a linear combination of the columns of $H$.
 \end{problem}
 
-\begin{problem}
-  Find the rank and nullsapce of
-  \begin{equation*}
-    A=
-    \begin{bmatrix}
-      0&0&1\\
-      0&0&1\\
-      1&1&1
-    \end{bmatrix}
-    \quad \text{and} \quad
-    B =
-    \begin{bmatrix}
-      0&0&1&2\\
-      0&0&1&2\\
-      1&1&1&0
-    \end{bmatrix}
-  \end{equation*}
-\end{problem}
-
-\begin{problem}
-  If $S$ and $T$ are linear transformations with $S(v)=T(v)=v$, then
-  $S(T(v))=v$ or $v^{2}$?
-\end{problem}
-
-\begin{problem}
-  A linear transformation must leave the zero vector fixed: $T(0)=0$. Prove
-  this from $T(u+v)=T(u)+T(v)$ by choosing $v=\underline{\phantom{hello}}$.
-  Prove it also from the requirement $T(cv)=cT(v)$ by choosing
-  $c=\underline{\phantom{hello}}$.
-\end{problem}
+% \begin{problem}
+%   Find the rank and nullsapce of
+%   \begin{equation*}
+%     A=
+%     \begin{bmatrix}
+%       0&0&1\\
+%       0&0&1\\
+%       1&1&1
+%     \end{bmatrix}
+%     \quad \text{and} \quad
+%     B =
+%     \begin{bmatrix}
+%       0&0&1&2\\
+%       0&0&1&2\\
+%       1&1&1&0
+%     \end{bmatrix}
+%   \end{equation*}
+% \end{problem}
 
 
-\begin{problem}
-  Every straight line remains straight after a linear transformation. If $z$
-  is halfway between $x$ and $y$, show that $Az$ is halfway between $Ax$ and
-  $Ay$
-\end{problem}
 
-\begin{problem}
-  True or false, with counterexample if false:
-  \begin{enumerate}[(a)]
-    \item If the vectors $x_{1},\ldots,x_{m}$ span a subspace $S$, then $\dim
-    S =m.$
-    \item The intersection of two subspaces of a vector space cannot be
-    emptpy.
-    \item If $Ax=Ay$, then $x=y$.
-    \item The row space of $A$ has a unique basis that can be computed by
-    reducing $A$ to reduced row-echelon form.
-    \item If a square matrix $A$ has independent columns, then so does $A^{2}$.
-  \end{enumerate}
-\end{problem}
+
 
 \end{document}
 
