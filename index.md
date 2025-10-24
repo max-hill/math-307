@@ -42,6 +42,6 @@ My office hours are 12:30-1:30 on Mondays and Fridays. My office is PSB 304. You
  2025-10-17  | [lecture-23](lectures/lecture-notes-by-day/lecture-23.pdf)      | Why is matrix multiplication defined the way it is?  
  2025-10-20  | [lecture-24](lectures/lecture-notes-by-day/lecture-24.pdf)      | How do we find a matrix to represent a linear transformation?  
  2025-10-22  | [lecture-25](lectures/lecture-notes-by-day/lecture-25.pdf)      | The matrix we use to represent a linear transformation depends a choice of bases. How does it change when whe choose different bases?  
- 2025-10-22  | [lecture-25](lectures/lecture-notes-by-day/lecture-25.pdf)      | What do linear transformations of 2-dimensional space look like?  
+ 2025-10-24  | [lecture-26](lectures/lecture-notes-by-day/lecture-26.pdf)      | What do linear transformations of 2-dimensional space look like?  
  
 
