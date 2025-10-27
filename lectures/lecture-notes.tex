@@ -16,7 +16,6 @@
 \usepackage[capitalize]{cleveref}
 
 
-
 % Citing theorems by name. (source: https://tex.stackexchange.com/questions/109843/cleveref-and-named-theorems)
 \makeatletter
 \newcommand{\ncref}[1]{\cref{#1}\mynameref{#1}{\csname r@#1\endcsname}}
@@ -7594,76 +7593,13 @@ If $A$ is an orthogonal matrix and $\det(A)=1$, then we say that $A$ is a
 
 
 \newpage
-\section{2025-10-24 | Week 09 | Lecture 27}
-
-\subsection{More examples}
-
-A matrix $A$ is said to be a \demph{projection} if $A^{2}=A$. The simplest
-projection is the identity $I$, but usually projections collapse dimension. 
-
-\begin{example}[Projections]
-  Consider the line passing through the origin and the point
-  $(c,s)=(\cos(\theta),\sin(\theta))$. Let $P$ be the projection onto the
-  $\theta$-line. This is given by the matrix
-  \begin{equation*}
-    P =
-    \begin{bmatrix}
-      c^{2}&cs\\cs&s^{2}
-    \end{bmatrix}
-  \end{equation*}
-  This matrix has no inverse, because the linear transformation has no inverse
-  (because it collapses dimension). Indeed, $\det P = c^{2}s^{2}- (cs)^{2}=0$
-
-  Points on the $\theta$-line are pojected to themselves. So projecting twice
-  is the same as projecting onces, so $P^{2}=P$. This is easy to check using
-  $s^{2}+c^{2}=1$:
-  \begin{equation*}
-    P^{2}
-    \begin{bmatrix}
-      c^{2}&cs\\
-      cs&s^{2}
-    \end{bmatrix}
-    \begin{bmatrix}
-      c^{2}&cs\\
-      cs&s^{2}
-    \end{bmatrix}
-    =
-    \begin{bmatrix}
-      c^{2}(c^{2}+s^{2})& cs(c^{2}+s^{2})\\
-      cs(c^{2}+s^{2})& s^{2}(c^{2}+s^{2})
-    \end{bmatrix}
-    = P
-  \end{equation*}
-
-  The nullspace of $P$ is the line $y=-\frac{c}{s}x$. (picture)
-\end{example}
-
-\begin{example}[Reflection]
-  Reflection across the $\theta$-line (i.e. the line passing through the
-  origin with angle $\theta$) is given by the following matrix:
-  \begin{equation*}
-    H =
-    \begin{bmatrix}
-      2c^{2}-1&2cs\\
-      2cs&2s^{2}-1
-    \end{bmatrix}
-  \end{equation*}
-  where $c=\cos(\theta)$ and $s=\sin(\theta)$.
-
-  Observe
-  \begin{equation*}
-    H^{2}=H
-  \end{equation*}
-
-  For example, $\theta=90^{\circ}$ gives
-  \begin{equation*}
-    H =
-    \begin{bmatrix}
-      0&1\\
-      1&0
-    \end{bmatrix}
-  \end{equation*}
-\end{example}
+\section{2025-10-27 | Week 10 | Lecture 27}
+\begin{center}
+  \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
+    \textit{\textbf{The nexus question of this lecture:} What do linear
+      transformations of 2-dimensional space look like?}
+  \end{tcolorbox}
+\end{center}
 
 \begin{example}
   Find a linear transformation that consists of stretching space in the
@@ -7721,18 +7657,286 @@ projection is the identity $I$, but usually projections collapse dimension.
   the direction $\theta=45^{\circ}$.
 \end{example}
 
-Observe that
-\begin{equation*}
-  A
-  \begin{bmatrix}
-    1\\1
-  \end{bmatrix}
-  =2
-  \begin{bmatrix}
-    1\\1
-  \end{bmatrix}
-\end{equation*}
 
+A matrix $P$ is said to be a \demph{projection} if $P^{2}=P$. The simplest
+projection is the identity $I$, but usually projections collapse dimension.
+If, in addition, the matrix $P$ is symmetric (that is, if $P=P^{\top}$), then
+$P$ is called an \demph{orthogonal projection}. If $P^{\top}\neq P$ it is
+called an \demph{}oblique projection.
+
+
+\begin{example}[Projections]
+  Consider the line passing through the origin and the point
+  $(c,s)=(\cos(\theta),\sin(\theta))$. Let $P$ be the projection onto the
+  $\theta$-line. This is given by the matrix
+  \begin{equation*}
+    P =
+    \begin{bmatrix}
+      c^{2}&cs\\cs&s^{2}
+    \end{bmatrix}
+  \end{equation*}
+  This matrix has no inverse, because the linear transformation has no inverse
+  (because it collapses dimension). Indeed, $\det P = c^{2}s^{2}- (cs)^{2}=0$
+
+  Points on the $\theta$-line are pojected to themselves. So projecting twice
+  is the same as projecting onces, so $P^{2}=P$. This is easy to check using
+  $s^{2}+c^{2}=1$:
+  \begin{equation*}
+    P^{2}
+    \begin{bmatrix}
+      c^{2}&cs\\
+      cs&s^{2}
+    \end{bmatrix}
+    \begin{bmatrix}
+      c^{2}&cs\\
+      cs&s^{2}
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      c^{2}(c^{2}+s^{2})& cs(c^{2}+s^{2})\\
+      cs(c^{2}+s^{2})& s^{2}(c^{2}+s^{2})
+    \end{bmatrix}
+    = P
+  \end{equation*}
+
+  The nullspace of $P$ is the line $y=-\frac{c}{s}x$. (picture)
+
+
+  \textbf{Connection with vector projections:} Recall from calculus class that
+  the \demph{vector projection} of $B$ onto $A$ is defined as the vector $C$
+  given by
+  \begin{equation}\label{eq:vector-projection-formula}
+    C 
+    = \underbrace{\left( \frac{A\cdot B}{|A|} \right)}_{\text{signed length of C\ }}
+    \underbrace{\left( \frac{A}{|A|} \right)  }_{\text{unit vector}}
+  \end{equation}
+  This corresponds to the picuture
+  
+  \begin{center}
+    \begin{tikzpicture}
+      % Draw vectors
+      \draw[->, thick] (0,0) -- (3,2) node[above] { $B $ };%
+      \draw[->, thick] (0,0) -- (4,0) node[right] { $A$ };%
+      \draw[->, very thick, red] (0,0) -- (3,0) node[below] { $C$ };%
+      \draw[dotted] (3,0) -- (3,2) ;%
+      % % Label angle
+      % \draw (1.2,0) arc[start angle=0, end angle=33.69, radius=1.2cm];%
+      % \node at (1.5,0.4) {};%
+    \end{tikzpicture}
+  \end{center}
+  In other words, $C$ is the shadow of $B$ on $A$, if we shine a light
+  directly above $B$. This is an orthogonal projection because the dotted line
+  is orthogonal to $A$.
+
+  Let's work out an example. Suppose
+  \begin{equation*}
+    \vec{A} =
+    \begin{bmatrix}
+      1\\1\\2
+    \end{bmatrix}
+    \quad \text{and} \quad
+    \vec{B}=
+    \begin{bmatrix}
+      -2\\3\\1
+    \end{bmatrix}.
+  \end{equation*}
+  Then by \cref{eq:vector-projection-formula}, the vector projection is
+  \begin{equation*}
+    C =
+    \begin{bmatrix}
+      1/2\\1/2\\1
+    \end{bmatrix}.
+  \end{equation*}
+  \textbf{Can we find a matrix $P$ that effectuates this transformation? That
+    is, such that $PB=C$?}
+
+  In general, the matrix for an orthogonal projection can be written as
+  \begin{equation}\label{eq:orthogonal-projection-matrix}
+    P = U(U^{\top}U)^{-1}U^{\top},
+  \end{equation}
+  where $U$ is any matrix whose columns form a basis of the subspace onto
+  which we are projecting. In the case of the vector projection of $B$ onto
+  $A$, we are projecting onto the line spanned by the vecctor $A$. Hence, we
+  can take
+  \begin{equation*}
+    U =
+    \begin{bmatrix}
+      1\\1\\2
+    \end{bmatrix}.
+  \end{equation*}
+  Now let's compute $P$. First observe that
+  \begin{equation*}
+    U^{\top}U =
+    \begin{bmatrix}
+      1&1&2
+    \end{bmatrix}
+    \begin{bmatrix}
+      1\\1\\2
+    \end{bmatrix}
+    =
+    1+1+4=6,
+  \end{equation*}
+  so
+  \begin{equation*}
+    (U^{\top}U)^{-1} = \frac{1}{6}.
+  \end{equation*}
+  Plugging this into \cref{eq:orthogonal-projection-matrix}, we get
+  \begin{equation*}
+    P =
+    \frac{1}{6}
+    \begin{bmatrix}
+      1\\1\\2
+    \end{bmatrix}
+    \begin{bmatrix}
+      1&1&2
+    \end{bmatrix}
+    =
+    \frac{1}{6}
+    \begin{bmatrix}
+      1&1&2\\
+      1&1&2\\
+      2&2&4
+    \end{bmatrix}.
+  \end{equation*}
+  Now we can check that $PB=C$:
+  \begin{equation*}
+    PB = \frac{1}{6}
+    \begin{bmatrix}
+      1&1&2\\
+      1&1&2\\
+      2&2&4
+    \end{bmatrix}
+    \begin{bmatrix}
+      -2\\3\\1
+    \end{bmatrix}
+    =
+    \frac{1}{6}
+    \begin{bmatrix}
+      -2+3+2\\
+      -2+3+2\\
+      -4+6+4
+    \end{bmatrix}
+    = \frac{1}{6}
+    \begin{bmatrix}
+      3\\
+      3\\
+      6
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      1/2\\1/2\\1
+    \end{bmatrix}
+    =C.
+  \end{equation*}
+\end{example}
+
+\begin{example}[Reflection]
+  Reflection across the $\theta$-line (i.e. the line passing through the
+  origin with angle $\theta$) is given by the following matrix:
+  \begin{equation*}
+    H =
+    \begin{bmatrix}
+      2c^{2}-1&2cs\\
+      2cs&2s^{2}-1
+    \end{bmatrix}
+  \end{equation*}
+  where $c=\cos(\theta)$ and $s=\sin(\theta)$.
+
+  Observe
+  \begin{equation*}
+    H^{2}=H
+  \end{equation*}
+
+  \begin{equation*}
+    H = 2P-I
+  \end{equation*}
+
+  For example, $\theta=90^{\circ}$ gives
+  \begin{equation*}
+    H =
+    \begin{bmatrix}
+      0&1\\
+      1&0
+    \end{bmatrix}
+  \end{equation*}
+\end{example}
+
+
+
+\newpage
+\section{2025-10-27}
+\begin{example}[Differentiation of polynomials]
+  Consider $P_{3}= \left\{p\in \R[x]: \deg (p) \leq 3\right\} $. 
+  Given an element $p\in P_{3}$, we have $p(x)=
+  c_{0}+c_{1}x+c_{2}x^{2}+c_{3}x^{3}$. A basis for $P_{3}$ is
+  \begin{equation*}
+    \beta= \left\{\beta_{1}= 1,\quad \beta_{2}=x, \quad \beta_{3}=x^{2}, \quad \beta_{4}=x^{3}\right\} 
+  \end{equation*}
+
+  Let $D = \frac{d}{dt}$. We've already seen that $D: P_{3}\to P_{3}$ is a
+  linear transformation (see \cref{ex:derivative-is-a-linear-transformation}).
+
+  \Fl{Question:} What is $[T]_{\beta}^{\beta}$, the matrix of $T$ with
+  respect to the basis $\beta$?
+
+  \fl{Idea:} First, we consider how  $D=\frac{d}{dt}$ acts on the vectors
+  $\beta_{1},\beta_{2},\beta_{3}$, and write the output in terms of the
+  vectors $\beta_{1},\beta_{2},\beta_{3}$. 
+
+  \fl{Solution:} Observe that
+  \begin{equation*}
+    D\beta_{1} = 0, \quad D\beta_{2}=\beta_{1}, \quad D\beta_{3}=2\beta_{2}, \quad D\beta_{4}=3\beta_{3} 
+  \end{equation*}
+
+  The matrix for $\frac{d}{dx}$ with respect to the basis $\beta$ is
+  \begin{equation*}
+    [D]_{\beta}^{\beta}
+    =\begin{bmatrix}
+      0&1&0&0\\
+      0&0&2&0\\
+      0&0&0&3\\
+      0&0&0&0
+    \end{bmatrix}
+  \end{equation*}
+  For example, if $p(x)=3+5x-7x^{2}+2x^{3}$, we can write $p$ as
+  \begin{equation*}
+    p =
+    \begin{bmatrix}
+      3\\5\\-7\\2
+    \end{bmatrix}_{\beta}
+  \end{equation*}
+  In which case
+  \begin{equation*}
+    [D]_{\beta}^{\beta}p =\begin{bmatrix}
+      0&1&0&0\\
+      0&0&2&0\\
+      0&0&0&3\\
+      0&0&0&0
+    \end{bmatrix}
+    \begin{bmatrix}
+      3\\5\\-7\\2
+    \end{bmatrix}_{\beta}
+    =
+    \begin{bmatrix}
+      5\\-14\\6\\0
+    \end{bmatrix}_{\beta}
+  \end{equation*}
+  The ``coordinate vector'' notation on the right hand side means the
+  following:
+  \begin{equation*}
+    \begin{bmatrix}
+      5\\-14\\6\\0
+    \end{bmatrix}_{\beta}
+    =5\beta_{1}-14\beta_{2}+6\beta_{3}+0\beta_{4} = 5-14x+6x^{2}.
+  \end{equation*}
+  It worked! This is the derivative of $p(x) = 3+5x-7x^{2}+2x^{3}$.
+
+
+  \fl{What about integration?}
+\end{example}
+
+\newpage
+\section{2025-10-29 | Week 10}
 \subsection{Eigenvalues}
 
 
@@ -7861,7 +8065,7 @@ to just compute the basis of the eigenspace.
         0\\0
       \end{bmatrix}
     \end{equation*}
-    Reducing we get NS of the form $y
+    Reducing we get NS of the form $y 
     \begin{bmatrix}
       -1\\1
     \end{bmatrix}, \, y\in \R
@@ -7896,79 +8100,9 @@ to just compute the basis of the eigenspace.
   and $NS(-I-A)$.
 \end{example}
 
-\section{Another change of basis example (unfinished)}
 
-
-
-\begin{example}[Differentiation of polynomials]
-  Consider $P_{3}= \left\{p\in \R[x]: \deg (p) \leq 3\right\} $. 
-  Given an element $p\in P_{3}$, we have $p(x)=
-  c_{0}+c_{1}x+c_{2}x^{2}+c_{3}x^{3}$. A basis for $P_{3}$ is
-  \begin{equation*}
-    \beta= \left\{\beta_{1}= 1,\quad \beta_{2}=x, \quad \beta_{3}=x^{2}, \quad \beta_{4}=x^{3}\right\} 
-  \end{equation*}
-
-  Let $D = \frac{d}{dt}$. We've already seen that $D: P_{3}\to P_{3}$ is a
-  linear transformation (see \cref{ex:derivative-is-a-linear-transformation}).
-
-  \Fl{Question:} What is $[T]_{\beta}^{\beta}$, the matrix of $T$ with
-  respect to the basis $\beta$?
-
-  \fl{Idea:} First, we consider how  $D=\frac{d}{dt}$ acts on the vectors
-  $\beta_{1},\beta_{2},\beta_{3}$, and write the output in terms of the
-  vectors $\beta_{1},\beta_{2},\beta_{3}$. 
-
-  \fl{Solution:} Observe that
-  \begin{equation*}
-    D\beta_{1} = 0, \quad D\beta_{2}=\beta_{1}, \quad D\beta_{3}=2\beta_{2}, \quad D\beta_{4}=3\beta_{3} 
-  \end{equation*}
-
-  The matrix for $\frac{d}{dx}$ with respect to the basis $\beta$ is
-  \begin{equation*}
-    [D]_{\beta}^{\beta}
-    =\begin{bmatrix}
-      0&1&0&0\\
-      0&0&2&0\\
-      0&0&0&3\\
-      0&0&0&0
-    \end{bmatrix}
-  \end{equation*}
-  For example, if $p(x)=3+5x-7x^{2}+2x^{3}$, we can write $p$ as
-  \begin{equation*}
-    p =
-    \begin{bmatrix}
-      3\\5\\-7\\2
-    \end{bmatrix}_{\beta}
-  \end{equation*}
-  In which case
-  \begin{equation*}
-    [D]_{\beta}^{\beta}p =\begin{bmatrix}
-      0&1&0&0\\
-      0&0&2&0\\
-      0&0&0&3\\
-      0&0&0&0
-    \end{bmatrix}
-    \begin{bmatrix}
-      3\\5\\-7\\2
-    \end{bmatrix}_{\beta}
-    =
-    \begin{bmatrix}
-      5\\-14\\6\\0
-    \end{bmatrix}_{\beta}
-  \end{equation*}
-  The ``coordinate vector'' notation on the right hand side means the
-  following:
-  \begin{equation*}
-    \begin{bmatrix}
-      5\\-14\\6\\0
-    \end{bmatrix}_{\beta}
-    =5\beta_{1}-14\beta_{2}+6\beta_{3}+0\beta_{4} = 5-14x+6x^{2}.
-  \end{equation*}
-  It worked! This is the derivative of $p(x) = 3+5x-7x^{2}+2x^{3}$.
-\end{example}
 
 \newpage
-
 \end{document}
 
 
