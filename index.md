@@ -44,5 +44,6 @@ My office hours are 12:30-1:30 on Mondays and Fridays. My office is PSB 304. You
  2025-10-22  | [lecture-25](lectures/lecture-notes-by-day/lecture-25.pdf)      | The matrix we use to represent a linear transformation depends a choice of bases. How does it change when whe choose different bases?  
  2025-10-24  | [lecture-26](lectures/lecture-notes-by-day/lecture-26.pdf)      | What do linear transformations of 2-dimensional space look like?  
  2025-10-27  | [lecture-27](lectures/lecture-notes-by-day/lecture-27.pdf)      | What do linear transformations of 2-dimensional space look like?  
+ 2025-10-29  | [lecture-28](lectures/lecture-notes-by-day/lecture-28.pdf)      | What are eigenvalues and eigenvectors and how do we find them?  
  
 
