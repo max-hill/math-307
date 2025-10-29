@@ -7601,7 +7601,8 @@ If $A$ is an orthogonal matrix and $\det(A)=1$, then we say that $A$ is a
   \end{tcolorbox}
 \end{center}
 
-\begin{example}
+\begin{example}[Composing transformations]
+  \label{ex:composing-transformations}
   Find a linear transformation that consists of stretching space in the
   direction $\theta=45^{\circ}$ (i.e. $\theta=\pi/4$ radians) by a factor of
   $2$.
@@ -7864,7 +7865,300 @@ called an \demph{}oblique projection.
 
 
 \newpage
-\section{2025-10-27}
+\section{2025-10-29 | Week 10 | Lecture 28}
+\begin{center}
+  \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
+    \textit{\textbf{The nexus question of this lecture:} What are eigenvalues
+      and eigenvectors and how do we find them?}
+  \end{tcolorbox}
+\end{center}
+
+One way to understand what a linear linear transformation does is to undertand
+which parts of space are invariant --- that is, which parts of space don't
+change. 
+
+\subsection{Eigenvalues}
+
+
+\begin{definition}[Eigenvalue]
+  \label{def:eigenvalue}
+  If $A$ is an $n\times n$ matrix, an \demph{eigenvector} of $A$ is a nonzero
+  column vector $v\in \R^{n}$ such that
+  \begin{equation*}
+    Av=\lambda v
+  \end{equation*}
+  for some scalar $\lambda\in \C$. The scalar $\lambda$ is called the eigenvalue.
+\end{definition}
+
+\begin{example}
+  Let
+  \begin{equation*}
+    A=\frac{1}{2}
+    \begin{bmatrix}
+      3&1\\1&3
+    \end{bmatrix}
+  \end{equation*}
+  In \cref{ex:composing-transformations}, we say that this transformation
+  corresponds to a dilation by a factor of $2$ in the direction of
+  $45^{\circ}.$
+
+  By geometric considerations, we can see that the line $y=x$ is invariant
+  under this transformation (vectors along this line get scaled by 2 but don't
+  jump off the line). Also we see that the line $y=-x$ is invariant (vectors
+  along this line don't change at all).
+
+  The vector $v =
+  \begin{bmatrix}
+    1\\1
+  \end{bmatrix}
+  $
+  lies on the line $y=x$. We see that
+  \begin{equation*}
+    Av = 2v
+  \end{equation*}
+  so that $v=
+  \begin{bmatrix}
+    1\\1
+  \end{bmatrix}
+  $ is an eigenvector with eigenvalue $2$.
+
+  Similarly, the following vector lies on the line $y=-x$:
+  \begin{equation*}
+    v=
+    \begin{bmatrix}
+      1\\-1
+    \end{bmatrix}
+  \end{equation*}
+  It satisfies $Av=1v$. Hence it is an eigenvector with eigenvalue $1$.
+\end{example}
+
+\begin{example}
+  Let
+  \begin{equation*}
+    A=
+    \begin{bmatrix}
+      1&-3\\
+      -2&2
+    \end{bmatrix}
+  \end{equation*}
+  has eigenvewctor
+  \begin{equation*}
+    v=
+    \begin{bmatrix}
+      -1\\1
+    \end{bmatrix}
+  \end{equation*}
+  with eigenvalue $4$.
+\end{example}
+
+
+\subsection{How do we find eigenvalues?}
+
+\textbf{Idea:} look to the system
+$AX =\lambda X$.
+This is equivalent to 
+\begin{equation*}
+  (\lambda I-A)X=0.
+\end{equation*}
+Since $X\neq 0$ (since by definition eigenvectors must be nonzero), we
+conclude that the matrix $\lambda I - A$ is singular, and hence by the key
+theorem, $\det(\lambda I -A)=0$. 
+
+\begin{theorem}
+  Let $A$ be an $n\times n$ matrix. Then $\lambda\in \R$ is an eigenvalue of
+  $A$ if and only if $\det(\lambda I-A)=0$.
+\end{theorem}
+
+
+\begin{definition}
+  The \demph{characteristic equation of $A$ } is
+  \begin{equation*}
+    \det(\lambda I-A)=0.
+  \end{equation*}
+\end{definition}
+When $A$ is an $n\times n$ matrix, the left hand side of the characteristic
+equation is a polynomial in the variable $\lambda$ of degree $n$, and is
+called the \demph{characteristic polynomial} of $A$.
+
+
+\begin{example}
+  Let
+  \begin{equation*}
+    A =
+    \begin{bmatrix}
+      1&-3\\-2&2
+    \end{bmatrix}.
+  \end{equation*}
+  Then the characteristic polynomial of $A$ is
+  \begin{align*}
+    \det(\lambda I-A) 
+    &= \det
+      \begin{bmatrix}
+        \lambda-1& 3\\
+        2& \lambda-2
+      \end{bmatrix} \\
+    &=(\lambda-1)(\lambda-2)-6\\
+    &=\lambda^{2}-3\lambda-4\\
+    &(\lambda-4)(\lambda+1)
+  \end{align*}
+  This is equal to zero if and only if $\lambda=4$ or $\lambda=-1$. Therefore
+  the eigenvalues of $A$ are $\lambda=4$ and $\lambda=-1.$ 
+\end{example}
+
+
+\subsection{How do we find eigenvectors?}
+
+\textbf{Idea:} First find the eigenvalues $\lambda$. Then for each eigenvalue
+$\lambda$, the eigenvectors are the nontrivial solutions of the homogeneous
+ssytem
+\begin{equation*}
+  (\lambda I-A)X =0.
+\end{equation*}
+(This is a linear system which we can solve using row reduction.)
+
+In other words, the eigenvectors are the nonzero vectors in the linear
+subspace
+\begin{equation*}
+  NS(\lambda I-A).
+\end{equation*}
+So we just need to compute a basis of this nullspace, which is called the
+\demph{eigenspace}. When we ask to find the eigenvalues, it is always enough
+to just compute the basis of the eigenspace.
+
+
+
+
+\begin{example}
+  Find the eigenvectors of the matrix
+  \begin{equation*}
+    A=
+    \begin{bmatrix}
+      1&-3\\
+      -2&2
+    \end{bmatrix}
+  \end{equation*}
+  The equations we need to solve are
+  \begin{itemize}
+    \item \textbf{When $\lambda=4$:} $4I-A=0$ or
+    \begin{equation*}
+      \begin{bmatrix}
+        3&3\\
+        2&2
+      \end{bmatrix}
+      \begin{bmatrix}
+        x\\y
+      \end{bmatrix}
+      =
+      \begin{bmatrix}
+        0\\0
+      \end{bmatrix}
+    \end{equation*}
+    Reducing find the nullspace is
+    \begin{equation*}
+      NS(4I-A) = \left\{y 
+        \begin{bmatrix}
+          -1\\1
+        \end{bmatrix}, \, y\in \R
+      \right\} 
+    \end{equation*}
+    Technically, all vectors in $NS(4I-A)$ are eigenvectors for $\lambda=4$.
+    To give a concrete example, we have eigenvector $v=
+    \begin{bmatrix}
+      -1\\1
+    \end{bmatrix}$.
+    
+    % \item \textbf{When $\lambda=-1$:} $-I-A=0$
+    % Here we get a NS generated by a single basis element $
+    % \begin{bmatrix}
+    %   3\\2
+    % \end{bmatrix}
+    % $
+  \end{itemize}
+\end{example}
+\newpage
+\section{2025-11-03 | Week 11 | Lecture 29}
+
+\begin{example}
+  \Fl{Question:} Find the eigenvalues and eigenvectors of
+  \begin{equation*}
+    A=
+    \begin{bmatrix}
+      1&-1\\1&1
+    \end{bmatrix}
+  \end{equation*}
+  This is a rotation by $45^{\circ}$ composed with a scaling by $\sqrt{2}$.
+  That is, $A=\sqrt{2}R_{45^{\circ}}$.
+  
+  \Fl{Solution:} The characteristic equation is
+  \begin{equation*}
+    \det
+    \begin{bmatrix}
+      \lambda-1&1\\-1&\lambda-1
+    \end{bmatrix}
+    = (\lambda-1)^{2}+1 = \lambda^{2}-2\lambda +2=0
+  \end{equation*}
+  This has solutions
+  \begin{equation*}
+    \lambda=1\pm i
+  \end{equation*}
+  \begin{itemize}
+    \item For $\lambda=1+i$, solve  $((1+i)I-A)X=0$. This has solution
+    \begin{equation*}
+      \begin{bmatrix}
+        x\\y
+      \end{bmatrix}
+      =
+      \begin{bmatrix}
+        iy\\y
+      \end{bmatrix}
+      =
+      \begin{bmatrix}
+        i\\1
+      \end{bmatrix}y
+    \end{equation*}
+    where $y$ is any complex number. A basis for this is
+    \begin{equation*}
+      \begin{bmatrix}
+        i\\1
+      \end{bmatrix}.
+    \end{equation*}
+    This is the eigenvector
+    \item For $\lambda=1-i$, similar calculation gives an eigenvector
+    \begin{equation*}
+      \begin{bmatrix}
+        -i\\1
+      \end{bmatrix}
+    \end{equation*}
+  \end{itemize}
+  
+\end{example}
+
+
+
+\begin{example}
+  Find the eigenvals and eigenvectors of
+  \begin{equation*}
+    \begin{bmatrix}
+      2&-1&3\\
+      0&-1&0\\
+      0&0&-1
+    \end{bmatrix}
+  \end{equation*}
+  First we compute the characteristic polynomial:
+  \begin{equation*}
+    \det(\lambda I-A) = ... = (\lambda-2)(\lambda+1)^{2}
+  \end{equation*}
+  This equals zero iff $\lambda=2$ or $\lambda=-1$. These are the
+  eigvenvalues.
+
+  To find eigenvectors, we need to find a basis nfor the nullspaces $NS(2I-A)$
+  and $NS(-I-A)$.
+\end{example}
+
+
+\newpage
+\section{Another example}
+
 \begin{example}[Differentiation of polynomials]
   Consider $P_{3}= \left\{p\in \R[x]: \deg (p) \leq 3\right\} $. 
   Given an element $p\in P_{3}$, we have $p(x)=
@@ -7934,172 +8228,6 @@ called an \demph{}oblique projection.
 
   \fl{What about integration?}
 \end{example}
-
-\newpage
-\section{2025-10-29 | Week 10}
-\subsection{Eigenvalues}
-
-
-\begin{definition}[Eigenvalue]
-  \label{def:eigenvalue}
-  If $A$ is an $n\times n$ matrix, an \demph{eigenvector} of $A$ is a nonzero
-  column vector $v\in \R^{n}$ such that
-  \begin{equation*}
-    Av=\lambda v
-  \end{equation*}
-  for some scalar $\lambda\in \R$. The scalar $\lambda$ is called the eigenvalue.
-\end{definition}
-
-
-\begin{example}
-  For example
-  \begin{equation*}
-    A=
-    \begin{bmatrix}
-      1&-3\\
-      -2&2
-    \end{bmatrix}
-  \end{equation*}
-  has eigenvewctor
-  \begin{equation*}
-    v=
-    \begin{bmatrix}
-      -1\\1
-    \end{bmatrix}
-  \end{equation*}
-  with eigenvalue $4$.
-\end{example}
-
-
-\subsection{Finding eigenvalues?}
-
-Answer: solve the system
-$AX =\lambda X$
-or equivalently
-\begin{equation*}
-  (\lambda I-A)X=0.
-\end{equation*}
-
-\begin{theorem}
-  Let $A$ be an $n\times n$ matrix. Then $\lambda\in \R$ is an eigenvalue of
-  $A$ if and only if $\det(\lambda I-A)=0$.
-\end{theorem}
-
-
-\begin{definition}
-  The \demph{characteristic equation of $A$ } is
-  \begin{equation*}
-    \det(\lambda I-A)=0.
-  \end{equation*}
-\end{definition}
-When $A$ is an $n\times n$ matrix, the left hand side of the characteristic
-equation is a polynomial in the variable $\lambda$ of degree $n$, and is
-called the \demph{characteristic polynomial} of $A$.
-
-
-\begin{example}
-  Let
-  \begin{equation*}
-    A =
-    \begin{bmatrix}
-      1&-3\\-2&2
-    \end{bmatrix}.
-  \end{equation*}
-  Then the characteristic polynomial of $A$ is
-  \begin{align*}
-    \det(\lambda I-A) 
-    &= \det
-      \begin{bmatrix}
-        \lambda-1& 3\\
-        2& \lambda-2
-      \end{bmatrix} \\
-    &=(\lambda-1)(\lambda-2)-6\\
-    &=\lambda^{2}-3\lambda-4\\
-    &(\lambda-4)(\lambda+1)
-  \end{align*}
-  This is equal to zero if and only if $\lambda=4$ or $\lambda=-1$. Therefore
-  the eigenvalues of $A$ are $\lambda=4$ and $\lambda=-1.$ 
-\end{example}
-
-
-\subsection{Finding eigenvectors}
-
-The eigenvectors are the nontrivial solutions of the homogeneous ssytem
-\begin{equation*}
-  (\lambda I-A)X =0
-\end{equation*} 
-In other words, the eigenvectors are the nonzero vectors in the linear
-subspace
-\begin{equation*}
-  NS(\lambda I-A).
-\end{equation*}
-So we just need to compute a basis of this nullspace, which is called the
-\demph{eigenspace}. When we ask to find the eigenvalues, it is always enough
-to just compute the basis of the eigenspace.
-
-
-
-
-\begin{example}
-  Find the eigenvectors of the matrix
-  \begin{equation*}
-    A=
-    \begin{bmatrix}
-      1&-3\\
-      -2&2
-    \end{bmatrix}
-  \end{equation*}
-  The equations we need to solve are
-  \begin{itemize}
-    \item \textbf{When $\lambda=4$:} $4I-A=0$ or
-    \begin{equation*}
-      \begin{bmatrix}
-        3&3\\
-        2&2
-      \end{bmatrix}
-      \begin{bmatrix}
-        x\\y
-      \end{bmatrix}
-      =
-      \begin{bmatrix}
-        0\\0
-      \end{bmatrix}
-    \end{equation*}
-    Reducing we get NS of the form $y 
-    \begin{bmatrix}
-      -1\\1
-    \end{bmatrix}, \, y\in \R
-    $
-    \item \textbf{When $\lambda=-1$:} $-I-A=0$
-    Here we get a NS generated by a single basis element $
-    \begin{bmatrix}
-      3\\2
-    \end{bmatrix}
-    $
-  \end{itemize}
-\end{example}
-
-
-\begin{example}
-  Find the eigenvals and eigenvectors of
-  \begin{equation*}
-    \begin{bmatrix}
-      2&-1&3\\
-      0&-1&0\\
-      0&0&-1
-    \end{bmatrix}
-  \end{equation*}
-  First we compute the characteristic polynomial:
-  \begin{equation*}
-    \det(\lambda I-A) = ... = (\lambda-2)(\lambda+1)^{2}
-  \end{equation*}
-  This equals zero iff $\lambda=2$ or $\lambda=-1$. These are the
-  eigvenvalues.
-
-  To find eigenvectors, we need to find a basis nfor the nullspaces $NS(2I-A)$
-  and $NS(-I-A)$.
-\end{example}
-
 
 
 \newpage
