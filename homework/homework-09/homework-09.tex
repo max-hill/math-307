@@ -1,0 +1,498 @@
+\documentclass[10pt]{article}
+% Math Packages
+\usepackage{amsmath, mathtools}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{bbm}
+\usepackage{breqn}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{calc}
+\usepackage{forest}
+\usepackage{tikz-qtree}
+\graphicspath{ {./images/} }
+\usepackage{hyperref}
+\usepackage[capitalize]{cleveref}
+\usepackage[shortlabels]{enumitem}
+\usetikzlibrary{arrows,matrix,positioning}
+\usepackage{multicol}
+
+% for boxed text
+\usepackage[most]{tcolorbox}%
+
+% for the pipe symbol
+\usepackage[T1]{fontenc}
+
+% Citing theorems by name. (source: https://tex.stackexchange.com/questions/109843/cleveref-and-named-theorems)
+\makeatletter
+\newcommand{\ncref}[1]{\cref{#1}\mynameref{#1}{\csname r@#1\endcsname}}
+
+\def\mynameref#1#2{%
+  \begingroup
+  \edef\@mytxt{#2}%
+  \edef\@mytst{\expandafter\@thirdoffive\@mytxt}%
+  \ifx\@mytst\empty\else
+  \space(\nameref{#1})\fi
+  \endgroup
+}
+\makeatother
+
+% Colorful Notes
+\usepackage{color} \definecolor{Red}{rgb}{1,0,0} \definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5} \def\red{\color{Red}} \def\blue{\color{Blue}}
+\def\gray{\color{gray}} \def\purple{\color{Purple}}
+\newcommand{\rnote}[1]{{\red [#1]}} % \rnote{foo} gives '[foo]' in red
+\newcommand{\pnote}[1]{{\purple [#1]}} % \pnote{foo} gives '[foo]' in purple
+\newcommand{\bnote}[1]{{\blue #1}} % \bnote{foo} gives 'foo' in blue
+\newcommand{\gnote}[1]{{\gray #1}} % \gnote{foo} gives 'foo' in gray
+\newcommand{\Max}[1]{{\purple [#1]}} % \bnote{foo} then 'foo' is blue
+
+
+% Claim numbering (the counter restarts after each proof environment)
+\newcounter{claimcount}
+\setcounter{claimcount}{0}
+\newenvironment{claim}{\refstepcounter{claimcount}\par\addvspace{\medskipamount}\noindent\textbf{Claim \arabic{claimcount}:}}{}
+\usepackage{etoolbox}
+\AtBeginEnvironment{proof}{\setcounter{claimcount}{0}}
+\newenvironment{claimproof}{\par\addvspace{\medskipamount}\noindent\textit{Proof of Claim  \arabic{claimcount}.}}{\hfill\ensuremath{\qedsymbol} \tiny{Claim}
+
+  \medskip}
+% Add claim support to cleverref
+\crefname{claimcount}{Claim}{Claims}
+
+
+% Math Environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{question}[theorem]{Question}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+
+% Matrices and Column Vectors. 
+\usepackage{stackengine}
+\setstackgap{L}{1.0\normalbaselineskip}
+\usepackage{tabstackengine}
+\setstackEOL{;}% row separator
+\setstackTAB{,}% column separator
+\setstacktabbedgap{1ex}% inter-column gap
+\setstackgap{L}{1.5\normalbaselineskip}% inter-row baselineskip
+\let\nmatrix\bracketMatrixstack  %Usage: \nmatrix{1,2,3\4,5,6}
+\newcommand\cv[1]{\setstackEOL{,}\bracketMatrixstack{#1}} %usage: \cv{1,2,3}
+
+% Custom Math Coqmmands
+\newcommand{\vt}{\vskip 5mm} % vertical space
+\newcommand{\fl}{\noindent\textbf} % first line
+\newcommand{\Fl}{\vt\noindent\textbf} % first line with space above
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert} % norm
+\newcommand{\pnorm}[1]{\left\lVert#1\right\rVert_p} % p-norm
+\newcommand{\qnorm}[1]{\left\lVert#1\right\rVert_q} % q-norm
+\newcommand{\1}[1]{\textbf{1}_{\left[#1\right]}} % indicator function 
+\def\limn{\lim_{n\to\infty}} % shortcut for lim as n-> infinity
+\def\sumn{\sum_{n=1}^{\infty}} % shortcut for sum from n=1 to infinity
+\def\sumkn{\sum_{k=1}^{n}} % shortcut for sum from k=1 to n
+\def\sumin{\sum_{i=1}^{n}} % shortcut for sum from i=1 to n
+\def\SAs{\sigma\text{-algebras}} % shortcut for $\sigma$-algebras
+\def\SA{\sigma\text{-algebra}} % shortcut for $\sigma$-algebra
+\def\Ft{\mathcal{F}_t} % time-indexed sigma-algebra (t)
+\def\Fs{\mathcal{F}_s} % time-indexed sigma-algebra (s)
+\def\F{\mathcal{F}} % sigma-algebra
+\def\G{\mathcal{G}} % sigma-algebra
+\def\R{\mathbb{R}} % Real numbers
+\def\N{\mathbb{N}} % Natural numbers
+\def\Z{\mathbb{Z}} % Integers
+\def\E{\mathbb{E}} % Expectation
+\def\P{\mathbb{P}} % Probability
+\def\Q{\mathbb{Q}} % Q probability
+\def\dist{\text{dist}} %Text 'dist' for things like 'dist(x,y)'
+\newcommand{\indep}{\perp \!\!\! \perp}  %independence symbol
+\def\Var{\mathrm{Var}} % Variance
+\def\tr{\mathrm{tr}} % trace
+
+% Brackets and Parentheses
+\def\[{\left [}
+    \def\]{\right ]}
+% \def\({\left (}
+%   \def\){\right )}
+
+
+
+\usepackage{color}
+\definecolor{Red}{rgb}{1,0,0}
+\definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5}
+\def\red{\color{Red}}
+\def\blue{\color{Blue}}
+\def\gray{\color{gray}}
+\def\purple{\color{Purple}}
+\definecolor{RoyalBlue}{cmyk}{1, 0.50, 0, 0}
+\newcommand{\dempfcolor}[1]{{\color{RoyalBlue}#1}} 
+\newcommand{\demph}[1]{\dempfcolor{{\sl #1}}}
+
+% comment exactly one of the following line to show / hide the solutions
+% \newcommand{\solution}[1]{{\purple #1}} % uncomment to show the solutions
+\newcommand{\solution}[1]{} % uncomment to hide the solutions
+
+
+
+\title{Lecture Notes for Math 372: \\Elementary Probability and Statistics}
+\date{Last updated: \today}
+% \author{mh}
+
+\begin{document}
+\begin{center}
+  \section*{Math 307: Homework 09}
+  \textit{Due Wednesday, November 12. Material up to and including 5.4.}
+\end{center}
+
+
+
+\begin{problem}
+  Let $A=
+  \begin{bmatrix}
+    1&-1\\
+    2&4
+  \end{bmatrix}$.
+  The \demph{trace} of $A$ is the sum of its main diagonal entries. Find the
+  eigenvalues of $A$, verify that trace equals the sum of the eigenvalues, and
+  that the determinant equals their product. 
+\end{problem}
+
+\begin{problem}
+  Find the eigenvectors and eigenvalues of
+  \begin{equation*}
+    A =
+    \begin{bmatrix}
+      3&4&2\\
+      0&1&2\\
+      0&0&0
+    \end{bmatrix}
+    \quad \text{and} \quad
+    B =
+    \begin{bmatrix}
+      0&0&2\\
+      0&2&0\\
+      2&0&0
+    \end{bmatrix}
+  \end{equation*}
+  Check that $\lambda_{1}+\lambda_{2}+\lambda_{3}$ equals the trace and that
+  $\lambda_{1}\lambda_{2}\lambda_{3}$ equals the determinant. (Here
+  $\lambda_{1},\lambda_{2},\lambda_{3}$ are the eigenvalues of the matrix.)
+\end{problem}
+
+
+% \begin{problem}
+%   Every permutation matrix leaves $x=(1,1,\ldots,1)^{\top}$ unchanged. Then
+%   $\lambda=1$. Find two more eigenvalues for these permutation matrices:
+%   \begin{equation*}
+%     P =
+%     \begin{bmatrix}
+%       0&1&0\\
+%       0&0&1\\
+%       1&0&0
+%     \end{bmatrix}
+%     \quad \text{and} \quad
+%     Q =
+%     \begin{bmatrix}
+%       0&0&1\\
+%       0&1&0\\
+%       1&0&0
+%     \end{bmatrix}
+%   \end{equation*}
+% \end{problem}
+
+\begin{problem}
+  Find the rank and nullspace of
+  \begin{equation*}
+    A=
+    \begin{bmatrix}
+      0&0&1\\
+      0&0&1\\
+      1&1&1
+    \end{bmatrix}
+    \quad \text{and} \quad
+    B =
+    \begin{bmatrix}
+      0&0&1&2\\
+      0&0&1&2\\
+      1&1&1&0
+    \end{bmatrix}
+  \end{equation*}
+\end{problem}
+
+\begin{problem}
+  Suppose all vectors $x$ in the unit square $0 \leq x_{1}\leq 1$, $0 \leq
+  x_{2}\leq 1$ are transformed to $Ax$. (Here $A$ is a $2\times 2$ matrix).
+  \begin{enumerate}[(a)]
+    \item What is the shape of the transformed region (all $Ax$)?
+    \item For which matrices $A$ is that region a square?
+    \item For which $A$ is it a line?
+    \item For which $A$ is the new area still $1$?
+  \end{enumerate}
+\end{problem}
+
+
+\begin{problem}
+  Given an eigenvalue $\lambda$ of matrix $A$, the \demph{eigenspace} of
+  $\lambda$ is the subspace $NS(\lambda I-A)$. For the following matrices,
+  find the eigenvalues, and find a basis for each eigenspace.
+  \begin{enumerate}[(a)]
+    \item $
+    \begin{bmatrix}
+      3&0\\
+      8&-1
+    \end{bmatrix}
+    $
+    \item $
+    \begin{bmatrix}
+      4&-4\\1&0
+    \end{bmatrix}
+    $
+    \item $
+    \begin{bmatrix}
+      4&0&1\\-2&1&0\\-2&0&1
+    \end{bmatrix}
+    $
+  \end{enumerate}
+\end{problem}
+
+
+\begin{problem}
+  Let $A,B,C$ be square matrices. Prove the following statements:
+  \begin{enumerate}[(a)]
+    \item If $B$ is similar to $A$, then $A$ is similar to $B$. (``Similarity
+    is reflexive'')
+    \item If $A$ is similar to $B$, and $B$ is similar to $C$, then $A$ is
+    similar to $C$. (``Similarity is transitive'')
+    \item If $A,B$ are similar, then $\det(A)=\det(B)$.
+    \item If $A$ is invertible, then $B$ is invertible and $B^{-1}$ is
+    similar to $A^{-1}$.
+  \end{enumerate}
+\end{problem}
+
+\newpage
+\begin{problem}
+  \textit{(Hint for this problem: refer to the examples in section 5.1 of the textbook.)} Let
+  $T:\R^{3}\to P_{2}$ be a linear transformation satisfying
+  \begin{equation*}
+    T
+    \begin{bmatrix}
+      1\\1\\0
+    \end{bmatrix}
+    = x^{2}+x,\quad
+    T
+    \begin{bmatrix}
+      1\\-1\\1
+    \end{bmatrix}
+    = x^{2}-x+1, \quad
+    T
+    \begin{bmatrix}
+      0\\1\\1
+    \end{bmatrix}
+    =x+1.
+  \end{equation*}
+  \begin{enumerate}[(a)]
+    \item Find $T
+    \begin{bmatrix}
+      1\\0\\0
+    \end{bmatrix}.
+    $
+    \item Find $T
+    \begin{bmatrix}
+      a\\b\\c
+    \end{bmatrix}.
+    $   
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}
+  \begin{enumerate}[(a)]
+    \item []
+    \item Construct a matrix whose nullspace contains the vector $x=
+    \begin{bmatrix}
+      1\\1\\2
+    \end{bmatrix}
+    $
+    \item Construct a matrix whose column space is spanned by $
+    \begin{bmatrix}
+      1\\1\\2
+    \end{bmatrix}
+    $ and whose row space is spanned by $
+    \begin{bmatrix}
+      1&5
+    \end{bmatrix}
+    $.
+    \item How can you construct a matrix that transforms the coordinate vectors
+    $e_{1},e_{2},e_{3}$ into three given vectors $v_{1},v_{2},v_{3}$. When
+    will that matrix be invertible?
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}
+  Let $T:\R^{3}\to \R^{3}$ be given by
+  \begin{equation*}
+    T
+    \begin{bmatrix}
+      x_{1}\\x_{2}\\x_{3}
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      17x_{1}-8x_{2}-12x_{3}\\
+      16x_{1}-7x_{2}-12x_{3}\\
+      16x_{1}-8x_{2}-11x_{3}
+    \end{bmatrix}.
+  \end{equation*} 
+  \begin{enumerate}[(a)]
+    \item Find $[T]_{\alpha}^{\alpha}$, where $\alpha$ is the standard basis
+    for $\R^{3}$.
+    \item Let $\beta=\left\{\begin{bmatrix}
+        1\\1\\1
+      \end{bmatrix},
+      \begin{bmatrix}
+        1\\2\\0
+      \end{bmatrix},
+      \begin{bmatrix}
+        1\\-1\\2
+      \end{bmatrix}\right\}.$
+    Find the change of basis matrix from $\alpha$ to $\beta$.
+    \item Find the change of basis matrix from $\beta$ to $\alpha$. 
+    \item Find $[T]_{\beta}^{\beta}$.
+    \item Find $[v]_{\beta}$ for $v=
+    \begin{bmatrix}
+      2\\-1\\4
+    \end{bmatrix}.$ 
+    \item Find $[T(v)]_{\beta}$.
+    \item Use the result of part (f) to find $T(v)$.
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}
+  A linear transformation from $V$ to $W$ has an \textit{inverse} from $W$ to
+  $V$ when the range of is all of $W$ and the kernel contains only $v=0$. Why
+  are these transformations not invertible?
+  \begin{enumerate}[(a)]
+    \item $T(v_{1},v_{2})=(v_{2},v_{2})$, \quad $W=\R^{2}$
+    \item $T(v_{1},v_{2})=(v_{1},v_{2},v_{1}+v_{2})$, \quad $W=\R^{2}$
+    \item $T(v_{1},v_{2})=v_{1}$, \quad $W=\R^{1}$
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}
+  Suppose $T:V \to W$ is a linear transformation.
+  \begin{enumerate}[(a)]
+    \item Show that if $v\in V$ and $u\in \ker(T)$, then $T(u+v)=T(v)$.
+    \item Show that if $u,v\in V$ such that $T(u)=T(v)$, then $u-v$ is in
+    $\ker(T)$.
+    \item Use part (b) to deduce that if $\ker(T)=\left\{0\right\}$, then $T$
+    is injective. [Note: a function $f$ is \demph{injective} if
+    $x_{1}\neq x_{2}$ implies $f(x_{1})\neq f(x_{2})$].
+  \end{enumerate}
+\end{problem}
+
+% \begin{problem}
+%   Show that the set of linear transformations from a vector space $V$ to a
+%   vector space $W$ is a vector space.
+% \end{problem}
+
+
+
+\begin{problem}[An application of eigenvalues]
+  If $f:\R^{2}\to \R$ is a twice-differentiable function of two variables,
+  then the \demph{Hessian matrix} of $f$ is the matrix
+  \begin{equation*}
+    H(x,y) =
+    \begin{bmatrix}
+      f_{xx}(x,y)&f_{xy}(x,y)\\
+      f_{yx}(x,y)&f_{yy}(x,y)
+    \end{bmatrix}.
+  \end{equation*}
+  
+  In this problem, we'll use the following theorem:
+{\footnotesize
+  \begin{tcolorbox}[colframe=black, colback=gray!5, arc=2mm, boxrule=0.8pt,
+    breakable, title=The Second Derivative Test,   coltitle=black,colbacktitle=black!10]
+    Let $f:\R^{2} \to \R$ be a twice-differentiable function of two variables,
+    and let $(a,b)$ be a critical point of $f$. Let $\lambda_{1}$ and $\lambda_{2}$
+    be the eigenvalues of $H(a,b)$. Then:
+    \begin{itemize}
+      \item If $\lambda_{1},\lambda_{2}$ are both positive, then $f$ has a minimum at
+      $(x,y)=(a,b) $.
+      \item If $\lambda_{1},\lambda_{2}$ are both negative, then $f$ has a minimum at
+      $(x,y)=(a,b) $.
+      \item If one of $\lambda_{1},\lambda_{2}$ is negative and the other
+      positive, then  $f$ has a saddle point at $(x,y)=(a,b)$.
+      \item If one or more eigenvalue is zero, then the test is
+      inconclusive.
+    \end{itemize}
+  \end{tcolorbox}}
+  For parts (a) and (b), find the critical points of $f(x,y)$ and classify them
+  using the second derivative test stated here.
+  \begin{enumerate}[(a)]
+    \item Let $f(x,y) = x^{2}+4xy+y^{2}$. 
+    \item Let $f(x,y) = x^{3}-3x+y^{2}-4y$
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}
+  For the following matrices, find the eigenvalues, and find a basis for each
+  eigenspace.
+  \begin{equation*}
+    A=\begin{bmatrix}
+      1&1&0\\0&1&-1\\0&0&-2
+    \end{bmatrix}
+    \quad \text{and} \quad 
+    B=\begin{bmatrix}
+      4&0&0\\1&4&0\\0&1&4
+    \end{bmatrix}
+    % $
+    % \begin{bmatrix}
+    %   5&6&2\\0&-1&-8\\1&0&-2
+    % \end{bmatrix}
+    % $
+  \end{equation*}
+\end{problem}
+
+\begin{problem}
+  Find a basis for the following subspace of $\R^{4}$:
+  \begin{enumerate}[(a)]
+    \item The vectors for which $x_{1} = 2x_{4}$.
+    \item The vectors for which $x_{1}+x_{2}+x_{3}=0$ and $x_{3}+x_{4}=0$.
+    \item The subspace spanned by $
+    \begin{bmatrix}
+      1\\1\\1\\1
+    \end{bmatrix},
+    \begin{bmatrix}
+      1\\2\\3\\4
+    \end{bmatrix},
+    \begin{bmatrix}
+      2\\3\\4\\5
+    \end{bmatrix}
+    $
+  \end{enumerate}
+\end{problem}
+
+
+\begin{problem}
+  Suppose a linear transformation $T$ transforms $(1,1)$ to $(2,2)$ and
+  $(2,0)$ to $(0,0)$. Find $T(v)$ when
+  \begin{enumerate}[(a)]
+    \item $v=(2,2)$
+    \item $v=(3,1)$
+    \item $v=(-1,1)$
+    \item $v=(a,b)$
+  \end{enumerate}
+\end{problem}
+
+
+\end{document}
+
+% Don't write in starlight, 'Cause the words may come out real

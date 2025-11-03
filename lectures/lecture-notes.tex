@@ -68,7 +68,6 @@
                              % colback=white, colframe=black]}
 
 \usepackage{empheq} % for boxed equations
-\usepackage[most]{tcolorbox}
 \newtcbox{\mymath}[1][]{%
   nobeforeafter, math upper, tcbox raise base,
   enhanced, colframe=blue!30!black,
@@ -6617,7 +6616,7 @@ This makes sense because, as we show in the next section, linear
 transformations can be encoded with matrices. 
 
 \subsection{Representing a linear transformation with a matrix}
-
+\label{sec:representing-linear-transformation-with-matrix}
 Let
 $T:V \to W$ be a linear transformation.
 
@@ -8229,18 +8228,313 @@ pick out a basis.)
 \end{example}
 
 \newpage
-\section{2025-10-31}
+\section{2025-11-03 | Week 11 | Lecture 30}
+\begin{center}
+  \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
+    \textit{\textbf{The nexus question of this lecture:} What can we say about
+      two matrices that represent the same linear transformation?}
+  \end{tcolorbox}
+
+  \textit{This lecture draws from G.~Strang's textbook ``Linear
+    Algebra and its Applications''}
+\end{center}
+\subsection{A comparison of two matrices}
+
+Let $T:\R^{2}\to \R^{2}$ be the projection onto the line $y=-x$. We don't need
+a basis to describe this transformation. Even without a matrix, we can observe
+geometric properties of $T$:
+\begin{itemize}
+  \item the dimension of its range is 1, so it has rank 1
+  \item the dimension of its kernel (the line $y=x$) is 1, so the nullity is 1
+  \item it collapses space, so has determinant 0
+  \item it has two eigenvalues: 1 (with eigenvector $\beta_{1}$) and 0 (with
+  eigenvector $\beta_{2}$)
+\end{itemize}
+
+Recall we can always represent a linear transformation $T: V \to V$ in the
+form of a matrix, but this representation depends on a choice of basis for $V$
+(see \cref{sec:representing-linear-transformation-with-matrix}). We'll compare
+two choices of basis, $\alpha = \left\{e_{1},e_{2}\right\} $ and
+$\beta = \left\{\beta_{1},\beta_{1}\right\}$.
+
+\begin{center}
+  \begin{tikzpicture}
+    \begin{axis}[
+      axis equal,
+      xmin=-4, xmax=4,
+      ymin=-4, ymax=4,
+      axis lines=middle,
+      axis line style={<->},
+      ticks=both,
+      xtick={-4.3,-2,0,2,4.3},
+      ytick={-4.3,-2,2,4.3},
+      xticklabels=\empty,
+      yticklabels=\empty,
+      every axis x label/.style={at={(current axis.right of origin)}, anchor=west},
+      every axis y label/.style={at={(current axis.above origin)}, anchor=south},
+      xlabel={$x$},
+      ylabel={$y$},
+      clip=false
+      ]
+      % the line y = -x
+      \addplot[domain=-4:4, samples=2, thick] ({x},{-x});%
+      % standard basis
+      \addplot[very thick,->,red] coordinates {(0,0) (2,0)} node[pos=1, above] {$ e_{1}$};%
+      \addplot[very thick,->,red]  coordinates {(0,0) (0,2)} node[pos=1, right] {$ e_{2}$};%
+      % eigenvalue basis
+      \addplot[very thick,->,blue] coordinates {(0,0) (2,-2)} node[pos=1, above] {$ \beta_{1}$};%
+      \addplot[very thick,->,blue]  coordinates {(0,0) (2,2)} node[pos=.9, right] {$ \beta_{2}$};%
+      % label in the top-right corner of the plot area
+      \node[anchor=north west] at (axis description cs:0.12,1.05) {$y=-x$};%
+      % example points under the projection
+      \addplot[dashed, gray, thick, -{Stealth[length=3pt,width=4pt]}] coordinates {(-1,3) (-2,2)};%
+      \fill[gray] (axis cs:-1,3) circle (1.5pt); % thick gray dot at the source
+      % example points under the projection
+      \addplot[dashed, gray, thick, -{Stealth[length=3pt,width=4pt]}] coordinates {(-2.5,.3) (-1.4,1.4)};%
+      \fill[gray] (axis cs:-2.5,.3) circle (1.5pt); % thick gray dot at the source
+      % example points under the projection
+      \addplot[dashed, gray, thick, -{Stealth[length=3pt,width=4pt]}] coordinates {(4,-3) (3.5,-3.5)};%
+      \fill[gray] (axis cs:4,-3) circle (1.5pt); % thick gray dot at the source
+    \end{axis}
+  \end{tikzpicture}
+\end{center}
+
+
+\begin{itemize}
+  \item \textbf{The matrix $[T]_{\beta}^{\beta}$.} Note that $\beta_{1}$ and
+  $\beta_{2}$ are eigenvectors of $T$. They are linearly independent and
+  therefore form a basis (this doesn't always happen, but when it does,
+  eigenvectors are the best basis). Using the notation $
+  \begin{bmatrix}
+    a\\b
+  \end{bmatrix}_{\beta} = a\beta_{1}+b\beta_{2},$ observe from the figure that
+  \begin{equation*}
+    T(\beta_{1}) = \beta_{1} =
+    \begin{bmatrix}
+      1\\0
+    \end{bmatrix}_{\beta}
+    \quad \text{and} \quad
+    T(\beta_{2})=0=
+    \begin{bmatrix}
+      0\\0
+    \end{bmatrix}_{\beta}.
+  \end{equation*}
+  Hence
+  \newcommand*{\vertbar}{\rule[-1ex]{0.5pt}{2.5ex}}
+  \begin{equation*}
+    [T]_{\beta}^{\beta} =
+    \begin{bmatrix}
+      \begin{array}{cc}
+        \vertbar        & \vertbar  \\
+        T(\beta_{1})    & T(\beta_{2})     \\
+        \vertbar        & \vertbar 
+      \end{array}
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      1&0\\
+      0&0
+    \end{bmatrix}.    
+  \end{equation*}
+  This is the matrix of $T$ with respect to the basis $\beta$. The first
+  column come from the first basis vector (projected onto itself). The second
+  colunn comes from the basis vector that is projected to zero.
+
+  
+  \item \textbf{The matrix $[T]_{\alpha}^{\alpha}$.} We'll compute this matrix
+  using a change-of-basis matrix.
+
+  Let $P$ be the change-of-basis matrix from $\alpha$ to $\beta$. To compute
+  $P$, write $\beta_{1},\beta_{2}$ in terms of $\alpha_{1},\alpha_{2}$:
+  \begin{equation*}
+    \beta_{1} = e_{1}-e_{2} =
+    \begin{bmatrix}
+      1\\-1
+    \end{bmatrix}_{\alpha}
+    \quad \text{and} \quad 
+    \beta_{2}= e_{1}+e_{2} =
+    \begin{bmatrix}
+      1\\1
+    \end{bmatrix}_{\alpha}
+  \end{equation*}
+  Therefore the change of basis matrix from $\alpha$ to $\beta$ is
+  \begin{equation*}
+    P = 
+    \begin{bmatrix}
+      1&1\\
+      -1&1
+    \end{bmatrix}
+  \end{equation*}
+  This matrix has inverse
+  \begin{equation*}
+    P^{-1} =
+    \begin{bmatrix}
+      \frac{1}{2}&-\frac{1}{2}\\
+      \frac{1}{2}&\frac{1}{2}
+    \end{bmatrix}.
+  \end{equation*}
+
+  Now we compute $[T]_{\alpha}^{\alpha}$. By \cref{thm:change-of-basis-II},
+  \begin{equation}\label{eq:10}
+    [T]_{\beta}^{\beta} = P^{-1}[T]_{\alpha}^{\alpha}P,
+  \end{equation}
+  which implies 
+  \begin{equation*}
+    [T]_{\alpha}^{\alpha} = P[T]_{\alpha}^{\alpha}P^{-1}.
+  \end{equation*}
+  Therefore
+  \begin{align*}
+    [T]_{\alpha}^{\alpha} 
+    &= 
+      \begin{bmatrix}
+        1&1\\-1&1
+      \end{bmatrix}
+                \begin{bmatrix}
+                  1&0\\
+                  0&0
+                \end{bmatrix}
+                     \begin{bmatrix}
+                       \frac{1}{2}&-\frac{1}{2}\\
+                       \frac{1}{2}&\frac{1}{2}
+                     \end{bmatrix} \\
+    &= 
+      \begin{bmatrix}
+        \frac{1}{2}&-\frac{1}{2}\\
+        -\frac{1}{2}&\frac{1}{2}
+      \end{bmatrix}.
+  \end{align*}
+\end{itemize}
+
+\fl{Conclusion:} the matrices
+\begin{equation*}
+  [T]_{\alpha}^{\alpha} = \begin{bmatrix}
+    \frac{1}{2}&-\frac{1}{2}\\
+    -\frac{1}{2}&\frac{1}{2}
+  \end{bmatrix}
+  \quad \text{and} \quad 
+  [T]_{\beta}^{\beta} =
+  \begin{bmatrix}
+    1&0\\0&0
+  \end{bmatrix}
+\end{equation*}
+both represent the same linear transformation $T$ (a projection), but with
+different choice of bases. The linear transformation $T$ has many geometric
+properties which don't depend on the choice of basis:
+\begin{itemize}[noitemsep]
+  \item the dimension of its range (the `rank')
+  \item the dimension of its kernel (the `nullity')
+  \item the determinant
+  \item its eigenvalues
+\end{itemize}
+These properties don't hinge on how we choose to represent $T$ as a matrix.
+Therefore although the matrices $[T]_{\alpha}^{\alpha}$ and
+$[T]_{\beta}^{\beta}$ are different, they share the same rank, determinant,
+nullity, etc.
+
+These two matrices are an example of \textit{similar matrices}, which we
+define now:
+
+\begin{definition}[Similar]
+  \label{def:similar}
+  Let $A,B\in \mathcal{M}_{n\times n}$. We say that $B$ is \demph{similar} to
+  $A$ if there exists an invertible matrix $P$ such that
+  \begin{equation}\label{eq:similarity-relation}
+    B = P^{-1}AP.
+  \end{equation}
+\end{definition}
+% Let $T :\R^{n} \to \R^{n}$ be a linear transformation, and let
+% $\alpha,\beta$ be two different bases of $T$. Supose that
+% $A=[T]_{\alpha}^{\alpha}$ and $B=[T]_{\beta}^{\beta}$.
+% What can we say about $A$ and $B$?
+
+\fl{Question} What does it \textit{mean} for two matrices to be similar?
+
+\Fl{Answer:} It means that they represent the same linear transformation with
+respect to different bases. This is because the formula
+\cref{eq:similarity-relation} is the change-of-basis formula from
+\cref{thm:change-of-basis-II} (like we used in \cref{eq:10}).
+
+To be precise, if
+$A,B\in \mathcal{M}_{n\times n}(\R)$ are similar, then there is a linear
+transformation $T:\R^{n}\to \R^{n}$ such that
+\begin{equation*}
+  A=[T]_{\alpha}^{\alpha} \quad \text{and} \quad B = [T]_{\beta}^{\beta}
+\end{equation*}
+for some choice of bases $\alpha$ and $\beta$ of $\R^{n}$. Since quantities
+like rank, nullity, determinant, trace, and eigenvalues all represent
+geometric properties inherent to the linear transformation $T$, and since $A$
+and $B$ are merely different representations of this transformation, the
+following theorem holds:
+
+\begin{theorem}
+  If $A$ and $B$ are similar, then they have the same rank, nullity,
+  determinant, trace, eigenvalues, and characteristic polynomial.
+\end{theorem}
+
+
+
+
+\newpage
+\section{2025-11-05 | Week 11 | Lecture 31}
+\subsection{Diagonalizability}
+
+
+\Fl{A proof that similar matrices $A,B$ have the same characteristic
+  polynomial}
+
+First, recall that for any square matrices $U,V$, it holds that $\det(UV)=\det(U)\det(V)$ and that $\det(U^{-1}) =
+\frac{1}{\det(U)}$. Suppose that $A,B$ are similar. Using these properties, we have:
+\begin{align*}
+  \det(B-\lambda I ) 
+  &= \det \left( P^{-1}AP-\lambda P^{-1}P \right)\\ 
+  &= \det \left( P^{-1} \left( A -\lambda I\right)P  \right)\\ 
+  &= \det \left(P^{-1}  \right) \det \left( A- \lambda I \right) \det \left( P \right)\\   
+  &= \det \left(  A-\lambda I \right).
+\end{align*}
+Therefore $A, B$ have the same characteristic polynomial. Since the
+eigenvalues are the roots of this polynomial, $A,B$ have the same eigenvalues.
+Taking $\lambda=0$ implies
+\begin{equation*}
+  \det(B) = \det(A)
+\end{equation*}
+
+
+\begin{definition}[Similar]
+  \label{def:similar}
+  Let $A,B\in \mathcal{M}_{n\times n}$. We say that $B$ is \demph{similar} to
+  $A$ if there exists an invertible matrix $P$ such that
+  \begin{equation*}
+    B = P^{-1}AP.
+  \end{equation*}
+\end{definition}
+
+
+
+\begin{definition}[Diagonalizable]
+  \label{def:diagonalizable}
+  A square matrix is \demph{diagonalizable} if it is similar to a diagonal
+  matrix. (Sometimes abbreviated as ``diagnable'').
+\end{definition}
+
+
+
+\begin{definition}
+  Given a matrix $A$ with eigenvalue $\lambda$, the \demph{eigenspace} of
+  $\lambda$ is the subspace $NS(\lambda I-A)$. (This contains all eigenvectors
+  for $\lambda$ plus the zero vector).
+\end{definition}
 
 \begin{example}[Eigenvalues and eigenvectors of a rotation]
-  Find the eigenvalues and eigenvectors of
+  \label{ex:eigenvalues-and-eigenvectors-rotation}
+  Find the eigenvalues and basis for the eigenspaces of
   \begin{equation*}
     A=
     \begin{bmatrix}
       1&-1\\1&1
     \end{bmatrix}
   \end{equation*}
-  This is a rotation by $45^{\circ}$ composed with a scaling by $\sqrt{2}$.
-  That is, $A=\sqrt{2}R_{45^{\circ}}$.
+  This is a counterclockwise rotation by $45^{\circ}$ composed with a scaling
+  by $\sqrt{2}$. That is, $A=\sqrt{2}R_{45^{\circ}}$.
   
   \Fl{Solution:} The characteristic equation is
   \begin{equation*}
@@ -8255,41 +8549,194 @@ pick out a basis.)
     \lambda=1\pm i
   \end{equation*}
   \begin{itemize}
-    \item For $\lambda=1+i$, solve  $((1+i)I-A)X=0$. This has solution
+    \item For $\lambda=1+i$, we want to find $NS((1+i)I-A)$.
+
+
+    First observe that $(1+i)I-A =
+    \begin{bmatrix}
+      1+i&0\\
+      0&1+i
+    \end{bmatrix}
+    -
+    \begin{bmatrix}
+      1&-1\\
+      1&1
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      i&1\\
+      -1&i
+    \end{bmatrix}.
+    $
+    We wish to solve
     \begin{equation*}
+      \begin{bmatrix}
+        i&1\\
+        -1&i
+      \end{bmatrix}
       \begin{bmatrix}
         x\\y
       \end{bmatrix}
       =
       \begin{bmatrix}
-        iy\\y
+        0\\0
       \end{bmatrix}
-      =
-      \begin{bmatrix}
-        i\\1
-      \end{bmatrix}y
     \end{equation*}
-    where $y$ is any complex number. A basis for this is
+    Next, set up and row reduce the augmented matrix:
     \begin{equation*}
-      \begin{bmatrix}
-        i\\1
-      \end{bmatrix}.
+      \begin{augmentedmatrix}{cc|c}
+        i&1&0\\
+        -1&i&0
+      \end{augmentedmatrix}
+      \overset{R_{2}-iR_{1}\to R_{1}}{\longrightarrow}
+      \begin{augmentedmatrix}{cc|c}
+        i&1&0\\
+        0&0&0
+      \end{augmentedmatrix}
+      \overset{(-i)R_{1}\to R_{1}}{\longrightarrow}
+      \begin{augmentedmatrix}{cc|c}
+        1&-i&0\\
+        0&0&0
+      \end{augmentedmatrix}
     \end{equation*}
-    This is the eigenvector
-    \item For $\lambda=1-i$, similar calculation gives an eigenvector
+    This corresponds to the system
+    \begin{equation*}
+      \left\{ \begin{array}{l@{}l} x-iy=0 \\ 0=0 \end{array}\right.
+    \end{equation*}
+    Hence $x=iy$ and $y$ is a free variable.
+
+    Therefore 
+    \begin{equation*}
+      NS((1+i)I-A)= \left\{
+        \begin{bmatrix}
+          iy\\y
+        \end{bmatrix}
+        : y\in \C
+      \right\}
+      = \left\{
+        y\begin{bmatrix}
+          i\\1
+        \end{bmatrix}: y\in \C
+      \right\} 
+    \end{equation*}
+    In words, $ NS((1+i)I-A)$ is spanned by the vector $
+    \begin{bmatrix}
+      i\\1
+    \end{bmatrix}$.
+    This is a basis for the eigenspace of $\lambda=1+i$. 
+    
+    \item For $\lambda=1-i$, similar calculation shows that the eigenspace
+    $NS((1-i)I-A)$ is spanned by the eigenvector
     \begin{equation*}
       \begin{bmatrix}
         -i\\1
-      \end{bmatrix}
+      \end{bmatrix}.
     \end{equation*}
   \end{itemize}
-  
 \end{example}
 
+\cref{ex:eigenvalues-and-eigenvectors-rotation} illustrates the following theorem
+\begin{theorem}
+  If $\lambda=a+bi$ is an eigenvalue of $A$, then $\bar{\lambda}=a-bi$ is also
+  an eigenvalue. Moreover, if $v_{1},\ldots,v_{k}$ form a basis for the
+  eigenspace of $\lambda$, then $\bar{v}_{1},\ldots,\bar{v}_{k}$ form a basis
+  for the eigenspace of $\bar{\lambda}$
+\end{theorem}
+
+\begin{example}
+  \label{ex:diagonalization-first-example}
+  Let
+  \begin{equation*}
+    A=
+    \begin{bmatrix}
+      1&-1\\
+      1&1
+    \end{bmatrix}
+  \end{equation*}
+  This is the rotation from \cref{ex:eigenvalues-and-eigenvectors-rotation}. I
+  claim that A is diagonalizable, and that it is similar to
+  \begin{equation*}
+    B=\begin{bmatrix}
+      1+i&0\\
+      0&1-i
+    \end{bmatrix}.
+  \end{equation*}
+  To see why this claim is true, let
+  \begin{equation*}
+    P =
+    \begin{bmatrix}
+      i&-i\\
+      1&1
+    \end{bmatrix}
+    \quad \text{so that} \quad
+    P^{-1}=
+    \frac{1}{2i}
+    \begin{bmatrix}
+      1&i\\
+      -1&i
+    \end{bmatrix}.
+  \end{equation*}
+  Then observe that
+  \begin{equation*}
+    P^{-1}AP = \ldots = B.
+  \end{equation*}
+  In this calculation, we used the fact that $\frac{1}{i} = -i$ (which holds
+  because $(-i)i=1$).
+\end{example}
+
+\begin{remark} Two observations:
+  \begin{itemize}
+    \item The diagonal entries of $B$ are the eigenvalues of $A$.
+    \item The eigenvectors of $A$  are $
+    \begin{bmatrix}
+      i\\1
+    \end{bmatrix}
+    $ and
+    $
+    \begin{bmatrix}
+      -i\\1
+    \end{bmatrix}
+    $, as shown in \cref{ex:eigenvalues-and-eigenvectors-rotation}. These are
+    the columns of the diagonalizing matrix
+    $P =
+    \begin{bmatrix}
+      i&-i\\
+      1&1
+    \end{bmatrix}.$
+  \end{itemize}
+\end{remark}
+
+
+\begin{theorem}
+  A matrix $A\in \mathcal{M}_{n\times n} $ is diagonalizable if and only if
+  there is a basis for $\R^{n}$ consisting of eigenvectors of $A$.
+\end{theorem}
+
+\newpage
+\section{Properties of Eigenvalues}
+
+\begin{theorem}[Theorem]
+  Let $A$ be an $n\times n$ matrix, and let $\lambda_{1},\ldots,\lambda_{n}$
+  be the eigenvalues of $A$ (possibly with repetitions). Then
+  \begin{equation*}
+    \det(A) = \lambda_{1}\lambda_{2}\ldots\lambda_{n}
+  \end{equation*}
+\end{theorem}
+\begin{proof}
+  We know that the eigenvalues of $A$ are the roots of the characteristic
+  polynomial $\det(A-\lambda I)$. Therefore, we can factor this polynomial as
+  \begin{equation*}
+    \det(A-\lambda I) = (\lambda_{1}-\lambda)(\lambda_{2}-\lambda)\cdots (\lambda_{n}-\lambda)
+  \end{equation*}
+  Choosing $\lambda=0$ gives
+  \begin{equation*}
+    \det(A) = \lambda_{1}\lambda_{2}\cdots \lambda_{n}.
+  \end{equation*}
+\end{proof}
 
 
 
-\subsection{Another example}
+\section{Another example}
 
 \begin{example}[Differentiation of polynomials]
   Consider $P_{3}= \left\{p\in \R[x]: \deg (p) \leq 3\right\} $. 

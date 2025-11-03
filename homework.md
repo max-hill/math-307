@@ -17,5 +17,6 @@ My office hours are 12:30-1:30 on Mondays and Fridays. My office is PSB 304. You
  2025-10-15  | [homework-06](homework/homework-06/homework-06.pdf)      | Linear independence and bases 
  2025-10-22  | [homework-07](homework/homework-07/homework-07.pdf)      | Computing bases for subspaces, linear transformation
  2025-10-31  | [homework-08](homework/homework-08/homework-08.pdf)      | Change of bases, subspaces, geometry of linear transformations
+ 2025-11-12  | [homework-09](homework/homework-09/homework-09.pdf)      | Eigenvalues/eigenvectors, similarity, linear transformations
  
 
