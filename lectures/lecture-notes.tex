@@ -3053,6 +3053,7 @@ obvious. Why is it obvious?
 The next theorem says that the determinant ``preserves multiplication''.
 
 \begin{theorem}[The determinant preserves multiplication]
+  \label{thm:determinant-preserves-multiplication-1}
   If $A$ and $B$ are $n\times n$ matrices, then
   \begin{equation*}
     \det(AB) = \det(A)\det(B).
@@ -3132,7 +3133,8 @@ transformations which include some sort of reflection) are used.
 
 One consequence of \cref{thm:determinant-preserves-multiplication} is the
 following relationship:
-\begin{theorem}
+\begin{theorem}[Determinant of an inverse]
+  \label{thm:inverse-determinant}
   If $A$ is invertible, then
   \begin{equation*}
     \det(A^{-1})=\frac{1}{\det(A)}
@@ -7879,7 +7881,7 @@ change.
 \subsection{Eigenvalues}
 
 
-\begin{definition}[Eigenvalue,eigenvector]
+\begin{definition}[Eigenvalue, eigenvector]
   \label{def:eigenvalue-eigenvector}
   If $A$ is an $n\times n$ matrix, an \demph{eigenvector} of $A$ is a nonzero
   column vector $v$ such that
@@ -7964,6 +7966,7 @@ conclude that the matrix $\lambda I - A$ is singular, and hence by the key
 theorem, $\det(\lambda I -A)=0$. 
 
 \begin{theorem}
+  \label{thm:roots-of-characteristic-polynomial-are-eigenvalues}
   Let $A$ be an $n\times n$ matrix. Then $\lambda\in \C$ is an eigenvalue of
   $A$ if and only if $\det(\lambda I-A)=0$.
 \end{theorem}
@@ -8099,6 +8102,8 @@ to just compute the basis of the eigenspace.
     \det(\lambda I-A).
   \end{equation*}
 \end{definition}
+
+Recall \cref{thm:roots-of-characteristic-polynomial-are-eigenvalues}:
 
 \begin{theorem}
   Let $A$ be an $n\times n$ matrix. Then $\lambda\in \C$ is an eigenvalue of
@@ -8264,15 +8269,11 @@ pick out a basis.)
         % the line y = -x
         \addplot[domain=-4:4, samples=2, thick] ({x},{-x});%
         % standard basis
-        \addplot[very thick,->,red] coordinates {(0,0) (2,0)} node[pos=1,
-        above] {$ e_{1}$};%
-        \addplot[very thick,->,red] coordinates {(0,0) (0,2)} node[pos=1,
-        right] {$ e_{2}$};%
+        \addplot[very thick,->,red] coordinates {(0,0) (2,0)} node[pos=1, above] {$ e_{1}$};%
+        \addplot[very thick,->,red] coordinates {(0,0) (0,2)} node[pos=1, right] {$ e_{2}$};%
         % eigenvalue basis
-        \addplot[very thick,->,blue] coordinates {(0,0) (2,-2)} node[pos=1,
-        above] {$ \beta_{1}$};%
-        \addplot[very thick,->,blue] coordinates {(0,0) (2,2)} node[pos=.9,
-        right] {$ \beta_{2}$};%
+        \addplot[very thick,->,blue] coordinates {(0,0) (2,-2)} node[pos=1, above] {$ \beta_{1}$};%
+        \addplot[very thick,->,blue] coordinates {(0,0) (2,2)} node[pos=.9, right] {$ \beta_{2}$};%
         % label in the top-right corner of the plot area
         \node[anchor=north west] at (axis description cs:0.12,1.05) {$y=-x$};%
         % example points under the projection
@@ -8470,47 +8471,149 @@ following theorem holds:
 
 \newpage
 \section{2025-11-05 | Week 11 | Lecture 31}
-\subsection{Diagonalizability}
+\begin{center}
+  \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
+    \textit{\textbf{The nexus question of this lecture:} When is a matrix
+      similar to a diagonal matrix?}
+  \end{tcolorbox}
+\end{center}
 
+Recall that two square matrices $A,B$ are \demph{similar} if $B = P^{-1}AP$
+for some invertible matrix $P$.
+\vspace{-.4em}
+\subsection{Prism Analogy}
 
-\Fl{A proof that similar matrices $A,B$ have the same characteristic
-  polynomial}
+The following analogy goes back to David Hlbert (early 1900s) and Wilhelm
+Wirtinger (1897). White light consists of a mixture of wavelengths. These can
+be seen clearly by passing the light through a prism that separates those
+wavelengths into a \textit{spectrum of colors}:
 
-First, recall that for any square matrices $U,V$, it holds that $\det(UV)=\det(U)\det(V)$ and that $\det(U^{-1}) =
-\frac{1}{\det(U)}$. Suppose that $A,B$ are similar. Using these properties, we have:
-\begin{align*}
-  \det(B-\lambda I ) 
-  &= \det \left( P^{-1}AP-\lambda P^{-1}P \right)\\ 
-  &= \det \left( P^{-1} \left( A -\lambda I\right)P  \right)\\ 
-  &= \det \left(P^{-1}  \right) \det \left( A- \lambda I \right) \det \left( P \right)\\   
-  &= \det \left(  A-\lambda I \right).
-\end{align*}
-Therefore $A, B$ have the same characteristic polynomial. Since the
-eigenvalues are the roots of this polynomial, $A,B$ have the same eigenvalues.
-Taking $\lambda=0$ implies
+\begin{center}
+  \includegraphics[scale=.13]{images/prism-wiki}
+
+  \textit{{\footnotesize Source:  \url{https://en.wikipedia.org/wiki/Prism_(optics)}}}
+\end{center}
+The same can be done with matrices. For a matrix, the \demph{spectrum} is the
+list of eigenvalues.
+
+\begin{example}[First diagonalization]
+  \label{ex:first-diagonalization}
+  Consider the diagonal matrix
 \begin{equation*}
-  \det(B) = \det(A)
+  D =
+  \begin{bmatrix}
+    4&0\\
+    0&-1
+  \end{bmatrix}
+\end{equation*}
+This matrix has two pure colors: $4$ and $-1$, which are the eigenvalues. The
+linear transformation does exactly two things: it stretches space by a factor
+of $4$ in the $x$-direction (since it sends $e_{1}$ to $4e_{1}$) and it
+reflects space across the $y$-axis (since it sends $e_{2}$ to $-e_{2}$).
+
+Now consider the matrix
+\begin{equation*}
+  A=
+  \begin{bmatrix}
+    1&-3\\
+    -2&2
+  \end{bmatrix}
+\end{equation*}
+It's harder to see what the linear transformation of $A$ does; it's like
+complicated white light consisting of several wavelengths that are hard to
+separate. We need a prism, and for that we'll choose $P =
+\begin{bmatrix}
+  -1& \frac{3}{2}\\
+  1&1
+\end{bmatrix}
+$. Now, one can check that
+\begin{equation*}
+  \underbrace{
+    \begin{bmatrix}
+    -\frac{2}{5}& \frac{3}{5}\\
+    \frac{2}{5}& \frac{2}{5}
+  \end{bmatrix}}_{P^{-1}}
+  \underbrace{\begin{bmatrix}
+      1&-3\\
+      -2&2
+    \end{bmatrix}}_{A}
+  \underbrace{\begin{bmatrix}
+    -1& \frac{3}{2}\\
+    1&1
+  \end{bmatrix}}_{P}
+  =
+  \underbrace{\begin{bmatrix}
+      4&0\\
+      0&-1
+    \end{bmatrix}}_{D}.
+\end{equation*}
+We have passed the matrix $A$ through a prism. Immediately, we can see from
+this that the eigenvalues of $A$ are $4$ and $-1$ (since $A$ and $D$ are
+similar). We now see the spectrum of $A$.
+
+\textbf{Where did $P$ come from?} The columns of $P$ are eigenvectors of $A$:
+\begin{equation*}
+  V_{1}=
+  \begin{bmatrix}
+    -1\\1
+  \end{bmatrix}
+  \quad \text{and} \quad
+  V_{2}=
+  \begin{bmatrix}
+    \frac{3}{2}\\1
+  \end{bmatrix}.
 \end{equation*}
 
 
-\begin{definition}[Similar]
-  \label{def:similar}
-  Let $A,B\in \mathcal{M}_{n\times n}$. We say that $B$ is \demph{similar} to
-  $A$ if there exists an invertible matrix $P$ such that
-  \begin{equation*}
-    B = P^{-1}AP.
-  \end{equation*}
-\end{definition}
+\textbf{Interpreting $A$ through the prism.} In addition to knowing the
+eigenvalues of $A$, we can now more easily see how it transforms space. Let
+$T$ be the linear transformation of $A$, and let
+$\beta=\left\{V_{1},V_{2}\right\}$. $P$ is the change-of-basis matrix from the
+standard basis $\left\{e_{1},e_{2}\right\}$ to $\beta$. Since $D = P^{-1}AP$,
+we have shown that
+\begin{equation*}
+  [T]_{\beta}^{\beta} =
+  \begin{bmatrix}
+    4&0\\
+    0&-1
+  \end{bmatrix}.
+\end{equation*}
+We can interpret this as follows: $T$ stretches space in the direction of
+$V_{1}$ by a factor of $4$ and flips space so that $V_{2}$ points in the
+opposite direction.
+\end{example}
 
 
+\subsection{Diagonalizability}
 
 \begin{definition}[Diagonalizable]
   \label{def:diagonalizable}
   A square matrix is \demph{diagonalizable} if it is similar to a diagonal
-  matrix. (Sometimes abbreviated as ``diagnable'').
+  matrix.
 \end{definition}
 
 
+In \cref{ex:diagonalization-first-example},, we were able to form an
+invertible matrix $P$ whose columns consisted of eigenvectors of $A$. The
+eigenvectors formed an \demph{eigenbasis}, or a basis consisting of
+eigenvectors. When this occurs, something special happens: $P^{-1}AP$ becomes
+a diagonal matrix.
+
+
+\begin{theorem}
+  A matrix $A\in \mathcal{M}_{n\times n} $ is diagonalizable if and only if
+  there is a basis for $\R^{n}$ consisting of eigenvectors of $A$.
+\end{theorem}
+
+This theorem answers the question of the lecture. (In fact, we could say a lot
+more. For example, every symmetric matrix $A\in \mathcal{M}_{n\times n}(\R)$
+is diagonalizable.)
+
+
+\newpage
+\section{2025-11-07 | Week 11 | Lecture 32}
+\subsection{Another diagonalization example}
+Let's also give a name to something we've been computing:
 
 \begin{definition}
   Given a matrix $A$ with eigenvalue $\lambda$, the \demph{eigenspace} of
@@ -8671,9 +8774,46 @@ Taking $\lambda=0$ implies
     \end{bmatrix}.
   \end{equation*}
   Then observe that
-  \begin{equation*}
-    P^{-1}AP = \ldots = B.
-  \end{equation*}
+  \begin{align*}
+    P^{-1}AP 
+    &=\left(
+      \frac{1}{2i}
+      \begin{bmatrix}
+        1&i\\
+        -1&i
+      \end{bmatrix}
+            \right)
+            \begin{bmatrix}
+              1&-1\\
+              1&1
+            \end{bmatrix}
+                 \begin{bmatrix}
+                   i&-i\\
+                   1&1
+                 \end{bmatrix}\\
+    &=\left(
+      \frac{1}{2i}
+      \begin{bmatrix}
+        1&i\\
+        -1&i
+      \end{bmatrix}
+            \right)
+            \begin{bmatrix}
+              i-1&-i-1\\
+              i+1&-i+1
+            \end{bmatrix}\\
+    &=\frac{1}{2i}
+      \begin{bmatrix}
+        2i-2&0\\
+        0&2i+2
+      \end{bmatrix}\\
+    &=
+      \begin{bmatrix}
+        1-\frac{1}{i}&0\\
+        0&1+\frac{1}{i}
+      \end{bmatrix}\\
+   &=B. &&\text{since $\frac{1}{i}=-i$.}
+  \end{align*}
   In this calculation, we used the fact that $\frac{1}{i} = -i$ (which holds
   because $(-i)i=1$).
 \end{example}
@@ -8690,9 +8830,8 @@ Taking $\lambda=0$ implies
     \begin{bmatrix}
       -i\\1
     \end{bmatrix}
-    $, as shown in \cref{ex:eigenvalues-and-eigenvectors-rotation}. These are
-    the columns of the diagonalizing matrix
-    $P =
+    $. We showed this in \cref{ex:eigenvalues-and-eigenvectors-rotation}.
+    These are the columns of the diagonalizing matrix $P =
     \begin{bmatrix}
       i&-i\\
       1&1
@@ -8701,32 +8840,90 @@ Taking $\lambda=0$ implies
 \end{remark}
 
 
-\begin{theorem}
-  A matrix $A\in \mathcal{M}_{n\times n} $ is diagonalizable if and only if
-  there is a basis for $\R^{n}$ consisting of eigenvectors of $A$.
-\end{theorem}
-
-\newpage
-\section{Properties of Eigenvalues}
-
-\begin{theorem}[Theorem]
+\subsection{Properties of eigenvalues}
+\begin{theorem}[The determinant is the product of eigenvalues]
+  \label{thm:determinant-product-eigenvalues}
   Let $A$ be an $n\times n$ matrix, and let $\lambda_{1},\ldots,\lambda_{n}$
   be the eigenvalues of $A$ (possibly with repetitions). Then
   \begin{equation*}
-    \det(A) = \lambda_{1}\lambda_{2}\ldots\lambda_{n}
+    \det(A) = \lambda_{1}\lambda_{2}\ldots\lambda_{n}.
   \end{equation*}
 \end{theorem}
 \begin{proof}
-  We know that the eigenvalues of $A$ are the roots of the characteristic
-  polynomial $\det(A-\lambda I)$. Therefore, we can factor this polynomial as
+  Let $A$ be an $n\times n$ matrix. Then $\det(A-\lambda I)$ is a polynomial
+  of degree $n$ in the variable $\lambda$. The eigenvalues
+  $\lambda_{1},\ldots,\lambda_{n}$ of $A$ are the roots of this polynomial.
+  Therefore by the fundamental theorem of algebra, we can write
   \begin{equation*}
     \det(A-\lambda I) = (\lambda_{1}-\lambda)(\lambda_{2}-\lambda)\cdots (\lambda_{n}-\lambda)
   \end{equation*}
-  Choosing $\lambda=0$ gives
+  Taking $\lambda=0$ implies $\det(A) = \lambda_{1}\lambda_{2}\cdots \lambda_{n}.$
+\end{proof}
+
+\begin{theorem}[Eigenvalues of a triangular matrix]
+  \label{thm:eigenvalues-triangular-matrix}
+  Let $A=(a_{ij})$ be a triangular matrix. The eigenvalues of $A$ are the
+  entries of its main diagonal ($a_{11},a_{22},\ldots,a_{nn}$).
+\end{theorem}
+\begin{proof}
+  Since $A$ is triangular, so is $\lambda I-A$. Moreover, the main diagonal
+  entries of $\lambda I-A$ are
+  $\lambda-a_{11},\lambda-a_{22},\ldots, \lambda-a_{nn}$. Therefore by
+  \cref{thm:determinants-triangular-matrices},
   \begin{equation*}
-    \det(A) = \lambda_{1}\lambda_{2}\cdots \lambda_{n}.
+    \det(\lambda I -A) = (\lambda-a_{11})(\lambda-a_{22})\cdots (\lambda - a_{nn})
+  \end{equation*}
+  The roots of this polynomial are precisely $a_{11},\ldots,a_{nn}$. Therefore
+  these are the eigenvalues by
+  \cref{thm:roots-of-characteristic-polynomial-are-eigenvalues}. 
+\end{proof}
+
+\begin{example}
+  Consider the matrix $A=
+  \begin{bmatrix}
+    7&4&2\\
+    0&7&1\\
+    0&0&5\\
+  \end{bmatrix}
+  $. By \cref{thm:eigenvalues-triangular-matrix}, the eigenvalues are
+  \begin{equation*}
+    \lambda_{1}=7,\quad \lambda_{2}=7, \quad \text{and} \quad \lambda_{3}=5.
+  \end{equation*}
+  (Here, $7$ is an eigenvalue of \demph{multiplicity} 2). By
+  \cref{thm:determinant-product-eigenvalues},
+  $\det(A) = 7\cdot 7\cdot 5 = 2459.$
+\end{example}
+
+
+\begin{theorem}
+  Similar matrices $A,B$ have the same characteristic polynomial, and hence
+  the same eigenvalues and determinant.
+\end{theorem}
+\begin{proof}
+  First, recall by
+  \cref{thm:determinant-preserves-multiplication-1,thm:inverse-determinant}
+  that for any square matrices $U,V$, it holds that $\det(UV)=\det(U)\det(V)$
+  and that $\det(U^{-1}) = \frac{1}{\det(U)}$. Suppose that $A,B$ are similar.
+  Using these properties, we have:
+  \begin{align*}
+    \det(B-\lambda I ) 
+    &= \det \left( P^{-1}AP-\lambda P^{-1}P \right)\\ 
+    &= \det \left( P^{-1} \left( A -\lambda I\right)P  \right)\\ 
+    &= \det \left(P^{-1}  \right) \det \left( A- \lambda I \right) \det \left( P \right)\\   
+    &= \det \left(  A-\lambda I \right).
+  \end{align*}
+  Therefore $A, B$ have the same characteristic polynomial. Since the
+  eigenvalues are the roots of this polynomial, $A,B$ have the same
+  eigenvalues. Taking $\lambda=0$ implies
+  \begin{equation*}
+    \det(B) = \det(A)
   \end{equation*}
 \end{proof}
+
+
+\newpage
+\section{Connection to eigenvalues}
+
 
 
 
