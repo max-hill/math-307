@@ -8612,14 +8612,141 @@ is diagonalizable.)
 
 \newpage
 \section{2025-11-07 | Week 11 | Lecture 32}
-\subsection{Another diagonalization example}
-Let's also give a name to something we've been computing:
 
 \begin{definition}
   Given a matrix $A$ with eigenvalue $\lambda$, the \demph{eigenspace} of
-  $\lambda$ is the subspace $NS(\lambda I-A)$. (This contains all eigenvectors
-  for $\lambda$ plus the zero vector).
+  $\lambda$ is the subspace $NS(\lambda I-A)$. We denote this by
+  $E_{\lambda}$. (Note: $E_{\lambda}$ is the subspace spanned by the
+  eigenvectors corresponding to $\lambda$. It consists of all eigenvectors for
+  $\lambda$ plus the zero vector).
 \end{definition}
+
+
+\begin{theorem}[Eigenspace dimension criterion]
+  Suppose $A$ is an $n\times n$ matrix with distinct eigenvalues
+  $r_{1},\ldots,r_{k}$. Let $E_{r}$ be the eigenspace of $r$. Then $A$ is
+  diagonalizable if and only if
+  \begin{equation*}
+    \dim(E_{r_{1}}) + \dim(E_{r_{2}})+\ldots+\dim(E_{r_{k}}) = n.
+  \end{equation*}
+\end{theorem}
+
+
+\begin{example}[Example 2 in section 5.4]
+  Let $A =
+  \begin{bmatrix}
+    2&-1&3\\0&-1&0\\0&0&0
+  \end{bmatrix}
+  $
+  Then
+  \begin{equation*}
+    A
+    \begin{bmatrix}
+      1\\0\\0
+    \end{bmatrix}
+    = 2
+    \begin{bmatrix}
+      1\\0\\0
+    \end{bmatrix}
+  \end{equation*}
+  and
+  \begin{equation*}
+    A
+    \begin{bmatrix}
+      1/3\\1\\0
+    \end{bmatrix}
+    =
+      (-1)
+      \begin{bmatrix}
+        1/3\\1\\0
+      \end{bmatrix}
+    \quad \text{and} \quad
+    A
+    \begin{bmatrix}
+      -1\\0\\1
+    \end{bmatrix}
+    =(-1)
+    \begin{bmatrix}
+      -1\\0\\1
+    \end{bmatrix}
+  \end{equation*}
+  Therefore $E_{2}$ is spanned by $
+  \begin{bmatrix}
+    1\\0\\0
+  \end{bmatrix}
+  $ and $E_{-1}$ is spanned by $\left\{
+    \begin{bmatrix}
+      1/3\\1\\0
+    \end{bmatrix},
+    \begin{bmatrix}
+      -1\\0\\1
+    \end{bmatrix}
+  \right\}$.
+
+  Therefore
+  \begin{equation*}
+    \dim(E_{2})+\dim(E_{-1})= 1+2=3
+  \end{equation*}
+  and hence $A$ is diagonalizable. In particular,
+  \begin{equation*}
+    P^{-1} A P =
+    \begin{bmatrix}
+      2&0&0\\
+      0&-1&0\\
+      0&0&-1
+    \end{bmatrix}
+  \end{equation*}
+  where our ``prism'' matrix is
+  \begin{equation*}
+    P =
+    \begin{bmatrix}
+      1&1/3&-1\\
+      0&1&0\\
+      0&0&1
+    \end{bmatrix}.
+  \end{equation*}
+\end{example}
+\begin{example}[Example 4 in section 5.4]
+  The matrix $A =
+  \begin{bmatrix}
+    1&-2&-6\\
+    -2&2&-5\\
+    2&1&8
+  \end{bmatrix}
+  $
+  has characteristic polynomial
+  \begin{equation*}
+    \det(\lambda I - A) = (\lambda-3)^{2}(\lambda-5).
+  \end{equation*}
+  Therefore $A$ has two eigenvalues: $\lambda=3$ and $\lambda=5$. The
+  eigenspace for $\lambda=3$ is
+  \begin{equation*}
+    E_{3} = \left\{c
+      \begin{bmatrix}
+        -2\\-1\\1
+      \end{bmatrix}: c\in \R
+    \right\} 
+  \end{equation*}
+  and the eigenspace for $\lambda=5$ is
+  \begin{equation*}
+    E_{5} = \left\{c
+      \begin{bmatrix}
+        -1\\-1\\1
+      \end{bmatrix}: c\in \R
+    \right\} 
+  \end{equation*}
+  Since $\dim(E_{3})+\dim(E_{5}) = 2\neq 3$, $A$ is not diagonalizable.
+
+  This makes sense: to diagonalize $A$, we need to form an invertible
+  ``prism'' matrix $P$ by taking 3 linearly independent eigenvectors of $A$.
+  But there aren't three linearly independent eigenvectors, there are only
+  two. So $A$ isn't diagonalizable.
+\end{example}
+
+\subsection{Another diagonalization example}
+Let's also give a name to something we've been computing:
+
+
 
 \begin{example}[Eigenvalues and eigenvectors of a rotation]
   \label{ex:eigenvalues-and-eigenvectors-rotation}
