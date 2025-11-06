@@ -1,0 +1,348 @@
+\documentclass[10pt]{article}
+% Math Packages
+\usepackage{amsmath, mathtools}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{bbm}
+\usepackage{breqn}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{calc}
+\usepackage{forest}
+\usepackage{tikz-qtree}
+\graphicspath{ {./images/} }
+\usepackage{hyperref}
+\usepackage[capitalize]{cleveref}
+\usepackage[shortlabels]{enumitem}
+\usetikzlibrary{arrows,matrix,positioning}
+\usepackage{multicol}
+
+% for the pipe symbol
+\usepackage[T1]{fontenc}
+
+% Citing theorems by name. (source: https://tex.stackexchange.com/questions/109843/cleveref-and-named-theorems)
+\makeatletter
+\newcommand{\ncref}[1]{\cref{#1}\mynameref{#1}{\csname r@#1\endcsname}}
+
+\def\mynameref#1#2{%
+  \begingroup
+  \edef\@mytxt{#2}%
+  \edef\@mytst{\expandafter\@thirdoffive\@mytxt}%
+  \ifx\@mytst\empty\else
+  \space(\nameref{#1})\fi
+  \endgroup
+}
+\makeatother
+
+% Colorful Notes
+\usepackage{color} \definecolor{Red}{rgb}{1,0,0} \definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5} \def\red{\color{Red}} \def\blue{\color{Blue}}
+\def\gray{\color{gray}} \def\purple{\color{Purple}}
+\newcommand{\rnote}[1]{{\red [#1]}} % \rnote{foo} gives '[foo]' in red
+\newcommand{\pnote}[1]{{\purple [#1]}} % \pnote{foo} gives '[foo]' in purple
+\newcommand{\bnote}[1]{{\blue #1}} % \bnote{foo} gives 'foo' in blue
+\newcommand{\gnote}[1]{{\gray #1}} % \gnote{foo} gives 'foo' in gray
+\newcommand{\Max}[1]{{\purple [#1]}} % \bnote{foo} then 'foo' is blue
+
+
+% Claim numbering (the counter restarts after each proof environment)
+\newcounter{claimcount}
+\setcounter{claimcount}{0}
+\newenvironment{claim}{\refstepcounter{claimcount}\par\addvspace{\medskipamount}\noindent\textbf{Claim \arabic{claimcount}:}}{}
+\usepackage{etoolbox}
+\AtBeginEnvironment{proof}{\setcounter{claimcount}{0}}
+\newenvironment{claimproof}{\par\addvspace{\medskipamount}\noindent\textit{Proof of Claim  \arabic{claimcount}.}}{\hfill\ensuremath{\qedsymbol} \tiny{Claim}
+
+  \medskip}
+% Add claim support to cleverref
+\crefname{claimcount}{Claim}{Claims}
+
+
+% Math Environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{question}[theorem]{Question}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+
+% Matrices and Column Vectors. 
+\usepackage{stackengine}
+\setstackgap{L}{1.0\normalbaselineskip}
+\usepackage{tabstackengine}
+\setstackEOL{;}% row separator
+\setstackTAB{,}% column separator
+\setstacktabbedgap{1ex}% inter-column gap
+\setstackgap{L}{1.5\normalbaselineskip}% inter-row baselineskip
+\let\nmatrix\bracketMatrixstack  %Usage: \nmatrix{1,2,3\4,5,6}
+\newcommand\cv[1]{\setstackEOL{,}\bracketMatrixstack{#1}} %usage: \cv{1,2,3}
+
+% Custom Math Coqmmands
+\newcommand{\vt}{\vskip 5mm} % vertical space
+\newcommand{\fl}{\noindent\textbf} % first line
+\newcommand{\Fl}{\vt\noindent\textbf} % first line with space above
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert} % norm
+\newcommand{\pnorm}[1]{\left\lVert#1\right\rVert_p} % p-norm
+\newcommand{\qnorm}[1]{\left\lVert#1\right\rVert_q} % q-norm
+\newcommand{\1}[1]{\textbf{1}_{\left[#1\right]}} % indicator function 
+\def\limn{\lim_{n\to\infty}} % shortcut for lim as n-> infinity
+\def\sumn{\sum_{n=1}^{\infty}} % shortcut for sum from n=1 to infinity
+\def\sumkn{\sum_{k=1}^{n}} % shortcut for sum from k=1 to n
+\def\sumin{\sum_{i=1}^{n}} % shortcut for sum from i=1 to n
+\def\SAs{\sigma\text{-algebras}} % shortcut for $\sigma$-algebras
+\def\SA{\sigma\text{-algebra}} % shortcut for $\sigma$-algebra
+\def\Ft{\mathcal{F}_t} % time-indexed sigma-algebra (t)
+\def\Fs{\mathcal{F}_s} % time-indexed sigma-algebra (s)
+\def\F{\mathcal{F}} % sigma-algebra
+\def\G{\mathcal{G}} % sigma-algebra
+\def\R{\mathbb{R}} % Real numbers
+\def\N{\mathbb{N}} % Natural numbers
+\def\Z{\mathbb{Z}} % Integers
+\def\E{\mathbb{E}} % Expectation
+\def\P{\mathbb{P}} % Probability
+\def\Q{\mathbb{Q}} % Q probability
+\def\dist{\text{dist}} %Text 'dist' for things like 'dist(x,y)'
+\newcommand{\indep}{\perp \!\!\! \perp}  %independence symbol
+\def\Var{\mathrm{Var}} % Variance
+\def\tr{\mathrm{tr}} % trace
+
+% Brackets and Parentheses
+\def\[{\left [}
+    \def\]{\right ]}
+% \def\({\left (}
+%   \def\){\right )}
+
+
+
+\usepackage{color}
+\definecolor{Red}{rgb}{1,0,0}
+\definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5}
+\def\red{\color{Red}}
+\def\blue{\color{Blue}}
+\def\gray{\color{gray}}
+\def\purple{\color{Purple}}
+\definecolor{RoyalBlue}{cmyk}{1, 0.50, 0, 0}
+\newcommand{\dempfcolor}[1]{{\color{RoyalBlue}#1}} 
+\newcommand{\demph}[1]{\dempfcolor{{\sl #1}}}
+
+% comment exactly one of the following line to show / hide the solutions
+% \newcommand{\solution}[1]{{\purple #1}} % uncomment to show the solutions
+\newcommand{\solution}[1]{} % uncomment to hide the solutions
+
+
+\newenvironment{augmentedmatrix}[1] % environment for making augmented matrix
+{\left[\begin{array}{#1}}
+    {\end{array}\right]}
+
+
+\title{Lecture Notes for Math 372: \\Elementary Probability and Statistics}
+\date{Last updated: \today}
+% \author{mh}
+
+\begin{document}
+\begin{center}
+  \section*{Math 307: Practice Midterm 2}
+  \textit{Date of exam: November 24, in class}
+\end{center}
+
+\textit{Instructions: You have 50 minutes. Calculators and notes are not
+  allowed. This practice exam is slightly longer than the actual midterm.}
+
+\begin{problem}
+  State precise definitions of (a) ``linear independence'', (b) ``span'' and (c) ``basis''.
+\end{problem}
+
+\begin{problem}
+  Determine whether the following statements are true or false. You don't need
+  to show your work or justify your answer.
+  \begin{enumerate}[(a)]
+    \item The matrix $
+    \begin{bmatrix}
+      -1&0\\
+      0&1
+    \end{bmatrix}
+    $
+    is a rotation. %false -- practice test
+    \item Let $A$ be an $n\times n$ matrix and $b\in \R^{n}$, then $AX=b$ has a unique
+    solution $X$ if $\ker(A)= \left\{0\right\}$. %true
+    \item If $A$ is a $4\times 6$ matrix, then its nullspace is a plane
+    passing through the origin. %false - practice
+    \item The set of functions $X = \left\{f:\R \to \R: f(.4) = 1\right\}$
+    forms a vector space. %false
+    \item Any five vectors in $\R^{4}$ are linearly dependent. %true
+    \item If $A$ is an $m\times n$ matrix, then the dimension of the row space
+    of $A$ equals the dimension of the column space. %true
+    \item If $A,B$ are $n\times n$ matrices, then $\det(A+B)=\det(A)+\det(B)$.
+    % false
+    \item Let $A$ be an $m\times n$ matrix, and let $T(X) = AX$ be a linear
+    transformation. Then the domain of $T$ is $\R^{n}$ and the range is
+    $\R^{m}$. %true
+    \item An $n\times n$ matrix has rank $n$ if and only if its columns are
+    linearly independent. %true
+    \item Let $A,B$ be $n\times n$ matrices. If $A$ and $B$ are invertible,
+    then $AB$ is also invertible.
+    \item The set of $2\times2$ matrices of rank 1 is a subspace.
+    \item If we know $T(v)$ for $n$ different nonzero vectors in $\R^{n}$,
+    then we know $T(v)$ for every vector $v\in \R^{n}$.
+    \item If a square matrix $A$ has independent columns, so does $A^{2}$.
+    \item If $T:\R^{3}\to \R^{3}$ is a linear transformation, then $T^{2}$ is
+    also a linear transformation.
+    \item Every subspace of $\R^{4}$ is the kernel of some matrix.
+    \item The vectors 
+    $\begin{bmatrix}
+      -1\\2\\1
+    \end{bmatrix},
+    \begin{bmatrix}
+      1\\1\\0
+    \end{bmatrix},
+    \begin{bmatrix}
+      0\\1\\1
+    \end{bmatrix},
+    \begin{bmatrix}
+      1\\1\\-1
+    \end{bmatrix}$ form a basis for $\R^{3}$. % true
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}
+  Let $A =
+  \begin{bmatrix}
+    10&-9\\
+    4&-2
+  \end{bmatrix}
+  $
+  \begin{enumerate}[(a)]
+    \item By what factor does the linear transformation of $A$ scale area?
+    \item Find the eigenvalues of $A$.
+    \item For each eigenvalue of $A$, find a basis for the eigenspace.
+  \end{enumerate}
+\end{problem}
+
+
+\begin{problem}
+  Find the inverse of $
+  \begin{bmatrix}
+    1&1&1\\
+    1&2&-1\\
+    1&0&2
+  \end{bmatrix}
+  $
+\end{problem}
+
+
+\begin{problem}
+  Let
+  \begin{equation*}
+    A =
+    \begin{bmatrix}
+      1&0&-1&3\\
+      2&1&4&-1\\
+      4&1&2&5
+    \end{bmatrix}
+  \end{equation*}
+  Find bases for
+  \begin{enumerate}[(a)]
+    \item Find a basis for $RS(A)$
+    \item Find a basis for $NS(A)$
+    \item Find a basis for $CS(A)$
+    \item What is the rank of $A$?
+  \end{enumerate}
+\end{problem}
+
+
+\begin{problem}
+  The planes given by the equations
+  \begin{equation*}
+    x+3y+3z = 1 \quad \text{and} \quad  x-y+z=1
+  \end{equation*}
+  intersect to form a line. Find an equation of the line and write your answer
+  in the form
+  \begin{equation*}
+    \begin{bmatrix}
+      x_{1}\\x_{2}\\x_{3}
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      c_{1}\\c_{2}\\c_{3}
+    \end{bmatrix}
+    +
+    \begin{bmatrix}
+      d_{1}\\d_{2}\\d_{3}
+    \end{bmatrix}
+    x_{3}
+  \end{equation*}
+  where $x_{3}$ is a free variable, and $c_{1},c_{2},c_{3},d_{1},d_{2},d_{3}$
+  are scalars.
+\end{problem}
+
+
+\begin{problem}
+  Let
+  \begin{equation*}
+    A =
+    \begin{bmatrix}
+      3&-2\\
+      1&2
+    \end{bmatrix}
+    \quad
+    B =
+    \begin{bmatrix}
+      1&-4\\
+      -2&3
+    \end{bmatrix}.
+  \end{equation*}
+  \begin{enumerate}[(a)]
+    \item Find the determinants of  $A$ and $B$.
+    \item Find $\det(AB)$, $\det(A^{-1})$, and $\det(B^{\top}A^{-1})$.
+    \item Show that $\det(A+B)$ is not the same as $\det(A)+\det(B)$.
+  \end{enumerate}
+\end{problem}
+
+
+\begin{problem}
+  Compute the determinant of
+  \begin{equation*}
+    A =
+    \begin{bmatrix}
+      6&-5&1&3\\
+      3&1&-2&-1\\
+      0&10&0&0\\
+      3&3&0&3
+    \end{bmatrix}
+  \end{equation*}
+\end{problem}
+
+\begin{problem}
+  Solve the system of equations using row reduction
+  \begin{align*}
+    2x+3y-4z&=3\\
+    4x+6y-4z&=6\\
+    8x+12y-4z&=14
+  \end{align*}
+\end{problem}
+
+
+\begin{problem}
+  Compute a basis for the nullspace of the following matrix:
+  \begin{equation*}
+    \begin{augmentedmatrix}{ccccc|c}
+      1&0&2&3&4&0\\
+      0&1&5&6&7&0\\
+      0&1&5&6&7&0\\
+      0&0&0&0&0&0\\
+    \end{augmentedmatrix}
+  \end{equation*}
+\end{problem}
+
+
+\end{document}
