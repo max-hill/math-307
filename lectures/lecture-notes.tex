@@ -8613,16 +8613,29 @@ is diagonalizable.)
 \newpage
 \section{2025-11-07 | Week 11 | Lecture 32}
 
+\begin{center}
+  \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
+    \textit{\textbf{The nexus question of this lecture:} How can we test
+      whether a matrix is diagonalizable?}
+  \end{tcolorbox}
+\end{center}
+
 \begin{definition}
-  Given a matrix $A$ with eigenvalue $\lambda$, the \demph{eigenspace} of
-  $\lambda$ is the subspace $NS(\lambda I-A)$. We denote this by
-  $E_{\lambda}$. (Note: $E_{\lambda}$ is the subspace spanned by the
-  eigenvectors corresponding to $\lambda$. It consists of all eigenvectors for
-  $\lambda$ plus the zero vector).
+  Given a matrix $A$ with eigenvalue $\lambda$, the \demph{eigenspace}
+  corresponding to $\lambda$ is the subspace $NS(\lambda I-A)$. We denote this
+  by $E_{\lambda}$. 
 \end{definition}
 
+\begin{remark}
+  $E_{\lambda}$ is the subspace spanned by the eigenvectors corresponding to
+  $\lambda$. It consists of all eigenvectors for $\lambda$ plus the zero
+  vector.
+\end{remark}
+
+The following theorem gives a criterion for determining whether a matrix is diagonalizable.
 
 \begin{theorem}[Eigenspace dimension criterion]
+  \label{thm:eigenspace-dimension-criterion}
   Suppose $A$ is an $n\times n$ matrix with distinct eigenvalues
   $r_{1},\ldots,r_{k}$. Let $E_{r}$ be the eigenspace of $r$. Then $A$ is
   diagonalizable if and only if
@@ -8631,8 +8644,16 @@ is diagonalizable.)
   \end{equation*}
 \end{theorem}
 
+\begin{remark}
+  The core idea of \cref{thm:eigenspace-dimension-criterion} is this: in order
+  for a matrix to be diagonalizable, it has to have enough eigenvectors.
+\end{remark}
 
-\begin{example}[Example 2 in section 5.4]
+The next two examples will illustrate the use of
+\cref{thm:eigenspace-dimension-criterion}. In both examples, I'm going to skip
+most of the computational details. 
+
+\begin{example}[Example 3 in section 5.4]
   Let $A =
   \begin{bmatrix}
     2&-1&3\\0&-1&0\\0&0&0
@@ -8646,7 +8667,7 @@ is diagonalizable.)
     \end{bmatrix}
     = 2
     \begin{bmatrix}
-      1\\0\\0
+      1\\0\\-1
     \end{bmatrix}
   \end{equation*}
   and
@@ -8670,7 +8691,7 @@ is diagonalizable.)
       -1\\0\\1
     \end{bmatrix}
   \end{equation*}
-  Therefore $E_{2}$ is spanned by $
+  This shows that $E_{2}$ is spanned by $
   \begin{bmatrix}
     1\\0\\0
   \end{bmatrix}
@@ -8683,20 +8704,16 @@ is diagonalizable.)
     \end{bmatrix}
   \right\}$.
 
-  Therefore
+  Therefore by \cref{thm:eigenspace-dimension-criterion},
   \begin{equation*}
     \dim(E_{2})+\dim(E_{-1})= 1+2=3
   \end{equation*}
-  and hence $A$ is diagonalizable. In particular,
-  \begin{equation*}
-    P^{-1} A P =
-    \begin{bmatrix}
-      2&0&0\\
-      0&-1&0\\
-      0&0&-1
-    \end{bmatrix}
-  \end{equation*}
-  where our ``prism'' matrix is
+  and hence $A$ is diagonalizable.
+
+  We can say a bit more: we actually now have enough information to
+  diabonalize $A$. In particular, we can take our 3 linearly independent
+  eigenvectors and form a ``prism'' matrix $P$ (technically, a change-of-basis
+  matrix):
   \begin{equation*}
     P =
     \begin{bmatrix}
@@ -8705,7 +8722,20 @@ is diagonalizable.)
       0&0&1
     \end{bmatrix}.
   \end{equation*}
+  Since the three columns are linearly independent, the key theorem implies
+  that $P$ is invertible. Computing the inverse $P^{-1}$ (not shown), it then
+  follows that
+  \begin{equation*}
+    P^{-1} A P =
+    \begin{bmatrix}
+      2&0&0\\
+      0&-1&0\\
+      0&0&-1
+    \end{bmatrix}.
+  \end{equation*}
+  The right-hand side is a diagonal matrix, and so we have diagonalized $A$.
 \end{example}
+
 \begin{example}[Example 4 in section 5.4]
   The matrix $A =
   \begin{bmatrix}
@@ -8718,24 +8748,26 @@ is diagonalizable.)
   \begin{equation*}
     \det(\lambda I - A) = (\lambda-3)^{2}(\lambda-5).
   \end{equation*}
-  Therefore $A$ has two eigenvalues: $\lambda=3$ and $\lambda=5$. The
-  eigenspace for $\lambda=3$ is
+  Therefore $A$ has two eigenvalues: $\lambda=3$ and $\lambda=5$. Computing
+  $E_{3}$ and $E_{5}$, we obtain:
   \begin{equation*}
     E_{3} = \left\{c
       \begin{bmatrix}
         -2\\-1\\1
       \end{bmatrix}: c\in \R
-    \right\} 
-  \end{equation*}
-  and the eigenspace for $\lambda=5$ is
-  \begin{equation*}
+    \right\}
+    \quad \text{and} \quad 
     E_{5} = \left\{c
       \begin{bmatrix}
         -1\\-1\\1
       \end{bmatrix}: c\in \R
     \right\} 
   \end{equation*}
-  Since $\dim(E_{3})+\dim(E_{5}) = 2\neq 3$, $A$ is not diagonalizable.
+  Both $E_{3}$ and $E_{5}$ are one-dimensional subspaces of $\R^{3}$ (since
+  they are lines passing through the origin). Therefore, since
+  $\dim(E_{3})+\dim(E_{5}) = 2\neq 3$,
+  \cref{thm:eigenspace-dimension-criterion} implies that $A$ is not
+  diagonalizable.
 
   This makes sense: to diagonalize $A$, we need to form an invertible
   ``prism'' matrix $P$ by taking 3 linearly independent eigenvectors of $A$.
@@ -8743,6 +8775,29 @@ is diagonalizable.)
   two. So $A$ isn't diagonalizable.
 \end{example}
 
+\begin{theorem}[The determinant is the product of eigenvalues]
+  \label{thm:determinant-product-eigenvalues}
+  Let $A$ be an $n\times n$ matrix, and let $\lambda_{1},\ldots,\lambda_{n}$
+  be the eigenvalues of $A$ (possibly with repetitions). Then
+  \begin{equation*}
+    \det(A) = \lambda_{1}\lambda_{2}\ldots\lambda_{n}.
+  \end{equation*}
+\end{theorem}
+\begin{proof}
+  Let $A$ be an $n\times n$ matrix. Then $\det(A-\lambda I)$ is a polynomial
+  of degree $n$ in the variable $\lambda$. The eigenvalues
+  $\lambda_{1},\ldots,\lambda_{n}$ of $A$ are the roots of this polynomial.
+  Therefore by the fundamental theorem of algebra, we can write
+  \begin{equation*}
+    \det(A-\lambda I) = (\lambda_{1}-\lambda)(\lambda_{2}-\lambda)\cdots (\lambda_{n}-\lambda)
+  \end{equation*}
+  Taking $\lambda=0$ implies $\det(A) = \lambda_{1}\lambda_{2}\cdots \lambda_{n}.$
+\end{proof}
+
+The next lecture will address the topic of what can be done with matrices
+which are not diagonalizable.
+
+\newpage
 \subsection{Another diagonalization example}
 Let's also give a name to something we've been computing:
 
@@ -8968,24 +9023,6 @@ Let's also give a name to something we've been computing:
 
 
 \subsection{Properties of eigenvalues}
-\begin{theorem}[The determinant is the product of eigenvalues]
-  \label{thm:determinant-product-eigenvalues}
-  Let $A$ be an $n\times n$ matrix, and let $\lambda_{1},\ldots,\lambda_{n}$
-  be the eigenvalues of $A$ (possibly with repetitions). Then
-  \begin{equation*}
-    \det(A) = \lambda_{1}\lambda_{2}\ldots\lambda_{n}.
-  \end{equation*}
-\end{theorem}
-\begin{proof}
-  Let $A$ be an $n\times n$ matrix. Then $\det(A-\lambda I)$ is a polynomial
-  of degree $n$ in the variable $\lambda$. The eigenvalues
-  $\lambda_{1},\ldots,\lambda_{n}$ of $A$ are the roots of this polynomial.
-  Therefore by the fundamental theorem of algebra, we can write
-  \begin{equation*}
-    \det(A-\lambda I) = (\lambda_{1}-\lambda)(\lambda_{2}-\lambda)\cdots (\lambda_{n}-\lambda)
-  \end{equation*}
-  Taking $\lambda=0$ implies $\det(A) = \lambda_{1}\lambda_{2}\cdots \lambda_{n}.$
-\end{proof}
 
 \begin{theorem}[Eigenvalues of a triangular matrix]
   \label{thm:eigenvalues-triangular-matrix}
