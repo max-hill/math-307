@@ -49,6 +49,8 @@ My office hours are 12:30-1:30 on Mondays and Fridays. My office is PSB 304. You
  2025-11-03  | [lecture-30](lectures/lecture-notes-by-day/lecture-30.pdf)      | What can we say about two matrices that represent the same linear transformation?  
  2025-11-05  | [lecture-31](lectures/lecture-notes-by-day/lecture-31.pdf)      | When is a matrix similar to a diagonal matrix?  
  2025-11-07  | [lecture-32](lectures/lecture-notes-by-day/lecture-32.pdf)      | How can we test whether a matrix is diagonalizable?  
+ 2025-11-10  | lecture-33      | Jordan canonical form  
+ 2025-11-12  | [lecture-34](lectures/lecture-notes-by-day/lecture-34.pdf)      | Multiplicity?  
 
 
 

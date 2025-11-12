@@ -8798,11 +8798,169 @@ The next lecture will address the topic of what can be done with matrices
 which are not diagonalizable.
 
 \newpage
-\subsection{Another diagonalization example}
-Let's also give a name to something we've been computing:
+\section{2025-11-10 | Week 12 | Lecture 33}
+
+\textit{substitute lecture on Jordan canonical form}
+
+\newpage
+\section{2025-11-12 | Week 12 | Lecture 34}
+
+\subsection{Multiplicity}
+
+Given a polynomial $p(x)$ with root $r$, the \demph{multiplicity} of $r$ in
+$p(x)$ is the highest power of $(x-r)$ which divides $p(x)$. For example,
+if
+\begin{equation*}
+  p(x) = (x-3)(x-7)^{4}(x+1)^{2}(x-1/2)^{10}.
+\end{equation*}
+then $p(x)$ four roots, $x=3$, $x=7$, $x=-1$, and $x=1/2$. The multiplicities
+of these roots are $1$, $4$, $2$, and $10$ respectively.
 
 
+\begin{definition}[Algebraic and geometric multiplicity]
+  \label{def:algebraic-and-geometric-multiplicity}
+  Let $A$ be an $n\times n$ matrix, and let $\lambda$ be an eigenvalue of $A$.
+  The \demph{algebraic multiplicity (AM)} of $\lambda$ is its multiplicity in the
+  characteristic polynomial $\det(\lambda I-A)$. The \demph{geometric
+    multiplicity (GM)} of $\lambda$ is the dimension of the eigenspace
+  $E_{\lambda}=NS(\lambda I-A)$.
+\end{definition}
 
+\begin{theorem}
+  Given an eigenvalue $\lambda$ of a matrix, we have
+  \begin{equation*}
+    1 \leq \text{GM} \leq \text{AM}
+  \end{equation*}
+\end{theorem}
+
+\begin{theorem}
+  \label{thm:AM-GM-diagonalizability}
+  Let $A$ be an $n\times n$ matrix. The following are equivalent:
+  \begin{itemize}
+    \item For every eigenvalue of $A$, the algebraic multiplicity equals the
+    geometric multiplicity.
+    \item $A$ is diagonalizable.
+  \end{itemize}
+\end{theorem}
+
+The next example shows that the second inequality can be strict.
+
+\begin{example}[A nondiagonalizable linear transformation]
+  \label{ex:nondiagonalizable-linear-transformation}
+  Consider the linear transformation given by the matrix
+  \begin{equation*}
+    A =
+    \begin{bmatrix}
+      1&1\\
+      0&1
+    \end{bmatrix}
+  \end{equation*}
+  This is a shear transform. We will use \cref{thm:AM-GM-diagonalizability} to
+  show that it is not diagonalizable.
+
+  Obser that $A$ has only one eigenvalue, namely $\lambda=1$. We can see this
+  by computing the characteristic polynomial:
+  \begin{equation*}
+    \det(A - \lambda I ) = \det
+    \begin{bmatrix}
+      1-\lambda&1\\
+      0&1-\lambda
+    \end{bmatrix}
+    = (1-\lambda)^{2}
+  \end{equation*}
+  The algebraic multiplicity of $\lambda=1$ is $2$. The geometric multiplicity
+  is the dimension of the nullspace of
+  \begin{equation*}
+    B = \begin{bmatrix}
+      0&1\\
+      0&0
+    \end{bmatrix}.
+  \end{equation*}
+  This matrix has rank 1. By the rank nullity theorem, we have
+  \begin{equation*}
+    \text{rank}(B)+ \dim NS(B)= \text{number of columns} = 2
+  \end{equation*}
+  Therefore
+  \begin{equation*}
+    \dim NS(B) = 1.
+  \end{equation*}
+  So the geometric multiplicy of the eigenvalue $\lambda=1$ is $1$.
+
+  In this case, the geometric multiplicy (2) is less than the algebraic
+  multiplicity (1). So $A$ is not diagonalizable.
+\end{example}
+
+\subsection{An application of diagonalizability}
+
+\begin{example}
+  Let $A=
+  \begin{bmatrix}
+    \frac{1}{2}&-\frac{1}{2}\\
+    -\frac{1}{2}&\frac{1}{2}
+  \end{bmatrix}
+  $. Suppose that we want to compute $A^{4}$ or $A^{100}$, but we don't want
+  to do that much matrix multiplication.
+
+
+  First observe that
+  \begin{equation*}
+    A =
+    \begin{bmatrix}
+      1&1\\
+      -1&1
+    \end{bmatrix}
+    \begin{bmatrix}
+      1&0\\
+      0&0
+    \end{bmatrix}
+    \begin{bmatrix}
+      \frac{1}{2}&-\frac{1}{2}\\
+      \frac{1}{2}&\frac{1}{2}
+    \end{bmatrix}
+  \end{equation*}
+  (You should check this). This equation is of the form
+  \begin{equation*}
+    A = PDP^{-1}
+  \end{equation*}
+  where $D =
+  \begin{bmatrix}
+    1&0\\
+    0&0
+  \end{bmatrix}
+  $ is a diagonal matrix.
+
+  \Fl{Fact:} If $D =
+  \begin{bmatrix}
+    a&0\\
+    0&b
+  \end{bmatrix}
+  $
+  then
+  $D^{k} =
+  \begin{bmatrix}
+    a^{k}&0\\
+    0& b^{k}
+  \end{bmatrix}$.
+  And a similar equation holds for $n\times n$ diagonal matrices.
+
+  By this fact, we have $D^{4} = D$. (Check this.)
+
+  Since $A = PDP^{-1}$, we have
+  \begin{align*}
+    A^{4} 
+    &= (PDP^{-1})^{4}\\
+    &=(PDP^{-1})(PDP^{-1})(PDP^{-1})(PDP^{-1})\\
+    &=PD(P^{-1}P)D(P^{-1}P)D(P^{-1}P)DP^{-1} &&\text{by associativity }\\
+    &=PD^{4}P^{-1} &&\text{this is the key step I wanted to show you }\\
+    &=PDP^{-1} &&\text{ since $D^{4}=D $ }\\
+    &=A.
+  \end{align*}
+  That's neat: $A^{4}=A$.
+\end{example}
+
+\newpage
+\section{2025-11-14}
+\subsection{Diagonalization of a rotation}
 \begin{example}[Eigenvalues and eigenvectors of a rotation]
   \label{ex:eigenvalues-and-eigenvectors-rotation}
   Find the eigenvalues and basis for the eigenspaces of
@@ -8914,6 +9072,10 @@ Let's also give a name to something we've been computing:
   \end{itemize}
 \end{example}
 
+\newpage
+
+
+
 \cref{ex:eigenvalues-and-eigenvectors-rotation} illustrates the following theorem
 \begin{theorem}
   If $\lambda=a+bi$ is an eigenvalue of $A$, then $\bar{\lambda}=a-bi$ is also
@@ -9021,76 +9183,6 @@ Let's also give a name to something we've been computing:
   \end{itemize}
 \end{remark}
 
-
-\subsection{Properties of eigenvalues}
-
-\begin{theorem}[Eigenvalues of a triangular matrix]
-  \label{thm:eigenvalues-triangular-matrix}
-  Let $A=(a_{ij})$ be a triangular matrix. The eigenvalues of $A$ are the
-  entries of its main diagonal ($a_{11},a_{22},\ldots,a_{nn}$).
-\end{theorem}
-\begin{proof}
-  Since $A$ is triangular, so is $\lambda I-A$. Moreover, the main diagonal
-  entries of $\lambda I-A$ are
-  $\lambda-a_{11},\lambda-a_{22},\ldots, \lambda-a_{nn}$. Therefore by
-  \cref{thm:determinants-triangular-matrices},
-  \begin{equation*}
-    \det(\lambda I -A) = (\lambda-a_{11})(\lambda-a_{22})\cdots (\lambda - a_{nn})
-  \end{equation*}
-  The roots of this polynomial are precisely $a_{11},\ldots,a_{nn}$. Therefore
-  these are the eigenvalues by
-  \cref{thm:roots-of-characteristic-polynomial-are-eigenvalues}. 
-\end{proof}
-
-\begin{example}
-  Consider the matrix $A=
-  \begin{bmatrix}
-    7&4&2\\
-    0&7&1\\
-    0&0&5\\
-  \end{bmatrix}
-  $. By \cref{thm:eigenvalues-triangular-matrix}, the eigenvalues are
-  \begin{equation*}
-    \lambda_{1}=7,\quad \lambda_{2}=7, \quad \text{and} \quad \lambda_{3}=5.
-  \end{equation*}
-  (Here, $7$ is an eigenvalue of \demph{multiplicity} 2). By
-  \cref{thm:determinant-product-eigenvalues},
-  $\det(A) = 7\cdot 7\cdot 5 = 2459.$
-\end{example}
-
-
-\begin{theorem}
-  Similar matrices $A,B$ have the same characteristic polynomial, and hence
-  the same eigenvalues and determinant.
-\end{theorem}
-\begin{proof}
-  First, recall by
-  \cref{thm:determinant-preserves-multiplication-1,thm:inverse-determinant}
-  that for any square matrices $U,V$, it holds that $\det(UV)=\det(U)\det(V)$
-  and that $\det(U^{-1}) = \frac{1}{\det(U)}$. Suppose that $A,B$ are similar.
-  Using these properties, we have:
-  \begin{align*}
-    \det(B-\lambda I ) 
-    &= \det \left( P^{-1}AP-\lambda P^{-1}P \right)\\ 
-    &= \det \left( P^{-1} \left( A -\lambda I\right)P  \right)\\ 
-    &= \det \left(P^{-1}  \right) \det \left( A- \lambda I \right) \det \left( P \right)\\   
-    &= \det \left(  A-\lambda I \right).
-  \end{align*}
-  Therefore $A, B$ have the same characteristic polynomial. Since the
-  eigenvalues are the roots of this polynomial, $A,B$ have the same
-  eigenvalues. Taking $\lambda=0$ implies
-  \begin{equation*}
-    \det(B) = \det(A)
-  \end{equation*}
-\end{proof}
-
-
-\newpage
-\section{Connection to eigenvalues}
-
-
-
-
 \section{Another example}
 
 \begin{example}[Differentiation of polynomials]
@@ -9162,6 +9254,78 @@ Let's also give a name to something we've been computing:
 
   \fl{What about integration?}
 \end{example}
+
+\newpage
+
+\subsection{Properties of eigenvalues}
+
+\begin{theorem}[Eigenvalues of a triangular matrix]
+  \label{thm:eigenvalues-triangular-matrix}
+  Let $A=(a_{ij})$ be a triangular matrix. The eigenvalues of $A$ are the
+  entries of its main diagonal ($a_{11},a_{22},\ldots,a_{nn}$).
+\end{theorem}
+\begin{proof}
+  Since $A$ is triangular, so is $\lambda I-A$. Moreover, the main diagonal
+  entries of $\lambda I-A$ are
+  $\lambda-a_{11},\lambda-a_{22},\ldots, \lambda-a_{nn}$. Therefore by
+  \cref{thm:determinants-triangular-matrices},
+  \begin{equation*}
+    \det(\lambda I -A) = (\lambda-a_{11})(\lambda-a_{22})\cdots (\lambda - a_{nn})
+  \end{equation*}
+  The roots of this polynomial are precisely $a_{11},\ldots,a_{nn}$. Therefore
+  these are the eigenvalues by
+  \cref{thm:roots-of-characteristic-polynomial-are-eigenvalues}. 
+\end{proof}
+
+\begin{example}
+  Consider the matrix $A=
+  \begin{bmatrix}
+    7&4&2\\
+    0&7&1\\
+    0&0&5\\
+  \end{bmatrix}
+  $. By \cref{thm:eigenvalues-triangular-matrix}, the eigenvalues are
+  \begin{equation*}
+    \lambda_{1}=7,\quad \lambda_{2}=7, \quad \text{and} \quad \lambda_{3}=5.
+  \end{equation*}
+  (Here, $7$ is an eigenvalue of \demph{multiplicity} 2). By
+  \cref{thm:determinant-product-eigenvalues},
+  $\det(A) = 7\cdot 7\cdot 5 = 2459.$
+\end{example}
+
+
+\begin{theorem}
+  Similar matrices $A,B$ have the same characteristic polynomial, and hence
+  the same eigenvalues and determinant.
+\end{theorem}
+\begin{proof}
+  First, recall by
+  \cref{thm:determinant-preserves-multiplication-1,thm:inverse-determinant}
+  that for any square matrices $U,V$, it holds that $\det(UV)=\det(U)\det(V)$
+  and that $\det(U^{-1}) = \frac{1}{\det(U)}$. Suppose that $A,B$ are similar.
+  Using these properties, we have:
+  \begin{align*}
+    \det(B-\lambda I ) 
+    &= \det \left( P^{-1}AP-\lambda P^{-1}P \right)\\ 
+    &= \det \left( P^{-1} \left( A -\lambda I\right)P  \right)\\ 
+    &= \det \left(P^{-1}  \right) \det \left( A- \lambda I \right) \det \left( P \right)\\   
+    &= \det \left(  A-\lambda I \right).
+  \end{align*}
+  Therefore $A, B$ have the same characteristic polynomial. Since the
+  eigenvalues are the roots of this polynomial, $A,B$ have the same
+  eigenvalues. Taking $\lambda=0$ implies
+  \begin{equation*}
+    \det(B) = \det(A)
+  \end{equation*}
+\end{proof}
+
+
+\newpage
+\section{Connection to eigenvalues}
+
+
+
+
 
 
 \newpage
