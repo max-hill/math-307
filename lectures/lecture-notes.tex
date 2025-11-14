@@ -8802,6 +8802,194 @@ which are not diagonalizable.
 
 \textit{substitute lecture on Jordan canonical form}
 
+
+\subsection{Section 2}
+For a change of basis, the formula is
+\begin{equation*}
+  [T]_{\beta}^{\beta} = P^{-1}[T]_{\alpha}^{\alpha}P.
+\end{equation*}
+Let $A = [T]_{\alpha}^{\alpha}$ and $B = [T]_{\beta}^{\beta}$.  Then, $A$ is
+similar (i.e., equivalent) to $B$ if $B=P^{-1}AP$. The change of basis matrix is an
+equivalence relation, so regardless of which basis we took, we want
+\begin{itemize}
+  \item reflexivity: $X=X$ ( $X$ is equivalent to itself)
+  \item symmetry: if $X=Y$ then $Y=X$
+  \item transitivity: if $X=Y$ and $Y=Z$, then $X=Z$.
+\end{itemize}
+
+Suppose $\alpha= \left\{v_{1},\ldots,v_{n}\right\}$ is a basis of $V$ and
+that $B$ is a diagonal matrix. Then
+\begin{equation*}
+  B  =
+  \begin{bmatrix}
+    d_{1}&0&\cdots&0\\
+    0&d_{2}&\cdots&0\\
+    \vdots &\vdots &\ddots&\vdots\\
+    0&0&\cdots&d_{n}
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    [T(v_{1})]_{\beta}&0&\cdots&0\\
+    0&[T(v_{2})_{\beta}&\cdots&0\\
+    \vdots &\vdots &\ddots&\vdots\\
+    0&0&\cdots&[T(v_{n})]_{\beta}
+  \end{bmatrix}
+\end{equation*}
+$A$ is similar to the diagonal matrix $B$ if and only if there is a basis of
+$V$ consisting of eigenvectors
+\begin{equation*}
+  A = PBP^{-1} \quad \text{or} \quad  B = P^{-1}AP
+\end{equation*}
+where $B$ is the diagonal matrix.
+
+If $\lambda$ is an eigenvalue of $T$, denote the corresponding eigenspace by
+$E_{\lambda}$. Then $T$ is diagonalizable if and only if
+\begin{equation}\label{eq:11}
+  \sum_{\lambda}\dim(E_{\lambda}) = \dim(V) 
+\end{equation}
+\begin{example}
+  Let $A =
+  \begin{bmatrix}
+    1&0&0\\
+    2&2&0\\
+    3&0&3
+  \end{bmatrix}
+  $
+  This has characteristic polynomial
+  \begin{equation*}
+    p(\lambda) = (\lambda-1)(\lambda-2)(\lambda-3)
+  \end{equation*}
+  so the eigenvalues are
+  \begin{equation*}
+    \lambda_{1} = 1, \quad \lambda_{2} = 2, \quad \lambda_{3}=3.
+  \end{equation*}
+  We know that $\dim(E_{1}) \geq 1$ (it has to be at least one), $\dim(E_{2})
+  \geq 1$, and $\dim(E_{3}) \geq 1$ (by similar reasoning). Since $\dim(A)
+  \leq 3$, and knowing $\dim(E_{1}),\dim(E_{2}),$ and $\dim(E_{3})$, \cref{eq:11}
+  gives $1+1+1=3$, so $A$ is similar to the diagonal matrix
+  \begin{equation*}
+    B =
+    \begin{bmatrix}
+      1&0&0\\
+      0&2&0\\
+      0&0&3
+    \end{bmatrix}
+  \end{equation*}
+\end{example}
+
+\begin{example}
+  Let $A =
+  \begin{bmatrix}
+    1&1&2\\
+    0&1&3\\
+    0&0&1
+  \end{bmatrix}
+  $ The characteristic polynomial is $p(\lambda)=(\lambda-1)^{3}$. Thus, the
+  only eigenvalue is $\lambda=1$. Moreover,
+  \begin{equation*}
+    \dim(E_{1}) = 1
+  \end{equation*}
+  Therefore by \cref{eq:11}, $A$ is not diagonalizable.
+\end{example}
+
+If a matrix isn't diagonalizable, we have something a little weaker. A \demph{jordan block} is a matrix of the form
+\begin{equation*}
+  \begin{bmatrix}
+    \lambda &1&0&\cdots &0&0
+    \\0&\lambda &1&\cdots &0&0
+    \\0&0&\lambda &\cdots &0&0
+    \\\vdots &\vdots &\vdots &\ddots &\vdots &\vdots \\
+    0&0&0&\cdots &\lambda &1
+    \\0&0&0&\cdots &0&\lambda 
+  \end{bmatrix}
+\end{equation*}
+which may have any dimension. For example
+\begin{equation*}
+  \begin{bmatrix}
+    3&1&0\\
+    0&3&1\\
+    0&0&3
+  \end{bmatrix}
+  \quad \text{or} \quad
+  \begin{bmatrix}
+    3&1\\
+    0&3
+  \end{bmatrix}
+  \quad \text{or} \quad
+  \begin{bmatrix}
+    3
+  \end{bmatrix}
+\end{equation*}
+
+A matrix is in \demph{Jordan normal form} if it has the form
+\begin{equation*}
+  \begin{bmatrix}
+    J_{1}& & & \\
+     &J_{2}& & \\
+     & &\ddots&\\
+     & & &J_{k}
+  \end{bmatrix}
+\end{equation*}
+where $J_{1},J_{2},\ldots,J_{r}$ are all Jordan blocks, and all other entries
+are zero.
+
+\begin{theorem}
+  Over $\C$, every matrix is equivalent to one in Jordan form or Jordan
+  noarmal form.
+\end{theorem}
+
+
+\subsection{Section 1}
+
+\textit{Topic: Jordan Canonical Form}
+
+Setup $V=\C^{n}$, $M: V \to V$, $M$ an $n\times n$ matrix. What basis of $V$
+makes $M$ the ``simplest''?
+
+\begin{example}
+  Imagine $M$ is a $3\times 3$ matrix with characteristic polynomial
+  \begin{equation*}
+    \chi_{M} = (\lambda-\sqrt{2})^{3}
+  \end{equation*}
+  Then $\sqrt{2}$ is the only eigenvalue and it has algebraic multiplicity
+  $3$. There are three possibilities, depending on the dimension of the
+  eigenspace $E_{\sqrt{2}}$:
+  \begin{itemize}
+    \item If the eigenspace is 3-dimensional, then $A$ is similar to
+    \begin{equation*}
+      \begin{bmatrix}
+        \sqrt{2}&0&0\\
+        0&\sqrt{2}&0\\
+        0&0&\sqrt{2}
+      \end{bmatrix}
+    \end{equation*}
+    \item If the eigenspace is $2$-dimensional, then $A$ is similar to
+    \begin{equation*}
+      \begin{bmatrix}
+        \sqrt{2}&0&0\\
+        0&\sqrt{2}&1\\
+        0&0&\sqrt{2}
+      \end{bmatrix}
+    \end{equation*}
+    \item If the eigenspace is $1$-dimensional, then $A$ is similar to
+    \begin{equation*}
+      \begin{bmatrix}
+        \sqrt{2}&1&0\\
+        0&\sqrt{2}&1\\
+        0&0&\sqrt{2}
+      \end{bmatrix}
+    \end{equation*}
+  \end{itemize}
+\end{example}
+
+\begin{theorem}
+  If $M$ is an $n\times n$ matrix with distinct eigenvalues
+  $\lambda_{1},\ldots,\lambda_{n}$, then $M$ is diagonalizable.
+\end{theorem}
+\begin{proof}
+  There exists at least one eigenvector jkl
+\end{proof}
+
 \newpage
 \section{2025-11-12 | Week 12 | Lecture 34}
 
@@ -8959,34 +9147,64 @@ The next example shows that the second inequality can be strict.
 \end{example}
 
 \newpage
-\section{2025-11-14}
-\subsection{Diagonalization of a rotation}
+\section{2025-11-14 | Week 12 | Lecture 35}
+\begin{center}
+  \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
+    \textit{\textbf{The nexus question of this lecture:} What are the
+      eigenvectors of a rotation?}
+  \end{tcolorbox}
+\end{center}
+
+Suppose $T(x)=Ax$ is a linear transformation, and $v$ is an eigenvector of
+$T$. This means that there exists a scalar $\lambda\in \C$ such that.
+\begin{equation*}
+  T(v) = \lambda v.
+\end{equation*}
+Geometrically, this equation says that an eigenvector is a direction that the
+transformation leaves intact: when $T$ acts on $v$, it may stretch, shrink, or
+flip that vector, but doesn't rotate it into a new direction.
+
+
+This naturally raises a striking question: what are the eigenvectors of a
+rotation? A rotation of the plane visibly changes \textit{every} real
+direction in the plane. Every arrow in the plane is dragged away from where it
+once pointed. So if eigenvectors are ``directions left intact'', then how can
+a rotation possibly have any?
+
+
+The short answer to this question is that we get complex eigenvectors. The
+rest of the lecture will consist of an example of a linear transformation of
+$\R^{2}$ involving a rotation which illustrates how this happens.
+
+\subsection{Eigenvectors and eigenvalues of a rotation}
 \begin{example}[Eigenvalues and eigenvectors of a rotation]
   \label{ex:eigenvalues-and-eigenvectors-rotation}
-  Find the eigenvalues and basis for the eigenspaces of
+  Let
   \begin{equation*}
     A=
     \begin{bmatrix}
-      1&-1\\1&1
-    \end{bmatrix}
+      1&-1\\
+      1&1
+    \end{bmatrix}.
   \end{equation*}
   This is a counterclockwise rotation by $45^{\circ}$ composed with a scaling
   by $\sqrt{2}$. That is, $A=\sqrt{2}R_{45^{\circ}}$.
+
+  \Fl{Question:} what are the eigenvalues and eigenvectors of $A$?
   
-  \Fl{Solution:} The characteristic equation is
+  \Fl{Solution:} The characteristic polynomial is
   \begin{equation*}
     \det
     \begin{bmatrix}
       \lambda-1&1\\-1&\lambda-1
     \end{bmatrix}
-    = (\lambda-1)^{2}+1 = \lambda^{2}-2\lambda +2=0
+    = (\lambda-1)^{2}+1 = \lambda^{2}-2\lambda +2= (\lambda-(1+i))(\lambda-(1-i)).
   \end{equation*}
-  This has solutions
-  \begin{equation*}
-    \lambda=1\pm i
-  \end{equation*}
+  This has solutions $\lambda=1+i$ and $\lambda=1-i$. These two complex
+  numbers are the eigenvalues of $A$.
   \begin{itemize}
-    \item For $\lambda=1+i$, we want to find $NS((1+i)I-A)$.
+    \item For $\lambda=1+i$, we want to find the eigenspace
+    $E_{1+i}=NS((1+i)I-A)$.
 
 
     First observe that $(1+i)I-A =
@@ -9025,7 +9243,7 @@ The next example shows that the second inequality can be strict.
         i&1&0\\
         -1&i&0
       \end{augmentedmatrix}
-      \overset{R_{2}-iR_{1}\to R_{1}}{\longrightarrow}
+      \overset{R_{2}-iR_{1}\to R_{2}}{\longrightarrow}
       \begin{augmentedmatrix}{cc|c}
         i&1&0\\
         0&0&0
@@ -9040,11 +9258,9 @@ The next example shows that the second inequality can be strict.
     \begin{equation*}
       \left\{ \begin{array}{l@{}l} x-iy=0 \\ 0=0 \end{array}\right.
     \end{equation*}
-    Hence $x=iy$ and $y$ is a free variable.
-
-    Therefore 
+    Hence $x=iy$ and $y$ is a free variable. Therefore 
     \begin{equation*}
-      NS((1+i)I-A)= \left\{
+      E_{1+i}= \left\{
         \begin{bmatrix}
           iy\\y
         \end{bmatrix}
@@ -9056,14 +9272,13 @@ The next example shows that the second inequality can be strict.
         \end{bmatrix}: y\in \C
       \right\} 
     \end{equation*}
-    In words, $ NS((1+i)I-A)$ is spanned by the vector $
+    In words, the eigenspace $E_{1+i}$ is spanned by the vector $
     \begin{bmatrix}
       i\\1
     \end{bmatrix}$.
-    This is a basis for the eigenspace of $\lambda=1+i$. 
     
     \item For $\lambda=1-i$, similar calculation shows that the eigenspace
-    $NS((1-i)I-A)$ is spanned by the eigenvector
+    $E_{1-i}=NS((1-i)I-A)$ is spanned by the eigenvector
     \begin{equation*}
       \begin{bmatrix}
         -i\\1
@@ -9072,44 +9287,83 @@ The next example shows that the second inequality can be strict.
   \end{itemize}
 \end{example}
 
-\newpage
 
 
 
-\cref{ex:eigenvalues-and-eigenvectors-rotation} illustrates the following theorem
+\cref{ex:eigenvalues-and-eigenvectors-rotation} illustrates the following
+theorem:
+
 \begin{theorem}
-  If $\lambda=a+bi$ is an eigenvalue of $A$, then $\bar{\lambda}=a-bi$ is also
-  an eigenvalue. Moreover, if $v_{1},\ldots,v_{k}$ form a basis for the
-  eigenspace of $\lambda$, then $\bar{v}_{1},\ldots,\bar{v}_{k}$ form a basis
-  for the eigenspace of $\bar{\lambda}$
+  Let $A$ be an $n\times n$ matrix with real entries. If $\lambda=a+bi$ is an
+  eigenvalue of $A$ (here $a,b\in \R$), then $\bar{\lambda}=a-bi$ is also an
+  eigenvalue.
+
+  % Moreover, if $v_{1},\ldots,v_{k}$ form a basis for the
+  % eigenspace of $\lambda$, then $\bar{v}_{1},\ldots,\bar{v}_{k}$ form a basis
+  % for the eigenspace of $\bar{\lambda}$.
 \end{theorem}
+\begin{remark}
+  Every complex number $z\in \C$ can be written as $z=a+bi$ for some
+  choice of real numbers $a$ and $b$. The terminology used is that $a+bi$ and
+  $a-bi$ are called \demph{complex conjugates}.
+\end{remark}
+
+\subsection{Diagonalization of a rotation}
+
+We can diagonalize the rotation.
 
 \begin{example}
   \label{ex:diagonalization-first-example}
-  Let
+  Let us consider again the matrix
   \begin{equation*}
     A=
     \begin{bmatrix}
       1&-1\\
       1&1
-    \end{bmatrix}
-  \end{equation*}
-  This is the rotation from \cref{ex:eigenvalues-and-eigenvectors-rotation}. I
-  claim that A is diagonalizable, and that it is similar to
-  \begin{equation*}
-    B=\begin{bmatrix}
-      1+i&0\\
-      0&1-i
     \end{bmatrix}.
   \end{equation*}
-  To see why this claim is true, let
+  This is the rotation from \cref{ex:eigenvalues-and-eigenvectors-rotation};
+  there, we shows that this matrix has two eigenvectors:
+  \begin{equation*}
+    \begin{bmatrix}
+      i\\1
+    \end{bmatrix}
+    \quad \text{and} \quad 
+    \begin{bmatrix}
+      -i\\1
+    \end{bmatrix}.
+  \end{equation*}
+  \cref{thm:eigenspace-dimension-criterion} implies that $A$ is
+  diagonalizable. The matrix
+  $P =
+  \begin{bmatrix}
+    i&-i\\
+    1&1
+  \end{bmatrix} $
+  (whose columns are the two eigenvectors) is invertible (because the
+  eigenvectors are linearly independent). This is a change-of-basis matrix
+  (our ``prism''), and we can use it to diagonalize $A$ as follows:
+  \begin{equation}\label{eq:12}
+    P^{-1}AP =
+    \begin{bmatrix}
+      1+i&0\\
+      0&1-i
+    \end{bmatrix} 
+  \end{equation}
+  (see below for details to justify this computation). The main diagonal entries on the right hand side
+  are the eigenvalues of $A$. Somehow, in rotating the plane $45^{\circ}$ (and
+  scaling it by a factor of $\sqrt{2}$ ), one of the complex eigenvectors gets
+  multiplied by $1+i$ and the other by $1-i$.
+
+  
+  Here are the details which justify \cref{eq:12}: first observe that we have
   \begin{equation*}
     P =
     \begin{bmatrix}
       i&-i\\
       1&1
     \end{bmatrix}
-    \quad \text{so that} \quad
+    \quad \text{and} \quad
     P^{-1}=
     \frac{1}{2i}
     \begin{bmatrix}
@@ -9117,7 +9371,7 @@ The next example shows that the second inequality can be strict.
       -1&i
     \end{bmatrix}.
   \end{equation*}
-  Then observe that
+  Therefore
   \begin{align*}
     P^{-1}AP 
     &=\left(
@@ -9156,33 +9410,17 @@ The next example shows that the second inequality can be strict.
         1-\frac{1}{i}&0\\
         0&1+\frac{1}{i}
       \end{bmatrix}\\
-   &=B. &&\text{since $\frac{1}{i}=-i$.}
+    &=\begin{bmatrix}
+      1+i&0\\
+      0&1-i
+    \end{bmatrix} &&\text{since $\frac{1}{i}=-i$,}
   \end{align*}
-  In this calculation, we used the fact that $\frac{1}{i} = -i$ (which holds
-  because $(-i)i=1$).
+  and the right-hand side is $B$. In this calculation, we used the fact that
+  $\frac{1}{i} = -i$ (which holds because $(-i)i=1$).
 \end{example}
 
-\begin{remark} Two observations:
-  \begin{itemize}
-    \item The diagonal entries of $B$ are the eigenvalues of $A$.
-    \item The eigenvectors of $A$  are $
-    \begin{bmatrix}
-      i\\1
-    \end{bmatrix}
-    $ and
-    $
-    \begin{bmatrix}
-      -i\\1
-    \end{bmatrix}
-    $. We showed this in \cref{ex:eigenvalues-and-eigenvectors-rotation}.
-    These are the columns of the diagonalizing matrix $P =
-    \begin{bmatrix}
-      i&-i\\
-      1&1
-    \end{bmatrix}.$
-  \end{itemize}
-\end{remark}
 
+\newpage
 \section{Another example}
 
 \begin{example}[Differentiation of polynomials]
@@ -9318,13 +9556,6 @@ The next example shows that the second inequality can be strict.
     \det(B) = \det(A)
   \end{equation*}
 \end{proof}
-
-
-\newpage
-\section{Connection to eigenvalues}
-
-
-
 
 
 
