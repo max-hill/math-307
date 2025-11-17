@@ -9419,145 +9419,618 @@ We can diagonalize the rotation.
   $\frac{1}{i} = -i$ (which holds because $(-i)i=1$).
 \end{example}
 
+\section{2025-11-17 | Week 13 | Lecture 36}
+\textit{We begin Section 6.1. This lecture is based on Section 5.4 in Gilbert Strang's Linear Algebra and its Applications)}
 
-\newpage
-\section{Another example}
-
-\begin{example}[Differentiation of polynomials]
-  Consider $P_{3}= \left\{p\in \R[x]: \deg (p) \leq 3\right\} $. 
-  Given an element $p\in P_{3}$, we have $p(x)=
-  c_{0}+c_{1}x+c_{2}x^{2}+c_{3}x^{3}$. A basis for $P_{3}$ is
-  \begin{equation*}
-    \beta= \left\{\beta_{1}= 1,\quad \beta_{2}=x, \quad \beta_{3}=x^{2}, \quad \beta_{4}=x^{3}\right\} 
-  \end{equation*}
-
-  Let $D = \frac{d}{dt}$. We've already seen that $D: P_{3}\to P_{3}$ is a
-  linear transformation (see \cref{ex:derivative-is-a-linear-transformation}).
-
-  \Fl{Question:} What is $[T]_{\beta}^{\beta}$, the matrix of $T$ with
-  respect to the basis $\beta$?
-
-  \fl{Idea:} First, we consider how  $D=\frac{d}{dt}$ acts on the vectors
-  $\beta_{1},\beta_{2},\beta_{3}$, and write the output in terms of the
-  vectors $\beta_{1},\beta_{2},\beta_{3}$. 
-
-  \fl{Solution:} Observe that
-  \begin{equation*}
-    D\beta_{1} = 0, \quad D\beta_{2}=\beta_{1}, \quad D\beta_{3}=2\beta_{2}, \quad D\beta_{4}=3\beta_{3} 
-  \end{equation*}
-
-  The matrix for $\frac{d}{dx}$ with respect to the basis $\beta$ is
-  \begin{equation*}
-    [D]_{\beta}^{\beta}
-    =\begin{bmatrix}
-      0&1&0&0\\
-      0&0&2&0\\
-      0&0&0&3\\
-      0&0&0&0
-    \end{bmatrix}
-  \end{equation*}
-  For example, if $p(x)=3+5x-7x^{2}+2x^{3}$, we can write $p$ as
-  \begin{equation*}
-    p =
-    \begin{bmatrix}
-      3\\5\\-7\\2
-    \end{bmatrix}_{\beta}
-  \end{equation*}
-  In which case
-  \begin{equation*}
-    [D]_{\beta}^{\beta}p =\begin{bmatrix}
-      0&1&0&0\\
-      0&0&2&0\\
-      0&0&0&3\\
-      0&0&0&0
-    \end{bmatrix}
-    \begin{bmatrix}
-      3\\5\\-7\\2
-    \end{bmatrix}_{\beta}
-    =
-    \begin{bmatrix}
-      5\\-14\\6\\0
-    \end{bmatrix}_{\beta}
-  \end{equation*}
-  The ``coordinate vector'' notation on the right hand side means the
-  following:
-  \begin{equation*}
-    \begin{bmatrix}
-      5\\-14\\6\\0
-    \end{bmatrix}_{\beta}
-    =5\beta_{1}-14\beta_{2}+6\beta_{3}+0\beta_{4} = 5-14x+6x^{2}.
-  \end{equation*}
-  It worked! This is the derivative of $p(x) = 3+5x-7x^{2}+2x^{3}$.
-
-
-  \fl{What about integration?}
-\end{example}
-
-\newpage
-
-\subsection{Properties of eigenvalues}
-
-\begin{theorem}[Eigenvalues of a triangular matrix]
-  \label{thm:eigenvalues-triangular-matrix}
-  Let $A=(a_{ij})$ be a triangular matrix. The eigenvalues of $A$ are the
-  entries of its main diagonal ($a_{11},a_{22},\ldots,a_{nn}$).
-\end{theorem}
-\begin{proof}
-  Since $A$ is triangular, so is $\lambda I-A$. Moreover, the main diagonal
-  entries of $\lambda I-A$ are
-  $\lambda-a_{11},\lambda-a_{22},\ldots, \lambda-a_{nn}$. Therefore by
-  \cref{thm:determinants-triangular-matrices},
-  \begin{equation*}
-    \det(\lambda I -A) = (\lambda-a_{11})(\lambda-a_{22})\cdots (\lambda - a_{nn})
-  \end{equation*}
-  The roots of this polynomial are precisely $a_{11},\ldots,a_{nn}$. Therefore
-  these are the eigenvalues by
-  \cref{thm:roots-of-characteristic-polynomial-are-eigenvalues}. 
-\end{proof}
+\subsection{Examples of systems of first-order linear differential equations}
 
 \begin{example}
-  Consider the matrix $A=
-  \begin{bmatrix}
-    7&4&2\\
-    0&7&1\\
-    0&0&5\\
-  \end{bmatrix}
-  $. By \cref{thm:eigenvalues-triangular-matrix}, the eigenvalues are
+  An ant is moving in the $xy$-plane with velocity vector
   \begin{equation*}
-    \lambda_{1}=7,\quad \lambda_{2}=7, \quad \text{and} \quad \lambda_{3}=5.
+    v =
+    \begin{bmatrix}
+      2x-5y\\
+      x-2y
+    \end{bmatrix}
   \end{equation*}
-  (Here, $7$ is an eigenvalue of \demph{multiplicity} 2). By
-  \cref{thm:determinant-product-eigenvalues},
-  $\det(A) = 7\cdot 7\cdot 5 = 2459.$
+  Suppose the ant starts at $(1,1)$.
+
+  \Fl{Question:} Find the position of the ant at time $t>0$
+
+
+  \fl{Solution:} First recognize that
+  \begin{equation*}
+    v =
+    \begin{bmatrix}
+      \frac{dx}{dt}\\
+      \frac{dy}{dt}
+    \end{bmatrix}
+  \end{equation*}
+  and therefore we have the following system of equations:
+  \begin{equation}\label{eq:13}
+    \left\{ \begin{array}{l@{}l}
+        \frac{dx}{dt}=2x-5y\\
+        \frac{dy}{dt}=x-2y
+      \end{array}\right.
+  \end{equation}
+  with initial conditions $x(0)=1$ and $y(0)=1$.
+
+
+  A solution to this system would consist of functions of the form
+  \begin{equation*}
+    x=x(t) \quad \text{and} \quad  y=y(t)
+  \end{equation*}
+  which satisfy the system of equations and initial conditions.
+
+  Without showing how we got it, here is one possible solution to the
+  differential equation given in \cref{eq:13}:
+  \begin{equation*}
+    \left\{ \begin{array}{l@{}l}
+        x(t)=\cos(t) -3\sin(t)\\
+        y(t) = \cos(t)-\sin(t)
+      \end{array}\right.
+  \end{equation*}
+  These two equations parameterize the following curve:
+  \begin{center}
+    \includegraphics[scale=.3]{images/FOLDE-ex1}
+  \end{center}
+  To verify that this is indeed a solution, we can check first that $x(0)=1$ and
+  $y(0)=1$, and that the right hand sides of \cref{eq:13} actually equal $x'(t)$
+  and $y'(t)$. To simplify, let $c=\cos(t)$ and $s=\sin(t)$:
+  \begin{equation*}
+    2x-5y = 2(c-3s)-5(c-s) = -s-3c = x'(t)
+  \end{equation*}
+  and
+  \begin{equation*}
+    x-2y = (c-3s)-2(c-s) = -c-s = y'(t).
+  \end{equation*}
 \end{example}
+
+
+
+\begin{example}[Strang's example]
+  \label{ex:strangs-example}
+  Consider the differential equation:
+  \begin{equation}
+    \label{eq:17}
+    \begin{bmatrix}
+      y'_{1}\\y_{2}'
+    \end{bmatrix}
+    \begin{bmatrix}
+      -2&1\\
+      1&-2
+    \end{bmatrix}
+    \begin{bmatrix}
+      y_{1}\\y_{2}
+    \end{bmatrix}. 
+  \end{equation}
+  Here, $y_{1},y_{2}$ are both functions of $t$ (``time''). This differential
+  equation has the form
+  \begin{equation*}
+    Y' = AY
+  \end{equation*}
+  where $A$ is an $n\times n$ matrix and $Y = Y(t) =
+  \begin{bmatrix}
+    y_{1}(t)\\
+    \vdots\\
+    y_{n}(t)
+  \end{bmatrix}$.
+
+  The only thing we need is the following:
+  \begin{theorem}[Pure exponential solutions]
+    \label{thm:pure-exponential-solutions}
+    Let $A$ be an $n\times n$ matrix, let $v$ be an eigenvector of $A$ with
+    eigenvalue $\lambda$, and let $c$ be any scalar. Then
+    \begin{equation*}
+      Y(t)=ce^{\lambda t}v
+    \end{equation*}
+    is a solution of the system $Y'=AY$.
+  \end{theorem}
+  \begin{proof}
+    \begin{align*}
+      Y'(t)
+      &= \frac{d}{dt}\left[ ce^{\lambda t}v \right] \\
+      &= ce^{\lambda t}\lambda v \\
+      &= ce^{\lambda t}Av \\
+      &= A \left( ce^{\lambda t}v \right) \\
+      &= A Y(t)
+    \end{align*}
+    So $Y' = AY$, meaning $Y(t)=c e^{\lambda t}v$ is a solution of the
+    differential equation.
+  \end{proof}
+  In our problem \cref{eq:17}, the first step is to find the eigenvalues and
+  eigenvectors:
+
+  \begin{equation*}
+    A
+    \begin{bmatrix}
+      1\\1
+    \end{bmatrix}
+    = (-1)
+    \begin{bmatrix}
+      1\\1
+    \end{bmatrix}
+    \quad \text{and} \quad
+    A
+    \begin{bmatrix}
+      1\\-1
+    \end{bmatrix}
+    =(-3)
+    \begin{bmatrix}
+      1\\-1
+    \end{bmatrix}.
+  \end{equation*}
+
+  By \cref{thm:pure-exponential-solutions}, we have two solution:
+  \begin{equation*}
+    Y_{1}(t) = c_{1}e^{-t}
+    \begin{bmatrix}
+      1\\1
+    \end{bmatrix}
+    \quad \text{and} \quad
+    Y_{2}(t) = c_{2}e^{-3t}
+    \begin{bmatrix}
+      1\\-1
+    \end{bmatrix},
+  \end{equation*}
+  where $c_{1},c_{2}$ are arbitrary constants. Combining these, we get the general solution
+  \begin{align*}
+    Y(t)
+    &= c_{1}e^{-t}
+      \begin{bmatrix}
+        1\\1
+      \end{bmatrix} +
+    c_{2}e^{-3t}
+    \begin{bmatrix}
+      1\\-1
+    \end{bmatrix}.
+  \end{align*}
+  If we further know that $Y(0)=B=
+  \begin{bmatrix}
+    b_{1}\\b_{2}
+  \end{bmatrix}
+  $, we can solve for $c_{1},c_{2}$ by observing
+  that plugging $t=0$ into the above formula gives
+  \begin{align*}
+    \begin{bmatrix}
+      b_{1}\\b_{2}
+    \end{bmatrix}
+    &= c_{1}e^{-t}
+      \begin{bmatrix}
+        1\\1
+      \end{bmatrix}
+    +c_{2}e^{-3t}
+    \begin{bmatrix}
+      1\\-1
+    \end{bmatrix}
+  \end{align*}
+  We can write this as
+  \begin{equation*}
+    \begin{bmatrix}
+      b_{1}\\b_{2}
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      1&1\\
+      1&-1
+    \end{bmatrix}
+    \begin{bmatrix}
+      c_{1}\\c_{2}
+    \end{bmatrix}
+  \end{equation*}
+  which implies that
+  \begin{equation*}
+    \begin{bmatrix}
+      c_{1}\\c_{2}=
+      \begin{bmatrix}
+        1&1\\
+        1&-1
+      \end{bmatrix}^{-1}
+      \begin{bmatrix}
+        b_{1}\\b_{2}
+      \end{bmatrix}
+    \end{bmatrix}.
+  \end{equation*}
+  (Note that the matrix $\begin{bmatrix}
+    1&1\\
+    1&-1
+  \end{bmatrix}$ is invertible since its columns are linearly independent
+  eigenvectors of $A$.)
+\end{example}
+\newpage
+\section{2025-11-19 | Week 13 | Lecture 37}
+  
+  We can write this as
+  \begin{align}\label{eq:16}
+    Y(t)
+    &=
+      \begin{bmatrix}
+        1&1\\
+        1&-1
+      \end{bmatrix}
+           \begin{bmatrix}
+             e^{-t}&0\\
+             0&e^{-3t}
+           \end{bmatrix}
+                \begin{bmatrix}
+                  c_{1}\\c_{2}
+                \end{bmatrix}
+  \end{align}
+  Further, suppose we know that $Y(0) = B$ (in this case, $B=
+  \begin{bmatrix}
+    b_{1}\\b_{2}
+  \end{bmatrix}\in \R^{2}
+  $). Plugging $t=0$ into \cref{eq:16} gives
+  \begin{equation*}
+    B
+    =
+    \begin{bmatrix}
+      1&1\\
+      1&-1
+    \end{bmatrix}
+    \begin{bmatrix}
+      c_{1}\\c_{2}
+    \end{bmatrix}
+  \end{equation*}
+  or
+  \begin{equation*}
+    \begin{bmatrix}
+      c_{1}\\c_{2}
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      1&1\\
+      1&-1
+    \end{bmatrix}^{-1}
+    B.
+  \end{equation*}
+  Plugging this into \cref{eq:16} implies 
+  \begin{equation*}
+    Y(t) =
+    \begin{bmatrix}
+      1&1\\
+      1&-1
+    \end{bmatrix}
+    \begin{bmatrix}
+      e^{-t}&0\\
+      0& e^{-3t}
+    \end{bmatrix}
+    \begin{bmatrix}
+      1&1\\
+      1&-1
+    \end{bmatrix}^{-1}
+    B
+  \end{equation*}
+  Writing $P =
+  \begin{bmatrix}
+    1&1\\1&-1
+  \end{bmatrix}
+  $ and $\lambda=
+  \begin{bmatrix}
+    -1&0\\0&-3
+  \end{bmatrix},$ we have the fundamental solution
+  \begin{equation}\label{eq:18}
+    Y(t) = P e^{\lambda t}P^{-1}B
+  \end{equation}
+
+  In this case, if we take $b_{1}=b_{2}=1$, we the matrix multiplication gives
+  \begin{equation*}
+    Y(t) = \frac{1}{2}
+    \begin{bmatrix}
+      e^{-t}+e^{-3t}&e^{-t}-e^{-3t}\\
+      e^{-t}-e^{-3t}&e^{-t}+e^{-3t}
+    \end{bmatrix}
+    \begin{bmatrix}
+      1\\1
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      e^{-t}\\e^{-t}
+    \end{bmatrix}.
+  \end{equation*}
+  This satisfies
+  \begin{equation*}
+    \left\{ \begin{array}{l@{}l}
+        Y'(t) =
+        \begin{bmatrix}
+          -2&1\\1&-2
+        \end{bmatrix}Y(t)
+        \\
+        Y(0) =
+        \begin{bmatrix}
+          1\\1
+        \end{bmatrix}
+      \end{array}\right.
+  \end{equation*}
+  (check this!), so it is a solution to the differential equation.
+
+\newpage
+\subsection{The matrix exponential}
+In \cref{ex:strangs-example}, we wrote doen $e^{\Lambda t}$ but $\Lambda t$ is
+a matrix. So we need to define the \demph{exponential of a matrix}:
+\begin{itemize}
+  \item If $\Lambda$ is diagonal $\begin{bmatrix}
+    \lambda_{1}&\cdots&0\\
+    \vdots&\ddots&\vdots\\
+    0&\cdots&\lambda_{n}
+  \end{bmatrix} $ then
+  it's easy:
+  \begin{equation*}
+    e^{\Lambda t} =
+    \begin{bmatrix}
+      e^{\lambda_{1}t}&\cdots&0\\
+      \vdots&\ddots&\vdots\\
+      0&\cdots&e^{\lambda_{n}t}
+    \end{bmatrix}
+  \end{equation*}
+  \item If $A$ is not a diagonal matrix, the idea is to imitate the power
+  series $e^{x}=1+x+\frac{x^{2}}{2!}+\frac{x^{3}}{3!}+\ldots$. Take $x=At$:
+  \begin{equation*}
+    e^{At} = 1+At+\frac{(At)^{2}}{2!}+ \frac{(At)^{3}}{3!}+\ldots
+  \end{equation*}
+  This series always converges, and satisfies
+\end{itemize}
+
+\subsection{General solution to $Y'=AY $ }
+
+\newpage
+
+
+
+
+\subsection{Definition of FOLDE}
+A \demph{system of first order linear differential equations} takes the form
+\begin{equation*}
+  \left\{ \begin{array}{l@{}l}
+      y_{1}' &= a_{11}y_{1}+a_{12}y_{2}+\ldots+a_{1n}y_{n} + g_{1}\\ 
+      y_{2}' &= a_{21}y_{1}+a_{22}y_{2}+\ldots+a_{2n}y_{n} + g_{2}\\ 
+      &\vdots\\
+      y_{n}' &= a_{n1}y_{1}+a_{n2}y_{2}+\ldots+a_{nn}y_{n} + g_{n}
+    \end{array}\right. 
+\end{equation*}
+\textbf{Note:} $y_{1},\ldots,y_{n}$ are all functions of $x\in \R$. So are $y'_{1},\ldots,y'_{n}$.
+In matrix notation, we write 
+\begin{equation*}
+  Y=Y(x)=
+  \begin{bmatrix}
+    y_{1}(x)\\
+    \vdots\\
+    y_{n}(x)
+  \end{bmatrix},
+  \quad
+  G=
+  \begin{bmatrix}
+    g_{1}\\
+    \vdots\\
+    g_{n}
+  \end{bmatrix},
+  \quad
+  A=
+  \begin{bmatrix}
+    a_{11}&\cdots&a_{1n}\\
+    \vdots&\ddots&\vdots\\
+    a_{n1}&\cdots&a_{nn}
+  \end{bmatrix}
+\end{equation*}
+To be fully general, one can consider $A$ and $G$ as functions of $x$. I don't
+think we'll do that, but $Y$ and $Y'$ are functions of $x$, even if we don't
+write $Y(x)$ and $Y'(x)$.
+
+
+We also specify that at some \demph{initial point} $x_{0}\in \R$, we assume
+that
+\begin{equation*}
+  Y(x_{0}) =
+  \begin{bmatrix}
+    y_{1}(x_{0})\\
+    \vdots\\
+    y_{n}(x_{0})
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    b_{1}\\
+    \vdots\\
+    b_{n}
+  \end{bmatrix}
+\end{equation*}
+for some fixed $b_{1},\ldots,b_{n}\in \R$. This is called the \demph{initial
+  condition.}
+
+With this notation, we can write a system of first order linear differential
+equations compactly as
+\begin{equation}\label{eq:FOLDE-inhomogeneous}
+  Y' = AY+G
+\end{equation}
+A special cas is when $G(x)=0$ for all $x$. In that case, the system takes the
+form
+\begin{equation}\label{eq:FOLDE-homogeneous}
+  Y' = AY.
+\end{equation}
+Such a system is said to be \demph{homogeneous}. Otherwise it is
+\demph{nonhomogenous}.
+
+
+\subsection{Important theorems}
+
+\begin{theorem}[Existence and uniqueness]
+  If $x_{0}$ lies in an interval $(a,b)$, and if $a_{ij}(x)$ and $g_{i}(x)$
+  are continuous on that interval for all $i$ and $j$, then the initial value
+  problem
+  \begin{equation*}
+    \left\{ \begin{array}{l@{}l}
+        Y' = AY +G\\
+        Y(x_{0}) = (b_{1},\ldots, b_{n})^{\top}
+   \end{array}\right.
+  \end{equation*}
+  has a unique solution on the interval $(a,b)$.
+\end{theorem}
+
+For a homogeneous system with no intial conditions, we may have many
+solutions. In fact
+
+\begin{theorem}[Solutions form a subspace]
+  \label{thm:solutions-form-subspace}
+  The solutions to a system of the form $Y'=AX$ (with $n$ equations) form a
+  vector space of dimension $n$.
+\end{theorem}
+Here, the vectors are functions. The big vector space is
+\begin{equation*}
+  V = \left\{
+    \begin{bmatrix}
+      f_{1}(x)\\\vdots\\f_{n}(x)
+    \end{bmatrix}: f_{i} \in C^{1}(a,b)
+  \right\} ,
+\end{equation*}
+where
+\begin{equation*}
+  C^{1}(a,b) = \left\{f:(a,b)\to \R \mid f' \text{ exists and is
+      continuous}\right\}
+\end{equation*}
+\cref{thm:solutions-form-subspace} says that the solutions to $Y'=AX$ form an $n$-dimensional subspace of $V$.
+
+This means that if $Y_{1}$ and $Y_{2}$ are solutions to
+\cref{eq:FOLDE-homogeneous}, then $\alpha Y_{1}+\beta Y_{2}$ is also a
+solution as well, for any scalars $\alpha,\beta$.
+
+If $Y_{1},\ldots,Y_{n}$ are a set of $n$ linearly independent solutions to
+\cref{eq:FOLDE-homogeneous}, we call them a \demph{fundamental set of
+  solutions}, and the \demph{general solution} is
+\begin{equation*}
+  Y_{H}=c_{1}Y_{1}+\ldots+c_{n}Y_{n}
+\end{equation*}
+where $c_{1},\ldots,c_{n}$ are scalars. The \demph{matrix of fundamental
+  solutions} is \newcommand*{\vertbar}{\rule[-1ex]{0.5pt}{2.5ex}}
+\newcommand*{\horzbar}{\,\rule[.5ex]{2.5ex}{0.5pt}\,}
+\begin{equation*}
+  Y_{H}
+  = 
+  \begin{bmatrix}
+    \begin{array}{ccc}
+      \vertbar & \cdots &         \vertbar \\
+      c_{1}Y_{1}    & \cdots   & c_{n}Y_{n}    \\
+      \vertbar & \cdots &         \vertbar 
+    \end{array}
+  \end{bmatrix}
+\end{equation*}
+
+\begin{theorem}
+  Suppose $Y_{1},\ldots,Y_{n}$ form a fundamental set of solutions to $Y'=AY$,
+  and that $Y_{P}$ is a solution to
+  \begin{equation}\label{eq:14}
+    Y'=AY+G
+  \end{equation}
+  . Then every solution to \cref{eq:14} has the form
+  \begin{equation*}
+    Y = Y_{H}+Y_{P}
+  \end{equation*}
+  where $Y_{H} = c_{1}Y_{1}+\ldots+c_{n}Y_{n}$.
+\end{theorem}
+
+The function $Y_{P}$ is called a \demph{particular solution} to the
+inhomogeneous system.
 
 
 \begin{theorem}
-  Similar matrices $A,B$ have the same characteristic polynomial, and hence
-  the same eigenvalues and determinant.
+  \label{thm:solution-to-FOLDE-1-equation}
+  Let $k\in \C$. Then the differential equation $y'(x) =ky(x)$ has solution
+  $y=ce^{kx}$, where $c$ is any constant.
 \end{theorem}
 \begin{proof}
-  First, recall by
-  \cref{thm:determinant-preserves-multiplication-1,thm:inverse-determinant}
-  that for any square matrices $U,V$, it holds that $\det(UV)=\det(U)\det(V)$
-  and that $\det(U^{-1}) = \frac{1}{\det(U)}$. Suppose that $A,B$ are similar.
-  Using these properties, we have:
-  \begin{align*}
-    \det(B-\lambda I ) 
-    &= \det \left( P^{-1}AP-\lambda P^{-1}P \right)\\ 
-    &= \det \left( P^{-1} \left( A -\lambda I\right)P  \right)\\ 
-    &= \det \left(P^{-1}  \right) \det \left( A- \lambda I \right) \det \left( P \right)\\   
-    &= \det \left(  A-\lambda I \right).
-  \end{align*}
-  Therefore $A, B$ have the same characteristic polynomial. Since the
-  eigenvalues are the roots of this polynomial, $A,B$ have the same
-  eigenvalues. Taking $\lambda=0$ implies
-  \begin{equation*}
-    \det(B) = \det(A)
-  \end{equation*}
+  If $y=ce^{kx}$ then $y'=cke^{kx}=ky$.
 \end{proof}
 
+\begin{example}
+  Consider the homogeneous differential equation
+  \begin{equation}\label{eq:15}
+    \begin{bmatrix}
+      y_{1}'\\y_{2}'
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      -1&0\\
+      0&3
+    \end{bmatrix}
+    \begin{bmatrix}
+      y_{1}\\y_{2}
+    \end{bmatrix}
+  \end{equation}
+  Here $A$ does not depend on $x$ (in other problems we'll see, it will). This
+  has form $Y'=AY$.
 
+  We have two equations
+  \begin{align*}
+    \left\{ \begin{array}{l@{}l}
+        y_{1}' = -y_{1}  \\
+        y_{2}' = 3y_{2}  \\
+      \end{array}\right.
+  \end{align*}
+  By \cref{thm:solution-to-FOLDE-1-equation}, this implies that $y_{1},y_{2}$
+  take the form
+  \begin{equation*}
+    y_{1} = c_{1}e^{-x} \quad \text{and} \quad y_{2} = c_{2}e^{3x}
+  \end{equation*}
+  Then
+  \begin{equation*}
+    Y=
+    \begin{bmatrix}
+      y_{1}\\y_{2}
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      c_{1}e^{-x}\\
+      c_{2}e^{3x}
+    \end{bmatrix}
+  \end{equation*}
+  is a solution to the differential equation in \cref{eq:15}.
+
+  Write
+  \begin{equation*}
+    Y = c_{1}
+    \begin{bmatrix}
+      e^{-x}\\0
+    \end{bmatrix}
+    +c_{2}
+    \begin{bmatrix}
+      0\\e^{3x}
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      e^{-x}&0\\
+      0&e^{3x}
+    \end{bmatrix}
+    \begin{bmatrix}
+      c_{1}\\c_{2}
+    \end{bmatrix}
+  \end{equation*}
+  We can futher observe that
+  \begin{equation*}
+    Y = c_{1}Y_{1}+c_{2}Y_{2}
+  \end{equation*}
+  where $Y_{1} =
+  \begin{bmatrix}
+    e^{-x}\\0
+  \end{bmatrix}
+  $
+  and $Y_{2} =
+  \begin{bmatrix}
+    0\\e^{3x}
+  \end{bmatrix}
+  $. Together, $Y_{1},Y_{2}$ form a fundamental set of solutions. The matrix
+  of fundamental solutions is
+  \begin{equation*}
+    M=\begin{bmatrix}
+      e^{-x}&0\\
+      0&e^{3x}
+    \end{bmatrix}
+  \end{equation*}
+  In this example $A =
+  \begin{bmatrix}
+    -1&0\\0&3
+  \end{bmatrix}
+  $ was a diagonal matrix; compare this with $M$.
+\end{example}
+
+\newpage
 
 \newpage
 \end{document}
