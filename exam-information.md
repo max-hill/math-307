@@ -1,4 +1,4 @@
- ---
+---
 layout: latex
 title: Exam Information
 permalink: /exam-information/
