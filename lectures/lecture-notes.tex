@@ -9640,9 +9640,10 @@ We can diagonalize the rotation.
 \newpage
 \section{2025-11-19 | Week 13 | Lecture 37}
 
+\textit{topic: continuation of introduction to systems of linear differential equations}
 
 \begin{theorem}[Pure exponential solutions]
-  \label{thm:pure-exponential-solutions}
+  \label{thm:pure-exponential-solutions-II}
   Let $A$ be an $n\times n$ matrix, let $v$ be an eigenvector of $A$ with
   eigenvalue $\lambda$, and let $c$ be any scalar. Then
   \begin{equation*}
@@ -9651,59 +9652,76 @@ We can diagonalize the rotation.
   is a solution of the system $Y'=AY$.
 \end{theorem}
 
+\subsection{Diffusion example}
 
-\begin{example}[Strang's example]
-  \label{ex:strangs-example}
-  Consider the differential equation:
+\begin{example}[Diffusion]
+  \label{ex:diffusion}
+  A person is standing in a large pipe drops a flask of chemicals, releasing a
+  chemical gas. The tube has 2 chambers, $S_{1}$ and $S_{2}$, as shown:
+  \begin{center}
+    \includegraphics[scale=.08]{images/diffusion-DE}
+  \end{center}
+  Let
+  \begin{align*}
+    y_{1}(t)  &= \text{ concentration of chemical in chamber }S_{1} \text{ at time }t\\
+    y_{2}(t)  &= \text{ concentration of chemical in chamber }S_{2} \text{ at time }t
+  \end{align*}
+  and assume that the concentration outside is always zero (the gas gets
+  immediately blown away by the wind).
+  
+  We make the following assumption:
+
+  \begin{center}
+    \textbf{At each time $t$, the diffusion rate between adjacent areas is the
+    difference in concentrations.}
+  \end{center}
+  Busing this assumption, $y_{1}$ (the concentration in $S_{1}$) is changing due to two factors:
+  \begin{itemize}
+    \item the diffusion to the outside, which is $(0-y_{1})$
+    \item the diffusion into or out of $S_{2}$, which is $(y_{2}-y_{1})$.
+  \end{itemize}
+  Hence
+  \begin{equation*}
+    \frac{dy_{1}}{dx} = (y_{2}-y_{1})+(0-y_{1}) = -2y_{1}+y_{2}.
+  \end{equation*}
+  Similar reasoning implies that
+  \begin{equation*}
+    \frac{dy_{2}}{dx} = (y_{1}-y_{2}) + (0-y_{2}) = y_{1}-2y_{2}.
+  \end{equation*}
+  This gives us the following system of differential equations:
+  \begin{align*}
+        \frac{dy_{1}}{dt}&=-2y_{1}+y_{2}\\
+        \frac{dy_{2}}{dt}&=y_{1}-2y_{2}
+  \end{align*}
+  Writing this in matrix form gives the matrix equation
   \begin{equation}
-    \label{eq:17a}
+    \label{eq:gas-diffusion-equation}
     \begin{bmatrix}
-      y'_{1}\\y_{2}'
+      y'_{1}(t)\\y_{2}'(t)
     \end{bmatrix}
     \begin{bmatrix}
       -2&1\\
       1&-2
     \end{bmatrix}
     \begin{bmatrix}
-      y_{1}\\y_{2}
-    \end{bmatrix}. 
+      y_{1}(t)\\y_{2}(t)
+    \end{bmatrix}
   \end{equation}
-  Here, $y_{1},y_{2}$ are both functions of $t$ (``time''). This differential
-  equation has the form
+  This is a differential equation of the form
   \begin{equation*}
-    Y' = AY
+    Y'=AY.
   \end{equation*}
-  where $A$ is an $n\times n$ matrix and $Y = Y(t) =
+
+  Observe that $A$ has eigenvalue $-1$ with eigenvector $
   \begin{bmatrix}
-    y_{1}(t)\\
-    \vdots\\
-    y_{n}(t)
-  \end{bmatrix}$.
-
-  In our problem \cref{eq:17a}, the first step is to find the eigenvalues and
-  eigenvectors:
-
-  \begin{equation*}
-    A
-    \begin{bmatrix}
-      1\\1
-    \end{bmatrix}
-    = (-1)
-    \begin{bmatrix}
-      1\\1
-    \end{bmatrix}
-    \quad \text{and} \quad
-    A
-    \begin{bmatrix}
-      1\\-1
-    \end{bmatrix}
-    =(-3)
-    \begin{bmatrix}
-      1\\-1
-    \end{bmatrix}.
-  \end{equation*}
-
-  By \cref{thm:pure-exponential-solutions}, we have two solution:
+    1\\1
+  \end{bmatrix}
+  $ and eigenvalue $-3$ with eigenvector $
+  \begin{bmatrix}
+    1\\-1
+  \end{bmatrix}
+  $. Therefore by \cref{thm:pure-exponential-solutions-II}, our system of
+  differential equations has solutions two pure exponential solutions:
   \begin{equation*}
     Y_{1}(t) = c_{1}e^{-t}
     \begin{bmatrix}
@@ -9715,7 +9733,8 @@ We can diagonalize the rotation.
       1\\-1
     \end{bmatrix},
   \end{equation*}
-  where $c_{1},c_{2}$ are arbitrary constants. Combining these, we get the general solution
+  where $c_{1},c_{2}$ are arbitrary constants. By superposition, the general
+  solution is
   \begin{align*}
     Y(t)
     &= c_{1}e^{-t}
@@ -9727,30 +9746,41 @@ We can diagonalize the rotation.
       1\\-1
     \end{bmatrix}.
   \end{align*}
-  If we further know that $Y(0)=B=
-  \begin{bmatrix}
-    b_{1}\\b_{2}
-  \end{bmatrix}
-  $, we can solve for $c_{1},c_{2}$ by observing
-  that plugging $t=0$ into the above formula gives
-  \begin{align*}
-    \begin{bmatrix}
-      b_{1}\\b_{2}
-    \end{bmatrix}
-    &= c_{1}e^{-t}
-      \begin{bmatrix}
-        1\\1
-      \end{bmatrix}
-    +c_{2}e^{-3t}
-    \begin{bmatrix}
-      1\\-1
-    \end{bmatrix}
-  \end{align*}
   We can write this as
+  \begin{align}\label{eq:gas-diffusion-matrix-equation}
+    Y(t)
+    &=
+      \begin{bmatrix}
+        1&1\\
+        1&-1
+      \end{bmatrix}
+           \begin{bmatrix}
+             e^{-t}&0\\
+             0&e^{-3t}
+           \end{bmatrix}
+                \begin{bmatrix}
+                  c_{1}\\c_{2}
+                \end{bmatrix}.
+  \end{align}
+  Further, suppose we are given the initial condition
   \begin{equation*}
+    Y(0) 
+    = B 
+    = 
     \begin{bmatrix}
       b_{1}\\b_{2}
-    \end{bmatrix}
+    \end{bmatrix}.
+  \end{equation*}
+  (For our problem, a reasonable initial condition would be $Y(0)=
+  \begin{bmatrix}
+    0\\1
+  \end{bmatrix}
+  $, since the chemical gas gets released in section $2$ of the pipe at time
+  $t=0$, but it hasn't reached $S_{1}$ yet.)
+  
+  Plugging $t=0$ into \cref{eq:gas-diffusion-matrix-equation} gives
+  \begin{equation*}
+    B
     =
     \begin{bmatrix}
       1&1\\
@@ -9760,130 +9790,192 @@ We can diagonalize the rotation.
       c_{1}\\c_{2}
     \end{bmatrix}
   \end{equation*}
-  which implies that
-  \begin{equation*}
+  or equivalently
+  \begin{align*}
     \begin{bmatrix}
       c_{1}\\c_{2}
+    \end{bmatrix} 
+    &= 
+      \begin{bmatrix}
+        1&1\\
+        1&-1
+      \end{bmatrix}^{-1}
+           B
+      % \begin{bmatrix}
+      %   \frac{1}{2}&\frac{1}{2}\\
+      %   \frac{1}{2}&-\frac{1}{2}
+      % \end{bmatrix}
+      %                \begin{bmatrix}
+      %                  b_{1}\\b_{2}
+      %                \end{bmatrix}\\
+  \end{align*}
+  Plugging this back into \cref{eq:gas-diffusion-equation} yeilds
+  \begin{equation*}
+    Y(t) =
+    \begin{bmatrix}
+      1&1\\
+      1&-1
     \end{bmatrix}
-    =\begin{bmatrix}
+    \begin{bmatrix}
+      e^{-t}&0\\
+      0& e^{-3t}
+    \end{bmatrix}
+    \begin{bmatrix}
       1&1\\
       1&-1
     \end{bmatrix}^{-1}
-    \begin{bmatrix}
-      b_{1}\\b_{2}
-    \end{bmatrix}
+    B
   \end{equation*}
-  (Note that the matrix $\begin{bmatrix}
-    1&1\\
-    1&-1
-  \end{bmatrix}$ is invertible since its columns are linearly independent
-  eigenvectors of $A$.)
-
-
-We can write this as
-\begin{align}\label{eq:16a}
-  Y(t)
-  &=
+  Writing
+  \begin{equation*}
+    P =
     \begin{bmatrix}
-      1&1\\
-      1&-1
-    \end{bmatrix}
-         \begin{bmatrix}
-           e^{-t}&0\\
-           0&e^{-3t}
-         \end{bmatrix}
-              \begin{bmatrix}
-                c_{1}\\c_{2}
-              \end{bmatrix}
-\end{align}
-Further, suppose we know that $Y(0) = B$ (in this case, $B=
-\begin{bmatrix}
-  b_{1}\\b_{2}
-\end{bmatrix}\in \R^{2}
-$). Plugging $t=0$ into \cref{eq:16a} gives
-\begin{equation*}
-  B
-  =
-  \begin{bmatrix}
-    1&1\\
-    1&-1
-  \end{bmatrix}
-  \begin{bmatrix}
-    c_{1}\\c_{2}
-  \end{bmatrix}
-\end{equation*}
-or
-\begin{equation*}
-  \begin{bmatrix}
-    c_{1}\\c_{2}
-  \end{bmatrix}
-  =
-  \begin{bmatrix}
-    1&1\\
-    1&-1
-  \end{bmatrix}^{-1}
-  B.
-\end{equation*}
-Plugging this into \cref{eq:16a} implies 
-\begin{equation*}
-  Y(t) =
-  \begin{bmatrix}
-    1&1\\
-    1&-1
-  \end{bmatrix}
-  \begin{bmatrix}
-    e^{-t}&0\\
-    0& e^{-3t}
-  \end{bmatrix}
-  \begin{bmatrix}
-    1&1\\
-    1&-1
-  \end{bmatrix}^{-1}
-  B
-\end{equation*}
-Writing $P =
-\begin{bmatrix}
-  1&1\\1&-1
-\end{bmatrix}
-$ and $\lambda=
-\begin{bmatrix}
-  -1&0\\0&-3
-\end{bmatrix},$ we have the fundamental solution
-\begin{equation}\label{eq:18-fundamental-solution}
-  Y(t) = P e^{\lambda t}P^{-1}B
-\end{equation}
+      1&1\\1&-1
+    \end{bmatrix},
+    \quad
+    \Lambda=
+    \begin{bmatrix}
+      -1&0\\0&-3
+    \end{bmatrix},
+    \quad \text{and} \quad
+    e^{\Lambda t} =
+    \begin{bmatrix}
+      e^{-t}&0\\
+      0&e^{-3t}
+    \end{bmatrix},
+  \end{equation*}
+  we see that our solution takes the form 
+  \begin{equation}\label{eq:18-fundamental-solution}
+    Y(t) = P e^{\Lambda t}P^{-1}B.
+  \end{equation}
 
-In this case, if we take $b_{1}=b_{2}=1$, we the matrix multiplication gives
-\begin{equation*}
-  Y(t) = \frac{1}{2}
+  If we take our initial condition to be $Y(0)=
   \begin{bmatrix}
-    e^{-t}+e^{-3t}&e^{-t}-e^{-3t}\\
-    e^{-t}-e^{-3t}&e^{-t}+e^{-3t}
+    0\\1
   \end{bmatrix}
-  \begin{bmatrix}
-    1\\1
-  \end{bmatrix}
-  =
-  \begin{bmatrix}
-    e^{-t}\\e^{-t}
-  \end{bmatrix}.
-\end{equation*}
-This satisfies
-\begin{equation*}
-  \left\{ \begin{array}{l@{}l}
-      Y'(t) =
+  $, as noted earlier, then we have $b_{1}=0$ and $b_{2}=1$. In that case, the matrix
+  multiplication gives
+  \begin{align*}
+    Y(t)
+    &= P e^{\Lambda t}P^{-1}B\\
+    &=
       \begin{bmatrix}
-        -2&1\\1&-2
-      \end{bmatrix}Y(t)
-      \\
-      Y(0) =
-      \begin{bmatrix}
-        1\\1
+        1&1\\
+        1&-1
       \end{bmatrix}
-    \end{array}\right.
-\end{equation*}
-(check this!), so it is a solution to the differential equation.
+           \begin{bmatrix}
+             -1&0\\
+             0&-3
+           \end{bmatrix}
+                \begin{bmatrix}
+                  \frac{1}{2}&\frac{1}{2}\\
+                  \frac{1}{2}&-\frac{1}{2}
+                \end{bmatrix}
+                               \begin{bmatrix}
+                                 0\\1  
+                               \end{bmatrix}\\
+    &= \frac{1}{2}
+      \begin{bmatrix}
+        e^{-t}+e^{-3t}&e^{-t}-e^{-3t}\\
+        e^{-t}-e^{-3t}&e^{-t}+e^{-3t}
+      \end{bmatrix}
+                        \begin{bmatrix}
+                          0\\1
+                        \end{bmatrix}\\
+    &=
+    \begin{bmatrix}
+      e^{-t}-e^{-3t}\\e^{-t}+e^{-3t}
+    \end{bmatrix}.
+  \end{align*}
+  In other words, at time $t$, the concentration of gas in $S_{1}$ is
+  $y_{1}(t) = e^{-t}-e^{-3t}$  and the concentration of gas in $S_{2}$ is
+  $y_{2}(t)=e^{-t}+e^{-3t}$. One can check that this satisfies
+  \begin{equation*}
+    \left\{ \begin{array}{l@{}l}
+        Y'(t) =
+        \begin{bmatrix}
+          -2&1\\1&-2
+        \end{bmatrix}Y(t)
+        \\
+        Y(0) =
+        \begin{bmatrix}
+          0\\1
+        \end{bmatrix}
+      \end{array}\right.
+  \end{equation*}
+  (check this!), so it is a solution to the differential equation. Phsycially,
+  it also makes since, since it indicates that both concentrations are
+  positive and tend to 0 as $t \to \infty$ as the gas diffuses. From the
+  equations we can also see that diffusion causes the gas concentration to
+  decay exponentially in time.
 \end{example}
+
+
+
+
+\subsection{General solution to $Y'=AY$}
+
+In \cref{ex:diffusion} we obtained the fundamental solution shown in
+\cref{eq:18-fundamental-solution}. The form that it took illustrate the
+following theorem:
+
+\begin{theorem}
+  If $A$ can be diagonalized $A=P\Lambda P^{-1}$, then
+  \begin{align*}
+    Y =Pe^{\Lambda t}P^{-1}B
+  \end{align*}
+  is a solution to the differential equation
+  \begin{equation*}
+    \left\{ \begin{array}{l@{}l}
+        Y'=Ay\\ Y(0)=B \end{array}\right.
+  \end{equation*}
+\end{theorem}
+\begin{remark}
+  In the above theorem, the columns of $P$ are the eigenvectors $v_{1},\ldots,v_{n}$ of
+  $A$. So the formula is for the solution can be written as
+  \newcommand*{\vertbar}{\rule[-1ex]{0.5pt}{2.5ex}}
+  \newcommand*{\horzbar}{\,\rule[.5ex]{2.5ex}{0.5pt}\,}
+  \begin{equation*}
+    Y(t)
+    = 
+    \begin{bmatrix}
+      \begin{array}{ccc}
+        \vertbar &  &         \vertbar \\
+        v_{1}    & \cdots   & v_{n}    \\
+        \vertbar & &         \vertbar 
+      \end{array}
+    \end{bmatrix}
+    \begin{bmatrix}
+      e^{\lambda_{1}t}&\cdots&0\\
+      \vdots&\ddots&\vdots\\
+      0&\cdots&e^{\lambda_{n}t}
+    \end{bmatrix}
+    P^{-1}Y(0),
+  \end{equation*}
+  Another way to write the solution: Let
+  $c=(c_{1},\ldots,c_{n})^{\top}=P^{-1}Y(0)$, in which case we get
+  \begin{equation*}
+    Y(t) = c_{1}e^{\lambda_{1}t}v_{1}+\ldots+c_{n}e^{\lambda_{n}t}v_{n}.
+  \end{equation*}
+\end{remark}
+
+\begin{remark}
+  When $A$ is diagonalizable (as is assumed in
+  \cref{thm:solution-to-FOLDE-1-equation}), we have
+  \begin{equation*}
+    Pe^{\Lambda t}P^{-1} = e^{At}
+  \end{equation*}
+  so the formula for the solution can be written in the wonderfully simple
+  form
+  \begin{equation*}
+    Y(t)=e^{At}Y(0).
+  \end{equation*}
+  In fact, this formula holds even if $A$ isn't diagonalizable, but to
+  understand that case, we'll need to first understand that $e^{At}$ even
+  means.
+\end{remark}
+\newpage
+\section{2025-11-21 | Week 13 | Lecture 38}
 
 \subsection{The matrix exponential}
 In \cref{ex:strangs-example}, we wrote doen $e^{\Lambda t}$ but $\Lambda t$ is
@@ -9930,55 +10022,7 @@ a matrix. So we need to define the \demph{exponential of a matrix}:
   We can write the RHS of \cref{eq:18-fundamental-solution} as $e^{At}B$.
 \end{itemize}
 
-This gives the following theorem
 
-\begin{theorem}
-  If $A$ can be diagonalized $A=P\Lambda P^{-1}$, then
-  \begin{align*}
-    Y 
-    &= e^{At}B\\
-    &Pe^{\Lambda t}P^{-1}B
-  \end{align*}
-  is a solution to the differential equation
-  \begin{equation*}
-    \left\{ \begin{array}{l@{}l}
-        Y'=Ay\\ Y(0)=B \end{array}\right.
-  \end{equation*}
-  Moreover, the columns of $P$ are the eigenvectors $v_{1},\ldots,v_{n}$ of
-  $A$. So
-  \newcommand*{\vertbar}{\rule[-1ex]{0.5pt}{2.5ex}}
-  \newcommand*{\horzbar}{\,\rule[.5ex]{2.5ex}{0.5pt}\,}
-  \begin{equation*}
-    Y(t)
-    = 
-    \begin{bmatrix}
-      \begin{array}{ccc}
-        \vertbar &  &         \vertbar \\
-        v_{1}    & \cdots   & v_{n}    \\
-        \vertbar & &         \vertbar 
-      \end{array}
-    \end{bmatrix}
-    \begin{bmatrix}
-      e^{\lambda_{1}t}&\cdots&0\\
-      \vdots&\ddots&\vdots\\
-      0&\cdots&e^{\lambda_{n}t}
-    \end{bmatrix}
-    P^{-1}Y(0),
-  \end{equation*}
-  And letting $c=(c_{1},\ldots,c_{n})^{\top}=P^{-1}Y(0)$, we obtain
-  \begin{equation*}
-    Y(t) = c_{1}e^{\lambda_{1}t}v_{1}+\ldots+c_{n}e^{\lambda_{n}t}v_{n}
-  \end{equation*}
-\end{theorem}
-Note: thie formula $Y(t)=e^{At}Y(0)$ holds even if $A$ isn't diagonalizable,
-bu the computation is harder.
-
-\subsection{General solution to $Y'=AY $ }
-
-
-
-
-\newpage
 \subsection{Definition of FOLDE}
 A \demph{system of first order linear differential equations} takes the form
 \begin{equation*}
@@ -10230,6 +10274,7 @@ inhomogeneous system.
   \end{bmatrix}
   $ was a diagonal matrix; compare this with $M$.
 \end{example}
+
 
 \newpage
 
