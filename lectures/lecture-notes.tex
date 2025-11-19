@@ -9639,112 +9639,252 @@ We can diagonalize the rotation.
 \end{example}
 \newpage
 \section{2025-11-19 | Week 13 | Lecture 37}
-  
-  We can write this as
-  \begin{align}\label{eq:16}
-    Y(t)
-    &=
-      \begin{bmatrix}
-        1&1\\
-        1&-1
-      \end{bmatrix}
-           \begin{bmatrix}
-             e^{-t}&0\\
-             0&e^{-3t}
-           \end{bmatrix}
-                \begin{bmatrix}
-                  c_{1}\\c_{2}
-                \end{bmatrix}
-  \end{align}
-  Further, suppose we know that $Y(0) = B$ (in this case, $B=
-  \begin{bmatrix}
-    b_{1}\\b_{2}
-  \end{bmatrix}\in \R^{2}
-  $). Plugging $t=0$ into \cref{eq:16} gives
-  \begin{equation*}
-    B
-    =
-    \begin{bmatrix}
-      1&1\\
-      1&-1
-    \end{bmatrix}
-    \begin{bmatrix}
-      c_{1}\\c_{2}
-    \end{bmatrix}
-  \end{equation*}
-  or
-  \begin{equation*}
-    \begin{bmatrix}
-      c_{1}\\c_{2}
-    \end{bmatrix}
-    =
-    \begin{bmatrix}
-      1&1\\
-      1&-1
-    \end{bmatrix}^{-1}
-    B.
-  \end{equation*}
-  Plugging this into \cref{eq:16} implies 
-  \begin{equation*}
-    Y(t) =
-    \begin{bmatrix}
-      1&1\\
-      1&-1
-    \end{bmatrix}
-    \begin{bmatrix}
-      e^{-t}&0\\
-      0& e^{-3t}
-    \end{bmatrix}
-    \begin{bmatrix}
-      1&1\\
-      1&-1
-    \end{bmatrix}^{-1}
-    B
-  \end{equation*}
-  Writing $P =
-  \begin{bmatrix}
-    1&1\\1&-1
-  \end{bmatrix}
-  $ and $\lambda=
-  \begin{bmatrix}
-    -1&0\\0&-3
-  \end{bmatrix},$ we have the fundamental solution
-  \begin{equation}\label{eq:18}
-    Y(t) = P e^{\lambda t}P^{-1}B
-  \end{equation}
 
-  In this case, if we take $b_{1}=b_{2}=1$, we the matrix multiplication gives
+
+\begin{theorem}[Pure exponential solutions]
+  \label{thm:pure-exponential-solutions}
+  Let $A$ be an $n\times n$ matrix, let $v$ be an eigenvector of $A$ with
+  eigenvalue $\lambda$, and let $c$ be any scalar. Then
   \begin{equation*}
-    Y(t) = \frac{1}{2}
+    Y(t)=ce^{\lambda t}v
+  \end{equation*}
+  is a solution of the system $Y'=AY$.
+\end{theorem}
+
+
+\begin{example}[Strang's example]
+  \label{ex:strangs-example}
+  Consider the differential equation:
+  \begin{equation}
+    \label{eq:17a}
     \begin{bmatrix}
-      e^{-t}+e^{-3t}&e^{-t}-e^{-3t}\\
-      e^{-t}-e^{-3t}&e^{-t}+e^{-3t}
+      y'_{1}\\y_{2}'
     \end{bmatrix}
+    \begin{bmatrix}
+      -2&1\\
+      1&-2
+    \end{bmatrix}
+    \begin{bmatrix}
+      y_{1}\\y_{2}
+    \end{bmatrix}. 
+  \end{equation}
+  Here, $y_{1},y_{2}$ are both functions of $t$ (``time''). This differential
+  equation has the form
+  \begin{equation*}
+    Y' = AY
+  \end{equation*}
+  where $A$ is an $n\times n$ matrix and $Y = Y(t) =
+  \begin{bmatrix}
+    y_{1}(t)\\
+    \vdots\\
+    y_{n}(t)
+  \end{bmatrix}$.
+
+  In our problem \cref{eq:17a}, the first step is to find the eigenvalues and
+  eigenvectors:
+
+  \begin{equation*}
+    A
     \begin{bmatrix}
       1\\1
     \end{bmatrix}
-    =
+    = (-1)
     \begin{bmatrix}
-      e^{-t}\\e^{-t}
+      1\\1
+    \end{bmatrix}
+    \quad \text{and} \quad
+    A
+    \begin{bmatrix}
+      1\\-1
+    \end{bmatrix}
+    =(-3)
+    \begin{bmatrix}
+      1\\-1
     \end{bmatrix}.
   \end{equation*}
-  This satisfies
-  \begin{equation*}
-    \left\{ \begin{array}{l@{}l}
-        Y'(t) =
-        \begin{bmatrix}
-          -2&1\\1&-2
-        \end{bmatrix}Y(t)
-        \\
-        Y(0) =
-        \begin{bmatrix}
-          1\\1
-        \end{bmatrix}
-      \end{array}\right.
-  \end{equation*}
-  (check this!), so it is a solution to the differential equation.
 
-\newpage
+  By \cref{thm:pure-exponential-solutions}, we have two solution:
+  \begin{equation*}
+    Y_{1}(t) = c_{1}e^{-t}
+    \begin{bmatrix}
+      1\\1
+    \end{bmatrix}
+    \quad \text{and} \quad
+    Y_{2}(t) = c_{2}e^{-3t}
+    \begin{bmatrix}
+      1\\-1
+    \end{bmatrix},
+  \end{equation*}
+  where $c_{1},c_{2}$ are arbitrary constants. Combining these, we get the general solution
+  \begin{align*}
+    Y(t)
+    &= c_{1}e^{-t}
+      \begin{bmatrix}
+        1\\1
+      \end{bmatrix} +
+    c_{2}e^{-3t}
+    \begin{bmatrix}
+      1\\-1
+    \end{bmatrix}.
+  \end{align*}
+  If we further know that $Y(0)=B=
+  \begin{bmatrix}
+    b_{1}\\b_{2}
+  \end{bmatrix}
+  $, we can solve for $c_{1},c_{2}$ by observing
+  that plugging $t=0$ into the above formula gives
+  \begin{align*}
+    \begin{bmatrix}
+      b_{1}\\b_{2}
+    \end{bmatrix}
+    &= c_{1}e^{-t}
+      \begin{bmatrix}
+        1\\1
+      \end{bmatrix}
+    +c_{2}e^{-3t}
+    \begin{bmatrix}
+      1\\-1
+    \end{bmatrix}
+  \end{align*}
+  We can write this as
+  \begin{equation*}
+    \begin{bmatrix}
+      b_{1}\\b_{2}
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      1&1\\
+      1&-1
+    \end{bmatrix}
+    \begin{bmatrix}
+      c_{1}\\c_{2}
+    \end{bmatrix}
+  \end{equation*}
+  which implies that
+  \begin{equation*}
+    \begin{bmatrix}
+      c_{1}\\c_{2}
+    \end{bmatrix}
+    =\begin{bmatrix}
+      1&1\\
+      1&-1
+    \end{bmatrix}^{-1}
+    \begin{bmatrix}
+      b_{1}\\b_{2}
+    \end{bmatrix}
+  \end{equation*}
+  (Note that the matrix $\begin{bmatrix}
+    1&1\\
+    1&-1
+  \end{bmatrix}$ is invertible since its columns are linearly independent
+  eigenvectors of $A$.)
+
+
+We can write this as
+\begin{align}\label{eq:16a}
+  Y(t)
+  &=
+    \begin{bmatrix}
+      1&1\\
+      1&-1
+    \end{bmatrix}
+         \begin{bmatrix}
+           e^{-t}&0\\
+           0&e^{-3t}
+         \end{bmatrix}
+              \begin{bmatrix}
+                c_{1}\\c_{2}
+              \end{bmatrix}
+\end{align}
+Further, suppose we know that $Y(0) = B$ (in this case, $B=
+\begin{bmatrix}
+  b_{1}\\b_{2}
+\end{bmatrix}\in \R^{2}
+$). Plugging $t=0$ into \cref{eq:16a} gives
+\begin{equation*}
+  B
+  =
+  \begin{bmatrix}
+    1&1\\
+    1&-1
+  \end{bmatrix}
+  \begin{bmatrix}
+    c_{1}\\c_{2}
+  \end{bmatrix}
+\end{equation*}
+or
+\begin{equation*}
+  \begin{bmatrix}
+    c_{1}\\c_{2}
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    1&1\\
+    1&-1
+  \end{bmatrix}^{-1}
+  B.
+\end{equation*}
+Plugging this into \cref{eq:16a} implies 
+\begin{equation*}
+  Y(t) =
+  \begin{bmatrix}
+    1&1\\
+    1&-1
+  \end{bmatrix}
+  \begin{bmatrix}
+    e^{-t}&0\\
+    0& e^{-3t}
+  \end{bmatrix}
+  \begin{bmatrix}
+    1&1\\
+    1&-1
+  \end{bmatrix}^{-1}
+  B
+\end{equation*}
+Writing $P =
+\begin{bmatrix}
+  1&1\\1&-1
+\end{bmatrix}
+$ and $\lambda=
+\begin{bmatrix}
+  -1&0\\0&-3
+\end{bmatrix},$ we have the fundamental solution
+\begin{equation}\label{eq:18-fundamental-solution}
+  Y(t) = P e^{\lambda t}P^{-1}B
+\end{equation}
+
+In this case, if we take $b_{1}=b_{2}=1$, we the matrix multiplication gives
+\begin{equation*}
+  Y(t) = \frac{1}{2}
+  \begin{bmatrix}
+    e^{-t}+e^{-3t}&e^{-t}-e^{-3t}\\
+    e^{-t}-e^{-3t}&e^{-t}+e^{-3t}
+  \end{bmatrix}
+  \begin{bmatrix}
+    1\\1
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    e^{-t}\\e^{-t}
+  \end{bmatrix}.
+\end{equation*}
+This satisfies
+\begin{equation*}
+  \left\{ \begin{array}{l@{}l}
+      Y'(t) =
+      \begin{bmatrix}
+        -2&1\\1&-2
+      \end{bmatrix}Y(t)
+      \\
+      Y(0) =
+      \begin{bmatrix}
+        1\\1
+      \end{bmatrix}
+    \end{array}\right.
+\end{equation*}
+(check this!), so it is a solution to the differential equation.
+\end{example}
+
 \subsection{The matrix exponential}
 In \cref{ex:strangs-example}, we wrote doen $e^{\Lambda t}$ but $\Lambda t$ is
 a matrix. So we need to define the \demph{exponential of a matrix}:
@@ -9768,16 +9908,77 @@ a matrix. So we need to define the \demph{exponential of a matrix}:
   \begin{equation*}
     e^{At} = 1+At+\frac{(At)^{2}}{2!}+ \frac{(At)^{3}}{3!}+\ldots
   \end{equation*}
-  This series always converges, and satisfies
+  This series always converges, and satisfies:
+  \begin{itemize}[*]
+    \item $e^{At}=e^{As}=e^{A(t+s)}$
+    \item $e^{At}e^{-tA}=I$ (so $e^{At}$ is always invertible)
+    \item $\frac{d}{dt} \left[ e^{At} \right]=A e^{At}$
+  \end{itemize}
+  If $A=P\Lambda P^{-1}$ for diagonal $\Lambda$ then
+  \begin{equation*}
+    A^{k} = P\Lambda^{k}P^{-1}.
+  \end{equation*}
+  Then
+  \begin{align*}
+    e^{At}
+    &= \sum_{k=0}^{\infty}\frac{(At)^{k} }{k!}\\
+    &= \sum_{k=0}^{\infty}\frac{ \left( P\Lambda^{k} P^{-1}\right)t^{k}  }{k!}\\
+    &= P \left( \sum_{k=0}^{\infty} \frac{\Lambda^{k}t^{k}}{k!}  \right)P^{-1}\\ 
+    &= P \left( \sum_{k=0}^{\infty}\frac{(\Lambda t)^{k}}{k!}  \right)P^{-1}\\ 
+    &=Pe^{\Lambda t}P^{-1}.
+  \end{align*}
+  We can write the RHS of \cref{eq:18-fundamental-solution} as $e^{At}B$.
 \end{itemize}
+
+This gives the following theorem
+
+\begin{theorem}
+  If $A$ can be diagonalized $A=P\Lambda P^{-1}$, then
+  \begin{align*}
+    Y 
+    &= e^{At}B\\
+    &Pe^{\Lambda t}P^{-1}B
+  \end{align*}
+  is a solution to the differential equation
+  \begin{equation*}
+    \left\{ \begin{array}{l@{}l}
+        Y'=Ay\\ Y(0)=B \end{array}\right.
+  \end{equation*}
+  Moreover, the columns of $P$ are the eigenvectors $v_{1},\ldots,v_{n}$ of
+  $A$. So
+  \newcommand*{\vertbar}{\rule[-1ex]{0.5pt}{2.5ex}}
+  \newcommand*{\horzbar}{\,\rule[.5ex]{2.5ex}{0.5pt}\,}
+  \begin{equation*}
+    Y(t)
+    = 
+    \begin{bmatrix}
+      \begin{array}{ccc}
+        \vertbar &  &         \vertbar \\
+        v_{1}    & \cdots   & v_{n}    \\
+        \vertbar & &         \vertbar 
+      \end{array}
+    \end{bmatrix}
+    \begin{bmatrix}
+      e^{\lambda_{1}t}&\cdots&0\\
+      \vdots&\ddots&\vdots\\
+      0&\cdots&e^{\lambda_{n}t}
+    \end{bmatrix}
+    P^{-1}Y(0),
+  \end{equation*}
+  And letting $c=(c_{1},\ldots,c_{n})^{\top}=P^{-1}Y(0)$, we obtain
+  \begin{equation*}
+    Y(t) = c_{1}e^{\lambda_{1}t}v_{1}+\ldots+c_{n}e^{\lambda_{n}t}v_{n}
+  \end{equation*}
+\end{theorem}
+Note: thie formula $Y(t)=e^{At}Y(0)$ holds even if $A$ isn't diagonalizable,
+bu the computation is harder.
 
 \subsection{General solution to $Y'=AY $ }
 
+
+
+
 \newpage
-
-
-
-
 \subsection{Definition of FOLDE}
 A \demph{system of first order linear differential equations} takes the form
 \begin{equation*}
@@ -9906,9 +10107,9 @@ where $c_{1},\ldots,c_{n}$ are scalars. The \demph{matrix of fundamental
   = 
   \begin{bmatrix}
     \begin{array}{ccc}
-      \vertbar & \cdots &         \vertbar \\
+      \vertbar &  &         \vertbar \\
       c_{1}Y_{1}    & \cdots   & c_{n}Y_{n}    \\
-      \vertbar & \cdots &         \vertbar 
+      \vertbar & &         \vertbar 
     \end{array}
   \end{bmatrix}
 \end{equation*}
