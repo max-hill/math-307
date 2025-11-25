@@ -93,12 +93,13 @@
 \newtheorem{proposition}[theorem]{Proposition}
 \newtheorem{corollary}[theorem]{Corollary}
 \newtheorem{question}[theorem]{Question}
+\newtheorem{remark}[theorem]{Remark}
 \theoremstyle{definition}
 \newtheorem{definition}[theorem]{Definition}
-\newtheorem{remark}[theorem]{Remark}
 \newtheorem{example}[theorem]{Example}
 \newtheorem{notation}[theorem]{Notation}
 \newtheorem{problem}[theorem]{Problem}
+
 
 % Redefine the Example environment to include "End of example [number]"
 \makeatletter
@@ -106,6 +107,14 @@
 \renewenvironment{example}
 {\begin{oldexample}}
   {\par\smallskip\hfill   End of Example~\theexample. $\square$    \par\end{oldexample}}
+\makeatother
+
+% Redefine the Remark environment to include "End of remark [number]"
+\makeatletter
+\let\oldremark\remark
+\renewenvironment{remark}
+{\begin{oldremark}} 
+  {\par\smallskip\hfill   End of Remark~\theremark. $\square$    \par\end{oldremark}}
 \makeatother
 
 % Custom Math Commands
@@ -9657,14 +9666,14 @@ We can diagonalize the rotation.
 \begin{example}[Diffusion]
   \label{ex:diffusion}
   A person is standing in a large pipe drops a flask of chemicals, releasing a
-  chemical gas. The tube has 2 chambers, $S_{1}$ and $S_{2}$, as shown:
+  chemical gas. The tube has 2 sections, $S_{1}$ and $S_{2}$, as shown:
   \begin{center}
     \includegraphics[scale=.08]{images/diffusion-DE}
   \end{center}
   Let
   \begin{align*}
-    y_{1}(t)  &= \text{ concentration of chemical in chamber }S_{1} \text{ at time }t\\
-    y_{2}(t)  &= \text{ concentration of chemical in chamber }S_{2} \text{ at time }t
+    y_{1}(t)  &= \text{ concentration of chemical in section }S_{1} \text{ at time }t\\
+    y_{2}(t)  &= \text{ concentration of chemical in section }S_{2} \text{ at time }t
   \end{align*}
   and assume that the concentration outside is always zero (the gas gets
   immediately blown away by the wind).
@@ -9921,6 +9930,7 @@ In \cref{ex:diffusion} we obtained the fundamental solution shown in
 following theorem:
 
 \begin{theorem}
+  \label{thm:solution-to-linear-system-of-differential-equations}
   If $A$ can be diagonalized $A=P\Lambda P^{-1}$, then
   \begin{align*}
     Y =Pe^{\Lambda t}P^{-1}B
@@ -9976,7 +9986,73 @@ following theorem:
   means.
 \end{remark}
 \newpage
-\section{2025-11-21 | Week 13 | Lecture 38}
+\section{2025-11-21 | Week 14 | Lecture 38}
+\textit{Please read chapters 6.1 and 6.2}
+
+\subsection{Recap of first order linear differential equations}
+Recall from the previous two lectures, we considered differential equations of
+the form
+\begin{equation}\label{eq:16}
+  Y' = AY
+\end{equation}
+where $Y=
+\begin{bmatrix}
+  y_{1}\\ \vdots\\ y_{n}
+\end{bmatrix}
+$ is a function of time $t$ and $A$ is an $n\times n$ matrix.
+
+\cref{eq:16} is a system of $n$ equations, each taking the form
+\begin{equation*}
+  \frac{dy_{i}}{dt} = a_{i1}y_{1}(t)+a_{i2}y_{2}(t)+\ldots+a_{in}y_{n}(t), \quad (i=1,2,\ldots,n).
+\end{equation*}
+
+
+Differential equations of the form given in \cref{eq:16} are called
+\demph{homogeneous systems of first order linear differential equations.}
+
+A system is \demph{inhomogeneous} if takes the form
+\begin{equation*}
+  Y'=AY+G
+\end{equation*}
+for some nonzero vector $G=G(t) =
+\begin{bmatrix}
+  g_{1}(t)\\ \vdots \\ g_{n}(t)
+\end{bmatrix}
+$ is not the zero vector. So far we have focused on the homogenous case.
+
+\begin{remark}
+  The textbook uses the variable name $x$ rather than $t$, but I like to think
+  of it as time, so I'll use $t$ in my lectures. One can also allow the matrix
+  $A$ to be a function of $t$, and this is done in the textbook, but I'd
+  rather avoid this more general setting for now.
+\end{remark}
+
+
+\Fl{Applications:} We saw two physical interpretations of \cref{eq:16}:
+\begin{itemize}
+  \item as the position of a moving particle (or ant)
+  \item as the concentration of a chemical diffusing between several discrete
+  locations
+\end{itemize}
+
+We also saw that, given the \demph{initial condition} $Y(0)=B$, the solution
+to the differential equation in \cref{eq:16} takes the form
+\begin{equation*}
+  Y(t) = e^{At}B.
+\end{equation*}
+This describes either the position of the particle at time $t$, or the
+concentrations of the chemical in the $n$ compartements at time $t$.
+
+When $A$ is diagonalizable (that is, when $A =P\Lambda P^{-1}$), the above
+solution can be written as
+\begin{equation*}
+  Y(t) = Pe^{\Lambda t}P^{-1}B.
+\end{equation*}
+where $\Lambda =\diag(\lambda_{1},\ldots,\lambda_{n})$ and
+$e^{\Lambda t}= \diag(e^{\lambda_{1}t},\ldots,e^{\lambda_{n}t})$. This was the
+content of \cref{thm:solution-to-linear-system-of-differential-equations}.
+
+Next we discuss what $e^{At}$ really means.
 
 \subsection{The matrix exponential}
 In \cref{ex:strangs-example}, we wrote doen $e^{\Lambda t}$ but $\Lambda t$ is
@@ -10024,79 +10100,79 @@ a matrix. So we need to define the \demph{exponential of a matrix}:
 \end{itemize}
 
 
-\subsection{Definition of FOLDE}
-A \demph{system of first order linear differential equations} takes the form
-\begin{equation*}
-  \left\{ \begin{array}{l@{}l}
-      y_{1}' &= a_{11}y_{1}+a_{12}y_{2}+\ldots+a_{1n}y_{n} + g_{1}\\ 
-      y_{2}' &= a_{21}y_{1}+a_{22}y_{2}+\ldots+a_{2n}y_{n} + g_{2}\\ 
-      &\vdots\\
-      y_{n}' &= a_{n1}y_{1}+a_{n2}y_{2}+\ldots+a_{nn}y_{n} + g_{n}
-    \end{array}\right. 
-\end{equation*}
-\textbf{Note:} $y_{1},\ldots,y_{n}$ are all functions of $x\in \R$. So are $y'_{1},\ldots,y'_{n}$.
-In matrix notation, we write 
-\begin{equation*}
-  Y=Y(x)=
-  \begin{bmatrix}
-    y_{1}(x)\\
-    \vdots\\
-    y_{n}(x)
-  \end{bmatrix},
-  \quad
-  G=
-  \begin{bmatrix}
-    g_{1}\\
-    \vdots\\
-    g_{n}
-  \end{bmatrix},
-  \quad
-  A=
-  \begin{bmatrix}
-    a_{11}&\cdots&a_{1n}\\
-    \vdots&\ddots&\vdots\\
-    a_{n1}&\cdots&a_{nn}
-  \end{bmatrix}
-\end{equation*}
-To be fully general, one can consider $A$ and $G$ as functions of $x$. I don't
-think we'll do that, but $Y$ and $Y'$ are functions of $x$, even if we don't
-write $Y(x)$ and $Y'(x)$.
+% \subsection{Definition of FOLDE}
+% A \demph{system of first order linear differential equations} takes the form
+% \begin{equation*}
+%   \left\{ \begin{array}{l@{}l}
+%       y_{1}' &= a_{11}y_{1}+a_{12}y_{2}+\ldots+a_{1n}y_{n} + g_{1}\\ 
+%       y_{2}' &= a_{21}y_{1}+a_{22}y_{2}+\ldots+a_{2n}y_{n} + g_{2}\\ 
+%       &\vdots\\
+%       y_{n}' &= a_{n1}y_{1}+a_{n2}y_{2}+\ldots+a_{nn}y_{n} + g_{n}
+%     \end{array}\right. 
+% \end{equation*}
+% \textbf{Note:} $y_{1},\ldots,y_{n}$ are all functions of $x\in \R$. So are $y'_{1},\ldots,y'_{n}$.
+% In matrix notation, we write 
+% \begin{equation*}
+%   Y=Y(x)=
+%   \begin{bmatrix}
+%     y_{1}(x)\\
+%     \vdots\\
+%     y_{n}(x)
+%   \end{bmatrix},
+%   \quad
+%   G=
+%   \begin{bmatrix}
+%     g_{1}\\
+%     \vdots\\
+%     g_{n}
+%   \end{bmatrix},
+%   \quad
+%   A=
+%   \begin{bmatrix}
+%     a_{11}&\cdots&a_{1n}\\
+%     \vdots&\ddots&\vdots\\
+%     a_{n1}&\cdots&a_{nn}
+%   \end{bmatrix}
+% \end{equation*}
+% To be fully general, one can consider $A$ and $G$ as functions of $x$. I don't
+% think we'll do that, but $Y$ and $Y'$ are functions of $x$, even if we don't
+% write $Y(x)$ and $Y'(x)$.
 
 
-We also specify that at some \demph{initial point} $x_{0}\in \R$, we assume
-that
-\begin{equation*}
-  Y(x_{0}) =
-  \begin{bmatrix}
-    y_{1}(x_{0})\\
-    \vdots\\
-    y_{n}(x_{0})
-  \end{bmatrix}
-  =
-  \begin{bmatrix}
-    b_{1}\\
-    \vdots\\
-    b_{n}
-  \end{bmatrix}
-\end{equation*}
-for some fixed $b_{1},\ldots,b_{n}\in \R$. This is called the \demph{initial
-  condition.}
+% We also specify that at some \demph{initial point} $x_{0}\in \R$, we assume
+% that
+% \begin{equation*}
+%   Y(x_{0}) =
+%   \begin{bmatrix}
+%     y_{1}(x_{0})\\
+%     \vdots\\
+%     y_{n}(x_{0})
+%   \end{bmatrix}
+%   =
+%   \begin{bmatrix}
+%     b_{1}\\
+%     \vdots\\
+%     b_{n}
+%   \end{bmatrix}
+% \end{equation*}
+% for some fixed $b_{1},\ldots,b_{n}\in \R$. This is called the \demph{initial
+%   condition.}
 
-With this notation, we can write a system of first order linear differential
-equations compactly as
-\begin{equation}\label{eq:FOLDE-inhomogeneous}
-  Y' = AY+G
-\end{equation}
-A special cas is when $G(x)=0$ for all $x$. In that case, the system takes the
-form
-\begin{equation}\label{eq:FOLDE-homogeneous}
-  Y' = AY.
-\end{equation}
-Such a system is said to be \demph{homogeneous}. Otherwise it is
-\demph{nonhomogenous}.
+% With this notation, we can write a system of first order linear differential
+% equations compactly as
+% \begin{equation}\label{eq:FOLDE-inhomogeneous}
+%   Y' = AY+G
+% \end{equation}
+% A special cas is when $G(x)=0$ for all $x$. In that case, the system takes the
+% form
+% \begin{equation}\label{eq:FOLDE-homogeneous}
+%   Y' = AY.
+% \end{equation}
+% Such a system is said to be \demph{homogeneous}. Otherwise it is
+% \demph{nonhomogenous}.
 
 
-\subsection{Important theorems}
+\subsection{Theorems and notation of section 6.1}
 
 \begin{theorem}[Existence and uniqueness]
   If $x_{0}$ lies in an interval $(a,b)$, and if $a_{ij}(x)$ and $g_{i}(x)$
