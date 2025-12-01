@@ -9088,7 +9088,7 @@ The next example shows that the second inequality can be strict.
 \end{example}
 
 \subsection{An application of diagonalizability}
-
+\label{sec:an-application-diagonalizability}
 \begin{example}
   Let $A=
   \begin{bmatrix}
@@ -9986,13 +9986,13 @@ following theorem:
   means.
 \end{remark}
 \newpage
-\section{2025-11-21 | Week 14 | Lecture 38}
+\section{2025-11-26 | Week 14 | Lecture 38}
 \textit{Please read chapters 6.1 and 6.2}
 
 \subsection{Recap of first order linear differential equations}
 Recall from the previous two lectures, we considered differential equations of
 the form
-\begin{equation}\label{eq:16}
+\begin{equation}\label{eq:FOLDE-homogeneous}
   Y' = AY
 \end{equation}
 where $Y=
@@ -10001,19 +10001,19 @@ where $Y=
 \end{bmatrix}
 $ is a function of time $t$ and $A$ is an $n\times n$ matrix.
 
-\cref{eq:16} is a system of $n$ equations, each taking the form
+\cref{eq:FOLDE-homogeneous} is a system of $n$ equations, each taking the form
 \begin{equation*}
   \frac{dy_{i}}{dt} = a_{i1}y_{1}(t)+a_{i2}y_{2}(t)+\ldots+a_{in}y_{n}(t), \quad (i=1,2,\ldots,n).
 \end{equation*}
 
 
-Differential equations of the form given in \cref{eq:16} are called
+Differential equations of the form given in \cref{eq:FOLDE-homogeneous} are called
 \demph{homogeneous systems of first order linear differential equations.}
 
 A system is \demph{inhomogeneous} if takes the form
-\begin{equation*}
+\begin{equation}\label{eq:FOLDE-inhomogeneous}
   Y'=AY+G
-\end{equation*}
+\end{equation}
 for some nonzero vector $G=G(t) =
 \begin{bmatrix}
   g_{1}(t)\\ \vdots \\ g_{n}(t)
@@ -10028,7 +10028,7 @@ $ is not the zero vector. So far we have focused on the homogenous case.
 \end{remark}
 
 
-\Fl{Applications:} We saw two physical interpretations of \cref{eq:16}:
+\Fl{Applications:} We saw two physical interpretations of \cref{eq:FOLDE-homogeneous}:
 \begin{itemize}
   \item as the position of a moving particle (or ant)
   \item as the concentration of a chemical diffusing between several discrete
@@ -10036,7 +10036,7 @@ $ is not the zero vector. So far we have focused on the homogenous case.
 \end{itemize}
 
 We also saw that, given the \demph{initial condition} $Y(0)=B$, the solution
-to the differential equation in \cref{eq:16} takes the form
+to the differential equation in \cref{eq:FOLDE-homogeneous} takes the form
 \begin{equation*}
   Y(t) = e^{At}B.
 \end{equation*}
@@ -10055,10 +10055,26 @@ content of \cref{thm:solution-to-linear-system-of-differential-equations}.
 Next we discuss what $e^{At}$ really means.
 
 \subsection{The matrix exponential}
-In \cref{ex:strangs-example}, we wrote doen $e^{\Lambda t}$ but $\Lambda t$ is
-a matrix. So we need to define the \demph{exponential of a matrix}:
+
+
+In \cref{ex:strangs-example}, we wrote down $e^{\Lambda t}$ but $\Lambda t$ is
+a matrix. So we need to define $e^{M}$ where $M$ is a matrix.
+
+If $x$ is a real number, then the power series of $e^{x}$ is
+\begin{equation*}
+  e^{x} = 1+x+\frac{x^{2}}{2!}+ \frac{x^{3}}{3!}+\ldots = \sum_{k=0}^{\infty}\frac{x^{k}}{k!} 
+\end{equation*}
+
+If $M$ is a square matrix, then we define the \demph{exponential of a matrix}
+$e^{M}$ as
+\begin{equation*}
+  e^{M} = I+M+\frac{M^{2}}{2!}+ \frac{M^{3}}{3!}+\ldots = \sum_{k=0}^{\infty}\frac{M^{k}}{k!} 
+\end{equation*}
+kk
+Using this definition we have two cases:
+
 \begin{itemize}
-  \item If $\Lambda$ is diagonal $\begin{bmatrix}
+  \item If $M=\Lambda$ is diagonal $\begin{bmatrix}
     \lambda_{1}&\cdots&0\\
     \vdots&\ddots&\vdots\\
     0&\cdots&\lambda_{n}
@@ -10072,21 +10088,36 @@ a matrix. So we need to define the \demph{exponential of a matrix}:
       0&\cdots&e^{\lambda_{n}t}
     \end{bmatrix}
   \end{equation*}
-  \item If $A$ is not a diagonal matrix, the idea is to imitate the power
-  series $e^{x}=1+x+\frac{x^{2}}{2!}+\frac{x^{3}}{3!}+\ldots$. Take $x=At$:
+  \item If $M$ is not a diagonal matrix, computing the exponential is harder.
+  For example, if $M=At$, we have 
   \begin{equation*}
-    e^{At} = 1+At+\frac{(At)^{2}}{2!}+ \frac{(At)^{3}}{3!}+\ldots
+    e^{At} = I+At+\frac{(At)^{2}}{2!}+ \frac{(At)^{3}}{3!}+\ldots
   \end{equation*}
-  This series always converges, and satisfies:
+  This may be hard to compute in general. Nonetheless, this series always
+  converges, and satisfies:
   \begin{itemize}[*]
     \item $e^{At}=e^{As}=e^{A(t+s)}$
     \item $e^{At}e^{-tA}=I$ (so $e^{At}$ is always invertible)
     \item $\frac{d}{dt} \left[ e^{At} \right]=A e^{At}$
   \end{itemize}
-  If $A=P\Lambda P^{-1}$ for diagonal $\Lambda$ then
+\end{itemize}
+
+The next proposition says that for diagonalizable matrices, it is possible to
+compute the matrix exponential without too much difficulty (need to compute
+some eigenvalues and eigenvectors, and a matrix inverse).
+
+\begin{proposition}
+  If $A$ is diagonalizable, then $e^{At} = Pe^{\Lambda t}P^{-1}$, where
+  $\Lambda=\diag(\lambda_{1},\ldots,\lambda_{n})$ and
+  $\lambda_{1},\ldots,\lambda_{n}$ is the list of eigvenvalues of $A$.
+\end{proposition}
+\begin{proof}    
+  Since $A$ is diagonal, we can write $A=P\Lambda P^{-1}$, where $P$ is a
+  matrix whose columns are eigenvectors of $A$. Using this, we can write
   \begin{equation*}
-    A^{k} = P\Lambda^{k}P^{-1}.
+    A^{k} = \left( P\Lambda P^{-1} \right)^{k}=  P\Lambda^{k}P^{-1}.
   \end{equation*}
+  (see \cref{sec:an-application-diagonalizability} for details).
   Then
   \begin{align*}
     e^{At}
@@ -10096,8 +10127,7 @@ a matrix. So we need to define the \demph{exponential of a matrix}:
     &= P \left( \sum_{k=0}^{\infty}\frac{(\Lambda t)^{k}}{k!}  \right)P^{-1}\\ 
     &=Pe^{\Lambda t}P^{-1}.
   \end{align*}
-  We can write the RHS of \cref{eq:18-fundamental-solution} as $e^{At}B$.
-\end{itemize}
+\end{proof}
 
 
 % \subsection{Definition of FOLDE}
@@ -10170,18 +10200,18 @@ a matrix. So we need to define the \demph{exponential of a matrix}:
 % \end{equation}
 % Such a system is said to be \demph{homogeneous}. Otherwise it is
 % \demph{nonhomogenous}.
-
-
+\newpage
+\section{2025-12-01 | Week 15 | Lecture 39}
 \subsection{Theorems and notation of section 6.1}
 
 \begin{theorem}[Existence and uniqueness]
-  If $x_{0}$ lies in an interval $(a,b)$, and if $a_{ij}(x)$ and $g_{i}(x)$
+  If $t_{0}$ lies in an interval $(a,b)$, and if $a_{ij}(t)$ and $g_{i}(t)$
   are continuous on that interval for all $i$ and $j$, then the initial value
   problem
   \begin{equation*}
     \left\{ \begin{array}{l@{}l}
         Y' = AY +G\\
-        Y(x_{0}) = (b_{1},\ldots, b_{n})^{\top}
+        Y(t_{0}) = (b_{1},\ldots, b_{n})^{\top}
    \end{array}\right.
   \end{equation*}
   has a unique solution on the interval $(a,b)$.
@@ -10192,23 +10222,9 @@ solutions. In fact
 
 \begin{theorem}[Solutions form a subspace]
   \label{thm:solutions-form-subspace}
-  The solutions to a system of the form $Y'=AX$ (with $n$ equations) form a
+  The solutions to a system of the form $Y'=AY$ (with $n$ equations) form a
   vector space of dimension $n$.
 \end{theorem}
-Here, the vectors are functions. The big vector space is
-\begin{equation*}
-  V = \left\{
-    \begin{bmatrix}
-      f_{1}(x)\\\vdots\\f_{n}(x)
-    \end{bmatrix}: f_{i} \in C^{1}(a,b)
-  \right\} ,
-\end{equation*}
-where
-\begin{equation*}
-  C^{1}(a,b) = \left\{f:(a,b)\to \R \mid f' \text{ exists and is
-      continuous}\right\}
-\end{equation*}
-\cref{thm:solutions-form-subspace} says that the solutions to $Y'=AX$ form an $n$-dimensional subspace of $V$.
 
 This means that if $Y_{1}$ and $Y_{2}$ are solutions to
 \cref{eq:FOLDE-homogeneous}, then $\alpha Y_{1}+\beta Y_{2}$ is also a
@@ -10220,8 +10236,8 @@ If $Y_{1},\ldots,Y_{n}$ are a set of $n$ linearly independent solutions to
 \begin{equation*}
   Y_{H}=c_{1}Y_{1}+\ldots+c_{n}Y_{n}
 \end{equation*}
-where $c_{1},\ldots,c_{n}$ are scalars. The \demph{matrix of fundamental
-  solutions} is \newcommand*{\vertbar}{\rule[-1ex]{0.5pt}{2.5ex}}
+where $c_{1},\ldots,c_{n}$ are scalars. A matrix of the form
+\newcommand*{\vertbar}{\rule[-1ex]{0.5pt}{2.5ex}}
 \newcommand*{\horzbar}{\,\rule[.5ex]{2.5ex}{0.5pt}\,}
 \begin{equation*}
   Y_{H}
@@ -10234,14 +10250,15 @@ where $c_{1},\ldots,c_{n}$ are scalars. The \demph{matrix of fundamental
     \end{array}
   \end{bmatrix}
 \end{equation*}
+is called a \demph{matrix of fundamental solutions}.
 
 \begin{theorem}
   Suppose $Y_{1},\ldots,Y_{n}$ form a fundamental set of solutions to $Y'=AY$,
   and that $Y_{P}$ is a solution to
   \begin{equation}\label{eq:14}
-    Y'=AY+G
+    Y'=AY+G.
   \end{equation}
-  . Then every solution to \cref{eq:14} has the form
+  Then every solution to \cref{eq:14} has the form
   \begin{equation*}
     Y = Y_{H}+Y_{P}
   \end{equation*}
@@ -10250,16 +10267,6 @@ where $c_{1},\ldots,c_{n}$ are scalars. The \demph{matrix of fundamental
 
 The function $Y_{P}$ is called a \demph{particular solution} to the
 inhomogeneous system.
-
-
-\begin{theorem}
-  \label{thm:solution-to-FOLDE-1-equation}
-  Let $k\in \C$. Then the differential equation $y'(x) =ky(x)$ has solution
-  $y=ce^{kx}$, where $c$ is any constant.
-\end{theorem}
-\begin{proof}
-  If $y=ce^{kx}$ then $y'=cke^{kx}=ky$.
-\end{proof}
 
 \begin{example}
   Consider the homogeneous differential equation
@@ -10276,84 +10283,219 @@ inhomogeneous system.
       y_{1}\\y_{2}
     \end{bmatrix}
   \end{equation}
-  Here $A$ does not depend on $x$ (in other problems we'll see, it will). This
-  has form $Y'=AY$.
+  This has form $Y'=AY$.
 
-  We have two equations
+
+  \cref{eq:15} has two pure exponential solutions:
+  \begin{equation*}
+    Y_{1}(t) = e^{-t}
+    \begin{bmatrix}
+      1\\0
+    \end{bmatrix}
+    \quad \text{and} \quad
+    Y_{2}(t) = e^{3t}
+    \begin{bmatrix}
+      0\\1
+    \end{bmatrix}
+  \end{equation*}
+  These are a fundamental set of solutions. The general solution is
   \begin{align*}
-    \left\{ \begin{array}{l@{}l}
-        y_{1}' = -y_{1}  \\
-        y_{2}' = 3y_{2}  \\
-      \end{array}\right.
+    Y 
+    &= c_{1}Y_{1}+c_{2}Y_{2}\\
+    &=c_{1}
+      \begin{bmatrix}
+        e^{-t}\\0
+      \end{bmatrix}
+      +
+      c_{2}
+      \begin{bmatrix}
+        0\\e^{3t}
+      \end{bmatrix}
   \end{align*}
-  By \cref{thm:solution-to-FOLDE-1-equation}, this implies that $y_{1},y_{2}$
-  take the form
+  A matrix of fundamental solutions is
   \begin{equation*}
-    y_{1} = c_{1}e^{-x} \quad \text{and} \quad y_{2} = c_{2}e^{3x}
-  \end{equation*}
-  Then
-  \begin{equation*}
-    Y=
     \begin{bmatrix}
-      y_{1}\\y_{2}
-    \end{bmatrix}
-    =
-    \begin{bmatrix}
-      c_{1}e^{-x}\\
-      c_{2}e^{3x}
+      c_{1}e^{-t}&0\\
+      0& c_{2}e^{3t}
     \end{bmatrix}
   \end{equation*}
-  is a solution to the differential equation in \cref{eq:15}.
+\end{example}
 
-  Write
+\begin{example}
+  Let $A =
+  \begin{bmatrix}
+    1&-3\\-2&2
+  \end{bmatrix}
+  $. Find the general solution of $Y'=AY$.
+
+  \Fl{Solution:} $A$ has two eigenvalues, $4$ and $-1$. The corresponding
+  eigenvectors are  $
+  \begin{bmatrix}
+    -1\\1
+  \end{bmatrix}
+  $ and $
+  \begin{bmatrix}
+    3\\2
+  \end{bmatrix}
+  $.
+  Therefore there are two pure exponential solutions:
   \begin{equation*}
-    Y = c_{1}
+    Y_{1}(t) = e^{4t}
     \begin{bmatrix}
-      e^{-x}\\0
+      -1\\1
     \end{bmatrix}
-    +c_{2}
+    \quad \text{and} \quad
+    Y_{2}(t) = e^{-t}
     \begin{bmatrix}
-      0\\e^{3x}
+      3\\2
+    \end{bmatrix}.
+  \end{equation*}
+  The general solution is
+  \begin{equation*}
+    Y(t) = c_{1}e^{4t}
+    \begin{bmatrix}
+      -1\\1
     \end{bmatrix}
-    =
+    + c_{2} e^{-t}
     \begin{bmatrix}
-      e^{-x}&0\\
-      0&e^{3x}
-    \end{bmatrix}
-    \begin{bmatrix}
-      c_{1}\\c_{2}
+      3\\2
     \end{bmatrix}
   \end{equation*}
-  We can futher observe that
-  \begin{equation*}
-    Y = c_{1}Y_{1}+c_{2}Y_{2}
-  \end{equation*}
-  where $Y_{1} =
-  \begin{bmatrix}
-    e^{-x}\\0
-  \end{bmatrix}
-  $
-  and $Y_{2} =
-  \begin{bmatrix}
-    0\\e^{3x}
-  \end{bmatrix}
-  $. Together, $Y_{1},Y_{2}$ form a fundamental set of solutions. The matrix
-  of fundamental solutions is
-  \begin{equation*}
-    M=\begin{bmatrix}
-      e^{-x}&0\\
-      0&e^{3x}
-    \end{bmatrix}
-  \end{equation*}
-  In this example $A =
-  \begin{bmatrix}
-    -1&0\\0&3
-  \end{bmatrix}
-  $ was a diagonal matrix; compare this with $M$.
 \end{example}
 
 
-\newpage
+\begin{example}
+  Let $A =
+  \begin{bmatrix}
+    2&-3&-3\\2&-2&-2\\-2&1&1
+  \end{bmatrix}
+  $.
+  \begin{enumerate}[(a)]
+    \item Find the general solution of $Y'=AY$
+    \item Solve the initial value problem
+    \begin{equation*}
+      \left\{ \begin{array}{l@{}l} Y'=AY \\ Y(0)=
+          \begin{bmatrix}
+            1\\0\\0
+          \end{bmatrix}
+        \end{array}\right.
+    \end{equation*}
+  \end{enumerate}
+
+  \Fl{Solution to (a):} The matrix $A$ has three eigenvalues:
+
+  \begin{itemize}
+    \item $\lambda_{1}=-1$ with eigenvector $
+    \begin{bmatrix}
+      1\\0\\1
+    \end{bmatrix}
+    $
+    \item $\lambda_{2}=0$ with eigenvector $
+    \begin{bmatrix}
+      0\\1\\-1
+    \end{bmatrix}
+    $
+    \item $\lambda_{3}=2$ with eigenvector $
+    \begin{bmatrix}
+      -1\\-1\\1
+    \end{bmatrix}
+    $
+  \end{itemize}
+  Therefore there are three pure exponenetial solutions:
+
+  \begin{equation*}
+    Y_{1}(t) = e^{-t}
+    \begin{bmatrix}
+      1\\0\\1
+    \end{bmatrix}, \quad
+    Y_{2}(t) = e^{0t}
+    \begin{bmatrix}
+      0\\1\\-1
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      0\\1\\-1
+    \end{bmatrix},
+    \quad \text{and} \quad
+    Y_{3}(t) =
+    e^{2t}
+    \begin{bmatrix}
+      -1\\-1\\1
+    \end{bmatrix}.
+  \end{equation*}
+  Therefore the general solution is
+  \begin{equation*}
+    Y(t) = c_{1}e^{-t}
+    \begin{bmatrix}
+      1\\0\\1
+    \end{bmatrix}
+    + c_{2}
+    \begin{bmatrix}
+      0\\1\\-1
+    \end{bmatrix}
+    + c_{3}e^{2t}
+    \begin{bmatrix}
+      -1\\-1\\1
+    \end{bmatrix}
+  \end{equation*}
+  \Fl{Solution to (b):} Plugging $t=0$ into the general solution from part
+  $(a)$, we get
+  \begin{equation*}
+    Y(0) =
+    c_{1}
+    \begin{bmatrix}
+      1\\0\\1
+    \end{bmatrix}
+    +c_{2}
+    \begin{bmatrix}
+      0\\1\\-1
+    \end{bmatrix}
+    +c_{3}
+    \begin{bmatrix}
+      -1\\-1\\1
+    \end{bmatrix}.
+  \end{equation*}
+  Moreover, using the initial condition $Y(0) =
+  \begin{bmatrix}
+    1\\0\\0
+  \end{bmatrix}
+  $, we have
+  \begin{equation*}
+    c_{1}
+    \begin{bmatrix}
+      1\\0\\1
+    \end{bmatrix}
+    +c_{2}
+    \begin{bmatrix}
+      0\\1\\-1
+    \end{bmatrix}
+    +c_{3}
+    \begin{bmatrix}
+      -1\\-1\\1
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      1\\0\\0
+    \end{bmatrix}
+  \end{equation*}
+  Solving this system gives $c_{1} = 0$, $c_{2}=c_{3}=-1$. Plugging these
+  values into the general solution from part $(a)$ gives
+  \begin{equation*}
+    Y(t) =  
+    \begin{bmatrix}
+      0\\-1\\1
+    \end{bmatrix}
+    + e^{2t}
+    \begin{bmatrix}
+      1\\1\\-1
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      e^{2t}\\-1+e^{2t}\\1-e^{2t}.
+    \end{bmatrix}
+  \end{equation*}
+  This is the solution to the initial value problem.
+\end{example}
 
 \newpage
 \end{document}

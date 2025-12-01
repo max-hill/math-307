@@ -55,7 +55,8 @@ My office hours are 12:30-1:30 on Mondays and Fridays. My office is PSB 304. You
  2025-11-17  | [lecture-36](lectures/lecture-notes-by-day/lecture-36.pdf)      | Examples of systems of first order linear differential equations  
  2025-11-19  | [lecture-37](lectures/lecture-notes-by-day/lecture-37.pdf)      | Examples of systems of first order linear differential equations  
  2025-11-21  | none                                                            | exam review  
-
+ 2025-11-26  | [lecture-38](lectures/lecture-notes-by-day/lecture-38.pdf)      | The matrix exponential  
+ 2025-12-01  | [lecture-39](lectures/lecture-notes-by-day/lecture-39.pdf)      | Sections 6.1, 6.2  
 
 
 ![The key theorem](/images/spiderman.jpeg)
