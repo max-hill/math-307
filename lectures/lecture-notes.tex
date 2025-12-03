@@ -9971,8 +9971,7 @@ following theorem:
 \end{remark}
 
 \begin{remark}
-  When $A$ is diagonalizable (as is assumed in
-  \cref{thm:solution-to-FOLDE-1-equation}), we have
+  When $A$ is diagonalizable, we have
   \begin{equation*}
     Pe^{\Lambda t}P^{-1} = e^{At}
   \end{equation*}
@@ -10096,7 +10095,7 @@ Using this definition we have two cases:
   This may be hard to compute in general. Nonetheless, this series always
   converges, and satisfies:
   \begin{itemize}[*]
-    \item $e^{At}=e^{As}=e^{A(t+s)}$
+    \item $e^{At}e^{As}=e^{A(t+s)}$
     \item $e^{At}e^{-tA}=I$ (so $e^{At}$ is always invertible)
     \item $\frac{d}{dt} \left[ e^{At} \right]=A e^{At}$
   \end{itemize}
@@ -10499,6 +10498,312 @@ inhomogeneous system.
 \end{example}
 
 \newpage
+\section{2025-12-03 | Week 15 | Lecture 40}
+
+\subsection{The Jukes Cantor Model}
+
+This lecture presents a simplified (but real!) application of homogeneous
+first order linear differential equations to mathematical biology.
+
+\textit{The graphics for this lecture were taken from Bob Thompson's tutorial
+  page at
+  \url{https://treethinkers.org/jukes-cantor-model-of-dna-substitution/}}
+
+A genome can be thought of as a squence of letters, called nucleotides:
+\begin{center}
+  \texttt{CACAGGAAGCATTTATATAGAGGTAATAATTAAATTTAACTTTTTATTATTCTCTATGCCCAAGAGAATGTG}...
+\end{center}
+
+For simplicity, let us assume an asexually reproducing species. In that case,
+in each generation, the whole genome is passed from parent to child. When that
+happens, each nucleotide has a small chance $\mu>0$ of mutating to a different
+letter.
+
+We regard $\mu$ as the mutation rate per generation. For example, if the
+genome consists of 1000 base pairs, and $\mu=.02$, then on average you expect
+to see about $2$ mutations per generation. (Realistic values are quite
+different: for humans, $\mu\approx 2\times 10^{-8}$.)
+
+In this lecture I will introduce the \demph{Jukes-Cantor} model of DNA
+evolution. This makes several assumptions
+\begin{itemize}
+  \item There are four nucleotides \texttt{A,T,C,G}
+  \item When a mutation occurs, the letter is equally like to change to each
+  of the other three nucleotides (e.g., \texttt{A} mutates, then it is equally
+  likely to be \texttt{C}, \texttt{T} or \texttt{G} after the mutation).
+\end{itemize}
+The second assumption is not realistic, but more realistic variants can be
+described.
+
+We will measure time $t$ in ``generations''. To be precise, we should have $t$
+measured only as integer values $0,1,2,\ldots$, but for mathematical
+simplicity it's easier if we assume $t$ is a continuous variable.
+
+Let
+\begin{equation*}
+  Y(t) =
+  \begin{bmatrix}
+    y_{\mathtt{A}}(t)\\
+    y_{\mathtt{C}}(t)\\
+    y_{\mathtt{T}}(t)\\
+    y_{\mathtt{G}}(t)
+  \end{bmatrix}
+\end{equation*}
+where
+\begin{equation*}
+  y_{\mathtt{A}}(t) = \text{ proportion of sites with letter \texttt{A} at time $t$ }
+\end{equation*}
+and $y_{\mathtt{C}},y_{\mathtt{G}}$ and $y_{\mathtt{T}}$ defined similarly.
+
+\Fl{Question:} Suppose $\mu=10^{-8}$. What are the proportions when after
+$t=1,000,000$ generations? Assume that at time $t=0$, the proportions are
+\begin{equation*}
+  Y(0) =
+  \begin{bmatrix}
+    1/6\\
+    2/6\\
+    1/6\\
+    2/6
+  \end{bmatrix}
+\end{equation*}
+This is an initial value problem.
+
+To answer it, we'll need to think about how the proportions change over time.
+Over time, we lose \texttt{A}'s due to mutations. The rate of loss is $\mu$
+per generation, and it gets divided up equally as \texttt{A}'s become
+\texttt{C}, \texttt{G}, and \texttt{T} at equal rates. Here is a diagram
+representing this flow:
+\begin{center}
+  \includegraphics[scale=.2]{images/jc-rescale}
+\end{center}
+How does $y_{\mathtt{A}}$ change over time?
+\begin{equation*}
+  y'_{\mathtt{A}}(t) = -\mu y_{\mathtt{A}}(t) + 
+\end{equation*}
+But we also have flow \textit{into} the \texttt{A}'s, as the other letters
+sometimes mutate into \texttt{A}'s:
+
+\begin{center}
+  \includegraphics[scale=.2]{images/jc-equilibrium.jpg}
+\end{center}
+Each red arrow represents a flow \textit{into} \texttt{A} of rate $\mu/3$.
+
+Combining the flow into and out of \texttt{A}, we have:
+\begin{equation*}
+  y'_{\mathtt{A}}(t) = \underbrace{-\mu y_{\mathtt{A}}(t)}_{\text{total flow
+      out of \texttt{A}}} + \underbrace{\frac{\mu}{3}y_{\mathtt{C}}(t)+
+    \frac{\mu}{3}y_{\mathtt{G}}(t)+
+    \frac{\mu}{3}y_{\mathtt{T}}(t)}_{\text{total flow into \texttt{A}}}
+\end{equation*}
+Similarly,
+
+\begin{align*}
+  y'_{\mathtt{C}}  &= \frac{\mu}{3} y_{\mathtt{A}} - \mu y_{\mathtt{C}}+ \frac{\mu}{3}y_{\mathtt{G}}+ \frac{\mu}{3}y_{\mathtt{T}}\\
+  y'_{\mathtt{G}}  &= \frac{\mu}{3} y_{\mathtt{A}} + \frac{\mu}{3} y_{\mathtt{C}}- \mu y_{\mathtt{G}}+ \frac{\mu}{3}y_{\mathtt{T}}\\
+  y'_{\mathtt{T}}  &= \frac{\mu}{3} y_{\mathtt{A}} + \frac{\mu}{3} y_{\mathtt{C}}+ \frac{\mu}{3}y_{\mathtt{G}} - \mu y_{\mathtt{T}}\\
+\end{align*}
+
+In matrix form,
+\begin{equation*}
+  \begin{bmatrix}
+    y_{\mathtt{A}}'\\
+    y_{\mathtt{C}}'\\
+    y_{\mathtt{T}}'\\
+    y_{\mathtt{G}}'
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    -\mu & \frac{\mu}{3} & \frac{\mu}{3}& \frac{\mu}{3}\\
+    \frac{\mu}{3} & -\mu & \frac{\mu}{3}& \frac{\mu}{3}\\
+    \frac{\mu}{3} & \frac{\mu}{3} & -\mu& \frac{\mu}{3}\\
+    \frac{\mu}{3} & \frac{\mu}{3} & \frac{\mu}{3}& -\mu
+  \end{bmatrix}
+  \begin{bmatrix}
+    y_{\mathtt{A}}\\
+    y_{\mathtt{C}}\\
+    y_{\mathtt{T}}\\
+    y_{\mathtt{G}}
+  \end{bmatrix}
+\end{equation*}
+
+Therefore, letting
+\begin{equation*}
+  A = \mu \begin{bmatrix}
+    -1 & \frac{1}{3} & \frac{1}{3}& \frac{1}{3}\\
+    \frac{1}{3} & -1 & \frac{1}{3}& \frac{1}{3}\\
+    \frac{1}{3} & \frac{1}{3} & -1& \frac{1}{3}\\
+    \frac{1}{3} & \frac{1}{3} & \frac{1}{3}& -1
+  \end{bmatrix},
+\end{equation*}
+the intial value problem we need to solve is
+\begin{equation*}
+  \left\{ \begin{array}{l@{}l} Y'=AY \\ Y(0) =
+      \begin{bmatrix}
+        1/5\\2/5\\1/5\\2/5
+      \end{bmatrix}
+    \end{array}\right.
+\end{equation*}
+To solve this, we first observe that $A$ has two eigenvalues:
+\begin{itemize}
+  \item $\lambda=0$, with eigenvector $
+  \begin{bmatrix}
+    1\\1\\1\\1
+  \end{bmatrix}
+  $ 
+  \item $\lambda=-\frac{4}{3}\mu$, with three linearly indendent eigenvectors:
+  \begin{equation*}
+    \begin{bmatrix}
+      1\\-1\\1\\-1
+    \end{bmatrix},
+    \begin{bmatrix}
+      1\\1\\-1\\-1
+    \end{bmatrix},
+    \begin{bmatrix}
+      1\\-1\\-1\\1
+    \end{bmatrix}
+  \end{equation*}
+\end{itemize}
+
+Therefore there are 4 pure expoenential solutions
+\begin{equation*}
+  Y_{1}(t) =
+  \begin{bmatrix}
+    1\\1\\1\\1
+  \end{bmatrix}
+  e^{0t},
+  \quad
+  Y_{2}(t) =
+  \begin{bmatrix}
+    1\\-1\\1\\-1
+  \end{bmatrix}
+  e^{-\frac{4}{3}\mu t},
+  \quad
+  Y_{3}(t) =
+  \begin{bmatrix}
+    1\\1\\-1\\-1
+  \end{bmatrix}
+  e^{-\frac{4}{3}\mu t},
+  \quad
+  Y_{4}(t) =
+  \begin{bmatrix}
+    1\\-1\\-1\\1
+  \end{bmatrix}
+  e^{-\frac{4}{3}\mu t}
+\end{equation*}
+The general solution is
+\begin{equation}\label{eq:jukes-cantor-general-solution}
+  Y(t) = c_{1}
+  \begin{bmatrix}
+    1\\1\\1\\1
+  \end{bmatrix}
+  +c_{2}
+  \begin{bmatrix}
+    1\\-1\\1\\-1
+  \end{bmatrix}
+  e^{-\frac{4}{3}\mu t}
+  +c_{3}
+  \begin{bmatrix}
+    1\\1\\-1\\-1
+  \end{bmatrix}
+  e^{-\frac{4}{3}\mu t}
+  +c_{4}
+  \begin{bmatrix}
+    1\\-1\\-1\\1
+  \end{bmatrix}
+  e^{-\frac{4}{3}\mu t}
+\end{equation}
+
+Using the initial condition
+\begin{equation*}
+  Y(0)=
+  \begin{bmatrix}
+    1/6\\
+    2/6\\
+    1/6\\
+    2/6
+  \end{bmatrix}
+\end{equation*}
+gives the system
+\begin{equation*}
+  \left\{ \begin{array}{l@{}l}
+      c_{1}+c_{2}+c_{3}+c_{4}=1/6 \\
+      c_{1}-c_{2}+c_{3}-c_{4}=2/6 \\
+      c_{1}+c_{2}-c_{3}-c_{4}=1/6 \\
+      c_{1}-c_{2}-c_{3}+c_{4}=2/6
+    \end{array}\right.
+\end{equation*}
+And this has solution  $c_{1}=\frac{1}{4}$, $c_{2} =-\frac{1}{12}$,
+$c_{3}=c_{4}=0$. Therefore the solution the initial value problem is
+\begin{align*}
+  Y(t) 
+  &= \frac{1}{4}
+    \begin{bmatrix}
+      1\\1\\1\\1
+    \end{bmatrix}
+  -
+  \frac{1}{12}
+  \begin{bmatrix}
+    1\\-1\\1\\-1
+  \end{bmatrix}
+  e^{-\frac{4}{3}\mu t}\\
+  &=
+    \begin{bmatrix}
+      \frac{1}{4} - \frac{1}{12}e^{-\frac{4}{3}\mu t}\\
+      \frac{1}{4} + \frac{1}{12}e^{-\frac{4}{3}\mu t}\\
+      \frac{1}{4} - \frac{1}{12}e^{-\frac{4}{3}\mu t}\\
+      \frac{1}{4} + \frac{1}{12}e^{-\frac{4}{3}\mu t}
+    \end{bmatrix}
+\end{align*}
+These are the proportions of \texttt{A},\texttt{T}, \texttt{C}, and \texttt{G}
+at time $t$. As $t \to \infty$, the proportions all approach $1/4$.
+
+
+To answer our original problem, if $\mu=10^{-8}$ and $t=10^{6}$ generations,
+then
+\begin{equation*}
+  y_{\mathtt{A}}(10^{6}) = \frac{1}{4}- \frac{1}{12}e^{-\frac{4}{3}\cdot 10^{-2}}\approx .168
+\end{equation*}
+and
+\begin{equation*}
+  y_{\mathtt{C}}(10^{6}) = \frac{1}{4}+ \frac{1}{12}e^{-\frac{4}{3}\cdot 10^{-2}}\approx .332
+\end{equation*}
+
+These aren't very far off from the initial values $1/6 \approx .1667$
+and $1/3 \approx .3333$. 
+
+
+\Fl{Question:} What if we assumed \textbf{all} the sites were originally \texttt{A}? In
+that case $Y(0)=
+\begin{bmatrix}
+  1\\0\\0\\0
+\end{bmatrix}
+$ Plugging in $t=0$ into \cref{eq:jukes-cantor-general-solution} and solving
+for $c_{1},c_{2},c_{3},c_{4}$ gives
+\begin{equation*}
+  c_{1}=c_{2}=c_{3}=c_{4} = 1/4.
+\end{equation*}
+Hence, the solution is
+\begin{equation*}
+  Y(t) =
+  \begin{bmatrix}
+    \frac{1}{4}+ \frac{3}{4}e^{-\frac{4}{3}\mu t}\\
+    \frac{1}{4}- \frac{1}{4}e^{-\frac{4}{3}\mu t}\\
+    \frac{1}{4}- \frac{1}{4}e^{-\frac{4}{3}\mu t}\\
+    \frac{1}{4}- \frac{1}{4}e^{-\frac{4}{3}\mu t}
+  \end{bmatrix}
+\end{equation*}
+After $t$ generations, the proportion of sites remaining as \texttt{A} is
+$y_{\mathtt{A}}(t) = \frac{1}{4}+\frac{3}{4}e^{-\frac{4}{2}\mu t}$.
+
+Reinterpreting this, 
+
+\newpage
+% \textit{Section 6.3. The nondiagonalizable case.}
+
+% So far, all the work we've done for solving differential equations of the form
+% $Y'=AY$ has assumed that $A$ is diagonalizable. How do we solve $Y'=AY$ is $A$
+% is not diagonalizable?
+
 \end{document}
 
 

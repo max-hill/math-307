@@ -1,0 +1,457 @@
+\documentclass[10pt]{article}
+% Math Packages
+\usepackage{amsmath, mathtools}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{bbm}
+\usepackage{breqn}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{calc}
+\usepackage{forest}
+\usepackage{tikz-qtree}
+\graphicspath{ {./images/} }
+\usepackage{hyperref}
+\usepackage[capitalize]{cleveref}
+\usepackage[shortlabels]{enumitem}
+\usetikzlibrary{arrows,matrix,positioning}
+\usepackage{multicol}
+
+% % for boxed text
+% \usepackage[most]{tcolorbox}%
+
+% % for the pipe symbol
+% \usepackage[T1]{fontenc}
+
+% Citing theorems by name. (source: https://tex.stackexchange.com/questions/109843/cleveref-and-named-theorems)
+\makeatletter
+\newcommand{\ncref}[1]{\cref{#1}\mynameref{#1}{\csname r@#1\endcsname}}
+
+\def\mynameref#1#2{%
+  \begingroup
+  \edef\@mytxt{#2}%
+  \edef\@mytst{\expandafter\@thirdoffive\@mytxt}%
+  \ifx\@mytst\empty\else
+  \space(\nameref{#1})\fi
+  \endgroup
+}
+\makeatother
+
+% Colorful Notes
+\usepackage{color} \definecolor{Red}{rgb}{1,0,0} \definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5} \def\red{\color{Red}} \def\blue{\color{Blue}}
+\def\gray{\color{gray}} \def\purple{\color{Purple}}
+\newcommand{\rnote}[1]{{\red [#1]}} % \rnote{foo} gives '[foo]' in red
+\newcommand{\pnote}[1]{{\purple [#1]}} % \pnote{foo} gives '[foo]' in purple
+\newcommand{\bnote}[1]{{\blue #1}} % \bnote{foo} gives 'foo' in blue
+\newcommand{\gnote}[1]{{\gray #1}} % \gnote{foo} gives 'foo' in gray
+\newcommand{\Max}[1]{{\purple [#1]}} % \bnote{foo} then 'foo' is blue
+
+
+% Claim numbering (the counter restarts after each proof environment)
+\newcounter{claimcount}
+\setcounter{claimcount}{0}
+\newenvironment{claim}{\refstepcounter{claimcount}\par\addvspace{\medskipamount}\noindent\textbf{Claim \arabic{claimcount}:}}{}
+\usepackage{etoolbox}
+\AtBeginEnvironment{proof}{\setcounter{claimcount}{0}}
+\newenvironment{claimproof}{\par\addvspace{\medskipamount}\noindent\textit{Proof of Claim  \arabic{claimcount}.}}{\hfill\ensuremath{\qedsymbol} \tiny{Claim}
+
+  \medskip}
+% Add claim support to cleverref
+\crefname{claimcount}{Claim}{Claims}
+
+
+% Math Environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{question}[theorem]{Question}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+
+% Matrices and Column Vectors. 
+\usepackage{stackengine}
+\setstackgap{L}{1.0\normalbaselineskip}
+\usepackage{tabstackengine}
+\setstackEOL{;}% row separator
+\setstackTAB{,}% column separator
+\setstacktabbedgap{1ex}% inter-column gap
+\setstackgap{L}{1.5\normalbaselineskip}% inter-row baselineskip
+\let\nmatrix\bracketMatrixstack  %Usage: \nmatrix{1,2,3\4,5,6}
+\newcommand\cv[1]{\setstackEOL{,}\bracketMatrixstack{#1}} %usage: \cv{1,2,3}
+
+% Custom Math Coqmmands
+\newcommand{\vt}{\vskip 5mm} % vertical space
+\newcommand{\fl}{\noindent\textbf} % first line
+\newcommand{\Fl}{\vt\noindent\textbf} % first line with space above
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert} % norm
+\newcommand{\pnorm}[1]{\left\lVert#1\right\rVert_p} % p-norm
+\newcommand{\qnorm}[1]{\left\lVert#1\right\rVert_q} % q-norm
+\newcommand{\1}[1]{\textbf{1}_{\left[#1\right]}} % indicator function 
+\def\limn{\lim_{n\to\infty}} % shortcut for lim as n-> infinity
+\def\sumn{\sum_{n=1}^{\infty}} % shortcut for sum from n=1 to infinity
+\def\sumkn{\sum_{k=1}^{n}} % shortcut for sum from k=1 to n
+\def\sumin{\sum_{i=1}^{n}} % shortcut for sum from i=1 to n
+\def\SAs{\sigma\text{-algebras}} % shortcut for $\sigma$-algebras
+\def\SA{\sigma\text{-algebra}} % shortcut for $\sigma$-algebra
+\def\Ft{\mathcal{F}_t} % time-indexed sigma-algebra (t)
+\def\Fs{\mathcal{F}_s} % time-indexed sigma-algebra (s)
+\def\F{\mathcal{F}} % sigma-algebra
+\def\G{\mathcal{G}} % sigma-algebra
+\def\R{\mathbb{R}} % Real numbers
+\def\N{\mathbb{N}} % Natural numbers
+\def\Z{\mathbb{Z}} % Integers
+\def\E{\mathbb{E}} % Expectation
+\def\P{\mathbb{P}} % Probability
+\def\Q{\mathbb{Q}} % Q probability
+\def\dist{\text{dist}} %Text 'dist' for things like 'dist(x,y)'
+\newcommand{\indep}{\perp \!\!\! \perp}  %independence symbol
+\def\Var{\mathrm{Var}} % Variance
+\def\tr{\mathrm{tr}} % trace
+
+% Brackets and Parentheses
+\def\[{\left [}
+    \def\]{\right ]}
+% \def\({\left (}
+%   \def\){\right )}
+
+
+
+\usepackage{color}
+\definecolor{Red}{rgb}{1,0,0}
+\definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5}
+\def\red{\color{Red}}
+\def\blue{\color{Blue}}
+\def\gray{\color{gray}}
+\def\purple{\color{Purple}}
+\definecolor{RoyalBlue}{cmyk}{1, 0.50, 0, 0}
+\newcommand{\dempfcolor}[1]{{\color{RoyalBlue}#1}} 
+\newcommand{\demph}[1]{\dempfcolor{{\sl #1}}}
+
+% comment exactly one of the following line to show / hide the solutions
+% \newcommand{\solution}[1]{{\purple #1}} % uncomment to show the solutions
+\newcommand{\solution}[1]{} % uncomment to hide the solutions
+
+
+
+\title{Lecture Notes for Math 372: \\Elementary Probability and Statistics}
+\date{Last updated: \today}
+% \author{mh}
+
+\begin{document}
+\begin{center}
+  \section*{Math 307: Homework 10}
+  \textit{Due Wednesday, December 10}
+\end{center}
+
+
+
+\begin{problem}
+  Let $Y(t) =
+  \begin{bmatrix}
+    c_{1}e^{2t}+c_{2}e^{3t}\\
+    2c_{1}e^{2t}+c_{2}e^{3t}
+  \end{bmatrix}$.
+  \begin{enumerate}[(a)]
+    \item Show that $Y(t)$ is a solution of $Y'=
+    \begin{bmatrix}
+      4&-1\\
+      2&1
+    \end{bmatrix}Y.$ \textit{(To do this, compute the LHS and RHS independently and then
+      observe that they are equal).}
+    \item Use the webapp
+    \url{https://homepages.bluffton.edu/~nesterd/apps/slopefields.html} (or
+    the sofrware \texttt{PPLANE} at \url{http://alun.math.ncsu.edu/pplane/}),
+    to plot the slope field of the system. Clicking on a coordinate in the
+    plot will show the trajectory of a particle starting at that point whose
+    motion is governed by the differential equation. This can also be done
+    precisely using the ``initial points'' tab. Do this to plot some
+    trajectories.
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}
+  Find the general solution to $Y'=AY$ when $A=
+  \begin{bmatrix}
+    6&-8\\4&-6
+  \end{bmatrix}$ and plot the slope field of the differential equation.
+\end{problem}
+
+
+\begin{problem}
+  Find the general solution to $Y'=AY$ when $A=
+  \begin{bmatrix}
+    1&2\\3&4
+  \end{bmatrix}$ and plot the slope field of the differential equation.
+\end{problem}
+
+
+\begin{problem}
+  Let $A =
+  \begin{bmatrix}
+    1&0\\0&-2
+  \end{bmatrix}
+  $.
+  \begin{enumerate}[(a)]
+    \item  Determine the general solution to $Y'=AY$
+    \item Solve the initial value problem $Y'=AY$ with $Y(0)=
+    \begin{bmatrix}
+      2\\1
+    \end{bmatrix} $
+    \item Plot the solution to the initial value problem using the software from
+    the previous problems.
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}[A non-diagonalizable example]
+  \label{problem:non-diagonalizable-example}
+  Consider the system of differential equations
+  \begin{align*}
+    \left\{ \begin{array}{l@{}l}
+        x'(t) &= y\\ 
+        y'(t) &= -x-2y 
+      \end{array}\right.
+  \end{align*}
+  Letting $Y(t) = \begin{bmatrix} x(t)\\y(y) \end{bmatrix}$ and $A =
+  \begin{bmatrix}
+    0&1\\
+    -1&-2
+  \end{bmatrix}
+  $, we can write the
+  above system of differential equations in matrix form as
+  \begin{equation}\label{eq:1}
+    Y' =A Y.
+  \end{equation}
+  \begin{enumerate}[(a)]
+    \item Plot the slope field and some particle trajectories using the
+    software from the previous problem.
+    \item Are there any straight-line trajectories?
+    \item Compute the eigenvalues and eigenvectors of $A$.
+    \item Show that $A$ is not diagonalizable.
+    \item Since $A$ is not diagonalizable, the techniques we've discussed so
+    far for solving differential equations like this won't work. Show that for
+    any scalars $c_{1}$ and $c_{2}$, the function
+    \begin{align*}
+      Y(t)
+      &= c_{1}e^{-t}
+      \begin{bmatrix}
+        1\\-1
+      \end{bmatrix}
+      + c_{2}e^{-t}
+      \begin{bmatrix}
+        1\\0
+      \end{bmatrix}
+      + c_{2}te^{-t}
+      \begin{bmatrix}
+        1\\-1
+      \end{bmatrix}\\
+      &=
+      \begin{bmatrix}
+        c_{1}e^{-t}+c_{2}e^{-t}+c_{2}te^{-t}\\
+        -c_{1}e^{-t}-c_{2}te^{-t}
+      \end{bmatrix}
+    \end{align*}
+    is a solution to the differential equation in \cref{eq:1}. (Hint:
+    computing the left-hand side and right-hand side independently and then
+    observe that they are equal.)
+    \item \label{item:1} Using the general solution from part (e), solve the initial value
+    problem
+    \begin{equation*}
+      \left\{ \begin{array}{l@{}l} Y'=AY \\
+          Y(0)=
+          \begin{bmatrix}
+            1\\-1
+          \end{bmatrix}
+        \end{array}\right.
+    \end{equation*}
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}[Continuation of \cref{problem:non-diagonalizable-example}]
+  Let $A$ be the $2\times2$ matrix from \cref{problem:non-diagonalizable-example}.
+  \begin{enumerate}[(a)]
+    \item \label{item:4} Let $B=
+    \begin{bmatrix}
+      b_{1}\\b_{2}
+    \end{bmatrix}
+    \in \R^{2}.$ Using the fact that $\frac{d}{dt} \left[ e^{Mt} \right]=M e^{Mt}$
+    for any square matrix, show that $Y(t) = e^{At}B$ is a solution to the
+    initial value problem
+    \begin{equation*}
+      \left\{ \begin{array}{l@{}l} Y'=AY \\Y(0)=B  \end{array}\right.
+    \end{equation*}
+    \textit{(Hint: you don't need to calculate $e^{At}$ for this part. The rest of
+      this problem will guide you through one way to compute $e^{At}$.)}
+    \item \label{item:3} Assume that $A=PJP^{-1}$ for some $2\times 2$ matrices $J$ and
+    $P$. Show that $e^{At} = Pe^{Jt}P^{-1}$.
+
+    \textit{(Hint: use the definition $e^{M} =
+      \sum_{k=0}^{\infty}\frac{M^{k}}{k!}=I+M+\frac{M^{2}}{2!}+\frac{M^{3}}{3!}+\ldots$).}
+    
+    \item  Let $P =
+    \begin{bmatrix}
+      1&1\\
+      -1&0
+    \end{bmatrix}
+    $
+    and $J =
+    \begin{bmatrix}
+      -1&1\\
+      0&-1
+    \end{bmatrix}
+    $. Compute $P^{-1}$ and verify that $A = PJP^{-1}$.
+
+    \textit{(Note: $J$ is the Jordan normal form of $A$. Since $A$ is not
+      diagonalizable, $J$ is the closest we can get to diagonalizing $A$.)}
+    
+    \item \label{item:2} Compute $(tJ)^{k}$ for $k=0,1,2,3,4,5$. Formulate a conjecture about
+    what you think $(tJ)^{k}$ is, for a general integer $k$.
+
+    \item Using part \ref{item:2}, one can show that
+    $e^{tJ} =
+    \begin{bmatrix}
+      e^{-t}& te^{-t}\\
+      0 & e^{-t}
+    \end{bmatrix} $
+    (you don't have to show this). Moreover, from part \ref{item:3} we know that
+    $e^{At}=Pe^{Jt}P^{-1}$. Using these two facts, compute $e^{At}$.
+    \item From part \ref{item:4}, we know that $Y(t) = e^{At}B$ is a solution to the
+    intial value problem. Find the solution when $B=
+    \begin{bmatrix}
+      1\\-1
+    \end{bmatrix}
+    $ and compare your answer to the answer to your answer in part
+    \ref{item:1} of \cref{problem:non-diagonalizable-example}.
+  \end{enumerate}
+\end{problem}
+
+
+\begin{problem}
+Let $A =
+\begin{bmatrix}
+  -1&0&0\\0&0&0\\0&0&4
+\end{bmatrix}
+$.
+\begin{enumerate}[(a)]
+  \item  Determine the general solution to $Y'=AY$
+  \item Solve the initial value problem $Y'=AY$ with $Y(0)=
+  \begin{bmatrix}
+    2\\1\\0
+  \end{bmatrix} $
+\end{enumerate}
+\end{problem}
+
+\begin{problem}
+  Suppose a rabbit population $r$ and a wolf population $w$ are governed by
+  \begin{align*}
+    \left\{ \begin{array}{l@{}l} \frac{dr}{dt} = 4r-2w \\ \frac{dw}{dt} = r+w  \end{array}\right.
+  \end{align*}
+  \begin{enumerate}[(a)]
+    \item What is the solution to this differential equation? Interpret your
+    answer in terms of rabbits and wolves.
+    \item If $r=300$ and $w=200$ at time $t=0$, what is the population of
+    wolves and rabbits at time $t>0$?
+    \item After a long time, what is the proportion of rabbits to wolves?
+    Hint: compute $\lim_{t \to \infty}\frac{r(t)}{w(t)}$.
+  \end{enumerate}
+\end{problem}
+
+
+\begin{problem}
+  Find the general solution to $Y'=AY$ when $A=
+  \begin{bmatrix}
+    6&0&-8\\
+    -4&2&-4\\
+    4&0&6
+  \end{bmatrix}$ and plot the slope field of the differential equation.
+\end{problem}
+
+
+\begin{problem}
+  Find the eigenvalues and eigenvectors, and the exponential $e^{At}$ for
+  \begin{equation*}
+    A =
+    \begin{bmatrix}
+      -1&1\\
+      1&-1
+    \end{bmatrix}
+  \end{equation*}
+  Write the general solution to $Y' = AY $, and the specific solution that
+  satisfies $Y(0) =
+  \begin{bmatrix}
+    3\\1
+  \end{bmatrix}.$ Plot the trajectory of your solution. What happens as $t \to \infty$? 
+\end{problem}
+
+\begin{problem}[Kimura 2 parameter substitution model]
+  This problem introduce a model of DNA mutation that is more sophisticaed
+  than Jukes Cantor, since it does not make the overly simplifying assumption
+  that all nucleotides \texttt{A}, \texttt{C}, \texttt{G}, and \texttt{T}
+  mutated between each other at equal rates. Instead, it assumes
+  \begin{itemize}
+    \item time $t$ is measured in generations
+    \item mutations from \texttt{A} between \texttt{G} happen at rate $a>0$
+    per generation
+    \item mutations from \texttt{C} between \texttt{T} happen at rate $a>0$
+    per generation
+    \item mutations between all other pairs of \texttt{A}, \texttt{C},
+    \texttt{G}, \texttt{T} happen at rate $b>0$ per generation
+  \end{itemize}
+  Let $Y(t) =
+  \begin{bmatrix}
+    y_{\mathtt{A}}(t)\\
+    y_{\mathtt{C}}(t)\\
+    y_{\mathtt{G}}(t)\\
+    y_{\mathtt{T}}(t)
+  \end{bmatrix},
+  $ where, $y_{\mathtt{A}}(t)$ is the proportion of the DNA with
+  letter \texttt{A} at time $t$, and
+  $y_{\mathtt{C}},y_{\mathtt{G}}y_{\mathtt{T}}$ are defined similarly. The differential equation describing the change in $Y$ is
+  \begin{equation}\label{eq:2}
+    Y' = QY
+  \end{equation}
+  where
+  \begin{equation*}
+    Q =
+    \begin{bmatrix}
+      -a-2b& b& a& a\\
+      b& -a-2b& b& a\\
+      a&b&-a-2b&b\\
+      b&a&b&-a-2b
+    \end{bmatrix}
+  \end{equation*}
+  \begin{enumerate}[(a)]
+    \item \label{item:5} Show the following eigenvectors are linearly independent
+    \begin{equation*}
+      \begin{bmatrix}
+        1\\1\\1\\1
+      \end{bmatrix},
+      \begin{bmatrix}
+        -1\\1\\-1\\1
+      \end{bmatrix},
+      \begin{bmatrix}
+        -1\\0\\1\\0
+      \end{bmatrix},
+      \begin{bmatrix}
+        0\\-1\\0\\1
+      \end{bmatrix}
+    \end{equation*}
+    \item Show that the vectors from part \ref{item:5} are eigenvectors of
+    $Q$. What are the corresponding eigenvalues?
+    \item What is the general solution to \cref{eq:2}?
+  \end{enumerate}
+\end{problem}
+
+\end{document}
+
+% Don't write in starlight, 'Cause the words may come out real
