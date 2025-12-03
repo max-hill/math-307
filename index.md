@@ -57,6 +57,7 @@ My office hours are 12:30-1:30 on Mondays and Fridays. My office is PSB 304. You
  2025-11-21  | none                                                            | exam review  
  2025-11-26  | [lecture-38](lectures/lecture-notes-by-day/lecture-38.pdf)      | The matrix exponential  
  2025-12-01  | [lecture-39](lectures/lecture-notes-by-day/lecture-39.pdf)      | Sections 6.1, 6.2  
+ 2025-12-03  | [lecture-40](lectures/lecture-notes-by-day/lecture-40.pdf)      | An application to biology: the Jukes Cantor Model  
 
 
 ![The key theorem](/images/spiderman.jpeg)

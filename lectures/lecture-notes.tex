@@ -10574,17 +10574,14 @@ per generation, and it gets divided up equally as \texttt{A}'s become
 \texttt{C}, \texttt{G}, and \texttt{T} at equal rates. Here is a diagram
 representing this flow:
 \begin{center}
-  \includegraphics[scale=.2]{images/jc-rescale}
+  \includegraphics[scale=.4]{images/jc-rescale}
 \end{center}
-How does $y_{\mathtt{A}}$ change over time?
-\begin{equation*}
-  y'_{\mathtt{A}}(t) = -\mu y_{\mathtt{A}}(t) + 
-\end{equation*}
+
 But we also have flow \textit{into} the \texttt{A}'s, as the other letters
 sometimes mutate into \texttt{A}'s:
 
 \begin{center}
-  \includegraphics[scale=.2]{images/jc-equilibrium.jpg}
+  \includegraphics[scale=.4]{images/jc-equilibrium.jpg}
 \end{center}
 Each red arrow represents a flow \textit{into} \texttt{A} of rate $\mu/3$.
 
@@ -10628,7 +10625,7 @@ In matrix form,
 
 Therefore, letting
 \begin{equation*}
-  A = \mu \begin{bmatrix}
+  Q = \mu \begin{bmatrix}
     -1 & \frac{1}{3} & \frac{1}{3}& \frac{1}{3}\\
     \frac{1}{3} & -1 & \frac{1}{3}& \frac{1}{3}\\
     \frac{1}{3} & \frac{1}{3} & -1& \frac{1}{3}\\
@@ -10637,13 +10634,13 @@ Therefore, letting
 \end{equation*}
 the intial value problem we need to solve is
 \begin{equation*}
-  \left\{ \begin{array}{l@{}l} Y'=AY \\ Y(0) =
+  \left\{ \begin{array}{l@{}l} Y'=QY \\ Y(0) =
       \begin{bmatrix}
         1/5\\2/5\\1/5\\2/5
       \end{bmatrix}
     \end{array}\right.
 \end{equation*}
-To solve this, we first observe that $A$ has two eigenvalues:
+To solve this, we first observe that $Q$ has two eigenvalues:
 \begin{itemize}
   \item $\lambda=0$, with eigenvector $
   \begin{bmatrix}
@@ -10772,30 +10769,30 @@ These aren't very far off from the initial values $1/6 \approx .1667$
 and $1/3 \approx .3333$. 
 
 
-\Fl{Question:} What if we assumed \textbf{all} the sites were originally \texttt{A}? In
-that case $Y(0)=
-\begin{bmatrix}
-  1\\0\\0\\0
-\end{bmatrix}
-$ Plugging in $t=0$ into \cref{eq:jukes-cantor-general-solution} and solving
-for $c_{1},c_{2},c_{3},c_{4}$ gives
-\begin{equation*}
-  c_{1}=c_{2}=c_{3}=c_{4} = 1/4.
-\end{equation*}
-Hence, the solution is
-\begin{equation*}
-  Y(t) =
-  \begin{bmatrix}
-    \frac{1}{4}+ \frac{3}{4}e^{-\frac{4}{3}\mu t}\\
-    \frac{1}{4}- \frac{1}{4}e^{-\frac{4}{3}\mu t}\\
-    \frac{1}{4}- \frac{1}{4}e^{-\frac{4}{3}\mu t}\\
-    \frac{1}{4}- \frac{1}{4}e^{-\frac{4}{3}\mu t}
-  \end{bmatrix}
-\end{equation*}
-After $t$ generations, the proportion of sites remaining as \texttt{A} is
-$y_{\mathtt{A}}(t) = \frac{1}{4}+\frac{3}{4}e^{-\frac{4}{2}\mu t}$.
+% \Fl{Question:} What if we assumed \textbf{all} the sites were originally \texttt{A}? In
+% that case $Y(0)=
+% \begin{bmatrix}
+%   1\\0\\0\\0
+% \end{bmatrix}
+% $ Plugging in $t=0$ into \cref{eq:jukes-cantor-general-solution} and solving
+% for $c_{1},c_{2},c_{3},c_{4}$ gives
+% \begin{equation*}
+%   c_{1}=c_{2}=c_{3}=c_{4} = 1/4.
+% \end{equation*}
+% Hence, the solution is
+% \begin{equation*}
+%   Y(t) =
+%   \begin{bmatrix}
+%     \frac{1}{4}+ \frac{3}{4}e^{-\frac{4}{3}\mu t}\\
+%     \frac{1}{4}- \frac{1}{4}e^{-\frac{4}{3}\mu t}\\
+%     \frac{1}{4}- \frac{1}{4}e^{-\frac{4}{3}\mu t}\\
+%     \frac{1}{4}- \frac{1}{4}e^{-\frac{4}{3}\mu t}
+%   \end{bmatrix}
+% \end{equation*}
+% After $t$ generations, the proportion of sites remaining as \texttt{A} is
+% $y_{\mathtt{A}}(t) = \frac{1}{4}+\frac{3}{4}e^{-\frac{4}{2}\mu t}$.
 
-Reinterpreting this, 
+% Reinterpreting this, 
 
 \newpage
 % \textit{Section 6.3. The nondiagonalizable case.}
