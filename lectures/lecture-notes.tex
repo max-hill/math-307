@@ -10795,11 +10795,308 @@ and $1/3 \approx .3333$.
 % Reinterpreting this, 
 
 \newpage
+\section{2025-12-05 | Week 15 | Lecture 41}
+
+
+\begin{center}
+  \begin{tcolorbox}[width=0.9\textwidth, colback=white, colframe=black]
+    \textit{What do solutions to systems of first order linear differential equations look like?}
+  \end{tcolorbox}
+\end{center}
+In the following examples, pay attention to two things:
+
+\begin{itemize}
+  \item A \demph{nullcline} is a region in space where either $\frac{dx}{dt}=0$ or
+  $\frac{dy}{dt}=0$. When the derivatives take the form $ax+by$ (as they do for
+  $Y'=AY$), for $a,b\neq0$, these will always be lines.
+  \item The eigenspaces $E_{\lambda_{1}},E_{\lambda_{2}}$ of the matrix $A$.
+  For real eigenvalues of $2\times 2$ matrices, these are usualy lines. If the
+  flow starts on one of these lines, it will never leave it. Depending on
+  whether the eigenvalue is positive or negative, the flow along the line will
+  be either:
+  \begin{itemize}
+    \item attracted to the origin if $\lambda<0$; or,
+    \item repelled from the origin if $\lambda>0$.
+  \end{itemize}
+  \item A point at the origin will always stay at the origin. The system
+  $Y'=AY$ is ``stable'' if points starting near the origin either (1) get
+  pulled into the origin, or at least (2) stay near the origin. 
+\end{itemize}
+
+
+\begin{example}
+  Here are some slope field plots for then $Y'=AY$ for various values of $A$.
+
+  The first four examples have straight-line solutions $y=0$ and $x=0$, and
+  eigenvectors $
+  \begin{bmatrix}
+    1\\0
+  \end{bmatrix}
+  $
+  and $
+  \begin{bmatrix}
+    0\\1
+  \end{bmatrix}
+  $
+  \begin{equation*}
+    A =
+    \begin{bmatrix}
+      1&0\\
+      0&2
+    \end{bmatrix}
+  \end{equation*}
+  \begin{center}
+    \includegraphics[scale=.25]{images/pplane-strang-1}
+  \end{center}
+
+  \newpage
+  \begin{equation*}
+    A =
+    \begin{bmatrix}
+      -1&0\\
+      0&-2
+    \end{bmatrix}
+  \end{equation*}
+  \begin{center}
+    \includegraphics[scale=.25]{images/pplane-strang-2}
+  \end{center}
+
+  \begin{equation*}
+    A =
+    \begin{bmatrix}
+      1&0\\
+      0&-2
+    \end{bmatrix}
+  \end{equation*}
+  \begin{center}
+    \includegraphics[scale=.25]{images/pplane-strang-3}
+  \end{center}
+  
+\newpage
+  \begin{equation*}
+    A =
+    \begin{bmatrix}
+      -1&0\\
+      0&2
+    \end{bmatrix}
+  \end{equation*}
+  \begin{center}
+    \includegraphics[scale=.25]{images/pplane-strang-4}
+  \end{center}
+
+
+
+  \begin{equation*}
+    A =
+    \begin{bmatrix}
+      -1&1\\
+      1&-1
+    \end{bmatrix}
+  \end{equation*}
+  This is diffusion between two closed spaces. No matter the initial
+  concentrations, they $y_{1},y_{2}$ approach a steady state as $t \to
+  \infty$.
+
+  If we start at $Y(0)=
+  \begin{bmatrix}
+    1\\0
+  \end{bmatrix}
+  $ The solution is $Y(t) =
+  \begin{bmatrix}
+    x(t)\\y(t)
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    \frac{1}{2}+\frac{1}{2}e^{-2t}\\
+    \frac{1}{2}-\frac{1}{2}e^{-2t}
+  \end{bmatrix}
+  \to
+  \begin{bmatrix}
+    1/2\\1/2
+  \end{bmatrix}
+  $
+  \begin{center}
+    \includegraphics[scale=.25]{images/pplane-strang-5}
+  \end{center}
+
+  If we reverse time in the diffusion, the matrix is
+  \begin{equation*}
+    A=
+    \begin{bmatrix}
+      1&-1\\
+      -1&1
+    \end{bmatrix}
+  \end{equation*}
+  \begin{center}
+    \includegraphics[scale=.25]{images/pplane-strang-7}
+  \end{center}
+
+
+  \begin{equation*}
+    A =
+    \begin{bmatrix}
+      -2&1\\
+      1&-2
+    \end{bmatrix}
+  \end{equation*}
+  Both this example and the last have eigenvectors $
+  \begin{bmatrix}
+    1\\1
+  \end{bmatrix}
+  $
+  and $
+  \begin{bmatrix}
+    1\\-1
+  \end{bmatrix}
+  $. Note the straight-line solutions $y=x$ and $y=-x$
+  \begin{center}
+    \includegraphics[scale=.25]{images/pplane-strang-6}
+  \end{center}
+
+  \begin{equation*}
+    A =
+    \begin{bmatrix}
+      2&3\\
+      -4&5
+    \end{bmatrix}
+  \end{equation*}
+  This has complex eigenvalues.
+  \begin{center}
+    \includegraphics[scale=.25]{images/pplane-strang-8}
+  \end{center}
+
+  \begin{equation*}
+    A =
+    \begin{bmatrix}
+      1&2\\
+      3&-1
+    \end{bmatrix}
+  \end{equation*}
+  This has eigenvectors $
+  \begin{bmatrix}
+    \pm (\sqrt{7}+1)/2\\1
+  \end{bmatrix}
+  $
+  and the straight line solutions are the respective spans of these two
+  vectors, which are the approximately lines  $y= .82x$ and $y=-.82x$.
+  \begin{center}
+    \includegraphics[scale=.25]{images/pplane-strang-9}
+  \end{center}
+
+  
+  \begin{equation*}
+    A =
+    \begin{bmatrix}
+      1&1\\
+      1&-2
+    \end{bmatrix}
+  \end{equation*}
+  Guess what the spans of each of the eigenvectors are?
+  \begin{center}
+    \includegraphics[scale=.25]{images/pplane-strang-10}
+  \end{center}
+
+  \begin{equation*}
+    A =
+    \begin{bmatrix}
+      -1&-1\\
+      -1&-1
+    \end{bmatrix}
+  \end{equation*}
+  Guess what the spans of each of the eigenvectors are?
+  \begin{center}
+    \includegraphics[scale=.25]{images/pplane-strang-10}
+  \end{center}
+
+
+  
+\end{example}
+
+
+
+
+
+
+
+\begin{example}
+  Let $A =
+  \begin{bmatrix}
+    0&-1\\
+    1&0
+  \end{bmatrix}
+  $
+  then $Y'=AY$ has slope field:
+
+  \begin{center}
+    \includegraphics[scale=.3]{images/pplane-circle}
+  \end{center}
+
+  \Fl{Solution:} The eigenvalues are $\lambda=i$ and $-i$, with eigenvectors $
+  \begin{bmatrix}
+    1\\-i
+  \end{bmatrix},
+  \begin{bmatrix}
+    1\\i
+  \end{bmatrix}$.
+  The general solution is
+  \begin{equation*}
+    Y(t) = c_{1}
+    \begin{bmatrix}
+      1\\-i
+    \end{bmatrix}
+    e^{it}
+    + c_{2}
+    \begin{bmatrix}
+      1\\i
+    \end{bmatrix}e^{-it}
+  \end{equation*}
+  Suppose the initial condition is $Y(0)=
+  \begin{bmatrix}
+    1\\0
+  \end{bmatrix}
+  $. Plugging $t=0$ into the above equation gives $c_{1}=c_{2}=\frac{1}{2}$. Therefore
+  \begin{equation*}
+    Y(t) = \frac{1}{2}
+    \begin{bmatrix}
+      1\\-i
+    \end{bmatrix}
+    e^{it}
+    + \frac{1}{2}
+    \begin{bmatrix}
+      1\\i
+    \end{bmatrix}e^{-it}
+  \end{equation*}
+  To obtain a real solution, we use the formulas
+  \begin{equation*}
+    e^{it} = \cos(t)+i\sin(t) \quad \text{and} \quad e^{-it} = \cos(-t) +i\sin(-t)=\cos(t)-i\sin(t).
+  \end{equation*}
+  This gives
+  \begin{equation*}
+    Y(t) =
+    \begin{bmatrix}
+      \cos(t)\\\sin(t)
+    \end{bmatrix}
+  \end{equation*}
+  which parametrizes the unit circle.
+\end{example}
+
+
+
+
+
+
+
+
+
+
+
+
 % \textit{Section 6.3. The nondiagonalizable case.}
 
 % So far, all the work we've done for solving differential equations of the form
 % $Y'=AY$ has assumed that $A$ is diagonalizable. How do we solve $Y'=AY$ is $A$
 % is not diagonalizable?
+
 
 \end{document}
 
