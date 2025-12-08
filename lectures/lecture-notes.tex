@@ -10965,6 +10965,7 @@ In the following examples, pay attention to two things:
     \includegraphics[scale=.25]{images/pplane-strang-8}
   \end{center}
 
+  \newpage
   \begin{equation*}
     A =
     \begin{bmatrix}
@@ -10972,17 +10973,26 @@ In the following examples, pay attention to two things:
       3&-1
     \end{bmatrix}
   \end{equation*}
-  This has eigenvectors $
-  \begin{bmatrix}
-    \pm (\sqrt{7}+1)/2\\1
-  \end{bmatrix}
-  $
-  and the straight line solutions are the respective spans of these two
-  vectors, which are the approximately lines  $y= .82x$ and $y=-.82x$.
+  This has eigenvalues
+  \begin{itemize}
+    \item   $\sqrt{7} $ with eigenvector $
+    \begin{bmatrix}
+      \frac{1+\sqrt{7}}{3}\\1
+    \end{bmatrix}
+    $
+    \item $-\sqrt{7}$ with eigenvector   $
+    \begin{bmatrix}
+      \frac{1-\sqrt{7}}{3}\\1
+    \end{bmatrix}
+    $
+  \end{itemize}
+  The straight line solutions are the respective spans of these two vectors,
+  which are the approximately lines $y\approx .82 x$ and $y=-1.82x$.
   \begin{center}
     \includegraphics[scale=.25]{images/pplane-strang-9}
   \end{center}
 
+  \newpage
   
   \begin{equation*}
     A =
@@ -10996,20 +11006,7 @@ In the following examples, pay attention to two things:
     \includegraphics[scale=.25]{images/pplane-strang-10}
   \end{center}
 
-  \begin{equation*}
-    A =
-    \begin{bmatrix}
-      -1&-1\\
-      -1&-1
-    \end{bmatrix}
-  \end{equation*}
-  Guess what the spans of each of the eigenvectors are?
-  \begin{center}
-    \includegraphics[scale=.25]{images/pplane-strang-10}
-  \end{center}
-
-
-  
+ 
 \end{example}
 
 
