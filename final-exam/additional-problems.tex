@@ -1,0 +1,539 @@
+\documentclass[10pt]{article}
+% Math Packages
+\usepackage{amsmath, mathtools}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{bbm}
+\usepackage{breqn}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{calc}
+\usepackage{forest}
+\usepackage{tikz-qtree}
+\graphicspath{ {./images/} }
+\usepackage{hyperref}
+\usepackage[capitalize]{cleveref}
+\usepackage[shortlabels]{enumitem}
+\usetikzlibrary{arrows,matrix,positioning}
+\usepackage{multicol}
+
+% for the pipe symbol
+\usepackage[T1]{fontenc}
+
+% Citing theorems by name. (source: https://tex.stackexchange.com/questions/109843/cleveref-and-named-theorems)
+\makeatletter
+\newcommand{\ncref}[1]{\cref{#1}\mynameref{#1}{\csname r@#1\endcsname}}
+
+\def\mynameref#1#2{%
+  \begingroup
+  \edef\@mytxt{#2}%
+  \edef\@mytst{\expandafter\@thirdoffive\@mytxt}%
+  \ifx\@mytst\empty\else
+  \space(\nameref{#1})\fi
+  \endgroup
+}
+\makeatother
+
+% Colorful Notes
+\usepackage{color} \definecolor{Red}{rgb}{1,0,0} \definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5} \def\red{\color{Red}} \def\blue{\color{Blue}}
+\def\gray{\color{gray}} \def\purple{\color{Purple}}
+\newcommand{\rnote}[1]{{\red [#1]}} % \rnote{foo} gives '[foo]' in red
+\newcommand{\pnote}[1]{{\purple [#1]}} % \pnote{foo} gives '[foo]' in purple
+\newcommand{\bnote}[1]{{\blue #1}} % \bnote{foo} gives 'foo' in blue
+\newcommand{\gnote}[1]{{\gray #1}} % \gnote{foo} gives 'foo' in gray
+\newcommand{\Max}[1]{{\purple [#1]}} % \bnote{foo} then 'foo' is blue
+
+
+% Claim numbering (the counter restarts after each proof environment)
+\newcounter{claimcount}
+\setcounter{claimcount}{0}
+\newenvironment{claim}{\refstepcounter{claimcount}\par\addvspace{\medskipamount}\noindent\textbf{Claim \arabic{claimcount}:}}{}
+\usepackage{etoolbox}
+\AtBeginEnvironment{proof}{\setcounter{claimcount}{0}}
+\newenvironment{claimproof}{\par\addvspace{\medskipamount}\noindent\textit{Proof of Claim  \arabic{claimcount}.}}{\hfill\ensuremath{\qedsymbol} \tiny{Claim}
+
+  \medskip}
+% Add claim support to cleverref
+\crefname{claimcount}{Claim}{Claims}
+
+
+% Math Environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{question}[theorem]{Question}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+
+% Matrices and Column Vectors. 
+\usepackage{stackengine}
+\setstackgap{L}{1.0\normalbaselineskip}
+\usepackage{tabstackengine}
+\setstackEOL{;}% row separator
+\setstackTAB{,}% column separator
+\setstacktabbedgap{1ex}% inter-column gap
+\setstackgap{L}{1.5\normalbaselineskip}% inter-row baselineskip
+\let\nmatrix\bracketMatrixstack  %Usage: \nmatrix{1,2,3\4,5,6}
+\newcommand\cv[1]{\setstackEOL{,}\bracketMatrixstack{#1}} %usage: \cv{1,2,3}
+
+% Custom Math Coqmmands
+\newcommand{\vt}{\vskip 5mm} % vertical space
+\newcommand{\fl}{\noindent\textbf} % first line
+\newcommand{\Fl}{\vt\noindent\textbf} % first line with space above
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert} % norm
+\newcommand{\pnorm}[1]{\left\lVert#1\right\rVert_p} % p-norm
+\newcommand{\qnorm}[1]{\left\lVert#1\right\rVert_q} % q-norm
+\newcommand{\1}[1]{\textbf{1}_{\left[#1\right]}} % indicator function 
+\def\limn{\lim_{n\to\infty}} % shortcut for lim as n-> infinity
+\def\sumn{\sum_{n=1}^{\infty}} % shortcut for sum from n=1 to infinity
+\def\sumkn{\sum_{k=1}^{n}} % shortcut for sum from k=1 to n
+\def\sumin{\sum_{i=1}^{n}} % shortcut for sum from i=1 to n
+\def\SAs{\sigma\text{-algebras}} % shortcut for $\sigma$-algebras
+\def\SA{\sigma\text{-algebra}} % shortcut for $\sigma$-algebra
+\def\Ft{\mathcal{F}_t} % time-indexed sigma-algebra (t)
+\def\Fs{\mathcal{F}_s} % time-indexed sigma-algebra (s)
+\def\F{\mathcal{F}} % sigma-algebra
+\def\G{\mathcal{G}} % sigma-algebra
+\def\R{\mathbb{R}} % Real numbers
+\def\N{\mathbb{N}} % Natural numbers
+\def\Z{\mathbb{Z}} % Integers
+\def\E{\mathbb{E}} % Expectation
+\def\P{\mathbb{P}} % Probability
+\def\Q{\mathbb{Q}} % Q probability
+\def\dist{\text{dist}} %Text 'dist' for things like 'dist(x,y)'
+\newcommand{\indep}{\perp \!\!\! \perp}  %independence symbol
+\def\Var{\mathrm{Var}} % Variance
+\def\tr{\mathrm{tr}} % trace
+
+% Brackets and Parentheses
+\def\[{\left [}
+    \def\]{\right ]}
+% \def\({\left (}
+%   \def\){\right )}
+
+
+
+\usepackage{color}
+\definecolor{Red}{rgb}{1,0,0}
+\definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5}
+\def\red{\color{Red}}
+\def\blue{\color{Blue}}
+\def\gray{\color{gray}}
+\def\purple{\color{Purple}}
+\definecolor{RoyalBlue}{cmyk}{1, 0.50, 0, 0}
+\newcommand{\dempfcolor}[1]{{\color{RoyalBlue}#1}} 
+\newcommand{\demph}[1]{\dempfcolor{{\sl #1}}}
+
+% comment exactly one of the following line to show / hide the solutions
+% \newcommand{\solution}[1]{{\purple #1}} % uncomment to show the solutions
+\newcommand{\solution}[1]{} % uncomment to hide the solutions
+
+
+\newenvironment{augmentedmatrix}[1] % environment for making augmented matrix
+{\left[\begin{array}{#1}}
+    {\end{array}\right]}
+
+
+\title{Additional practice problems for the final exam}
+\date{Last updated: \today}
+% \author{mh}
+
+\begin{document}
+\begin{center}
+  \section*{Additional practice problems for the final exam}
+\end{center}
+
+
+\begin{problem}[differential equation]
+  Let $A =
+  \begin{bmatrix}
+    3&0\\
+    8&-1
+  \end{bmatrix}
+  $
+  \begin{enumerate}[(a)]
+    \item Let $Y(t) =
+    \begin{bmatrix}
+      y_{1}(t)\\y_{2}(t)
+    \end{bmatrix}
+    $. Find the general solution of the differential equation $Y'=AY$.
+    \item Solve the initial value problem
+    \begin{equation*}
+      \left\{ \begin{array}{l@{}l} Y'=AY \\ Y(0) =
+          \begin{bmatrix}
+            1\\1
+          \end{bmatrix}
+        \end{array}\right.
+    \end{equation*}
+  \end{enumerate}
+\end{problem}
+
+
+
+\begin{problem}[differential equation]
+  Find the general solution to $Y'=AY$ when $A=
+  \begin{bmatrix}
+    4&0&1\\
+    -2&1&0\\
+    -2&0&1
+  \end{bmatrix}$.
+\end{problem}
+
+
+
+\begin{problem}[determinants]
+  Let
+  \begin{equation*}
+    A =
+    \begin{bmatrix}
+      3&-2\\
+      1&2
+    \end{bmatrix}
+    \quad
+    B =
+    \begin{bmatrix}
+      1&-4\\
+      -2&3
+    \end{bmatrix}.
+  \end{equation*}
+  \begin{enumerate}[(a)]
+    \item Find the determinants of  $A$ and $B$.
+    \item Find $\det(AB)$, $\det(A^{-1})$, and $\det(B^{\top}A^{-1})$.
+    \item Show that $\det(A+B)$ is not the same as $\det(A)+\det(B)$.
+    \item \label{item:4} Diagonalize $B$ by writing it as $B=P\Lambda P^{-1}$,
+    for some diagonal matrix $\Lambda$. (For full credit, you need to find
+    $P, P^{-1}$ and $\Lambda$.)
+
+    % (Hint: the inverse of a $2\times 2$ matrix $
+    % \begin{bmatrix}
+    %   a&b\\c&d
+    % \end{bmatrix}
+    % $  is $\frac{1}{ad-bc}
+    % \begin{bmatrix}
+    %   d&-b\\
+    %   -c&a
+    % \end{bmatrix}
+    % $.)
+  \end{enumerate}
+\end{problem}
+
+
+
+\begin{problem}[composition]
+  Consider the two linear transformations $T: \R^{3} \to \R^{4}$ and $S:
+  \R^{4}\to \R^{2}$ defined by
+  \begin{equation*}
+    T
+    \begin{bmatrix}
+      x_{1}\\x_{2}\\x_{3}
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      x_{1}\\
+      x_{1}+x_{2}\\
+      x_{2}+x_{3}\\
+      x_{3}
+    \end{bmatrix}
+    \quad \text{and} \quad
+    S
+    \begin{bmatrix}
+      x_{1}\\x_{2}\\x_{3}\\x_{4}
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      2x_{1}-x_{2}\\
+      x_{3}-2x_{4}
+    \end{bmatrix}
+  \end{equation*}
+  \begin{enumerate}[(a)]
+    \item Write the standard matrix for $T$
+    \item Write the standard matrix for $S$
+    \item Write the standard matrix for $S\circ T $
+  \end{enumerate}
+\end{problem}
+
+
+\begin{problem}[system with variables] %[Practice test]
+  Let $a,b,c,d\in \R$. Solve the following system of linear equations.
+  \begin{align*}
+    x+2y-z&=a\\
+    x+y-2z&=b\\
+    2x+y-3z&=c
+  \end{align*}
+  Your answer should be in terms of $a,b,$ and $c$.
+\end{problem}
+
+
+
+\begin{problem}[system with variables] %[10 points] % this was the midterm problem
+  Determine the conditions on $a,b,c\in \R$ such that the following linear
+  system has at least one solution:
+  \begin{align*}
+    x+2y-z&=a\\
+    x+y-2z&=b\\
+    2x+2y-4z&=c
+  \end{align*}
+\end{problem}
+
+
+\begin{problem}[diag onalization]
+  Let $A$ be a $2\times 2$ matrix such that
+  \begin{itemize}
+    \item $
+    \begin{bmatrix}
+      1\\1
+    \end{bmatrix}
+    $ is eigenvector with eigenvalue $2$
+    \item $
+    \begin{bmatrix}
+      2\\3
+    \end{bmatrix}
+    $ is an eigenvector with eigenvalue $3$
+  \end{itemize}
+  \begin{enumerate}[(a)]
+    \item Find $A^{3}
+    \begin{bmatrix}
+      1\\1
+    \end{bmatrix}
+    $, $A^{3}
+    \begin{bmatrix}
+      2\\3
+    \end{bmatrix}
+    $ and $A^{3}
+    \begin{bmatrix}
+      3\\4
+    \end{bmatrix}
+    $ 
+    \item Find $A$
+    \item Find $A^{3}$
+  \end{enumerate}
+\end{problem}
+
+
+\begin{problem}[diagonalization]
+  Consider the matrix $A =
+  \begin{bmatrix}
+    1&2\\
+    1&0
+  \end{bmatrix}
+  $
+  \begin{enumerate}[(a)]
+    \item Diagonalize $A$. That is, find matrices $P,D$ and $P^{-1}$ such that
+    $A= PDP^{-1}$.
+    \item Use your diagonalization to find $A^{5}$.
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}[diagonalization]
+  Let $A =
+  \begin{bmatrix}
+    2&0&0&0\\
+    0&2&0&0\\
+    0&0&3&1\\
+    0&0&4&0
+  \end{bmatrix}
+  $. This matrix is diagonalizable; that is, there exists a diagonal matrix
+  $D$ and an invertible matrix $P$ such that $A =PAP^{-1}$. Find $D$ and $P$.
+  Do not compute $P^{-1}$.
+\end{problem}
+
+
+
+
+
+
+\begin{problem}[basis]
+  Let $\beta = \left\{
+    \begin{bmatrix}
+      2\\-1
+    \end{bmatrix},
+    \begin{bmatrix}
+      3\\4
+    \end{bmatrix}
+  \right\}$ be a basis for $\R^{2}$. If $[v]_{\beta}=
+  \begin{bmatrix}
+    -3\\2
+  \end{bmatrix}
+  $,  find $v$.
+\end{problem}
+
+
+
+
+\begin{problem}[Geometry]
+  \begin{enumerate}[(a)]
+    \item[]
+    \item Find the matrix of the linear transformation $T:\R^{2}\to \R^{2}$ that
+    rotates space by $90^{\circ}$ counterclockwise. 
+    \item Find the matrix of the linear transformation defined by $S
+    \begin{bmatrix}
+      x\\y
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      2x+y\\
+      3y-x\\
+      x-3y
+    \end{bmatrix}
+    $.
+    \item Circle which transformation makes sense: $T\circ S$ \quad $S\circ
+    T$.
+    \item Write a matrix for the transformation you circled.
+  \end{enumerate}
+\end{problem}
+
+
+
+
+\begin{problem}[geometry]
+  The linear transformation $T:\R^{2} \to \R^{2}$ can be achieved by rotating
+  counterclockwise by $135^{\circ}$ and then expanding vertically by a factor
+  of $4$. Find the standard matrix for $T$.
+\end{problem}
+
+
+\begin{problem}[computation] % easy
+  Let
+  \begin{equation*}
+    A =
+    \begin{bmatrix}
+      0&0&1&2\\
+      0&0&1&2\\
+      1&1&1&0
+    \end{bmatrix}
+  \end{equation*}
+  \begin{enumerate}[(a),itemsep=.1em]
+    \item (2 points) Find a basis for the column space of $A$.
+    \item (2 points) Find a basis for the row space of $A$.
+    \item (2 points) Find a basis for the null space of $A$.
+    \item (2 points) What is the rank of $A$?
+    \item (1 point) Is $A$ invertible?
+  \end{enumerate}
+\end{problem}
+
+
+
+\begin{problem}[computation] % easy
+  Let $A =
+  \begin{bmatrix}
+    0&-1&1\\
+    1&2&0\\
+    1&1&1
+  \end{bmatrix}
+  $.
+  \begin{enumerate}[(a)]
+    \item Find the rank and nullity of $A$.
+    \item Find a basis for the row space of $A$.
+    \item Find a basis for the column space of $A$.
+    \item Find a basis for the nullspace of $A$.
+  \end{enumerate}
+\end{problem}
+
+
+
+\begin{problem}
+  Solve the following system by reducing the augmented matrix to reduced
+  row-echelon form:
+  \begin{align*}
+    x+3y+2z&=2\\ 
+    x \quad\ \quad-4z&=-7\\ 
+    -2x-4y+3z&=-1\ 
+  \end{align*}
+  % solution : x = -11, y = 5, z = -1
+\end{problem}
+
+
+
+\begin{problem}[computation] % medium
+  Let $A =
+  \begin{bmatrix}
+    1& 3& -3& -2\\
+    0& -2& 4& 2\\
+    2& 4& -5& -3
+  \end{bmatrix}
+  $. Find a basis for the nullspace and column space of $A$.
+\end{problem}
+
+
+\begin{problem}[computation] % hard
+  Suppose $T$ is a linear transformation such that
+  \begin{equation*}
+    T
+    \begin{bmatrix}
+      1\\1\\2
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      7\\-1\\5
+    \end{bmatrix},
+    \quad
+    T
+    \begin{bmatrix}
+      1\\-1\\1
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      6\\-2\\5
+    \end{bmatrix},
+    \quad
+    T
+    \begin{bmatrix}
+      1\\1\\1
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      6\\2\\5
+    \end{bmatrix}
+  \end{equation*}
+  \begin{enumerate}[(a)]
+    \item Find $T
+    \begin{bmatrix}
+      a\\b\\c
+    \end{bmatrix}
+    $
+    \item Write down a $3\times 3$ matrix that gives the transformation $T$.
+  \end{enumerate}
+\end{problem}
+
+
+\begin{problem}[Subspace]
+  \begin{enumerate}[(a)]
+    \item[]
+    \item Give a precise definition of \textbf{linear subspace}.
+    \item Show that $W = \left\{
+      \begin{bmatrix}
+        x_{1}\\x_{2}\\x_{3}
+      \end{bmatrix}\in \R^{3}: x_{1}+2x_{2}-3x_{3}=0
+    \right\}$ a subspace of $\R^{3}$, and find a basis for it.
+    \item Is $U = \text{Span}\left\{
+      \begin{bmatrix}
+        1\\1\\2
+      \end{bmatrix},
+      \begin{bmatrix}
+        1\\2\\-1
+      \end{bmatrix},
+      \begin{bmatrix}
+        2\\3\\1
+      \end{bmatrix}
+    \right\}$ a subspace of $\R^{3}$? If not, justify why not. If $U$ is a
+    subspace, find a basis for it.
+  \end{enumerate}
+\end{problem}
+
+
+
+\newpage
+
+
+\end{document}

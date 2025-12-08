@@ -1,0 +1,470 @@
+\documentclass[10pt]{article}
+% Math Packages
+\usepackage{amsmath, mathtools}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{bbm}
+\usepackage{breqn}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{calc}
+\usepackage{forest}
+\usepackage{tikz-qtree}
+\graphicspath{ {./images/} }
+\usepackage{hyperref}
+\usepackage[capitalize]{cleveref}
+\usepackage[shortlabels]{enumitem}
+\usetikzlibrary{arrows,matrix,positioning}
+\usepackage{multicol}
+
+% for the pipe symbol
+\usepackage[T1]{fontenc}
+
+% Citing theorems by name. (source: https://tex.stackexchange.com/questions/109843/cleveref-and-named-theorems)
+\makeatletter
+\newcommand{\ncref}[1]{\cref{#1}\mynameref{#1}{\csname r@#1\endcsname}}
+
+\def\mynameref#1#2{%
+  \begingroup
+  \edef\@mytxt{#2}%
+  \edef\@mytst{\expandafter\@thirdoffive\@mytxt}%
+  \ifx\@mytst\empty\else
+  \space(\nameref{#1})\fi
+  \endgroup
+}
+\makeatother
+
+% Colorful Notes
+\usepackage{color} \definecolor{Red}{rgb}{1,0,0} \definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5} \def\red{\color{Red}} \def\blue{\color{Blue}}
+\def\gray{\color{gray}} \def\purple{\color{Purple}}
+\newcommand{\rnote}[1]{{\red [#1]}} % \rnote{foo} gives '[foo]' in red
+\newcommand{\pnote}[1]{{\purple [#1]}} % \pnote{foo} gives '[foo]' in purple
+\newcommand{\bnote}[1]{{\blue #1}} % \bnote{foo} gives 'foo' in blue
+\newcommand{\gnote}[1]{{\gray #1}} % \gnote{foo} gives 'foo' in gray
+\newcommand{\Max}[1]{{\purple [#1]}} % \bnote{foo} then 'foo' is blue
+
+
+% Claim numbering (the counter restarts after each proof environment)
+\newcounter{claimcount}
+\setcounter{claimcount}{0}
+\newenvironment{claim}{\refstepcounter{claimcount}\par\addvspace{\medskipamount}\noindent\textbf{Claim \arabic{claimcount}:}}{}
+\usepackage{etoolbox}
+\AtBeginEnvironment{proof}{\setcounter{claimcount}{0}}
+\newenvironment{claimproof}{\par\addvspace{\medskipamount}\noindent\textit{Proof of Claim  \arabic{claimcount}.}}{\hfill\ensuremath{\qedsymbol} \tiny{Claim}
+
+  \medskip}
+% Add claim support to cleverref
+\crefname{claimcount}{Claim}{Claims}
+
+
+% Math Environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{question}[theorem]{Question}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+
+% Matrices and Column Vectors. 
+\usepackage{stackengine}
+\setstackgap{L}{1.0\normalbaselineskip}
+\usepackage{tabstackengine}
+\setstackEOL{;}% row separator
+\setstackTAB{,}% column separator
+\setstacktabbedgap{1ex}% inter-column gap
+\setstackgap{L}{1.5\normalbaselineskip}% inter-row baselineskip
+\let\nmatrix\bracketMatrixstack  %Usage: \nmatrix{1,2,3\4,5,6}
+\newcommand\cv[1]{\setstackEOL{,}\bracketMatrixstack{#1}} %usage: \cv{1,2,3}
+
+% Custom Math Coqmmands
+\newcommand{\vt}{\vskip 5mm} % vertical space
+\newcommand{\fl}{\noindent\textbf} % first line
+\newcommand{\Fl}{\vt\noindent\textbf} % first line with space above
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert} % norm
+\newcommand{\pnorm}[1]{\left\lVert#1\right\rVert_p} % p-norm
+\newcommand{\qnorm}[1]{\left\lVert#1\right\rVert_q} % q-norm
+\newcommand{\1}[1]{\textbf{1}_{\left[#1\right]}} % indicator function 
+\def\limn{\lim_{n\to\infty}} % shortcut for lim as n-> infinity
+\def\sumn{\sum_{n=1}^{\infty}} % shortcut for sum from n=1 to infinity
+\def\sumkn{\sum_{k=1}^{n}} % shortcut for sum from k=1 to n
+\def\sumin{\sum_{i=1}^{n}} % shortcut for sum from i=1 to n
+\def\SAs{\sigma\text{-algebras}} % shortcut for $\sigma$-algebras
+\def\SA{\sigma\text{-algebra}} % shortcut for $\sigma$-algebra
+\def\Ft{\mathcal{F}_t} % time-indexed sigma-algebra (t)
+\def\Fs{\mathcal{F}_s} % time-indexed sigma-algebra (s)
+\def\F{\mathcal{F}} % sigma-algebra
+\def\G{\mathcal{G}} % sigma-algebra
+\def\R{\mathbb{R}} % Real numbers
+\def\N{\mathbb{N}} % Natural numbers
+\def\Z{\mathbb{Z}} % Integers
+\def\E{\mathbb{E}} % Expectation
+\def\P{\mathbb{P}} % Probability
+\def\Q{\mathbb{Q}} % Q probability
+\def\dist{\text{dist}} %Text 'dist' for things like 'dist(x,y)'
+\newcommand{\indep}{\perp \!\!\! \perp}  %independence symbol
+\def\Var{\mathrm{Var}} % Variance
+\def\tr{\mathrm{tr}} % trace
+
+% Brackets and Parentheses
+\def\[{\left [}
+    \def\]{\right ]}
+% \def\({\left (}
+%   \def\){\right )}
+
+
+
+\usepackage{color}
+\definecolor{Red}{rgb}{1,0,0}
+\definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Purple}{rgb}{.5,0,.5}
+\def\red{\color{Red}}
+\def\blue{\color{Blue}}
+\def\gray{\color{gray}}
+\def\purple{\color{Purple}}
+\definecolor{RoyalBlue}{cmyk}{1, 0.50, 0, 0}
+\newcommand{\dempfcolor}[1]{{\color{RoyalBlue}#1}} 
+\newcommand{\demph}[1]{\dempfcolor{{\sl #1}}}
+
+% comment exactly one of the following line to show / hide the solutions
+% \newcommand{\solution}[1]{{\purple #1}} % uncomment to show the solutions
+\newcommand{\solution}[1]{} % uncomment to hide the solutions
+
+
+\newenvironment{augmentedmatrix}[1] % environment for making augmented matrix
+{\left[\begin{array}{#1}}
+    {\end{array}\right]}
+
+
+\title{Lecture Notes for Math 372: \\Elementary Probability and Statistics}
+\date{Last updated: \today}
+% \author{mh}
+
+\begin{document}
+\begin{center}
+  \section*{Math 307: Practice final exam}
+\end{center}
+
+\textit{Instructions: You have 120 minutes. Calculators and notes are not
+  allowed. There are a total of 70 points on the exam.}
+
+\begin{problem}[Definitions]
+  Your answer must be precise to recieve full credit.
+  \begin{enumerate}[(a)]
+    \item Let $v_{1},\ldots,v_{n}$ be vectors in a vector space $V$. Define
+    $\text{Span}\left\{v_{1},\ldots,v_{n}\right\}$.
+    \vspace{6cm}
+    \item Define \textbf{linear independence}.
+    \vspace{6cm}
+    \item Let $v_{1},\ldots,v_{n}$ be vectors in a vector space $V$. The
+    vectors $v_{1},\ldots,v_{n}$ are a \textbf{basis} of $V$ if...
+  \end{enumerate}
+\end{problem}
+
+\newpage
+\begin{problem}[dimension]
+  Fill in the blanks.
+  \begin{enumerate}[(a)]
+    \item (2 points) If the dimension of the row space of a
+    $3\times 5$ matrix is $2$, then the nullspace of $A$ is a linear subspace
+    of \underline{\quad \quad} with dimension \underline{\quad \quad}.
+    \item (4 points) Suppose $Ax=0$ is a system of linear equations with $10$
+    equations in $5$ variables, and the only solution is $x=0$. The rank is
+    \underline{\quad \quad}. The columns of $A$ are linearly \underline{\quad
+      \quad \quad \quad}. The rows of $A$ are linearly \underline{\quad \quad
+      \quad \quad}. The rank of $A$ is \underline{ \quad \quad}.
+    \item Let $A$ is a $9\times 5$ matrix. If $Ax=0$ has 3 free variables in
+    its solution set, which one of the following describes the column space of
+    $A$? Circle one:
+    \begin{itemize}
+      \item $CS(A)$ is a $2$ dimensional subspace of $\R^{9}$
+      \item $CS(A)$ is a $2$ dimensional subspace of $\R^{5}$
+      \item $CS(A)$ is a $7$ dimensional subspace of $\R^{9}$
+      \item $CS(A)$ is a $7$ dimensional subspace of $\R^{5}$
+    \end{itemize}
+  \end{enumerate}
+\end{problem}
+
+
+\newpage
+\begin{problem}[change of basis]
+  Let $T:\R^{2}\to \R^{2}$ be the \textbf{reflection} across the line $y=2x$.
+  \begin{enumerate}[(a),itemsep=.1em]
+    \item Find two linearly independent eigenvectors $\beta_{1}$ and
+    $\beta_{2}$. Sketch them.
+
+    \textit{(Hint: the line $y=-\frac{1}{2}x$ is perpendicular to $y=2x$)}
+
+    \item Find eigenvalues $\lambda_{1}$ and $\lambda_{2}$ corresponding to
+    $\beta_{1}$ and $\beta_{2}$.
+
+    \item Let $\beta=\left\{\beta_{1},\beta_{2}\right\}$. Find
+    $[T(\beta_{1})]_{\beta}$ and $[T(\beta_{2})]_{\beta}$.
+    \item \label{item:1} Find $[T]_{\beta}^{\beta}$.
+    \item \label{item:5} Let $\alpha=\left\{e_{1},e_{2}\right\}$ where $e_{1},e_{2}$ are the
+    standard basis vectors. Find the change of basis matrix $P$ from $\alpha$
+    to $\beta$, and also find $P^{-1}$.
+    \item \label{item:4} Use your answers to parts \ref{item:1} and
+    \ref{item:5} to find $[T]_{\alpha}^{\alpha}$.
+    \item Find $[T(e_{1})]_{\alpha}, [T(e_{2})]_{\alpha}$. (Hint: use your
+    answer to part \ref{item:4}).
+    \item Verify  $[T]_{\alpha}^{\alpha}$ and $[T]_{\beta}^{\beta}$ have
+    the same characteristic polynomial.
+  \end{enumerate}
+\end{problem}
+
+\newpage
+
+\begin{problem}[differential equation]
+  Let \begin{equation*}
+    A=
+    \begin{bmatrix}
+      6&-8\\4&-6
+    \end{bmatrix}.
+  \end{equation*}
+  Solve the initial value problem
+  \begin{equation*}
+    \left\{ \begin{array}{l@{}l} Y'=AY \\Y(0)=
+        \begin{bmatrix}
+          11\\6
+        \end{bmatrix}
+      \end{array}\right.
+  \end{equation*}
+  Find the general solution to $Y'=AY$ when
+\end{problem}
+
+\newpage
+\begin{problem}[True-false]
+  \begin{enumerate}[(a)]
+    \setlength{\itemsep}{2em}
+    \item[]
+    \item \textbf{TRUE \mid\  FALSE} \quad  \parbox[t]{\linewidth-3cm}{%
+      If $v$ is an eigenvector $A$, then $5v$ is also an eigenvector.}
+    
+    \item \textbf{TRUE \mid\  FALSE} \quad \parbox[t]{\linewidth-3cm}{%
+      An $4\times 5$ matrix $A$ is surjective if $\text{Rank}(A) = 4$.}
+
+    \item \textbf{TRUE \mid\ FALSE} \quad \parbox[t]{\linewidth-3cm}{%
+      If $T: \R^{n} \to \R^{m}$ is a surjective linear transformation, then it
+      must be the case that $m \leq n$.}
+
+    \item \textbf{TRUE \mid\  FALSE} \quad  \parbox[t]{\linewidth-3cm}{%
+      The intersection of two subspaces of a vector space is never empty.}
+    
+    \item \textbf{TRUE \mid\  FALSE} \quad  \parbox[t]{\linewidth-3cm}{%
+      If $v_{1},\ldots,v_{n}$ is a linearly independent set of vectors,
+      then $\lambda v_{1},\lambda v_{2},\ldots,\lambda v_{n}$ are also linearly
+      independent.}
+
+    \item \textbf{TRUE \mid\  FALSE} \quad  \parbox[t]{\linewidth-3cm}{%
+      If $v_{1},\ldots,v_{n}$ are linearly dependent, then at least 2 of
+      the vectors are scalar multiples of each other.}
+
+    \item \textbf{TRUE \mid\  FALSE} \quad  \parbox[t]{\linewidth-3cm}{%
+      If $A$ is an $n\times n$ diagonalizable matrix, then $A$ has $n$
+      distinct eigenvalues.}
+    
+    \item \textbf{TRUE \mid\ FALSE} \quad \parbox[t]{\linewidth-3cm}{%
+      If $A$ is an $m\times n$ matrix, then $\ker(A)$ is a linear subspace of
+      $\R^{n}$.}
+
+    \item \textbf{TRUE \mid\  FALSE} \quad  \parbox[t]{\linewidth-3cm}{%
+      If $\lambda=0$ is an eigenvalue of $A$, then for any $b$, the
+      equation $Ax=b$ has infinitely many solutions.}
+    
+    \item \textbf{TRUE \mid\  FALSE} \quad  \parbox[t]{\linewidth-3cm}{%
+      If $v$ is a vector in $NS(B)$, then it is in  $NS(AB)$ as well.}
+    
+    \item \textbf{TRUE \mid\  FALSE} \quad  \parbox[t]{\linewidth-3cm}{%
+      If $v$ is a vector in $NS(B)$, then it is in  $NS(BA)$ as well.}
+    
+    \item \textbf{TRUE \mid\  FALSE} \quad  \parbox[t]{\linewidth-3cm}{%
+      Let $A,B$ be $n\times n$ matrices. If $v$ is in the column space of
+      $A$, then it is also in the column space of $AB$.}
+    
+    \item \textbf{TRUE \mid\  FALSE} \quad  \parbox[t]{\linewidth-3cm}{%
+      A linear transformation $T: \R^{n} \to \R^{n}$ is invertible if and only
+      if it is surjective.}
+    
+    \item \textbf{TRUE \mid\  FALSE} \quad  \parbox[t]{\linewidth-3cm}{%
+      A linear transformation $T: \R^{n} \to \R^{n}$ is invertible if and only
+      if it is injective.}
+    
+    \item \textbf{TRUE \mid\  FALSE} \quad  \parbox[t]{\linewidth-3cm}{%
+      An $n\times n$ matrix is diagonalizable if and only if it has $n$
+      linearly independent eigenvectors.}
+
+  \end{enumerate}
+\end{problem}
+
+
+
+
+
+\newpage
+\begin{problem}[Subspace problem]
+  Determine whether the following sets are subspaces or not. If the set is not
+  a subspace, give a reason why not. If the set is a subspace, find a basis
+  for it.
+  \begin{enumerate}[(a)]
+    \setlength{\itemsep}{7em}
+    \item  The set
+    $\left\{ \begin{bmatrix} x_{1}\\x_{2}\\x_{3}\\x_{4} \end{bmatrix}\in
+      \R^{4}: x_{1}+2x_{2}+7x_{3}-x_{4}=0 \right\}$.
+    \item The set $\left\{
+      \begin{bmatrix}
+        x\\y
+      \end{bmatrix}\in \R^{2}: x+y=0 \text{ or } x-y=0
+    \right\} $
+    \item The set
+    $\left\{ \begin{bmatrix} x\\y \end{bmatrix}\in \R^{2}: xy=0 \right\} $
+    is a linear subspace of $\R^{2}$.
+    \item The vectors in $\R^{4}$ for which $x_{1} = 2x_{4}$.
+    \item The vectors in $\R^{4}$ for which $x_{1}+x_{2}+x_{3}=0$ and $x_{3}+x_{4}=0$.
+    \item The subspace spanned by $
+    \begin{bmatrix}
+      1\\1\\1\\1
+    \end{bmatrix},
+    \begin{bmatrix}
+      1\\2\\3\\4
+    \end{bmatrix},
+    \begin{bmatrix}
+      2\\3\\4\\5
+    \end{bmatrix}
+    $
+  \end{enumerate}
+\end{problem}
+
+
+
+
+\newpage
+\begin{problem}[differential equation]
+  A person is standing in a large pipe drops a flask of chemicals, releasing a
+  chemical gas. The tube has 2 sections, $S_{1}$ and $S_{2}$, as shown:
+  \begin{center}
+    \includegraphics[scale=.05]{images/diffusion-DE}
+  \end{center}
+  Let $Y(t) =
+  \begin{bmatrix}
+    y_{1}(t)\\y_{2}(t)
+  \end{bmatrix}
+  $, where
+  \begin{align*}
+    y_{1}(t)  &= \text{ concentration of chemical in section }S_{1} \text{ at time }t\\
+    y_{2}(t)  &= \text{ concentration of chemical in section }S_{2} \text{ at time }t.
+  \end{align*}
+  Further, assume that the ends of the pipe are open, so the chemical can leak
+  out the ends of the tube. (The concentration outside is always zero, since
+  the gas gets immediately blown away by the wind). Assume that at each time
+  $t$, the diffusion rate between adjacent areas is the difference in
+  concentrations.
+
+  \begin{enumerate}[(a)]
+    \item Set up a system of differential equations $Y'=AY$ describing the
+    diffusion of the gas.
+    \vspace{2cm}
+    \item Solve your system, assuming that the initial concentration $Y(0)=
+    \begin{bmatrix}
+      0\\1
+    \end{bmatrix}
+    $. Interpret your result in words.
+  \end{enumerate}
+\end{problem}
+
+
+
+\newpage
+\begin{problem}[Geometry]
+  Let $M=
+  \begin{bmatrix}
+    a&b\\
+    c&d
+  \end{bmatrix}
+  $. Find values for $a,b,c,d$ such that the column space of $M$ is the line
+  $y=x$ and the null space is the line $y=-3x$.
+\end{problem}
+
+\newpage
+
+
+\begin{problem}[computation, diagonalizability]
+  Let $A =
+  \begin{bmatrix}
+    2&0&0\\
+    -2&-3&2\\
+    4&-2&1
+  \end{bmatrix}
+  $.
+  \begin{enumerate}[(a)]
+    \item Find the eigenvalues of $A$.
+    \item For each eigenvalue $\lambda$,  find the eigenspace $E_{\lambda}$.
+    \item Is $A$ diagonalizable?
+  \end{enumerate}
+\end{problem}
+
+
+\newpage
+
+\begin{problem}[system with variables]
+  Consider the system of equations
+  \begin{equation*}
+    \left\{ \begin{array}{l@{}l}
+        x_{1}+x_{2}+3x_{3}=a\\
+        2x_{1}+x_{2}+4x_{3}=b\\
+        3x_{1}+x_{2}+5x_{3}=c\\
+      \end{array}\right.
+  \end{equation*}
+  where $a,b,c\in \R$.
+  \begin{enumerate}[(a)]
+    \item \label{item:2} For conditions on $a,b,c$ such that the system has at least one
+    solution.
+    \item \label{item:3} When the conditions in part \ref{item:2} are satisfied, find all
+    solutions $
+    \begin{bmatrix}
+      x_{1}\\x_{2}\\x_{3}
+    \end{bmatrix}
+    $ of the system.
+    \item Describe the geometric shape of your answer to part \ref{item:3}.
+    What is its dimension?
+  \end{enumerate}
+\end{problem}
+
+
+\newpage
+\begin{problem}[Geometry]
+  The linear transformation $T:\R^{2} \to \R^{2}$ can be achieved by 
+  reflecting across the $y$-axis, and then rotating counter-clockwise by
+  $45^{\circ}$. Find the standard matrix for $T$ and use it to find $T
+  \begin{bmatrix}
+    1\\1
+  \end{bmatrix}.$
+\end{problem}
+
+
+\newpage
+\begin{problem}[computation]
+  Let $A =
+  \begin{bmatrix}
+    1&2&3&4\\
+    2&3&4&5\\
+    3&4&5&6
+  \end{bmatrix}
+  $.
+  \begin{enumerate}[(a)]
+    \item Find a basis for $\ker(A)$. What is the dimension of the kernel?
+    \item Find a basis for the column space of $A$. What is its dimension?
+  \end{enumerate}
+\end{problem}
+
+
+\end{document}
